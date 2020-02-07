@@ -149,10 +149,7 @@ const Main = ({rentAmount, apartments}) => {
 
 Main.propTypes = {
   rentAmount: PropTypes.number.isRequired,
-  apartments: PropTypes.arrayof(
-      PropTypes.number,
-      PropTypes.string
-  ).isRequired,
+  apartments: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default Main;

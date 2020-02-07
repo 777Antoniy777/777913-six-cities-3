@@ -2,21 +2,18 @@ import React from 'react';
 import PropTypes from "prop-types";
 import Main from '../main/main';
 
-const App = ({rentAmount, apartments}) => {
+const App = (props) => {
   return (
     <Main
-      rentAmount={ rentAmount }
-      apartments={ apartments }
+      rentAmount={ props.rentAmount }
+      apartments={ props.apartments }
     />
   );
 };
 
 App.propTypes = {
   rentAmount: PropTypes.number.isRequired,
-  apartments: PropTypes.arrayof(
-      PropTypes.number,
-      PropTypes.string
-  ).isRequired,
+  apartments: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default App;
