@@ -147,9 +147,21 @@ const Main = ({rentAmount, apartments}) => {
   );
 };
 
+Main.defaultProps = {
+  rentAmount: 0,
+};
+
 Main.propTypes = {
   rentAmount: PropTypes.number.isRequired,
-  apartments: PropTypes.arrayOf(PropTypes.object).isRequired,
+  apartments: PropTypes.arrayOf(
+      PropTypes.exact({
+        id: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        src: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        type: PropTypes.string.isRequired,
+      })
+  ),
 };
 
 export default Main;
