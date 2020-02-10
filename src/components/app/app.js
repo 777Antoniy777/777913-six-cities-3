@@ -11,9 +11,21 @@ const App = (props) => {
   );
 };
 
+App.defaultProps = {
+  rentAmount: 0,
+};
+
 App.propTypes = {
   rentAmount: PropTypes.number.isRequired,
-  apartments: PropTypes.arrayOf(PropTypes.object).isRequired,
+  apartments: PropTypes.arrayOf(
+      PropTypes.exact({
+        id: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        src: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        type: PropTypes.string.isRequired,
+      })
+  ),
 };
 
 export default App;
