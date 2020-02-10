@@ -12,13 +12,6 @@ const apartments = [
     price: 999999,
     type: `type`,
   },
-  {
-    id: 2,
-    title: `title 2`,
-    src: `img/image1`,
-    price: 0,
-    type: `type`,
-  },
 ];
 
 describe(`Should render Main`, () => {

@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from "prop-types";
 
 const Main = ({rentAmount, apartments}) => {
+  const onTitleClick = () => {};
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -125,7 +127,7 @@ const Main = ({rentAmount, apartments}) => {
                             <span className="visually-hidden">Rating</span>
                           </div>
                         </div>
-                        <h2 className="place-card__name">
+                        <h2 className="place-card__name" onClick={ onTitleClick }>
                           <a href="#">{ elem.title }</a>
                         </h2>
                         <p className="place-card__type">{ elem.type }</p>
