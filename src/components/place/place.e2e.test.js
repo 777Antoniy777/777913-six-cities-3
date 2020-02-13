@@ -8,17 +8,21 @@ Enzyme.configure({
 });
 
 // set mocha data
-const data = {
-  id: 1,
-  title: `title 1`,
-  src: `img/image1`,
-  price: 999999,
-  type: `type`,
-};
+const id = 1;
+const title = `title 1`;
+const src = `img/image1`;
+const price = 999999;
+const type = `type`;
 
 it(`Data of place should set into callback after hover`, () => {
-  const {id, title, src, price, type} = data;
-  const setPlaceData = jest.fn(data => data);
+  const setPlaceData = jest.fn((data) => data);
+  const data = {
+    id: 1,
+    title: `title 1`,
+    src: `img/image1`,
+    price: 999999,
+    type: `type`,
+  };
 
   let place = shallow(
       <Place
