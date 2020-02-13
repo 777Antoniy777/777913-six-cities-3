@@ -226,6 +226,7 @@ exports[`Should render App 1`] = `
           >
             <article
               className="cities__place-card place-card"
+              onMouseOver={[Function]}
             >
               <div
                 className="place-card__mark"
@@ -312,7 +313,6 @@ exports[`Should render App 1`] = `
                 </div>
                 <h2
                   className="place-card__name"
-                  onClick={[Function]}
                 >
                   <a
                     href="#"
