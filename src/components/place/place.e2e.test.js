@@ -16,31 +16,28 @@ const data = {
   type: `type`,
 };
 
-const {id, title, src, price, type} = data;
-
-const mockEvent = {
-  preventDefault() {}
-};
-
-it(`Should card be hovered`, () => {
-  const onSetData = jest.fn();
+it(`Data of place should set into callback after hover`, () => {
+  const {id, title, src, price, type} = data;
+  const setPlaceData = jest.fn(data => data);
 
   let place = shallow(
       <Place
         key= { id }
+        id={ id }
         title={ title }
         src={ src }
         price={ price }
         type={ type }
-        onSetData={ onSetData }
+        setPlaceData={ setPlaceData }
       />
   );
 
   const card = place.find(`.place-card`);
-  const handleCardMouseover = jest.fn();
+  card.simulate(`mouseover`, {
+    preventDefault() {},
+    setPlaceData() {}
+  });
 
-  card.simulate(`mouseover`, {preventDefault: mockEvent, onSetData});
-
-  expect(onSetData).toHaveBeenCalledTimes(1);
-  expect(handleCardMouseover).toHaveBeenCalledTimes(1);
+  expect(setPlaceData).toHaveBeenCalledTimes(1);
+  expect(setPlaceData.mock.calls[0][0]).toMatchObject(data);
 });

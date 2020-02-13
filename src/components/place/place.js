@@ -12,7 +12,7 @@ const Place = ({id, title, src, price, type, setPlaceData}) => {
 
   const handleCardMouseover = (evt) => {
     evt.preventDefault();
-
+  
     setPlaceData(placeData);
   };
 
