@@ -14,28 +14,13 @@ const apartments = [
   },
 ];
 
-describe(`Should render Main`, () => {
+it(`Should render Main`, () => {
+  const tree = renderer.create(
+      <Main
+        rentAmount={ rentAmount }
+        apartments={ apartments }
+      />)
+      .toJSON();
 
-  it(`Main should render all options`, () => {
-    const tree = renderer.create(
-        <Main
-          rentAmount={ rentAmount }
-          apartments={ apartments }
-        />)
-        .toJSON();
-
-    expect(tree).toMatchSnapshot();
-  });
-
-  it(`Main should render only rentAmount`, () => {
-    const tree = renderer.create(
-        <Main
-          rentAmount={ rentAmount }
-          apartments={ [] }
-        />)
-        .toJSON();
-
-    expect(tree).toMatchSnapshot();
-  });
-
+  expect(tree).toMatchSnapshot();
 });

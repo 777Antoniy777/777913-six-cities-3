@@ -5,6 +5,7 @@ import Main from '../main/main';
 const App = (props) => {
   return (
     <Main
+      // properties
       rentAmount={ props.rentAmount }
       apartments={ props.apartments }
     />
