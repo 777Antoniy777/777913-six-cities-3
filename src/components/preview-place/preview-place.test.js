@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from "react-test-renderer";
-import Place from './place';
+import PreviewPlace from "./preview-place";
 
 // set mocha data
 const data = {
@@ -17,7 +17,7 @@ const onSetData = () => {};
 
 it(`Place should render option`, () => {
   const tree = renderer.create(
-      <Place
+      <PreviewPlace
         key= { id }
         title={ title }
         src={ src }

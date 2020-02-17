@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import apartments from './mocks/offers';
+import offers from './mocks/offers';
 import App from './components/app/app';
 
 const Options = {
@@ -11,7 +11,7 @@ ReactDOM.render(
     <App
       // properties
       rentAmount={ Options.RENT_AMOUNT }
-      apartments={ apartments }
+      offers={ offers }
     />,
     document.getElementById(`root`)
 );

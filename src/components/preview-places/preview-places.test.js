@@ -1,9 +1,9 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import Places from "../place/place";
+import PreviewPlaces from "./preview-places";
 
 // set mocha data
-const apartments = [
+const offers = [
   {
     id: 1,
     title: `title 1`,
@@ -15,20 +15,20 @@ const apartments = [
 
 describe(`Should render Main`, () => {
 
-  it(`Places should render full apartments`, () => {
+  it(`Places should render full offers`, () => {
     const tree = renderer.create(
-        <Places
-          apartments={ apartments }
+        <PreviewPlaces
+          offers={ offers }
         />)
         .toJSON();
 
     expect(tree).toMatchSnapshot();
   });
 
-  it(`Places should render empty apartments`, () => {
+  it(`Places should render empty offers`, () => {
     const tree = renderer.create(
-        <Places
-          apartments={ [] }
+        <PreviewPlaces
+          offers={ [] }
         />)
         .toJSON();
 

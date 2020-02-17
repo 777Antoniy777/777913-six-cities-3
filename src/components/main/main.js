@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import Places from '../places/places';
+import Places from '../preview-places/preview-places';
 
-const Main = ({rentAmount, apartments}) => {
+const Main = ({rentAmount, offers}) => {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -97,7 +97,7 @@ const Main = ({rentAmount, apartments}) => {
               {/* Список мест */}
               <Places
                 // properties
-                apartments={ apartments }
+                offers={ offers }
               />
 
             </section>
@@ -117,7 +117,7 @@ Main.defaultProps = {
 
 Main.propTypes = {
   rentAmount: PropTypes.number.isRequired,
-  apartments: PropTypes.arrayOf(
+  offers: PropTypes.arrayOf(
       PropTypes.exact({
         id: PropTypes.number.isRequired,
         title: PropTypes.string.isRequired,

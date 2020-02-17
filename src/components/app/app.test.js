@@ -4,7 +4,7 @@ import App from './app';
 
 // set mocha data
 const rentAmount = 666;
-const apartments = [
+const offers = [
   {
     id: 1,
     title: `title 1`,
@@ -19,7 +19,7 @@ it(`Should render App`, () => {
   const tree = renderer.create(
       <App
         rentAmount={ rentAmount }
-        apartments={ apartments }
+        offers={ offers }
       />)
       .toJSON();
 

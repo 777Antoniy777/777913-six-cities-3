@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Place from "../place/place";
+import PreviewPlace from "../preview-place/preview-place";
 
-class Places extends React.PureComponent {
+class PreviewPlaces extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,14 +18,14 @@ class Places extends React.PureComponent {
   }
 
   render() {
-    const {apartments} = this.props;
+    const {offers} = this.props;
 
     return (
       <div className="cities__places-list places__list tabs__content">
 
-        { apartments &&
-          apartments.map((elem) =>
-            <Place
+        { offers &&
+          offers.map((elem) =>
+            <PreviewPlace
               // properties
               key={ elem.id }
               id={ elem.id }
@@ -34,7 +34,7 @@ class Places extends React.PureComponent {
               price={ elem.price }
               type={ elem.type }
               // handlers
-              setPlaceData={ this.onSetPlaceData }
+              onSetPlaceData={ this.onSetPlaceData }
             />
           )
         }
@@ -44,16 +44,10 @@ class Places extends React.PureComponent {
   }
 }
 
-Places.propTypes = {
-  apartments: PropTypes.arrayOf(
-      PropTypes.exact({
-        id: PropTypes.number.isRequired,
-        title: PropTypes.string.isRequired,
-        src: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        type: PropTypes.string.isRequired,
-      })
-  ),
+PreviewPlaces.propTypes = {
+  offers: PropTypes.arrayOf(
+      PropTypes.object.isRequired
+  ).isRequired,
 };
 
-export default Places;
+export default PreviewPlaces;

@@ -1,7 +1,7 @@
 import React from "react";
 import Enzyme, {shallow} from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import Place from "./place";
+import PreviewPlace from "./preview-place";
 
 Enzyme.configure({
   adapter: new Adapter(),
@@ -25,7 +25,7 @@ it(`Data of place should set into callback after hover`, () => {
   };
 
   let place = shallow(
-      <Place
+      <PreviewPlace
         key= { id }
         id={ id }
         title={ title }
