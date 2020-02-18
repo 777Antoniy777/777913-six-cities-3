@@ -77,8 +77,8 @@ App.defaultProps = {
 App.propTypes = {
   rentAmount: PropTypes.number.isRequired,
   offers: PropTypes.arrayOf(
-      PropTypes.object.isRequired
-  ).isRequired,
+      PropTypes.object
+  ),
 };
 
 export default App;

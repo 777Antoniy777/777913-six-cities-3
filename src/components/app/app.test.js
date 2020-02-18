@@ -8,14 +8,26 @@ const offers = [
   {
     id: 1,
     title: `title 1`,
+    premium: false,
     src: `img/image1`,
+    photos: [`img/image1`],
     price: 999999,
+    description: `test`,
     type: `type`,
+    rating: 9999,
+    bedroomAmount: 30,
+    guestsAmount: 50,
+    items: [`item`],
+    host: {
+      avatar: `img/avatar-1.jpg`,
+      name: `name`,
+      status: false,
+    },
   },
 ];
 
 
-it(`Should render App`, () => {
+it(`render App`, () => {
   const tree = renderer.create(
       <App
         rentAmount={ rentAmount }

@@ -25,10 +25,10 @@ const PreviewPlaces = ({offers, onSetPlaceData, onSetPlaceStatus}) => {
 
 PreviewPlaces.propTypes = {
   offers: PropTypes.arrayOf(
-      PropTypes.object.isRequired
-  ).isRequired,
-  onSetPlaceData: PropTypes.func.isRequired,
-  onSetPlaceStatus: PropTypes.func.isRequired,
+      PropTypes.object
+  ),
+  onSetPlaceData: PropTypes.func,
+  onSetPlaceStatus: PropTypes.func,
 };
 
 export default PreviewPlaces;

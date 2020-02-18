@@ -8,40 +8,64 @@ Enzyme.configure({
 });
 
 // set mocha data
-const id = 1;
-const title = `title 1`;
-const src = `img/image1`;
-const price = 999999;
-const type = `type`;
+const elem = {
+  id: 1,
+  title: `title 1`,
+  premium: false,
+  src: `img/image1`,
+  photos: [`img/image1`],
+  price: 999999,
+  description: `test`,
+  type: `type`,
+  rating: 9999,
+  bedroomAmount: 30,
+  guestsAmount: 50,
+  items: [`item`],
+  host: {
+    avatar: `img/avatar-1.jpg`,
+    name: `name`,
+    status: false,
+  },
+};
 
-it(`Data of place should set into callback after hover`, () => {
-  const setPlaceData = jest.fn((data) => data);
-  const data = {
-    id: 1,
-    title: `title 1`,
-    src: `img/image1`,
-    price: 999999,
-    type: `type`,
-  };
+const placeData = elem;
+
+it(`placeData should set into callback after hover`, () => {
+  const onSetPlaceData = jest.fn((data) => data);
 
   let place = shallow(
       <PreviewPlace
-        key= { id }
-        id={ id }
-        title={ title }
-        src={ src }
-        price={ price }
-        type={ type }
-        setPlaceData={ setPlaceData }
+        elem={elem}
+        onSetPlaceData={onSetPlaceData}
       />
   );
 
   const card = place.find(`.place-card`);
   card.simulate(`mouseover`, {
     preventDefault() {},
-    setPlaceData() {}
+    onSetPlaceData() {}
   });
 
-  expect(setPlaceData).toHaveBeenCalledTimes(1);
-  expect(setPlaceData.mock.calls[0][0]).toMatchObject(data);
+  expect(onSetPlaceData).toHaveBeenCalledTimes(1);
+  expect(onSetPlaceData.mock.calls[0][0]).toMatchObject(placeData);
 });
+
+it(`place status should change after callback after click on title`, () => {
+  const onSetPlaceStatus = jest.fn();
+
+  let place = shallow(
+      <PreviewPlace
+        elem={elem}
+        onSetPlaceStatus={onSetPlaceStatus}
+      />
+  );
+
+  const card = place.find(`.place-card__name`);
+  card.simulate(`click`, {
+    preventDefault() {},
+    onSetPlaceStatus() {}
+  });
+
+  expect(onSetPlaceStatus).toHaveBeenCalledTimes(1);
+});
+

@@ -75,27 +75,27 @@ const PreviewPlace = ({elem: placeData, onSetPlaceData, onSetPlaceStatus}) => {
 };
 
 PreviewPlace.propTypes = {
-  elem: PropTypes.exact({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    premium: PropTypes.bool.isRequired,
-    src: PropTypes.string.isRequired,
+  elem: PropTypes.shape({
+    id: PropTypes.number,
+    title: PropTypes.string,
+    premium: PropTypes.bool,
+    src: PropTypes.string,
     photos: PropTypes.arrayOf(
-        PropTypes.string.isRequired
-    ).isRequired,
-    price: PropTypes.number.isRequired,
-    description: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    rating: PropTypes.number.isRequired,
-    bedroomAmount: PropTypes.number.isRequired,
-    guestsAmount: PropTypes.number.isRequired,
+        PropTypes.string
+    ),
+    price: PropTypes.number,
+    description: PropTypes.string,
+    type: PropTypes.string,
+    rating: PropTypes.number,
+    bedroomAmount: PropTypes.number,
+    guestsAmount: PropTypes.number,
     items: PropTypes.arrayOf(
-        PropTypes.string.isRequired
-    ).isRequired,
-    host: PropTypes.object.isRequired,
+        PropTypes.string
+    ),
+    host: PropTypes.object,
   }),
-  onSetPlaceData: PropTypes.func.isRequired,
-  onSetPlaceStatus: PropTypes.func.isRequired,
+  onSetPlaceData: PropTypes.func,
+  onSetPlaceStatus: PropTypes.func,
 };
 
 export default PreviewPlace;

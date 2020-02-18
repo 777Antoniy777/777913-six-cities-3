@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render PlaceItem 1`] = `
+<ul
+  className="property__inside-list"
+/>
+`;

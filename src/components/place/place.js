@@ -1,13 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
+import PlacePhotos from "../place-photos/place-photos";
+import PlaceItems from "../place-items/place-items";
+import PlaceHost from "../place-host/place-host";
 
 const Place = ({placeData}) => {
   const {title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host} = placeData;
   const {avatar, name, status} = host;
-
-  const isStatusHost = (val) => {
-    return val ? `property__avatar-wrapper--pro` : ``;
-  };
 
   const getRating = (val) => {
     let ratingStars = Math.round(val);
@@ -15,8 +14,6 @@ const Place = ({placeData}) => {
 
     return `${ratingStars}%`;
   };
-
-  const statusHost = isStatusHost(status);
 
   return (
     <div className="page">
@@ -54,17 +51,13 @@ const Place = ({placeData}) => {
         <section className="property">
 
           <div className="property__gallery-container container">
-            <div className="property__gallery">
 
-              { photos &&
-                photos.map((elem, i) =>
-                  <div className="property__image-wrapper" key={++i}>
-                    <img className="property__image" src={elem} alt="Photo studio" />
-                  </div>
-                )
-              }
+            {/* рендерит все фото места */}
+            <PlacePhotos
+              // properties
+              photos={photos}
+            />
 
-            </div>
           </div>
 
           <div className="property__container container">
@@ -81,6 +74,7 @@ const Place = ({placeData}) => {
                 <h1 className="property__name">
                   {title}
                 </h1>
+
                 <button className="property__bookmark-button button" type="button">
                   <svg className="property__bookmark-icon" width={31} height={33}>
                     <use xlinkHref="#icon-bookmark" />
@@ -122,41 +116,22 @@ const Place = ({placeData}) => {
               <div className="property__inside">
                 <h2 className="property__inside-title">What's inside</h2>
 
-                <ul className="property__inside-list">
-
-                  { items &&
-                    items.map((elem, i) =>
-                      <li className="property__inside-item" key={++i}>
-                        {elem}
-                      </li>
-                    )
-                  }
-
-                </ul>
-              </div>
-
-              <div className="property__host">
-                <h2 className="property__host-title">Meet the host</h2>
-
-                <div className="property__host-user user">
-                  <div className={`property__avatar-wrapper ${statusHost} user__avatar-wrapper`}>
-                    <img className="property__avatar user__avatar" src={avatar} width={74} height={74} alt="Host avatar" />
-                  </div>
-                  <span className="property__user-name">
-                    {name}
-                  </span>
-                </div>
-
-                <div className="property__description">
-                  <p className="property__text">
-                    {description}
-                  </p>
-                  {/* <p className="property__text">
-                      An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
-                  </p> */}
-                </div>
+                {/* рендерит наполнение комнаты */}
+                <PlaceItems
+                  // properties
+                  items={items}
+                />
 
               </div>
+
+              {/* рендерит блок о хосте */}
+              <PlaceHost
+                // properties
+                status={status}
+                avatar={avatar}
+                name={name}
+                description={description}
+              />
 
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews · <span className="reviews__amount">1</span></h2>
@@ -365,6 +340,29 @@ const Place = ({placeData}) => {
     </div>
   );
 };
+
+Place.propTypes = {
+  placeData: PropTypes.shape({
+    id: PropTypes.number,
+    title: PropTypes.string,
+    premium: PropTypes.bool,
+    src: PropTypes.string,
+    photos: PropTypes.arrayOf(
+        PropTypes.string
+    ),
+    price: PropTypes.number,
+    description: PropTypes.string,
+    type: PropTypes.string,
+    rating: PropTypes.number,
+    bedroomAmount: PropTypes.number,
+    guestsAmount: PropTypes.number,
+    items: PropTypes.arrayOf(
+        PropTypes.string
+    ),
+    host: PropTypes.object,
+  }),
+};
+
 
 export default Place;
 
