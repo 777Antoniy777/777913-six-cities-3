@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import Places from '../preview-places/preview-places';
+import PreviewPlaces from '../preview-places/preview-places';
 
-const Main = ({rentAmount, offers}) => {
+const Main = ({rentAmount, offers, onSetPlaceData, onSetPlaceStatus}) => {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -95,9 +95,12 @@ const Main = ({rentAmount, offers}) => {
               </form>
 
               {/* Список мест */}
-              <Places
+              <PreviewPlaces
                 // properties
-                offers={ offers }
+                offers={offers}
+                // handlers
+                onSetPlaceData={onSetPlaceData}
+                onSetPlaceStatus={onSetPlaceStatus}
               />
 
             </section>
@@ -118,14 +121,9 @@ Main.defaultProps = {
 Main.propTypes = {
   rentAmount: PropTypes.number.isRequired,
   offers: PropTypes.arrayOf(
-      PropTypes.exact({
-        id: PropTypes.number.isRequired,
-        title: PropTypes.string.isRequired,
-        src: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        type: PropTypes.string.isRequired,
-      })
-  ),
+      PropTypes.object.isRequired
+  ).isRequired,
+  onSetPlaceData: PropTypes.func.isRequired,
 };
 
 export default Main;

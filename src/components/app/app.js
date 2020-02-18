@@ -9,23 +9,44 @@ class App extends PureComponent {
     super();
     this.state = {
       isShowOffer: false,
+      placeData: null,
     };
+    this.onSetPlaceData = this.onSetPlaceData.bind(this);
+    this.onSetPlaceStatus = this.onSetPlaceStatus.bind(this);
+  }
+
+  onSetPlaceData(obj) {
+    this.setState({
+      placeData: obj,
+    });
+  }
+
+  onSetPlaceStatus() {
+    this.setState((state) => ({
+      isShowOffer: !state.isShowOffer,
+    }));
   }
 
   renderOfferScreen() {
-    const {isShowOffer} = this.state;
+    const {isShowOffer, placeData} = this.state;
     const {rentAmount, offers} = this.props;
 
     if (isShowOffer) {
       return (
-        <Place />
+        <Place
+          // properties
+          placeData={placeData}
+        />
       );
     } else {
       return (
         <Main
           // properties
-          rentAmount={ rentAmount }
-          offers={ offers }
+          rentAmount={rentAmount}
+          offers={offers}
+          // handlers
+          onSetPlaceData={this.onSetPlaceData}
+          onSetPlaceStatus={this.onSetPlaceStatus}
         />
       );
     }
@@ -56,14 +77,8 @@ App.defaultProps = {
 App.propTypes = {
   rentAmount: PropTypes.number.isRequired,
   offers: PropTypes.arrayOf(
-      PropTypes.exact({
-        id: PropTypes.number.isRequired,
-        title: PropTypes.string.isRequired,
-        src: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        type: PropTypes.string.isRequired,
-      })
-  ),
+      PropTypes.object.isRequired
+  ).isRequired,
 };
 
 export default App;
