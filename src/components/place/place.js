@@ -114,7 +114,7 @@ const Place = ({placeData}) => {
               </div>
 
               <div className="property__inside">
-                <h2 className="property__inside-title">What's inside</h2>
+                <h2 className="property__inside-title">What&rsquo;s inside</h2>
 
                 {/* рендерит наполнение комнаты */}
                 <PlaceItems
