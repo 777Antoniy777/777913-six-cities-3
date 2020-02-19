@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import PreviewPlaces from '../preview-places/preview-places';
+import Map from '../map/map';
 
 const Main = ({rentAmount, offers, onSetPlaceData, onSetPlaceStatus}) => {
   return (
@@ -118,7 +119,16 @@ const Main = ({rentAmount, offers, onSetPlaceData, onSetPlaceStatus}) => {
             </section>
 
             <div className="cities__right-section">
-              <section className="cities__map map" />
+              <section className="cities__map map">
+
+                {/* карта с маркерами */}
+                { offers &&
+                  <Map
+                    offers={offers}
+                  />
+                }
+
+              </section>
             </div>
 
           </div>

@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 import renderer from "react-test-renderer";
-import PreviewPlaces from "./preview-places";
+import Map from './map';
 
 // set mocha data
 const offers = [
@@ -26,16 +26,10 @@ const offers = [
   },
 ];
 
-const onSetPlaceData = () => {};
-const onSetPlaceStatus = () => {};
-
-it(`render PreviewPlaces`, () => {
+it(`render Map`, () => {
   const tree = renderer.create(
-      <PreviewPlaces
-        key={offers[0].id}
+      <Map
         offers={offers}
-        onSetPlaceData={onSetPlaceData}
-        onSetPlaceStatus={onSetPlaceStatus}
       />)
       .toJSON();
 

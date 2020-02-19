@@ -21,6 +21,7 @@ const placeData = {
     name: `name`,
     status: false,
   },
+  coord: [1, 1],
 };
 
 it(`render Place`, () => {
