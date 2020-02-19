@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Should render Main 1`] = `
+exports[`render Main 1`] = `
 <div
   className="page page--gray page--main"
 >
@@ -229,13 +229,6 @@ exports[`Should render Main 1`] = `
               onMouseOver={[Function]}
             >
               <div
-                className="place-card__mark"
-              >
-                <span>
-                  Premium
-                </span>
-              </div>
-              <div
                 className="cities__image-wrapper place-card__image-wrapper"
               >
                 <a
@@ -300,7 +293,7 @@ exports[`Should render Main 1`] = `
                     <span
                       style={
                         Object {
-                          "width": "80%",
+                          "width": "199980%",
                         }
                       }
                     />
@@ -313,6 +306,7 @@ exports[`Should render Main 1`] = `
                 </div>
                 <h2
                   className="place-card__name"
+                  onClick={[Function]}
                 >
                   <a
                     href="#"

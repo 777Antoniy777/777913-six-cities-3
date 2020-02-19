@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render PlacePhotos 1`] = `
+<div
+  className="property__gallery"
+>
+  <div
+    className="property__image-wrapper"
+  >
+    <img
+      alt="Photo studio"
+      className="property__image"
+      src="img/image1"
+    />
+  </div>
+  <div
+    className="property__image-wrapper"
+  >
+    <img
+      alt="Photo studio"
+      className="property__image"
+      src="img/image2"
+    />
+  </div>
+  <div
+    className="property__image-wrapper"
+  >
+    <img
+      alt="Photo studio"
+      className="property__image"
+      src="img/image3"
+    />
+  </div>
+</div>
+`;

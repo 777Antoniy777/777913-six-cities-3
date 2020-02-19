@@ -3,27 +3,30 @@ import renderer from "react-test-renderer";
 import Place from './place';
 
 // set mocha data
-const data = {
+const placeData = {
   id: 1,
   title: `title 1`,
+  premium: false,
   src: `img/image1`,
+  photos: [`img/image1`],
   price: 999999,
+  description: `test`,
   type: `type`,
+  rating: 9999,
+  bedroomAmount: 30,
+  guestsAmount: 50,
+  items: [`item`],
+  host: {
+    avatar: `img/avatar-1.jpg`,
+    name: `name`,
+    status: false,
+  },
 };
 
-const {id, title, src, price, type} = data;
-
-const onSetData = () => {};
-
-it(`Place should render option`, () => {
+it(`render Place`, () => {
   const tree = renderer.create(
       <Place
-        key= { id }
-        title={ title }
-        src={ src }
-        price={ price }
-        type={ type }
-        onSetData={ onSetData }
+        placeData={placeData}
       />)
       .toJSON();
 

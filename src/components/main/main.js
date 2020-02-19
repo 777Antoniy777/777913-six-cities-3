@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import Places from '../places/places';
+import PreviewPlaces from '../preview-places/preview-places';
 
-const Main = ({rentAmount, apartments}) => {
+const Main = ({rentAmount, offers, onSetPlaceData, onSetPlaceStatus}) => {
   return (
     <div className="page page--gray page--main">
+
       <header className="header">
         <div className="container">
+
           <div className="header__wrapper">
             <div className="header__left">
               <a className="header__logo-link header__logo-link--active">
@@ -24,11 +26,15 @@ const Main = ({rentAmount, apartments}) => {
                 </li>
               </ul>
             </nav>
+
           </div>
+
         </div>
       </header>
+
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
+
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
@@ -65,25 +71,31 @@ const Main = ({rentAmount, apartments}) => {
             </ul>
           </section>
         </div>
+
         <div className="cities">
           <div className="cities__places-container container">
+
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{rentAmount} places to stay in Amsterdam</b>
+
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
+
                 <span className="places__sorting-type" tabIndex={0}>
                   Popular
                   <svg className="places__sorting-arrow" width={7} height={4}>
                     <use xlinkHref="#icon-arrow-select" />
                   </svg>
                 </span>
+
                 <ul className="places__options places__options--custom places__options--opened">
                   <li className="places__option places__option--active" tabIndex={0}>Popular</li>
                   <li className="places__option" tabIndex={0}>Price: low to high</li>
                   <li className="places__option" tabIndex={0}>Price: high to low</li>
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
+
                 {/*
               <select class="places__sorting-type" id="places-sorting">
                 <option class="places__option" value="popular" selected="">Popular</option>
@@ -95,15 +107,20 @@ const Main = ({rentAmount, apartments}) => {
               </form>
 
               {/* Список мест */}
-              <Places
+              <PreviewPlaces
                 // properties
-                apartments={ apartments }
+                offers={offers}
+                // handlers
+                onSetPlaceData={onSetPlaceData}
+                onSetPlaceStatus={onSetPlaceStatus}
               />
 
             </section>
+
             <div className="cities__right-section">
               <section className="cities__map map" />
             </div>
+
           </div>
         </div>
       </main>
@@ -117,15 +134,11 @@ Main.defaultProps = {
 
 Main.propTypes = {
   rentAmount: PropTypes.number.isRequired,
-  apartments: PropTypes.arrayOf(
-      PropTypes.exact({
-        id: PropTypes.number.isRequired,
-        title: PropTypes.string.isRequired,
-        src: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        type: PropTypes.string.isRequired,
-      })
+  offers: PropTypes.arrayOf(
+      PropTypes.object
   ),
+  onSetPlaceData: PropTypes.func,
+  onSetPlaceStatus: PropTypes.func,
 };
 
 export default Main;

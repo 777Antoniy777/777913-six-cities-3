@@ -1,9 +1,8 @@
-import React from 'react';
+import React from "react";
 import renderer from "react-test-renderer";
-import Main from './main';
+import PreviewPlaces from "./preview-places";
 
 // set mocha data
-const rentAmount = 666;
 const offers = [
   {
     id: 1,
@@ -29,10 +28,10 @@ const offers = [
 const onSetPlaceData = () => {};
 const onSetPlaceStatus = () => {};
 
-it(`render Main`, () => {
+it(`render PreviewPlaces`, () => {
   const tree = renderer.create(
-      <Main
-        rentAmount={rentAmount}
+      <PreviewPlaces
+        key={offers[0].id}
         offers={offers}
         onSetPlaceData={onSetPlaceData}
         onSetPlaceStatus={onSetPlaceStatus}

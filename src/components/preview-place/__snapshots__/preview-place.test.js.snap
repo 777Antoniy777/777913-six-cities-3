@@ -1,17 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Should render Main Places should render empty apartments 1`] = `
+exports[`render PreviewPlace Place should render empty 1`] = `
 <article
   className="cities__place-card place-card"
   onMouseOver={[Function]}
 >
-  <div
-    className="place-card__mark"
-  >
-    <span>
-      Premium
-    </span>
-  </div>
   <div
     className="cities__image-wrapper place-card__image-wrapper"
   >
@@ -75,7 +68,7 @@ exports[`Should render Main Places should render empty apartments 1`] = `
         <span
           style={
             Object {
-              "width": "80%",
+              "width": "NaN%",
             }
           }
         />
@@ -88,6 +81,7 @@ exports[`Should render Main Places should render empty apartments 1`] = `
     </div>
     <h2
       className="place-card__name"
+      onClick={[Function]}
     >
       <a
         href="#"
@@ -100,18 +94,11 @@ exports[`Should render Main Places should render empty apartments 1`] = `
 </article>
 `;
 
-exports[`Should render Main Places should render full apartments 1`] = `
+exports[`render PreviewPlace Place should render option 1`] = `
 <article
   className="cities__place-card place-card"
   onMouseOver={[Function]}
 >
-  <div
-    className="place-card__mark"
-  >
-    <span>
-      Premium
-    </span>
-  </div>
   <div
     className="cities__image-wrapper place-card__image-wrapper"
   >
@@ -122,6 +109,7 @@ exports[`Should render Main Places should render full apartments 1`] = `
         alt="Place image"
         className="place-card__image"
         height={200}
+        src="img/image1"
         width={260}
       />
     </a>
@@ -139,6 +127,7 @@ exports[`Should render Main Places should render full apartments 1`] = `
           className="place-card__price-value"
         >
           €
+          999999
         </b>
         <span
           className="place-card__price-text"
@@ -175,7 +164,7 @@ exports[`Should render Main Places should render full apartments 1`] = `
         <span
           style={
             Object {
-              "width": "80%",
+              "width": "199980%",
             }
           }
         />
@@ -188,14 +177,19 @@ exports[`Should render Main Places should render full apartments 1`] = `
     </div>
     <h2
       className="place-card__name"
+      onClick={[Function]}
     >
       <a
         href="#"
-      />
+      >
+        title 1
+      </a>
     </h2>
     <p
       className="place-card__type"
-    />
+    >
+      type
+    </p>
   </div>
 </article>
 `;
