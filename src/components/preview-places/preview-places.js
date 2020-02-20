@@ -11,7 +11,7 @@ const PreviewPlaces = ({offers, onSetPlaceData, onSetPlaceStatus}) => {
           <PreviewPlace
             // properties
             key={elem.id}
-            elem={elem}
+            placeData={elem}
             // handlers
             onSetPlaceData={onSetPlaceData}
             onSetPlaceStatus={onSetPlaceStatus}
@@ -24,9 +24,7 @@ const PreviewPlaces = ({offers, onSetPlaceData, onSetPlaceStatus}) => {
 };
 
 PreviewPlaces.propTypes = {
-  offers: PropTypes.arrayOf(
-      PropTypes.object
-  ),
+  offers: PropTypes.arrayOf(PropTypes.object),
   onSetPlaceData: PropTypes.func,
   onSetPlaceStatus: PropTypes.func,
 };

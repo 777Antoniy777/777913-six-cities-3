@@ -8,7 +8,7 @@ Enzyme.configure({
 });
 
 // set mocha data
-const elem = {
+const placeData = {
   id: 1,
   title: `title 1`,
   premium: false,
@@ -26,17 +26,24 @@ const elem = {
     name: `name`,
     status: false,
   },
+  reviews: [
+    {
+      id: 1,
+      body: `text`,
+      rating: 5,
+      name: `name`,
+      date: `date`,
+    },
+  ],
   coord: [1, 1],
 };
-
-const placeData = elem;
 
 it(`placeData should set into callback after hover`, () => {
   const onSetPlaceData = jest.fn((data) => data);
 
   let place = shallow(
       <PreviewPlace
-        elem={elem}
+        placeData={placeData}
         onSetPlaceData={onSetPlaceData}
       />
   );
@@ -56,7 +63,7 @@ it(`place status should change after callback after click on title`, () => {
 
   let place = shallow(
       <PreviewPlace
-        elem={elem}
+        placeData={placeData}
         onSetPlaceStatus={onSetPlaceStatus}
       />
   );

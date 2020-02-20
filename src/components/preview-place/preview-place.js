@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const PreviewPlace = ({elem: placeData, onSetPlaceData, onSetPlaceStatus}) => {
+const PreviewPlace = ({placeData, onSetPlaceData, onSetPlaceStatus}) => {
   const {title, premium, src, price, type, rating} = placeData;
 
   const getRating = (val) => {
@@ -75,23 +75,19 @@ const PreviewPlace = ({elem: placeData, onSetPlaceData, onSetPlaceStatus}) => {
 };
 
 PreviewPlace.propTypes = {
-  elem: PropTypes.shape({
+  placeData: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
     premium: PropTypes.bool,
     src: PropTypes.string,
-    photos: PropTypes.arrayOf(
-        PropTypes.string
-    ),
+    photos: PropTypes.arrayOf(PropTypes.string),
     price: PropTypes.number,
     description: PropTypes.string,
     type: PropTypes.string,
     rating: PropTypes.number,
     bedroomAmount: PropTypes.number,
     guestsAmount: PropTypes.number,
-    items: PropTypes.arrayOf(
-        PropTypes.string
-    ),
+    items: PropTypes.arrayOf(PropTypes.string),
     host: PropTypes.object,
   }),
   onSetPlaceData: PropTypes.func,

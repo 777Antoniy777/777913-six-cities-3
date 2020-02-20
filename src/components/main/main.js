@@ -144,9 +144,7 @@ Main.defaultProps = {
 
 Main.propTypes = {
   rentAmount: PropTypes.number.isRequired,
-  offers: PropTypes.arrayOf(
-      PropTypes.object
-  ),
+  offers: PropTypes.arrayOf(PropTypes.object),
   onSetPlaceData: PropTypes.func,
   onSetPlaceStatus: PropTypes.func,
 };

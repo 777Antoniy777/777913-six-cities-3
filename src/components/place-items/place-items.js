@@ -28,9 +28,7 @@ const PlaceItem = ({elem}) => {
 };
 
 PlaceItems.propTypes = {
-  items: PropTypes.arrayOf(
-      PropTypes.string
-  ),
+  items: PropTypes.arrayOf(PropTypes.string),
 };
 
 PlaceItem.propTypes = {

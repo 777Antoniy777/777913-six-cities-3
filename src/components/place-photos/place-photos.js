@@ -27,14 +27,12 @@ const PlacePhotos = ({photos}) => {
   );
 };
 
-PlacePhoto.propTypes = {
-  elem: PropTypes.string,
+PlacePhotos.propTypes = {
+  photos: PropTypes.arrayOf(PropTypes.string),
 };
 
-PlacePhotos.propTypes = {
-  photos: PropTypes.arrayOf(
-      PropTypes.string
-  ),
+PlacePhoto.propTypes = {
+  elem: PropTypes.string,
 };
 
 export default PlacePhotos;

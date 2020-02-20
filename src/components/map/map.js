@@ -36,6 +36,7 @@ class Map extends React.PureComponent {
 
   setMapOptions() {
     const {city, zoom, icon, offerCords} = this.state;
+    const mapRef = this.map.current;
     const openStreenMap = leaflet.tileLayer(`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}`, {
       foo: `bar`,
       attribution: `Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>`
@@ -49,7 +50,11 @@ class Map extends React.PureComponent {
     const mapCoords = this.getMapCoords(center, icon);
     const cities = leaflet.layerGroup(mapCoords);
 
-    const map = leaflet.map(`map`, {
+    // if (!this.map.current) {
+    //   return false;
+    // }
+
+    const map = leaflet.map(mapRef, {
       center: city,
       zoom,
       zoomControl: true,
@@ -70,11 +75,15 @@ class Map extends React.PureComponent {
       "Cities": cities,
     };
 
-    leaflet.control.layers(baseMaps, overlayMaps).addTo(map);
+    leaflet.control.layers(baseMaps, overlayMaps)
+                   .addTo(map);
+
   }
 
   componentDidMount() {
-    this.setMapOptions();
+    if (this.map.current) {
+      this.setMapOptions();
+    }
   }
 
   componentWillUnmount() {
@@ -91,9 +100,7 @@ class Map extends React.PureComponent {
 }
 
 Map.propTypes = {
-  offers: PropTypes.arrayOf(
-      PropTypes.object
-  ),
+  offers: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default Map;

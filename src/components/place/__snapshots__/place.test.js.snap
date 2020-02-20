@@ -268,7 +268,7 @@ exports[`render Place 1`] = `
                   <span
                     className="reviews__user-name"
                   >
-                    Max
+                    name
                   </span>
                 </div>
                 <div
@@ -283,7 +283,7 @@ exports[`render Place 1`] = `
                       <span
                         style={
                           Object {
-                            "width": "80%",
+                            "width": "100%",
                           }
                         }
                       />
@@ -297,13 +297,13 @@ exports[`render Place 1`] = `
                   <p
                     className="reviews__text"
                   >
-                    A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
+                    text
                   </p>
                   <time
                     className="reviews__time"
                     dateTime="2019-04-24"
                   >
-                    April 2019
+                    date
                   </time>
                 </div>
               </li>
