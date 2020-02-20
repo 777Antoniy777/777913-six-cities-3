@@ -23,6 +23,7 @@ const offers = [
       name: `name`,
       status: false,
     },
+    coord: [1, 1],
   },
 ];
 

@@ -26,6 +26,7 @@ const elem = {
     name: `name`,
     status: false,
   },
+  coord: [1, 1],
 };
 
 const placeData = elem;

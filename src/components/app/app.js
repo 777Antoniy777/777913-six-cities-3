@@ -1,10 +1,10 @@
-import React, {PureComponent} from 'react';
+import React from 'react';
 import PropTypes from "prop-types";
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 import Main from '../main/main';
 import Place from '../place/place';
 
-class App extends PureComponent {
+class App extends React.PureComponent {
   constructor() {
     super();
     this.state = {
