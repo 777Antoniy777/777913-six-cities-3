@@ -34,11 +34,13 @@ const offers = [
     coord: [1, 1],
   },
 ];
+const activeCoords = [1, 1];
 
 it(`render Map`, () => {
   const tree = renderer.create(
       <Map
         offers={offers}
+        activeCoords={activeCoords}
       />)
       .toJSON();
 

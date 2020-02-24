@@ -10,7 +10,6 @@ class App extends React.PureComponent {
     this.state = {
       isShowOffer: false,
       placeData: null,
-      splittedOffers: [],
     };
     this.onSetPlaceData = this.onSetPlaceData.bind(this);
     this.onSetPlaceStatus = this.onSetPlaceStatus.bind(this);
@@ -31,9 +30,7 @@ class App extends React.PureComponent {
     clonnedOffers.splice(id, 1);
     const splittedOffers = clonnedOffers.slice(0, 3);
 
-    this.setState({
-      splittedOffers,
-    });
+    return splittedOffers;
   }
 
   onSetPlaceData(obj) {
@@ -49,8 +46,9 @@ class App extends React.PureComponent {
   }
 
   renderOfferScreen() {
-    const {isShowOffer, placeData, splittedOffers} = this.state;
+    const {isShowOffer, placeData} = this.state;
     const {offers} = this.props;
+    const splittedOffers = this.splitOffers();
 
     if (isShowOffer) {
       return (

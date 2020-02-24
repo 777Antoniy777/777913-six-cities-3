@@ -3,7 +3,6 @@ import renderer from "react-test-renderer";
 import App from './app';
 
 // set mocha data
-const rentAmount = 666;
 const offers = [
   {
     id: 1,
@@ -40,8 +39,7 @@ const offers = [
 it(`render App`, () => {
   const tree = renderer.create(
       <App
-        rentAmount={ rentAmount }
-        offers={ offers }
+        offers={offers}
       />)
       .toJSON();
 

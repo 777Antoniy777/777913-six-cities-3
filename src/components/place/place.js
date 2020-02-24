@@ -8,7 +8,7 @@ import PreviewPlaces from "../preview-places/preview-places";
 import Map from "../map/map";
 
 const Place = ({placeData, offers, isShowOffer, onSetPlaceData, onSetPlaceStatus}) => {
-  const {title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, reviews, host} = placeData;
+  const {title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, reviews, host, coords} = placeData;
   const {avatar, name, status} = host;
   const reviewsLength = reviews.length;
 
@@ -18,52 +18,6 @@ const Place = ({placeData, offers, isShowOffer, onSetPlaceData, onSetPlaceStatus
 
     return `${ratingStars}%`;
   };
-
-  // setMapOptions() {
-  //   const {city, zoom} = this.state;
-  //   const mapRef = this.map.current;
-  //   const openStreenMap = leaflet.tileLayer(`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}`, {
-  //     foo: `bar`,
-  //     attribution: `Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>`
-  //   });
-  //   const voyager = leaflet.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
-  //     attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
-  //   });
-
-  //   // const mapCoords = this.getMapCoords(icon);
-  //   const {markersArr} = this.state;
-  //   const cities = leaflet.layerGroup(markersArr);
-
-  //   const baseMaps = {
-  //     "Voyager": voyager,
-  //     "Open Streen Map": openStreenMap
-  //   };
-
-  //   const overlayMaps = {
-  //     "Cities": cities,
-  //   };
-
-  //   const layers = leaflet.control.layers(baseMaps, overlayMaps);
-  //   const map = leaflet.map(mapRef, {
-  //     // map state options
-  //     center: city,
-  //     zoom,
-  //     marker: true,
-  //     // layers: [voyager, cities],
-  //     layers: voyager,
-  //     // control options
-  //     zoomControl: true,
-  //   });
-
-  //   map.setView(city, zoom);
-  //   cities.addTo(map);
-  //   // layers.addTo(map);
-
-  //   this.setState({
-  //     map,
-  //     cities,
-  //   });
-  // }
 
   return (
     <div className="page">
@@ -252,10 +206,10 @@ const Place = ({placeData, offers, isShowOffer, onSetPlaceData, onSetPlaceStatus
           <section className="property__map map">
 
             {/* карта с маркерами */}
-            {console.log(offers)}
             { offers.length > 0 &&
               <Map
                 offers={offers}
+                activeCoords={coords}
               />
             }
 
@@ -307,6 +261,7 @@ Place.propTypes = {
     items: PropTypes.arrayOf(PropTypes.string),
     reviews: PropTypes.arrayOf(PropTypes.object),
     host: PropTypes.object,
+    coords: PropTypes.arrayOf(PropTypes.number),
   }),
   offers: PropTypes.arrayOf(PropTypes.object),
   isShowOffer: PropTypes.bool,

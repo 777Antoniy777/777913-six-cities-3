@@ -29,7 +29,7 @@ const PreviewPlace = ({placeData, isShowOffer, onSetPlaceData, onSetPlaceStatus}
 
     onSetPlaceStatus();
     onSetPlaceData(placeData);
-    // window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
   };
 
   return (

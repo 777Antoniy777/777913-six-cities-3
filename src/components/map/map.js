@@ -8,19 +8,14 @@ class Map extends React.Component {
     this.map = React.createRef();
     this.state = {
       map: null,
-      city: [52.38333, 4.9],
-      zoom: 12,
-      icon: leaflet.icon({
-        iconUrl: `img/pin.svg`,
-        iconSize: [30, 30],
-      }),
-      markersArr: [],
+      center: [52.38333, 4.9],
       cities: [],
     };
   }
 
   createMap() {
-    const {city, zoom} = this.state;
+    const {center} = this.state;
+    const zoom = 12;
     const mapRef = this.map.current;
     const voyager = leaflet.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
       attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
@@ -28,14 +23,14 @@ class Map extends React.Component {
 
     const map = leaflet.map(mapRef, {
       // map state options
-      center: city,
+      center,
       zoom,
       marker: true,
       layers: voyager,
       // control options
       zoomControl: true,
     });
-    map.setView(city, zoom);
+    map.setView(center, zoom);
 
     this.setState({
       map,
@@ -43,30 +38,36 @@ class Map extends React.Component {
   }
 
   getMarkersCoords() {
-    const {offers} = this.props;
-    console.log(offers);
-    const {icon} = this.state;
+    const {offers, activeCoords} = this.props;
     const markersArr = [];
+    let icon = leaflet.icon({
+      iconUrl: `img/pin.svg`,
+      iconSize: [30, 30],
+    });
 
     offers.forEach((elem) => {
       const marker = leaflet.marker(elem.coords, {icon});
       markersArr.push(marker);
     });
 
-    this.addMarkersToMap(markersArr);
+    if (activeCoords) {
+      icon = leaflet.icon({
+        iconUrl: `img/pin-active.svg`,
+        iconSize: [30, 30],
+      });
+      const marker = leaflet.marker(activeCoords, {icon});
+      markersArr.push(marker);
+    }
 
-    // this.setState({
-    //   markersArr: arr,
-    // }, this.addMarkerstoMap);
+    this.addMarkersToMap(markersArr);
   }
 
   addMarkersToMap(markersArr) {
     const {map} = this.state;
     const cities = leaflet.layerGroup(markersArr);
 
-    if (map) {
-      cities.addTo(map);
-    }
+
+    cities.addTo(map);
 
     this.setState({
       cities,
@@ -79,21 +80,27 @@ class Map extends React.Component {
     cities.clearLayers();
   }
 
-  componentDidMount() {
-    this.createMap();
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.cities !== nextState.cities) {
+      return false;
+    }
+
+    return true;
   }
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if (nextState.cities !== this.state.cities || nextState.map !== this.state.map) {
-  //     return false;
-  //   }
-
-  //   return true;
-  // }
+  componentDidMount() {
+    if (this.map.current) {
+      this.createMap();
+    }
+  }
 
   componentDidUpdate() {
-    // this.removeMarkersFromMap();
-    // this.getMarkersCoords();
+    const {cities} = this.state;
+
+    if (cities.length !== 0) {
+      this.removeMarkersFromMap();
+      this.getMarkersCoords();
+    }
   }
 
   componentWillUnmount() {
@@ -111,6 +118,7 @@ class Map extends React.Component {
 
 Map.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.object),
+  activeCoords: PropTypes.arrayOf(PropTypes.number),
 };
 
 export default Map;

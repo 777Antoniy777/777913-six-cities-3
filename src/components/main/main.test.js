@@ -3,7 +3,6 @@ import renderer from "react-test-renderer";
 import Main from './main';
 
 // set mocha data
-const rentAmount = 666;
 const isShowOffer = true;
 const offers = [
   {
@@ -43,7 +42,6 @@ const onSetPlaceStatus = () => {};
 it(`render Main`, () => {
   const tree = renderer.create(
       <Main
-        rentAmount={rentAmount}
         offers={offers}
         isShowOffer={isShowOffer}
         onSetPlaceData={onSetPlaceData}
