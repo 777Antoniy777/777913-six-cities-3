@@ -164,7 +164,7 @@ exports[`render Main 1`] = `
           <b
             className="places__found"
           >
-            666
+            1
              places to stay in Amsterdam
           </b>
           <form
@@ -225,11 +225,10 @@ exports[`render Main 1`] = `
             className="cities__places-list places__list tabs__content"
           >
             <article
-              className="cities__place-card place-card"
-              onMouseOver={[Function]}
+              className="place-card near-places__card"
             >
               <div
-                className="cities__image-wrapper place-card__image-wrapper"
+                className="place-card__image-wrapper near-places__image-wrapper"
               >
                 <a
                   href="#"
@@ -328,7 +327,16 @@ exports[`render Main 1`] = `
         >
           <section
             className="cities__map map"
-          />
+          >
+            <div
+              id="map"
+              style={
+                Object {
+                  "height": "100%",
+                }
+              }
+            />
+          </section>
         </div>
       </div>
     </div>

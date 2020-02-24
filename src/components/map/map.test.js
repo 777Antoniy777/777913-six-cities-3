@@ -22,14 +22,25 @@ const offers = [
       name: `name`,
       status: false,
     },
+    reviews: [
+      {
+        id: 1,
+        body: `text`,
+        rating: 5,
+        name: `name`,
+        date: `date`,
+      },
+    ],
     coord: [1, 1],
   },
 ];
+const activeCoords = [1, 1];
 
 it(`render Map`, () => {
   const tree = renderer.create(
       <Map
         offers={offers}
+        activeCoords={activeCoords}
       />)
       .toJSON();
 

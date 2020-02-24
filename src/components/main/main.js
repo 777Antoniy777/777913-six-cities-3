@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import PreviewPlaces from '../preview-places/preview-places';
 import Map from '../map/map';
 
-const Main = ({rentAmount, offers, onSetPlaceData, onSetPlaceStatus}) => {
+const Main = ({offers, isShowOffer, onSetPlaceData, onSetPlaceStatus}) => {
   return (
     <div className="page page--gray page--main">
 
@@ -78,7 +78,7 @@ const Main = ({rentAmount, offers, onSetPlaceData, onSetPlaceStatus}) => {
 
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{rentAmount} places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
 
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
@@ -107,14 +107,19 @@ const Main = ({rentAmount, offers, onSetPlaceData, onSetPlaceStatus}) => {
               */}
               </form>
 
-              {/* Список мест */}
-              <PreviewPlaces
-                // properties
-                offers={offers}
-                // handlers
-                onSetPlaceData={onSetPlaceData}
-                onSetPlaceStatus={onSetPlaceStatus}
-              />
+              <div className="cities__places-list places__list tabs__content">
+
+                {/* рендерит превью мест */}
+                <PreviewPlaces
+                  // properties
+                  offers={offers}
+                  isShowOffer={isShowOffer}
+                  // handlers
+                  onSetPlaceData={onSetPlaceData}
+                  onSetPlaceStatus={onSetPlaceStatus}
+                />
+
+              </div>
 
             </section>
 
@@ -122,7 +127,7 @@ const Main = ({rentAmount, offers, onSetPlaceData, onSetPlaceStatus}) => {
               <section className="cities__map map">
 
                 {/* карта с маркерами */}
-                { offers &&
+                { offers.length > 0 &&
                   <Map
                     offers={offers}
                   />
@@ -138,15 +143,9 @@ const Main = ({rentAmount, offers, onSetPlaceData, onSetPlaceStatus}) => {
   );
 };
 
-Main.defaultProps = {
-  rentAmount: 0,
-};
-
 Main.propTypes = {
-  rentAmount: PropTypes.number.isRequired,
-  offers: PropTypes.arrayOf(
-      PropTypes.object
-  ),
+  offers: PropTypes.arrayOf(PropTypes.object),
+  isShowOffer: PropTypes.bool,
   onSetPlaceData: PropTypes.func,
   onSetPlaceStatus: PropTypes.func,
 };

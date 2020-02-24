@@ -3,7 +3,7 @@ import renderer from "react-test-renderer";
 import Main from './main';
 
 // set mocha data
-const rentAmount = 666;
+const isShowOffer = true;
 const offers = [
   {
     id: 1,
@@ -23,6 +23,15 @@ const offers = [
       name: `name`,
       status: false,
     },
+    reviews: [
+      {
+        id: 1,
+        body: `text`,
+        rating: 5,
+        name: `name`,
+        date: `date`,
+      },
+    ],
     coord: [1, 1],
   },
 ];
@@ -33,8 +42,8 @@ const onSetPlaceStatus = () => {};
 it(`render Main`, () => {
   const tree = renderer.create(
       <Main
-        rentAmount={rentAmount}
         offers={offers}
+        isShowOffer={isShowOffer}
         onSetPlaceData={onSetPlaceData}
         onSetPlaceStatus={onSetPlaceStatus}
       />)
@@ -42,3 +51,4 @@ it(`render Main`, () => {
 
   expect(tree).toMatchSnapshot();
 });
+

@@ -2,11 +2,10 @@
 
 exports[`render PreviewPlace Place should render empty 1`] = `
 <article
-  className="cities__place-card place-card"
-  onMouseOver={[Function]}
+  className="place-card near-places__card"
 >
   <div
-    className="cities__image-wrapper place-card__image-wrapper"
+    className="place-card__image-wrapper near-places__image-wrapper"
   >
     <a
       href="#"
@@ -96,11 +95,10 @@ exports[`render PreviewPlace Place should render empty 1`] = `
 
 exports[`render PreviewPlace Place should render option 1`] = `
 <article
-  className="cities__place-card place-card"
-  onMouseOver={[Function]}
+  className="place-card near-places__card"
 >
   <div
-    className="cities__image-wrapper place-card__image-wrapper"
+    className="place-card__image-wrapper near-places__image-wrapper"
   >
     <a
       href="#"

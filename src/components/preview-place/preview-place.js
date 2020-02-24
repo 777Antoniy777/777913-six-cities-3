@@ -1,8 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
+import classNames from 'classnames';
 
-const PreviewPlace = ({elem: placeData, onSetPlaceData, onSetPlaceStatus}) => {
+const PreviewPlace = ({placeData, isShowOffer, onSetPlaceData, onSetPlaceStatus}) => {
   const {title, premium, src, price, type, rating} = placeData;
+
+  const placeWrapperClass = classNames({
+    'place-card': true,
+    'cities__place-card': !isShowOffer,
+    'near-places__card': isShowOffer,
+  });
+
+  const placeImageWrapperClass = classNames({
+    'place-card__image-wrapper': true,
+    'cities__image-wrapper': !isShowOffer,
+    'near-places__image-wrapper': isShowOffer,
+  });
 
   const getRating = (val) => {
     let ratingStars = Math.round(val);
@@ -11,20 +24,16 @@ const PreviewPlace = ({elem: placeData, onSetPlaceData, onSetPlaceStatus}) => {
     return `${ratingStars}%`;
   };
 
-  const handleCardMouseover = (evt) => {
-    evt.preventDefault();
-
-    onSetPlaceData(placeData);
-  };
-
   const handleTitleClick = (evt) => {
     evt.preventDefault();
 
     onSetPlaceStatus();
+    onSetPlaceData(placeData);
+    window.scrollTo(0, 0);
   };
 
   return (
-    <article className="cities__place-card place-card" onMouseOver={handleCardMouseover}>
+    <article className={placeWrapperClass}>
 
       { premium &&
         <div className="place-card__mark">
@@ -32,7 +41,7 @@ const PreviewPlace = ({elem: placeData, onSetPlaceData, onSetPlaceStatus}) => {
         </div>
       }
 
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={placeImageWrapperClass}>
         <a href="#">
           <img className="place-card__image" src={ src } width={260} height={200} alt="Place image" />
         </a>
@@ -75,25 +84,22 @@ const PreviewPlace = ({elem: placeData, onSetPlaceData, onSetPlaceStatus}) => {
 };
 
 PreviewPlace.propTypes = {
-  elem: PropTypes.shape({
+  placeData: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
     premium: PropTypes.bool,
     src: PropTypes.string,
-    photos: PropTypes.arrayOf(
-        PropTypes.string
-    ),
+    photos: PropTypes.arrayOf(PropTypes.string),
     price: PropTypes.number,
     description: PropTypes.string,
     type: PropTypes.string,
     rating: PropTypes.number,
     bedroomAmount: PropTypes.number,
     guestsAmount: PropTypes.number,
-    items: PropTypes.arrayOf(
-        PropTypes.string
-    ),
+    items: PropTypes.arrayOf(PropTypes.string),
     host: PropTypes.object,
   }),
+  isShowOffer: PropTypes.bool,
   onSetPlaceData: PropTypes.func,
   onSetPlaceStatus: PropTypes.func,
 };

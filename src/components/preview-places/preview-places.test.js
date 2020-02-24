@@ -3,6 +3,7 @@ import renderer from "react-test-renderer";
 import PreviewPlaces from "./preview-places";
 
 // set mocha data
+const isShowOffer = true;
 const offers = [
   {
     id: 1,
@@ -22,6 +23,15 @@ const offers = [
       name: `name`,
       status: false,
     },
+    reviews: [
+      {
+        id: 1,
+        body: `text`,
+        rating: 5,
+        name: `name`,
+        date: `date`,
+      },
+    ],
     coord: [1, 1],
   },
 ];
@@ -34,6 +44,7 @@ it(`render PreviewPlaces`, () => {
       <PreviewPlaces
         key={offers[0].id}
         offers={offers}
+        isShowOffer={isShowOffer}
         onSetPlaceData={onSetPlaceData}
         onSetPlaceStatus={onSetPlaceStatus}
       />)

@@ -2,79 +2,105 @@ import React from 'react';
 import PropTypes from "prop-types";
 import leaflet from "leaflet";
 
-class Map extends React.PureComponent {
-  constructor() {
-    super();
+class Map extends React.Component {
+  constructor(props) {
+    super(props);
     this.map = React.createRef();
     this.state = {
       map: null,
-      city: [52.38333, 4.9],
-      zoom: 12,
-      icon: leaflet.icon({
-        iconUrl: `img/pin.svg`,
-        iconSize: [30, 30],
-      }),
-      offerCords: [52.3709553943508, 4.89309666406198],
+      center: [52.38333, 4.9],
+      cities: [],
     };
   }
 
-  getMapCoords(centerCity, icon) {
-    const {offers} = this.props;
-    const arr = [];
-
-    offers.forEach((elem) => {
-      const coord = leaflet.marker(elem.coords, {icon});
-      arr.push(coord);
-    });
-
-    if (centerCity) {
-      arr.push(centerCity);
-    }
-
-    return arr;
-  }
-
-  setMapOptions() {
-    const {city, zoom, icon, offerCords} = this.state;
-    const openStreenMap = leaflet.tileLayer(`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}`, {
-      foo: `bar`,
-      attribution: `Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>`
-    });
+  createMap() {
+    const {center} = this.state;
+    const zoom = 12;
+    const mapRef = this.map.current;
     const voyager = leaflet.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
       attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
     });
 
-    const center = leaflet.marker(offerCords, {icon})
-                          .bindPopup(`Amsterdam`);
-    const mapCoords = this.getMapCoords(center, icon);
-    const cities = leaflet.layerGroup(mapCoords);
-
-    const map = leaflet.map(`map`, {
-      center: city,
+    const map = leaflet.map(mapRef, {
+      // map state options
+      center,
       zoom,
-      zoomControl: true,
       marker: true,
-      layers: [voyager, cities],
-    }).setView(city, zoom);
+      layers: voyager,
+      // control options
+      zoomControl: true,
+    });
+    map.setView(center, zoom);
 
     this.setState({
       map,
+    }, this.getMarkersCoords);
+  }
+
+  getMarkersCoords() {
+    const {offers, activeCoords} = this.props;
+    const markersArr = [];
+    let icon = leaflet.icon({
+      iconUrl: `img/pin.svg`,
+      iconSize: [30, 30],
     });
 
-    const baseMaps = {
-      "Voyager": voyager,
-      "Open Streen Map": openStreenMap
-    };
+    offers.forEach((elem) => {
+      const marker = leaflet.marker(elem.coords, {icon});
+      markersArr.push(marker);
+    });
 
-    const overlayMaps = {
-      "Cities": cities,
-    };
+    if (activeCoords) {
+      icon = leaflet.icon({
+        iconUrl: `img/pin-active.svg`,
+        iconSize: [30, 30],
+      });
+      const marker = leaflet.marker(activeCoords, {icon});
+      markersArr.push(marker);
+    }
 
-    leaflet.control.layers(baseMaps, overlayMaps).addTo(map);
+    this.addMarkersToMap(markersArr);
+  }
+
+  addMarkersToMap(markersArr) {
+    const {map} = this.state;
+    const cities = leaflet.layerGroup(markersArr);
+
+
+    cities.addTo(map);
+
+    this.setState({
+      cities,
+    });
+  }
+
+  removeMarkersFromMap() {
+    const {cities} = this.state;
+
+    cities.clearLayers();
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.cities !== nextState.cities) {
+      return false;
+    }
+
+    return true;
   }
 
   componentDidMount() {
-    this.setMapOptions();
+    if (this.map.current) {
+      this.createMap();
+    }
+  }
+
+  componentDidUpdate() {
+    const {cities} = this.state;
+
+    if (cities.length !== 0) {
+      this.removeMarkersFromMap();
+      this.getMarkersCoords();
+    }
   }
 
   componentWillUnmount() {
@@ -91,9 +117,8 @@ class Map extends React.PureComponent {
 }
 
 Map.propTypes = {
-  offers: PropTypes.arrayOf(
-      PropTypes.object
-  ),
+  offers: PropTypes.arrayOf(PropTypes.object),
+  activeCoords: PropTypes.arrayOf(PropTypes.number),
 };
 
 export default Map;

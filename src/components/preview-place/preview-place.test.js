@@ -3,7 +3,8 @@ import renderer from "react-test-renderer";
 import PreviewPlace from "./preview-place";
 
 // set mocha data
-const elem = {
+const isShowOffer = true;
+const placeData = {
   id: 1,
   title: `title 1`,
   premium: false,
@@ -21,6 +22,15 @@ const elem = {
     name: `name`,
     status: false,
   },
+  reviews: [
+    {
+      id: 1,
+      body: `text`,
+      rating: 5,
+      name: `name`,
+      date: `date`,
+    },
+  ],
   coord: [1, 1],
 };
 
@@ -32,7 +42,8 @@ describe(`render PreviewPlace`, () => {
   it(`Place should render option`, () => {
     const tree = renderer.create(
         <PreviewPlace
-          elem={elem}
+          placeData={placeData}
+          isShowOffer={isShowOffer}
           onSetPlaceData={onSetPlaceData}
           onSetPlaceStatus={onSetPlaceStatus}
         />)
@@ -44,7 +55,8 @@ describe(`render PreviewPlace`, () => {
   it(`Place should render empty`, () => {
     const tree = renderer.create(
         <PreviewPlace
-          elem={{}}
+          placeData={{}}
+          isShowOffer={isShowOffer}
           onSetPlaceData={onSetPlaceData}
           onSetPlaceStatus={onSetPlaceStatus}
         />)
