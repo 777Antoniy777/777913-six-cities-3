@@ -4,6 +4,7 @@ import Main from './main';
 
 // set mocha data
 const rentAmount = 666;
+const isShowOffer = true;
 const offers = [
   {
     id: 1,
@@ -44,6 +45,7 @@ it(`render Main`, () => {
       <Main
         rentAmount={rentAmount}
         offers={offers}
+        isShowOffer={isShowOffer}
         onSetPlaceData={onSetPlaceData}
         onSetPlaceStatus={onSetPlaceStatus}
       />)
@@ -51,3 +53,4 @@ it(`render Main`, () => {
 
   expect(tree).toMatchSnapshot();
 });
+

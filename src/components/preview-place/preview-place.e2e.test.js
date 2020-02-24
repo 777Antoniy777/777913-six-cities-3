@@ -8,6 +8,7 @@ Enzyme.configure({
 });
 
 // set mocha data
+const isShowOffer = true;
 const placeData = {
   id: 1,
   title: `title 1`,
@@ -38,32 +39,19 @@ const placeData = {
   coord: [1, 1],
 };
 
-it(`placeData should set into callback after hover`, () => {
+it(`placeData and status should set into callback after click on title`, () => {
   const onSetPlaceData = jest.fn((data) => data);
-
-  let place = shallow(
-      <PreviewPlace
-        placeData={placeData}
-        onSetPlaceData={onSetPlaceData}
-      />
-  );
-
-  const card = place.find(`.place-card`);
-  card.simulate(`mouseover`, {
-    preventDefault() {},
-    onSetPlaceData() {}
+  const onSetPlaceStatus = jest.fn();
+  const scrollTo = jest.fn();
+  Object.defineProperty(global.window, `scrollTo`, {
+    value: scrollTo
   });
 
-  expect(onSetPlaceData).toHaveBeenCalledTimes(1);
-  expect(onSetPlaceData.mock.calls[0][0]).toMatchObject(placeData);
-});
-
-it(`place status should change after callback after click on title`, () => {
-  const onSetPlaceStatus = jest.fn();
-
   let place = shallow(
       <PreviewPlace
         placeData={placeData}
+        isShowOffer={isShowOffer}
+        onSetPlaceData={onSetPlaceData}
         onSetPlaceStatus={onSetPlaceStatus}
       />
   );
@@ -71,9 +59,12 @@ it(`place status should change after callback after click on title`, () => {
   const card = place.find(`.place-card__name`);
   card.simulate(`click`, {
     preventDefault() {},
+    onSetPlaceData() {},
     onSetPlaceStatus() {}
   });
 
+  expect(scrollTo).toHaveBeenCalledWith(0, 0);
+  expect(onSetPlaceData).toHaveBeenCalledTimes(1);
+  expect(onSetPlaceData.mock.calls[0][0]).toMatchObject(placeData);
   expect(onSetPlaceStatus).toHaveBeenCalledTimes(1);
 });
-

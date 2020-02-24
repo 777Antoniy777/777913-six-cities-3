@@ -10,9 +10,30 @@ class App extends React.PureComponent {
     this.state = {
       isShowOffer: false,
       placeData: null,
+      splittedOffers: [],
     };
     this.onSetPlaceData = this.onSetPlaceData.bind(this);
     this.onSetPlaceStatus = this.onSetPlaceStatus.bind(this);
+  }
+
+  splitOffers() {
+    const {offers} = this.props;
+    const {placeData} = this.state;
+    const clonnedOffers = offers.slice();
+    let id;
+
+    if (placeData) {
+      id = placeData.id;
+    }
+
+    id = id - 1;
+
+    clonnedOffers.splice(id, 1);
+    const splittedOffers = clonnedOffers.slice(0, 3);
+
+    this.setState({
+      splittedOffers,
+    });
   }
 
   onSetPlaceData(obj) {
@@ -22,28 +43,33 @@ class App extends React.PureComponent {
   }
 
   onSetPlaceStatus() {
-    this.setState((state) => ({
-      isShowOffer: !state.isShowOffer,
-    }));
+    this.setState({
+      isShowOffer: true,
+    }, this.splitOffers);
   }
 
   renderOfferScreen() {
-    const {isShowOffer, placeData} = this.state;
-    const {rentAmount, offers} = this.props;
+    const {isShowOffer, placeData, splittedOffers} = this.state;
+    const {offers} = this.props;
 
     if (isShowOffer) {
       return (
         <Place
           // properties
           placeData={placeData}
+          offers={splittedOffers}
+          isShowOffer={isShowOffer}
+          // handlers
+          onSetPlaceData={this.onSetPlaceData}
+          onSetPlaceStatus={this.onSetPlaceStatus}
         />
       );
     } else {
       return (
         <Main
           // properties
-          rentAmount={rentAmount}
           offers={offers}
+          isShowOffer={isShowOffer}
           // handlers
           onSetPlaceData={this.onSetPlaceData}
           onSetPlaceStatus={this.onSetPlaceStatus}
@@ -70,12 +96,7 @@ class App extends React.PureComponent {
   }
 }
 
-App.defaultProps = {
-  rentAmount: 0,
-};
-
 App.propTypes = {
-  rentAmount: PropTypes.number.isRequired,
   offers: PropTypes.arrayOf(PropTypes.object),
 };
 

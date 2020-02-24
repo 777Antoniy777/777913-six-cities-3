@@ -3,6 +3,7 @@ import renderer from "react-test-renderer";
 import PreviewPlace from "./preview-place";
 
 // set mocha data
+const isShowOffer = true;
 const placeData = {
   id: 1,
   title: `title 1`,
@@ -42,6 +43,7 @@ describe(`render PreviewPlace`, () => {
     const tree = renderer.create(
         <PreviewPlace
           placeData={placeData}
+          isShowOffer={isShowOffer}
           onSetPlaceData={onSetPlaceData}
           onSetPlaceStatus={onSetPlaceStatus}
         />)
@@ -54,6 +56,7 @@ describe(`render PreviewPlace`, () => {
     const tree = renderer.create(
         <PreviewPlace
           placeData={{}}
+          isShowOffer={isShowOffer}
           onSetPlaceData={onSetPlaceData}
           onSetPlaceStatus={onSetPlaceStatus}
         />)

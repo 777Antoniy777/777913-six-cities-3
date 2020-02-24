@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from "prop-types";
 import leaflet from "leaflet";
 
-class Map extends React.PureComponent {
-  constructor() {
-    super();
+class Map extends React.Component {
+  constructor(props) {
+    super(props);
     this.map = React.createRef();
     this.state = {
       map: null,
@@ -14,76 +14,86 @@ class Map extends React.PureComponent {
         iconUrl: `img/pin.svg`,
         iconSize: [30, 30],
       }),
-      offerCords: [52.3709553943508, 4.89309666406198],
+      markersArr: [],
+      cities: [],
     };
   }
 
-  getMapCoords(centerCity, icon) {
-    const {offers} = this.props;
-    const arr = [];
-
-    offers.forEach((elem) => {
-      const coord = leaflet.marker(elem.coords, {icon});
-      arr.push(coord);
-    });
-
-    if (centerCity) {
-      arr.push(centerCity);
-    }
-
-    return arr;
-  }
-
-  setMapOptions() {
-    const {city, zoom, icon, offerCords} = this.state;
+  createMap() {
+    const {city, zoom} = this.state;
     const mapRef = this.map.current;
-    const openStreenMap = leaflet.tileLayer(`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}`, {
-      foo: `bar`,
-      attribution: `Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>`
-    });
     const voyager = leaflet.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
       attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
     });
 
-    const center = leaflet.marker(offerCords, {icon})
-                          .bindPopup(`Amsterdam`);
-    const mapCoords = this.getMapCoords(center, icon);
-    const cities = leaflet.layerGroup(mapCoords);
-
-    // if (!this.map.current) {
-    //   return false;
-    // }
-
     const map = leaflet.map(mapRef, {
+      // map state options
       center: city,
       zoom,
-      zoomControl: true,
       marker: true,
-      layers: [voyager, cities],
-    }).setView(city, zoom);
+      layers: voyager,
+      // control options
+      zoomControl: true,
+    });
+    map.setView(city, zoom);
 
     this.setState({
       map,
+    }, this.getMarkersCoords);
+  }
+
+  getMarkersCoords() {
+    const {offers} = this.props;
+    console.log(offers);
+    const {icon} = this.state;
+    const markersArr = [];
+
+    offers.forEach((elem) => {
+      const marker = leaflet.marker(elem.coords, {icon});
+      markersArr.push(marker);
     });
 
-    const baseMaps = {
-      "Voyager": voyager,
-      "Open Streen Map": openStreenMap
-    };
+    this.addMarkersToMap(markersArr);
 
-    const overlayMaps = {
-      "Cities": cities,
-    };
+    // this.setState({
+    //   markersArr: arr,
+    // }, this.addMarkerstoMap);
+  }
 
-    leaflet.control.layers(baseMaps, overlayMaps)
-                   .addTo(map);
+  addMarkersToMap(markersArr) {
+    const {map} = this.state;
+    const cities = leaflet.layerGroup(markersArr);
 
+    if (map) {
+      cities.addTo(map);
+    }
+
+    this.setState({
+      cities,
+    });
+  }
+
+  removeMarkersFromMap() {
+    const {cities} = this.state;
+
+    cities.clearLayers();
   }
 
   componentDidMount() {
-    if (this.map.current) {
-      this.setMapOptions();
-    }
+    this.createMap();
+  }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (nextState.cities !== this.state.cities || nextState.map !== this.state.map) {
+  //     return false;
+  //   }
+
+  //   return true;
+  // }
+
+  componentDidUpdate() {
+    // this.removeMarkersFromMap();
+    // this.getMarkersCoords();
   }
 
   componentWillUnmount() {

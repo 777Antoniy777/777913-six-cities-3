@@ -4,8 +4,10 @@ import PlacePhotos from "../place-photos/place-photos";
 import PlaceItems from "../place-items/place-items";
 import PlaceHost from "../place-host/place-host";
 import PlaceReviews from "../place-reviews/place-reviews";
+import PreviewPlaces from "../preview-places/preview-places";
+import Map from "../map/map";
 
-const Place = ({placeData}) => {
+const Place = ({placeData, offers, isShowOffer, onSetPlaceData, onSetPlaceStatus}) => {
   const {title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, reviews, host} = placeData;
   const {avatar, name, status} = host;
   const reviewsLength = reviews.length;
@@ -16,6 +18,52 @@ const Place = ({placeData}) => {
 
     return `${ratingStars}%`;
   };
+
+  // setMapOptions() {
+  //   const {city, zoom} = this.state;
+  //   const mapRef = this.map.current;
+  //   const openStreenMap = leaflet.tileLayer(`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}`, {
+  //     foo: `bar`,
+  //     attribution: `Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>`
+  //   });
+  //   const voyager = leaflet.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
+  //     attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
+  //   });
+
+  //   // const mapCoords = this.getMapCoords(icon);
+  //   const {markersArr} = this.state;
+  //   const cities = leaflet.layerGroup(markersArr);
+
+  //   const baseMaps = {
+  //     "Voyager": voyager,
+  //     "Open Streen Map": openStreenMap
+  //   };
+
+  //   const overlayMaps = {
+  //     "Cities": cities,
+  //   };
+
+  //   const layers = leaflet.control.layers(baseMaps, overlayMaps);
+  //   const map = leaflet.map(mapRef, {
+  //     // map state options
+  //     center: city,
+  //     zoom,
+  //     marker: true,
+  //     // layers: [voyager, cities],
+  //     layers: voyager,
+  //     // control options
+  //     zoomControl: true,
+  //   });
+
+  //   map.setView(city, zoom);
+  //   cities.addTo(map);
+  //   // layers.addTo(map);
+
+  //   this.setState({
+  //     map,
+  //     cities,
+  //   });
+  // }
 
   return (
     <div className="page">
@@ -201,7 +249,17 @@ const Place = ({placeData}) => {
             </div>
           </div>
 
-          <section className="property__map map" />
+          <section className="property__map map">
+
+            {/* карта с маркерами */}
+            {console.log(offers)}
+            { offers.length > 0 &&
+              <Map
+                offers={offers}
+              />
+            }
+
+          </section>
         </section>
 
         <div className="container">
@@ -211,101 +269,15 @@ const Place = ({placeData}) => {
 
             <div className="near-places__list places__list">
 
-              <article className="near-places__card place-card">
-                <div className="near-places__image-wrapper place-card__image-wrapper">
-                  <a href="#">
-                    <img className="place-card__image" src="img/room.jpg" width={260} height={200} alt="Place image" />
-                  </a>
-                </div>
-                <div className="place-card__info">
-                  <div className="place-card__price-wrapper">
-                    <div className="place-card__price">
-                      <b className="place-card__price-value">€80</b>
-                      <span className="place-card__price-text">/&nbsp;night</span>
-                    </div>
-                    <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
-                      <svg className="place-card__bookmark-icon" width={18} height={19}>
-                        <use xlinkHref="#icon-bookmark" />
-                      </svg>
-                      <span className="visually-hidden">In bookmarks</span>
-                    </button>
-                  </div>
-                  <div className="place-card__rating rating">
-                    <div className="place-card__stars rating__stars">
-                      <span style={{width: `80%`}} />
-                      <span className="visually-hidden">Rating</span>
-                    </div>
-                  </div>
-                  <h2 className="place-card__name">
-                    <a href="#">Wood and stone place</a>
-                  </h2>
-                  <p className="place-card__type">Private room</p>
-                </div>
-              </article>
-
-              <article className="near-places__card place-card">
-                <div className="near-places__image-wrapper place-card__image-wrapper">
-                  <a href="#">
-                    <img className="place-card__image" src="img/apartment-02.jpg" width={260} height={200} alt="Place image" />
-                  </a>
-                </div>
-                <div className="place-card__info">
-                  <div className="place-card__price-wrapper">
-                    <div className="place-card__price">
-                      <b className="place-card__price-value">€132</b>
-                      <span className="place-card__price-text">/&nbsp;night</span>
-                    </div>
-                    <button className="place-card__bookmark-button button" type="button">
-                      <svg className="place-card__bookmark-icon" width={18} height={19}>
-                        <use xlinkHref="#icon-bookmark" />
-                      </svg>
-                      <span className="visually-hidden">To bookmarks</span>
-                    </button>
-                  </div>
-                  <div className="place-card__rating rating">
-                    <div className="place-card__stars rating__stars">
-                      <span style={{width: `80%`}} />
-                      <span className="visually-hidden">Rating</span>
-                    </div>
-                  </div>
-                  <h2 className="place-card__name">
-                    <a href="#">Canal View Prinsengracht</a>
-                  </h2>
-                  <p className="place-card__type">Apartment</p>
-                </div>
-              </article>
-
-              <article className="near-places__card place-card">
-                <div className="near-places__image-wrapper place-card__image-wrapper">
-                  <a href="#">
-                    <img className="place-card__image" src="img/apartment-03.jpg" width={260} height={200} alt="Place image" />
-                  </a>
-                </div>
-                <div className="place-card__info">
-                  <div className="place-card__price-wrapper">
-                    <div className="place-card__price">
-                      <b className="place-card__price-value">€180</b>
-                      <span className="place-card__price-text">/&nbsp;night</span>
-                    </div>
-                    <button className="place-card__bookmark-button button" type="button">
-                      <svg className="place-card__bookmark-icon" width={18} height={19}>
-                        <use xlinkHref="#icon-bookmark" />
-                      </svg>
-                      <span className="visually-hidden">To bookmarks</span>
-                    </button>
-                  </div>
-                  <div className="place-card__rating rating">
-                    <div className="place-card__stars rating__stars">
-                      <span style={{width: `100%`}} />
-                      <span className="visually-hidden">Rating</span>
-                    </div>
-                  </div>
-                  <h2 className="place-card__name">
-                    <a href="#">Nice, cozy, warm big bed apartment</a>
-                  </h2>
-                  <p className="place-card__type">Apartment</p>
-                </div>
-              </article>
+              {/* рендерит превью мест */}
+              <PreviewPlaces
+                // properties
+                offers={offers}
+                isShowOffer={isShowOffer}
+                // handlers
+                onSetPlaceData={onSetPlaceData}
+                onSetPlaceStatus={onSetPlaceStatus}
+              />
 
             </div>
 
@@ -336,6 +308,10 @@ Place.propTypes = {
     reviews: PropTypes.arrayOf(PropTypes.object),
     host: PropTypes.object,
   }),
+  offers: PropTypes.arrayOf(PropTypes.object),
+  isShowOffer: PropTypes.bool,
+  onSetPlaceData: PropTypes.func,
+  onSetPlaceStatus: PropTypes.func,
 };
 
 
