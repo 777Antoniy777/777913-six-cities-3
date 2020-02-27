@@ -4,9 +4,9 @@ import {connect} from 'react-redux';
 import PreviewPlaces from '../preview-places/preview-places';
 import Map from '../map/map';
 import Cities from '../cities/cities';
-import changeSityAction from '../../actions/changeSityAction';
+import changeCityAction from '../../actions/changeCityAction';
 
-const Main = ({offers, isShowOffer, onSetPlaceData, onSetPlaceStatus, currentCity, getCities, onGetCity}) => {
+const Main = ({offers, currentCity, getCities, onGetCity}) => {
   const cities = getCities();
 
   return (
@@ -98,10 +98,6 @@ const Main = ({offers, isShowOffer, onSetPlaceData, onSetPlaceStatus, currentCit
                 <PreviewPlaces
                   // properties
                   offers={offers}
-                  isShowOffer={isShowOffer}
-                  // handlers
-                  onSetPlaceData={onSetPlaceData}
-                  onSetPlaceStatus={onSetPlaceStatus}
                 />
 
               </div>
@@ -131,9 +127,6 @@ const Main = ({offers, isShowOffer, onSetPlaceData, onSetPlaceStatus, currentCit
 
 Main.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.object),
-  isShowOffer: PropTypes.bool,
-  onSetPlaceData: PropTypes.func,
-  onSetPlaceStatus: PropTypes.func,
   currentCity: PropTypes.string,
   getCities: PropTypes.func,
   onGetCity: PropTypes.func,
@@ -161,7 +154,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onGetCity: (city) => {
-    dispatch(changeSityAction(city));
+    dispatch(changeCityAction(city));
   }
 });
 

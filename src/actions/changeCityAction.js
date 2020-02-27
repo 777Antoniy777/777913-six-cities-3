@@ -1,8 +1,8 @@
 import ActionType from '../action-type';
 
-const changeSityAction = (city) => ({
+const changeCityAction = (city) => ({
   type: ActionType.CHANGE_CITY,
   payload: city,
 });
 
-export default changeSityAction;
+export default changeCityAction;

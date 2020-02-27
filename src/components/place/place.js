@@ -8,8 +8,8 @@ import PlaceReviews from "../place-reviews/place-reviews";
 import PreviewPlaces from "../preview-places/preview-places";
 import Map from "../map/map";
 
-const Place = ({placeData, index, offers, isShowOffer, onSetPlaceData, onSetIndexPlaceData, onSetPlaceStatus}) => {
-  const {title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, reviews, host, coords} = placeData;
+const Place = ({offers, offer}) => {
+  const {title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, reviews, host, coords} = offer;
   const {avatar, name, status} = host;
   const reviewsLength = reviews.length;
 
@@ -21,11 +21,9 @@ const Place = ({placeData, index, offers, isShowOffer, onSetPlaceData, onSetInde
   };
 
   const splitOffers = () => {
-    const clonnedOffers = offers.slice();
-
-    clonnedOffers.splice(index, 1);
-    const splittedOffers = clonnedOffers.slice(0, 3);
-    console.log(splittedOffers, index)
+    const splittedOffers = offers.filter((elem) => {
+      return elem !== offer;
+    });
 
     return splittedOffers;
   };
@@ -241,11 +239,6 @@ const Place = ({placeData, index, offers, isShowOffer, onSetPlaceData, onSetInde
               <PreviewPlaces
                 // properties
                 offers={splittedOffers}
-                isShowOffer={isShowOffer}
-                // handlers
-                onSetPlaceData={onSetPlaceData}
-                onSetIndexPlaceData={onSetIndexPlaceData}
-                onSetPlaceStatus={onSetPlaceStatus}
               />
 
             </div>
@@ -261,8 +254,7 @@ const Place = ({placeData, index, offers, isShowOffer, onSetPlaceData, onSetInde
 };
 
 Place.propTypes = {
-  index: PropTypes.number,
-  placeData: PropTypes.shape({
+  offer: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
     premium: PropTypes.bool,
@@ -280,15 +272,13 @@ Place.propTypes = {
     coords: PropTypes.arrayOf(PropTypes.number),
   }),
   offers: PropTypes.arrayOf(PropTypes.object),
-  isShowOffer: PropTypes.bool,
-  onSetPlaceData: PropTypes.func,
-  onSetPlaceStatus: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
   offers: state.offers.offers.filter((elem) => {
     return elem.city === state.offers.city;
   }),
+  offer: state.offer.offer,
 });
 
 export default connect(

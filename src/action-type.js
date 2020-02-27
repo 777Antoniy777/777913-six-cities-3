@@ -1,6 +1,8 @@
 const ActionType = {
   CHANGE_CITY: `CHANGE_CITY`,
   GET_OFFERS: `GET_OFFERS`,
+  GET_CURRENT_OFFER: `GET_CURRENT_OFFER`,
+  SET_OFFER_STATUS: `SET_OFFER_STATUS`,
 };
 
 export default ActionType;
