@@ -65,8 +65,6 @@ class Map extends React.Component {
   addMarkersToMap(markersArr) {
     const {map} = this.state;
     const cities = leaflet.layerGroup(markersArr);
-
-
     cities.addTo(map);
 
     this.setState({

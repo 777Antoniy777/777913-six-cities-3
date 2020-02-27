@@ -9,28 +9,35 @@ class App extends React.PureComponent {
     super();
     this.state = {
       isShowOffer: false,
+      index: null,
       placeData: null,
     };
     this.onSetPlaceData = this.onSetPlaceData.bind(this);
     this.onSetPlaceStatus = this.onSetPlaceStatus.bind(this);
   }
 
-  splitOffers() {
-    const {offers} = this.props;
-    const {placeData} = this.state;
-    const clonnedOffers = offers.slice();
-    let id;
+  // splitOffers() {
+  //   const {offers} = this.props;
+  //   const {placeData} = this.state;
+  //   const clonnedOffers = offers.slice();
+  //   let id;
 
-    if (placeData) {
-      id = placeData.id;
-    }
+  //   if (placeData) {
+  //     id = placeData.id;
+  //   }
 
-    id = id - 1;
+  //   id = id - 1;
 
-    clonnedOffers.splice(id, 1);
-    const splittedOffers = clonnedOffers.slice(0, 3);
+  //   clonnedOffers.splice(id, 1);
+  //   const splittedOffers = clonnedOffers.slice(0, 3);
 
-    return splittedOffers;
+  //   return splittedOffers;
+  // }
+
+  onSetIndexPlaceData(index) {
+    this.setState({
+      index,
+    });
   }
 
   onSetPlaceData(obj) {
@@ -42,23 +49,31 @@ class App extends React.PureComponent {
   onSetPlaceStatus() {
     this.setState({
       isShowOffer: true,
-    }, this.splitOffers);
+    });
   }
 
+  // onSetPlaceStatus() {
+  //   this.setState({
+  //     isShowOffer: true,
+  //   }, this.splitOffers);
+  // }
+
   renderOfferScreen() {
-    const {isShowOffer, placeData} = this.state;
-    const {offers} = this.props;
-    const splittedOffers = this.splitOffers();
+    const {isShowOffer, index, placeData} = this.state;
+    // const {offers} = this.props;
+    // const splittedOffers = this.splitOffers();
 
     if (isShowOffer) {
       return (
         <Place
           // properties
           placeData={placeData}
-          offers={splittedOffers}
+          index={index}
           isShowOffer={isShowOffer}
           // handlers
           onSetPlaceData={this.onSetPlaceData}
+          // продолжи с этого места
+          onSetIndexPlaceData={this.onSetIndexPlaceData}
           onSetPlaceStatus={this.onSetPlaceStatus}
         />
       );
@@ -66,10 +81,11 @@ class App extends React.PureComponent {
       return (
         <Main
           // properties
-          offers={offers}
           isShowOffer={isShowOffer}
           // handlers
           onSetPlaceData={this.onSetPlaceData}
+          // продолжи с этого места
+          onSetIndexPlaceData={this.onSetIndexPlaceData}
           onSetPlaceStatus={this.onSetPlaceStatus}
         />
       );

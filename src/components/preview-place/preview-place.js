@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import classNames from 'classnames';
 
-const PreviewPlace = ({placeData, isShowOffer, onSetPlaceData, onSetPlaceStatus}) => {
+const PreviewPlace = ({placeData, index, isShowOffer, onSetPlaceData, onSetIndexPlaceData, onSetPlaceStatus}) => {
   const {title, premium, src, price, type, rating} = placeData;
 
   const placeWrapperClass = classNames({
@@ -29,6 +29,7 @@ const PreviewPlace = ({placeData, isShowOffer, onSetPlaceData, onSetPlaceStatus}
 
     onSetPlaceStatus();
     onSetPlaceData(placeData);
+    onSetIndexPlaceData(index);
     window.scrollTo(0, 0);
   };
 
@@ -84,6 +85,7 @@ const PreviewPlace = ({placeData, isShowOffer, onSetPlaceData, onSetPlaceStatus}
 };
 
 PreviewPlace.propTypes = {
+  index: PropTypes.number,
   placeData: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
@@ -101,6 +103,7 @@ PreviewPlace.propTypes = {
   }),
   isShowOffer: PropTypes.bool,
   onSetPlaceData: PropTypes.func,
+  onSetIndexPlaceData: PropTypes.func,
   onSetPlaceStatus: PropTypes.func,
 };
 

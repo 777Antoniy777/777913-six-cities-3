@@ -1,9 +1,14 @@
 import React from 'react';
 import PropTypes from "prop-types";
+import {connect} from 'react-redux';
 import PreviewPlaces from '../preview-places/preview-places';
 import Map from '../map/map';
+import Cities from '../cities/cities';
+import changeSityAction from '../../actions/changeSityAction';
 
-const Main = ({offers, isShowOffer, onSetPlaceData, onSetPlaceStatus}) => {
+const Main = ({offers, isShowOffer, onSetPlaceData, onSetPlaceStatus, currentCity, getCities, onGetCity}) => {
+  const cities = getCities();
+
   return (
     <div className="page page--gray page--main">
 
@@ -38,38 +43,18 @@ const Main = ({offers, isShowOffer, onSetPlaceData, onSetPlaceStatus}) => {
 
         <div className="tabs">
           <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
+
+            {/* рендерит список городов */}
+            { cities.length > 0 &&
+              <Cities
+                // properties
+                cities={cities}
+                currentCity={currentCity}
+                // handlers
+                onGetCity={onGetCity}
+              />
+            }
+
           </section>
         </div>
 
@@ -78,7 +63,7 @@ const Main = ({offers, isShowOffer, onSetPlaceData, onSetPlaceStatus}) => {
 
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in {currentCity}</b>
 
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
@@ -129,6 +114,7 @@ const Main = ({offers, isShowOffer, onSetPlaceData, onSetPlaceStatus}) => {
                 {/* карта с маркерами */}
                 { offers.length > 0 &&
                   <Map
+                    // properties
                     offers={offers}
                   />
                 }
@@ -148,6 +134,39 @@ Main.propTypes = {
   isShowOffer: PropTypes.bool,
   onSetPlaceData: PropTypes.func,
   onSetPlaceStatus: PropTypes.func,
+  currentCity: PropTypes.string,
+  getCities: PropTypes.func,
+  onGetCity: PropTypes.func,
 };
 
-export default Main;
+const mapStateToProps = (state) => ({
+  currentCity: state.offers.city,
+  getCities: () => {
+    let set = new Set();
+
+    state.offers.offers.forEach((elem) => {
+      const city = elem.city;
+      set.add(city);
+    });
+
+    const cities = Array.from(set);
+    const splittedCities = cities.slice(0, 6);
+
+    return splittedCities;
+  },
+  offers: state.offers.offers.filter((elem) => {
+    return elem.city === state.offers.city;
+  }),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onGetCity: (city) => {
+    dispatch(changeSityAction(city));
+  }
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Main);
+

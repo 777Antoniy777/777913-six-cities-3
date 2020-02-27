@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {connect} from 'react-redux';
 import PlacePhotos from "../place-photos/place-photos";
 import PlaceItems from "../place-items/place-items";
 import PlaceHost from "../place-host/place-host";
@@ -7,7 +8,7 @@ import PlaceReviews from "../place-reviews/place-reviews";
 import PreviewPlaces from "../preview-places/preview-places";
 import Map from "../map/map";
 
-const Place = ({placeData, offers, isShowOffer, onSetPlaceData, onSetPlaceStatus}) => {
+const Place = ({placeData, index, offers, isShowOffer, onSetPlaceData, onSetIndexPlaceData, onSetPlaceStatus}) => {
   const {title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, reviews, host, coords} = placeData;
   const {avatar, name, status} = host;
   const reviewsLength = reviews.length;
@@ -18,6 +19,18 @@ const Place = ({placeData, offers, isShowOffer, onSetPlaceData, onSetPlaceStatus
 
     return `${ratingStars}%`;
   };
+
+  const splitOffers = () => {
+    const clonnedOffers = offers.slice();
+
+    clonnedOffers.splice(index, 1);
+    const splittedOffers = clonnedOffers.slice(0, 3);
+    console.log(splittedOffers, index)
+
+    return splittedOffers;
+  };
+
+  const splittedOffers = splitOffers();
 
   return (
     <div className="page">
@@ -208,6 +221,7 @@ const Place = ({placeData, offers, isShowOffer, onSetPlaceData, onSetPlaceStatus
             {/* карта с маркерами */}
             { offers.length > 0 &&
               <Map
+                // properties
                 offers={offers}
                 activeCoords={coords}
               />
@@ -226,10 +240,11 @@ const Place = ({placeData, offers, isShowOffer, onSetPlaceData, onSetPlaceStatus
               {/* рендерит превью мест */}
               <PreviewPlaces
                 // properties
-                offers={offers}
+                offers={splittedOffers}
                 isShowOffer={isShowOffer}
                 // handlers
                 onSetPlaceData={onSetPlaceData}
+                onSetIndexPlaceData={onSetIndexPlaceData}
                 onSetPlaceStatus={onSetPlaceStatus}
               />
 
@@ -246,6 +261,7 @@ const Place = ({placeData, offers, isShowOffer, onSetPlaceData, onSetPlaceStatus
 };
 
 Place.propTypes = {
+  index: PropTypes.number,
   placeData: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
@@ -269,6 +285,13 @@ Place.propTypes = {
   onSetPlaceStatus: PropTypes.func,
 };
 
+const mapStateToProps = (state) => ({
+  offers: state.offers.offers.filter((elem) => {
+    return elem.city === state.offers.city;
+  }),
+});
 
-export default Place;
+export default connect(
+    mapStateToProps
+)(Place);
 
