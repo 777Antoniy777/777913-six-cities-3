@@ -9,6 +9,7 @@ const store = createStore(
 );
 
 store.subscribe(() => {
+  /* eslint-disable no-console */
   console.log(`store was changed`, store.getState());
 });
 

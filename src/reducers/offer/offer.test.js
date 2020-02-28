@@ -1,17 +1,17 @@
-import offer from './offer';
+import offerState from './offer';
 import ActionType from '../../action-type';
 import getCurrentOfferAction from '../../actions/getCurrentOfferAction';
 import setOfferStatusAction from '../../actions/setOfferStatusAction';
 
 it(`Offer without additional parameters should return initial state`, () => {
-  expect(offer(void 0, {})).toEqual({
+  expect(offerState(void 0, {})).toEqual({
     offer: null,
     isShowOffer: false,
   });
 });
 
 it(`Reducer should get current offer`, () => {
-  expect(offer({
+  expect(offerState({
     offer: null,
     isShowOffer: false,
   }, {
@@ -24,7 +24,7 @@ it(`Reducer should get current offer`, () => {
 });
 
 it(`Reducer should set offer status`, () => {
-  expect(offer({
+  expect(offerState({
     offer: null,
     isShowOffer: false,
   }, {

@@ -1,16 +1,17 @@
-import offers from './offers';
+import offersState from './offers';
 import ActionType from '../../action-type';
 import changeCityAction from '../../actions/changeCityAction';
+import offers from '../../mocks/offers';
 
 it(`Offers without additional parameters should return initial state`, () => {
-  expect(offers(void 0, {})).toEqual({
+  expect(offersState(void 0, {})).toEqual({
     city: offers[0].city,
     offers,
   });
 });
 
 it(`Reducer should set current city`, () => {
-  expect(offers({
+  expect(offersState({
     city: offers[0].city,
     offers,
   }, {
