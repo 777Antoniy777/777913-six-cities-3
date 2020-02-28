@@ -228,24 +228,28 @@ const Place = ({offers, offer}) => {
           </section>
         </section>
 
-        <div className="container">
+        { splittedOffers.length > 1 &&
 
-          <section className="near-places places">
-            <h2 className="near-places__title">Other places in the neighbourhood</h2>
+          <div className="container">
 
-            <div className="near-places__list places__list">
+            <section className="near-places places">
+              <h2 className="near-places__title">Other places in the neighbourhood</h2>
 
-              {/* рендерит превью мест */}
-              <PreviewPlaces
-                // properties
-                offers={splittedOffers}
-              />
+              <div className="near-places__list places__list">
 
-            </div>
+                {/* рендерит превью мест */}
+                <PreviewPlaces
+                  // properties
+                  offers={splittedOffers}
+                />
 
-          </section>
+              </div>
 
-        </div>
+            </section>
+
+          </div>
+
+        }
 
       </main>
 
@@ -256,6 +260,7 @@ const Place = ({offers, offer}) => {
 Place.propTypes = {
   offer: PropTypes.shape({
     id: PropTypes.number,
+    city: PropTypes.string,
     title: PropTypes.string,
     premium: PropTypes.bool,
     src: PropTypes.string,
