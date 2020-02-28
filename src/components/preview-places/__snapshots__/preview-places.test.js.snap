@@ -2,10 +2,10 @@
 
 exports[`render PreviewPlaces 1`] = `
 <article
-  className="place-card near-places__card"
+  className="place-card cities__place-card"
 >
   <div
-    className="place-card__image-wrapper near-places__image-wrapper"
+    className="place-card__image-wrapper cities__image-wrapper"
   >
     <a
       href="#"

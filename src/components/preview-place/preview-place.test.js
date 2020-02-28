@@ -39,7 +39,7 @@ const placeData = {
 };
 
 const onGetCurrentOffer = () => {};
-const onSetShowOfferStatus = () => {};
+const onSetOfferStatus = () => {};
 
 const store = mockStore({
   offer: {
@@ -57,7 +57,7 @@ it(`render PreviewPlace`, () => {
         <PreviewPlace
           placeData={placeData}
           onGetCurrentOffer={onGetCurrentOffer}
-          onSetShowOfferStatus={onSetShowOfferStatus}
+          onSetShowOfferStatus={onSetOfferStatus}
         />
       </Provider>)
       .toJSON();

@@ -228,7 +228,7 @@ const Place = ({offers, offer}) => {
           </section>
         </section>
 
-        { splittedOffers.length > 1 &&
+        { splittedOffers.length > 0 &&
 
           <div className="container">
 

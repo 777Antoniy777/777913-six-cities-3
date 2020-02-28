@@ -1,6 +1,6 @@
-import ActionType from '../action-type';
-import {extend} from "../utils.js";
-import offers from '../mocks/offers';
+import ActionType from '../../action-type';
+import {extend} from "../../utils.js";
+import offers from '../../mocks/offers';
 
 const initialState = {
   city: offers[0].city,

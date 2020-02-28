@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import {connect} from 'react-redux';
 import classNames from 'classnames';
 import getCurrentOfferAction from '../../actions/getCurrentOfferAction';
-import setShowOfferStatusAction from '../../actions/setShowOfferStatusAction';
+import setOfferStatusAction from '../../actions/setOfferStatusAction';
 
-const PreviewPlace = ({placeData, isShowOffer, onGetCurrentOffer, onSetShowOfferStatus}) => {
+const PreviewPlace = ({placeData, isShowOffer, onGetCurrentOffer, onSetOfferStatus}) => {
   const {title, premium, src, price, type, rating} = placeData;
 
   const placeWrapperClass = classNames({
@@ -31,7 +31,7 @@ const PreviewPlace = ({placeData, isShowOffer, onGetCurrentOffer, onSetShowOffer
     evt.preventDefault();
 
     onGetCurrentOffer(placeData);
-    onSetShowOfferStatus(true);
+    onSetOfferStatus(true);
     window.scrollTo(0, 0);
   };
 
@@ -104,7 +104,7 @@ PreviewPlace.propTypes = {
     host: PropTypes.object,
   }),
   isShowOffer: PropTypes.bool,
-  onSetShowOfferStatus: PropTypes.func,
+  onSetOfferStatus: PropTypes.func,
   onGetCurrentOffer: PropTypes.func,
 };
 
@@ -116,8 +116,8 @@ const mapDispatchToProps = (dispatch) => ({
   onGetCurrentOffer: (offer) => {
     dispatch(getCurrentOfferAction(offer));
   },
-  onSetShowOfferStatus: (status) => {
-    dispatch(setShowOfferStatusAction(status));
+  onSetOfferStatus: (status) => {
+    dispatch(setOfferStatusAction(status));
   }
 });
 

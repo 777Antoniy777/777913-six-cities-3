@@ -1,5 +1,5 @@
-import ActionType from '../action-type';
-import {extend} from "../utils.js";
+import ActionType from '../../action-type';
+import {extend} from "../../utils.js";
 
 const initialState = {
   offer: null,

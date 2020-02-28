@@ -1,12 +1,16 @@
 import React from 'react';
 import renderer from "react-test-renderer";
+import {Provider} from "react-redux";
+import configureStore from "redux-mock-store";
 import Place from './place';
 
+const mockStore = configureStore();
+
 // set mocha data
-const isShowOffer = true;
 const offers = [
   {
     id: 1,
+    city: `city`,
     title: `title 1`,
     premium: false,
     src: `img/image1`,
@@ -35,8 +39,9 @@ const offers = [
     coord: [1, 1],
   },
 ];
-const placeData = {
+const offer = {
   id: 1,
+  city: `city`,
   title: `title 1`,
   premium: false,
   src: `img/image1`,
@@ -65,18 +70,27 @@ const placeData = {
   coord: [1, 1],
 };
 
-const onSetPlaceData = () => {};
-const onSetPlaceStatus = () => {};
+const store = mockStore({
+  offer: {
+    offer,
+  },
+  offers: {
+    offers,
+  }
+});
 
 it(`render Place`, () => {
+  beforeEach(() => { // Runs before each test in the suite
+    store.clearActions();
+  });
+
   const tree = renderer.create(
-      <Place
-        placeData={placeData}
-        offers={offers}
-        isShowOffer={isShowOffer}
-        onSetPlaceData={onSetPlaceData}
-        onSetPlaceStatus={onSetPlaceStatus}
-      />)
+      <Provider store={store}>
+        <Place
+          offers={offers}
+          offer={offer}
+        />
+      </Provider>)
       .toJSON();
 
   expect(tree).toMatchSnapshot();

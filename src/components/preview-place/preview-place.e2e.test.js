@@ -1,5 +1,5 @@
 import React from "react";
-import Enzyme, {shallow} from "enzyme";
+import Enzyme, {mount} from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
@@ -55,36 +55,31 @@ it(`placeData and status should set into callback after click on title`, () => {
   });
 
   const onGetCurrentOffer = jest.fn((data) => data);
-  const onSetShowOfferStatus = jest.fn();
+  const onSetOfferStatus = jest.fn();
   const scrollTo = jest.fn();
   Object.defineProperty(global.window, `scrollTo`, {
     value: scrollTo
   });
 
-  let t = <PreviewPlace
-    placeData={placeData}
-    onGetCurrentOffer={onGetCurrentOffer}
-    onSetShowOfferStatus={onSetShowOfferStatus}
-  />;
-
-  let previewPlace = shallow(
+  let previewPlace = mount(
       <Provider store={store}>
-        {t}
+        <PreviewPlace
+          placeData={placeData}
+          onGetCurrentOffer={onGetCurrentOffer}
+          onSetOfferStatus={onSetOfferStatus}
+        />
       </Provider>
   );
 
-  // console.log(previewPlace.html());
-  console.log(t);
-  const card = t.find(`.place-card__name`);
-  console.log(card);
-  // card.simulate(`click`, {
-  //   preventDefault() {},
-  //   onSetPlaceData() {},
-  //   onSetPlaceStatus() {}
-  // });
+  const card = previewPlace.find(`.place-card__name`);
+  card.simulate(`click`, {
+    preventDefault() {},
+    onGetCurrentOffer() {},
+    onSetOfferStatus() {}
+  });
 
-  // expect(scrollTo).toHaveBeenCalledWith(0, 0);
-  // expect(onGetCurrentOffer).toHaveBeenCalledTimes(1);
-  // expect(onGetCurrentOffer.mock.calls[0][0]).toMatchObject(placeData);
-  // expect(onSetShowOfferStatus).toHaveBeenCalledTimes(1);
+  expect(scrollTo).toHaveBeenCalledWith(0, 0);
+  expect(onGetCurrentOffer).toHaveBeenCalledTimes(1);
+  expect(onGetCurrentOffer.mock.calls[0][0]).toMatchObject(placeData);
+  expect(onSetOfferStatus).toHaveBeenCalledTimes(1);
 });
