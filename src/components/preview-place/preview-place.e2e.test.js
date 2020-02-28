@@ -54,8 +54,9 @@ it(`placeData and status should set into callback after click on title`, () => {
     store.clearActions();
   });
 
+  const preventDefault = jest.fn();
   const onGetCurrentOffer = jest.fn((data) => data);
-  const onSetOfferStatus = jest.fn();
+  const onSetOfferStatus = jest.fn((val) => val);
   const scrollTo = jest.fn();
   Object.defineProperty(global.window, `scrollTo`, {
     value: scrollTo
@@ -72,11 +73,14 @@ it(`placeData and status should set into callback after click on title`, () => {
   );
 
   const card = previewPlace.find(`.place-card__name`);
-  card.simulate(`click`, {
-    preventDefault() {},
-    onGetCurrentOffer() {},
-    onSetOfferStatus() {}
+
+  const mockEvent = ({
+    preventDefault,
+    onGetCurrentOffer: onGetCurrentOffer(placeData),
+    onSetOfferStatus: onSetOfferStatus(true),
   });
+
+  card.simulate(`click`, mockEvent);
 
   expect(scrollTo).toHaveBeenCalledWith(0, 0);
   expect(onGetCurrentOffer).toHaveBeenCalledTimes(1);
