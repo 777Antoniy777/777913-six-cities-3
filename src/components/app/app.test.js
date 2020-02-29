@@ -1,11 +1,16 @@
 import React from 'react';
 import renderer from "react-test-renderer";
+import {Provider} from "react-redux";
+import configureStore from "redux-mock-store";
 import App from './app';
+
+const mockStore = configureStore();
 
 // set mocha data
 const offers = [
   {
     id: 1,
+    city: `city`,
     title: `title 1`,
     premium: false,
     src: `img/image1`,
@@ -35,12 +40,25 @@ const offers = [
   },
 ];
 
+const store = mockStore({
+  offers: {
+    city: offers[0].city,
+    offers,
+  },
+  offer: {
+    isShowOffer: false
+  },
+});
 
 it(`render App`, () => {
+  beforeEach(() => { // Runs before each test in the suite
+    store.clearActions();
+  });
+
   const tree = renderer.create(
-      <App
-        offers={offers}
-      />)
+      <Provider store={store}>
+        <App />
+      </Provider>)
       .toJSON();
 
   expect(tree).toMatchSnapshot();

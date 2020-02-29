@@ -1,16 +1,20 @@
 import React from "react";
-import Enzyme, {shallow} from "enzyme";
+import Enzyme, {mount} from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
+import {Provider} from "react-redux";
+import configureStore from "redux-mock-store";
 import PreviewPlace from "./preview-place";
 
 Enzyme.configure({
   adapter: new Adapter(),
 });
 
+const mockStore = configureStore();
+
 // set mocha data
-const isShowOffer = true;
 const placeData = {
   id: 1,
+  city: `city`,
   title: `title 1`,
   premium: false,
   src: `img/image1`,
@@ -39,32 +43,47 @@ const placeData = {
   coord: [1, 1],
 };
 
+const store = mockStore({
+  offer: {
+    isShowOffer: false
+  },
+});
+
 it(`placeData and status should set into callback after click on title`, () => {
-  const onSetPlaceData = jest.fn((data) => data);
-  const onSetPlaceStatus = jest.fn();
+  beforeEach(() => { // Runs before each test in the suite
+    store.clearActions();
+  });
+
+  const preventDefault = jest.fn();
+  const onGetCurrentOffer = jest.fn((data) => data);
+  const onSetOfferStatus = jest.fn((val) => val);
   const scrollTo = jest.fn();
   Object.defineProperty(global.window, `scrollTo`, {
     value: scrollTo
   });
 
-  let place = shallow(
-      <PreviewPlace
-        placeData={placeData}
-        isShowOffer={isShowOffer}
-        onSetPlaceData={onSetPlaceData}
-        onSetPlaceStatus={onSetPlaceStatus}
-      />
+  let previewPlace = mount(
+      <Provider store={store}>
+        <PreviewPlace
+          placeData={placeData}
+          onGetCurrentOffer={onGetCurrentOffer}
+          onSetOfferStatus={onSetOfferStatus}
+        />
+      </Provider>
   );
 
-  const card = place.find(`.place-card__name`);
-  card.simulate(`click`, {
-    preventDefault() {},
-    onSetPlaceData() {},
-    onSetPlaceStatus() {}
+  const card = previewPlace.find(`.place-card__name`);
+
+  const mockEvent = ({
+    preventDefault,
+    onGetCurrentOffer: onGetCurrentOffer(placeData),
+    onSetOfferStatus: onSetOfferStatus(true),
   });
 
+  card.simulate(`click`, mockEvent);
+
   expect(scrollTo).toHaveBeenCalledWith(0, 0);
-  expect(onSetPlaceData).toHaveBeenCalledTimes(1);
-  expect(onSetPlaceData.mock.calls[0][0]).toMatchObject(placeData);
-  expect(onSetPlaceStatus).toHaveBeenCalledTimes(1);
+  expect(onGetCurrentOffer).toHaveBeenCalledTimes(1);
+  expect(onGetCurrentOffer.mock.calls[0][0]).toMatchObject(placeData);
+  expect(onSetOfferStatus).toHaveBeenCalledTimes(1);
 });

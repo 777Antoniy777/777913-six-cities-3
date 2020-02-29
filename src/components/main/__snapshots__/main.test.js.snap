@@ -77,70 +77,12 @@ exports[`render Main 1`] = `
             className="locations__item"
           >
             <a
-              className="locations__item-link tabs__item"
-              href="#"
-            >
-              <span>
-                Paris
-              </span>
-            </a>
-          </li>
-          <li
-            className="locations__item"
-          >
-            <a
-              className="locations__item-link tabs__item"
-              href="#"
-            >
-              <span>
-                Cologne
-              </span>
-            </a>
-          </li>
-          <li
-            className="locations__item"
-          >
-            <a
-              className="locations__item-link tabs__item"
-              href="#"
-            >
-              <span>
-                Brussels
-              </span>
-            </a>
-          </li>
-          <li
-            className="locations__item"
-          >
-            <a
               className="locations__item-link tabs__item tabs__item--active"
-            >
-              <span>
-                Amsterdam
-              </span>
-            </a>
-          </li>
-          <li
-            className="locations__item"
-          >
-            <a
-              className="locations__item-link tabs__item"
               href="#"
+              onClick={[Function]}
             >
               <span>
-                Hamburg
-              </span>
-            </a>
-          </li>
-          <li
-            className="locations__item"
-          >
-            <a
-              className="locations__item-link tabs__item"
-              href="#"
-            >
-              <span>
-                Dusseldorf
+                city
               </span>
             </a>
           </li>
@@ -165,7 +107,8 @@ exports[`render Main 1`] = `
             className="places__found"
           >
             1
-             places to stay in Amsterdam
+             places to stay in 
+            city
           </b>
           <form
             action="#"
@@ -225,10 +168,10 @@ exports[`render Main 1`] = `
             className="cities__places-list places__list tabs__content"
           >
             <article
-              className="place-card near-places__card"
+              className="place-card cities__place-card"
             >
               <div
-                className="place-card__image-wrapper near-places__image-wrapper"
+                className="place-card__image-wrapper cities__image-wrapper"
               >
                 <a
                   href="#"

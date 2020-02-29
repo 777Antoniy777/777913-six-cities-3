@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {connect} from 'react-redux';
 import PlacePhotos from "../place-photos/place-photos";
 import PlaceItems from "../place-items/place-items";
 import PlaceHost from "../place-host/place-host";
@@ -7,8 +8,8 @@ import PlaceReviews from "../place-reviews/place-reviews";
 import PreviewPlaces from "../preview-places/preview-places";
 import Map from "../map/map";
 
-const Place = ({placeData, offers, isShowOffer, onSetPlaceData, onSetPlaceStatus}) => {
-  const {title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, reviews, host, coords} = placeData;
+const Place = ({offers, offer}) => {
+  const {title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, reviews, host, coords} = offer;
   const {avatar, name, status} = host;
   const reviewsLength = reviews.length;
 
@@ -18,6 +19,16 @@ const Place = ({placeData, offers, isShowOffer, onSetPlaceData, onSetPlaceStatus
 
     return `${ratingStars}%`;
   };
+
+  const splitOffers = () => {
+    const splittedOffers = offers.filter((elem) => {
+      return elem !== offer;
+    });
+
+    return splittedOffers;
+  };
+
+  const splittedOffers = splitOffers();
 
   return (
     <div className="page">
@@ -208,6 +219,7 @@ const Place = ({placeData, offers, isShowOffer, onSetPlaceData, onSetPlaceStatus
             {/* карта с маркерами */}
             { offers.length > 0 &&
               <Map
+                // properties
                 offers={offers}
                 activeCoords={coords}
               />
@@ -216,28 +228,28 @@ const Place = ({placeData, offers, isShowOffer, onSetPlaceData, onSetPlaceStatus
           </section>
         </section>
 
-        <div className="container">
+        { splittedOffers.length > 0 &&
 
-          <section className="near-places places">
-            <h2 className="near-places__title">Other places in the neighbourhood</h2>
+          <div className="container">
 
-            <div className="near-places__list places__list">
+            <section className="near-places places">
+              <h2 className="near-places__title">Other places in the neighbourhood</h2>
 
-              {/* рендерит превью мест */}
-              <PreviewPlaces
-                // properties
-                offers={offers}
-                isShowOffer={isShowOffer}
-                // handlers
-                onSetPlaceData={onSetPlaceData}
-                onSetPlaceStatus={onSetPlaceStatus}
-              />
+              <div className="near-places__list places__list">
 
-            </div>
+                {/* рендерит превью мест */}
+                <PreviewPlaces
+                  // properties
+                  offers={splittedOffers}
+                />
 
-          </section>
+              </div>
 
-        </div>
+            </section>
+
+          </div>
+
+        }
 
       </main>
 
@@ -246,8 +258,9 @@ const Place = ({placeData, offers, isShowOffer, onSetPlaceData, onSetPlaceStatus
 };
 
 Place.propTypes = {
-  placeData: PropTypes.shape({
+  offer: PropTypes.shape({
     id: PropTypes.number,
+    city: PropTypes.string,
     title: PropTypes.string,
     premium: PropTypes.bool,
     src: PropTypes.string,
@@ -264,11 +277,16 @@ Place.propTypes = {
     coords: PropTypes.arrayOf(PropTypes.number),
   }),
   offers: PropTypes.arrayOf(PropTypes.object),
-  isShowOffer: PropTypes.bool,
-  onSetPlaceData: PropTypes.func,
-  onSetPlaceStatus: PropTypes.func,
 };
 
+const mapStateToProps = (state) => ({
+  offers: state.offers.offers.filter((elem) => {
+    return elem.city === state.offers.city;
+  }),
+  offer: state.offer.offer,
+});
 
-export default Place;
+export default connect(
+    mapStateToProps
+)(Place);
 

@@ -1,11 +1,15 @@
 import React from 'react';
 import renderer from "react-test-renderer";
+import {Provider} from "react-redux";
+import configureStore from "redux-mock-store";
 import PreviewPlace from "./preview-place";
 
+const mockStore = configureStore();
+
 // set mocha data
-const isShowOffer = true;
 const placeData = {
   id: 1,
+  city: `city`,
   title: `title 1`,
   premium: false,
   src: `img/image1`,
@@ -34,50 +38,29 @@ const placeData = {
   coord: [1, 1],
 };
 
-const onSetPlaceData = () => {};
-const onSetPlaceStatus = () => {};
+const onGetCurrentOffer = () => {};
+const onSetOfferStatus = () => {};
 
-describe(`render PreviewPlace`, () => {
-
-  it(`Place should render option`, () => {
-    const tree = renderer.create(
-        <PreviewPlace
-          placeData={placeData}
-          isShowOffer={isShowOffer}
-          onSetPlaceData={onSetPlaceData}
-          onSetPlaceStatus={onSetPlaceStatus}
-        />)
-        .toJSON();
-
-    expect(tree).toMatchSnapshot();
-  });
-
-  it(`Place should render empty`, () => {
-    const tree = renderer.create(
-        <PreviewPlace
-          placeData={{}}
-          isShowOffer={isShowOffer}
-          onSetPlaceData={onSetPlaceData}
-          onSetPlaceStatus={onSetPlaceStatus}
-        />)
-        .toJSON();
-
-    expect(tree).toMatchSnapshot();
-  });
-
+const store = mockStore({
+  offer: {
+    isShowOffer: false
+  },
 });
 
-// it(`Place should render option`, () => {
-//   const tree = renderer.create(
-//       <PreviewPlace
-//         key= { id }
-//         title={ title }
-//         src={ src }
-//         price={ price }
-//         type={ type }
-//         onSetData={ onSetData }
-//       />)
-//       .toJSON();
+it(`render PreviewPlace`, () => {
+  beforeEach(() => { // Runs before each test in the suite
+    store.clearActions();
+  });
 
-//   expect(tree).toMatchSnapshot();
-// });
+  const tree = renderer.create(
+      <Provider store={store}>
+        <PreviewPlace
+          placeData={placeData}
+          onGetCurrentOffer={onGetCurrentOffer}
+          onSetShowOfferStatus={onSetOfferStatus}
+        />
+      </Provider>)
+      .toJSON();
+
+  expect(tree).toMatchSnapshot();
+});

@@ -1,8 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {connect} from 'react-redux';
 import classNames from 'classnames';
+import getCurrentOfferAction from '../../actions/getCurrentOfferAction';
+import setOfferStatusAction from '../../actions/setOfferStatusAction';
 
-const PreviewPlace = ({placeData, isShowOffer, onSetPlaceData, onSetPlaceStatus}) => {
+const PreviewPlace = ({placeData, isShowOffer, onGetCurrentOffer, onSetOfferStatus}) => {
   const {title, premium, src, price, type, rating} = placeData;
 
   const placeWrapperClass = classNames({
@@ -27,8 +30,8 @@ const PreviewPlace = ({placeData, isShowOffer, onSetPlaceData, onSetPlaceStatus}
   const handleTitleClick = (evt) => {
     evt.preventDefault();
 
-    onSetPlaceStatus();
-    onSetPlaceData(placeData);
+    onGetCurrentOffer(placeData);
+    onSetOfferStatus(true);
     window.scrollTo(0, 0);
   };
 
@@ -86,6 +89,7 @@ const PreviewPlace = ({placeData, isShowOffer, onSetPlaceData, onSetPlaceStatus}
 PreviewPlace.propTypes = {
   placeData: PropTypes.shape({
     id: PropTypes.number,
+    city: PropTypes.string,
     title: PropTypes.string,
     premium: PropTypes.bool,
     src: PropTypes.string,
@@ -100,8 +104,24 @@ PreviewPlace.propTypes = {
     host: PropTypes.object,
   }),
   isShowOffer: PropTypes.bool,
-  onSetPlaceData: PropTypes.func,
-  onSetPlaceStatus: PropTypes.func,
+  onSetOfferStatus: PropTypes.func,
+  onGetCurrentOffer: PropTypes.func,
 };
 
-export default PreviewPlace;
+const mapStateToProps = (state) => ({
+  isShowOffer: state.offer.isShowOffer,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onGetCurrentOffer: (offer) => {
+    dispatch(getCurrentOfferAction(offer));
+  },
+  onSetOfferStatus: (status) => {
+    dispatch(setOfferStatusAction(status));
+  }
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(PreviewPlace);

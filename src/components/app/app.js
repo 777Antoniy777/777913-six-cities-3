@@ -1,101 +1,47 @@
 import React from 'react';
 import PropTypes from "prop-types";
+import {connect} from 'react-redux';
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 import Main from '../main/main';
 import Place from '../place/place';
 
-class App extends React.PureComponent {
-  constructor() {
-    super();
-    this.state = {
-      isShowOffer: false,
-      placeData: null,
-    };
-    this.onSetPlaceData = this.onSetPlaceData.bind(this);
-    this.onSetPlaceStatus = this.onSetPlaceStatus.bind(this);
-  }
-
-  splitOffers() {
-    const {offers} = this.props;
-    const {placeData} = this.state;
-    const clonnedOffers = offers.slice();
-    let id;
-
-    if (placeData) {
-      id = placeData.id;
-    }
-
-    id = id - 1;
-
-    clonnedOffers.splice(id, 1);
-    const splittedOffers = clonnedOffers.slice(0, 3);
-
-    return splittedOffers;
-  }
-
-  onSetPlaceData(obj) {
-    this.setState({
-      placeData: obj,
-    });
-  }
-
-  onSetPlaceStatus() {
-    this.setState({
-      isShowOffer: true,
-    }, this.splitOffers);
-  }
-
-  renderOfferScreen() {
-    const {isShowOffer, placeData} = this.state;
-    const {offers} = this.props;
-    const splittedOffers = this.splitOffers();
-
+const App = ({isShowOffer}) => {
+  const renderOfferScreen = () => {
     if (isShowOffer) {
       return (
-        <Place
-          // properties
-          placeData={placeData}
-          offers={splittedOffers}
-          isShowOffer={isShowOffer}
-          // handlers
-          onSetPlaceData={this.onSetPlaceData}
-          onSetPlaceStatus={this.onSetPlaceStatus}
-        />
+        <Place />
       );
     } else {
       return (
-        <Main
-          // properties
-          offers={offers}
-          isShowOffer={isShowOffer}
-          // handlers
-          onSetPlaceData={this.onSetPlaceData}
-          onSetPlaceStatus={this.onSetPlaceStatus}
-        />
+        <Main />
       );
     }
-  }
+  };
 
-  render() {
-    const offerScreen = this.renderOfferScreen();
+  const offerScreen = renderOfferScreen();
 
-    return (
-      <BrowserRouter>
-        <Switch>
-          <Route path="/" exact>
-            {offerScreen}
-          </Route>
-          <Route path="/offer">
-            <Place />
-          </Route>
-        </Switch>
-      </BrowserRouter>
-    );
-  }
-}
-
-App.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.object),
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route path="/" exact>
+          {offerScreen}
+        </Route>
+        <Route path="/offer">
+          <Place />
+        </Route>
+      </Switch>
+    </BrowserRouter>
+  );
 };
 
-export default App;
+App.propTypes = {
+  isShowOffer: PropTypes.bool,
+};
+
+const mapStateToProps = (state) => ({
+  isShowOffer: state.offer.isShowOffer,
+});
+
+export default connect(
+    mapStateToProps
+)(App);
