@@ -2,13 +2,22 @@ import React from 'react';
 import PropTypes from "prop-types";
 import classNames from 'classnames';
 
-const PlaceFilterItem = ({filter, onSetCurrentFilter}) => {
+const PlaceFilterItem = ({filter, onSetCurrentFilter, currentFilter}) => {
   const {value} = filter;
+  const {currentValue} = currentFilter;
+
+  const isFilterActive = (actFilter, curFilter) => {
+    if (curFilter === actFilter) {
+      return true;
+    }
+
+    return false;
+  };
 
   const filterItemClass = classNames({
     'places__option': true,
+    'places__option--active': isFilterActive(value, currentValue),
   });
-
 
   const handleItemClick = () => {
     onSetCurrentFilter(filter);
@@ -43,13 +52,15 @@ class PlaceFilter extends React.PureComponent {
           value: `Top rated first`,
         },
       ],
-      currentFilter: {},
+      currentFilter: {
+        id: 1,
+        value: `Popular`,
+      },
     };
 
     this.handleListClick = this.handleListClick.bind(this);
     this.onSetCurrentFilter = this.onSetCurrentFilter.bind(this);
   }
-
 
   handleListClick() {
     this.setState((state) => ({
@@ -64,7 +75,7 @@ class PlaceFilter extends React.PureComponent {
   }
 
   render() {
-    const {isFilterOpened, filtersArr} = this.state;
+    const {isFilterOpened, filtersArr, currentFilter} = this.state;
 
     const filterListClass = classNames({
       'places__options': true,
@@ -94,6 +105,7 @@ class PlaceFilter extends React.PureComponent {
                   // properties
                   key={elem.id}
                   filter={elem}
+                  currentFilter={currentFilter}
                   // handlers
                   onSetCurrentFilter={this.onSetCurrentFilter}
                 />

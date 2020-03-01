@@ -17,7 +17,7 @@ const City = ({city, onGetCity, currentCity}) => {
     return false;
   };
 
-  const activeCityClass = classNames({
+  const cityItemClass = classNames({
     'locations__item-link': true,
     'tabs__item': true,
     'tabs__item--active': isActiveLink(currentCity, city),
@@ -25,7 +25,7 @@ const City = ({city, onGetCity, currentCity}) => {
 
   return (
     <li className="locations__item" >
-      <a className={activeCityClass} href="#" onClick={handleLinkClick}>
+      <a className={cityItemClass} href="#" onClick={handleLinkClick}>
         <span>{city}</span>
       </a>
     </li>
