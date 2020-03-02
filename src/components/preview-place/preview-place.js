@@ -2,8 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import {connect} from 'react-redux';
 import classNames from 'classnames';
-import getCurrentOfferAction from '../../actions/getCurrentOfferAction';
-import setOfferStatusAction from '../../actions/setOfferStatusAction';
+import ActionCreator from '../../actions/action-creator';
 
 const PreviewPlace = ({placeData, isShowOffer, onGetCurrentOffer, onSetOfferStatus}) => {
   const {title, premium, src, price, type, rating} = placeData;
@@ -114,10 +113,10 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onGetCurrentOffer: (offer) => {
-    dispatch(getCurrentOfferAction(offer));
+    dispatch(ActionCreator.getCurrentOfferAction(offer));
   },
   onSetOfferStatus: (status) => {
-    dispatch(setOfferStatusAction(status));
+    dispatch(ActionCreator.setOfferStatusAction(status));
   }
 });
 

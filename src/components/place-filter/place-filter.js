@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from "prop-types";
+import {connect} from 'react-redux';
 import classNames from 'classnames';
+import ActionCreator from '../../actions/action-creator';
 
-const PlaceFilterItem = ({filter, onSetCurrentFilter, currentFilter}) => {
+const PlaceFilterItem = ({filter, currentFilter, onSetCurrentFilter}) => {
   const {value} = filter;
-  const {currentValue} = currentFilter;
+  const {value: currentValue} = currentFilter;
 
   const isFilterActive = (actFilter, curFilter) => {
     if (curFilter === actFilter) {
@@ -24,7 +26,6 @@ const PlaceFilterItem = ({filter, onSetCurrentFilter, currentFilter}) => {
   };
 
   return (
-    // places__option--active
     <li className={filterItemClass} tabIndex={0} onClick={handleItemClick}>{value}</li>
   );
 };
@@ -45,7 +46,7 @@ class PlaceFilter extends React.PureComponent {
         },
         {
           id: 3,
-          value: `high to low`,
+          value: `Price: high to low`,
         },
         {
           id: 4,
@@ -62,6 +63,33 @@ class PlaceFilter extends React.PureComponent {
     this.onSetCurrentFilter = this.onSetCurrentFilter.bind(this);
   }
 
+  filterOffers() {
+    const {initialOffers, offers, onSetDefaultOrderOffers, onSetLowToHighOrderOffers, onSetHighToLowOrderOffers, onSetTopRatedFirstOrderOffers} = this.props;
+    const {currentFilter} = this.state;
+    const {id} = currentFilter;
+    const clonnedInitialOffers = initialOffers.slice();
+
+    switch (id) {
+      case 1:
+        onSetDefaultOrderOffers(clonnedInitialOffers);
+        break;
+      case 2:
+        offers.sort((left, right) => left.price - right.price);
+        onSetLowToHighOrderOffers(offers);
+        break;
+      case 3:
+        offers.sort((left, right) => right.price - left.price);
+        onSetHighToLowOrderOffers(offers);
+        break;
+      case 4:
+        offers.sort((left, right) => right.rating - left.rating);
+        onSetTopRatedFirstOrderOffers(offers);
+        break;
+      default:
+        break;
+    }
+  }
+
   handleListClick() {
     this.setState((state) => ({
       isFilterOpened: !state.isFilterOpened,
@@ -71,7 +99,7 @@ class PlaceFilter extends React.PureComponent {
   onSetCurrentFilter(obj) {
     this.setState({
       currentFilter: obj,
-    });
+    }, this.filterOffers);
   }
 
   render() {
@@ -88,7 +116,8 @@ class PlaceFilter extends React.PureComponent {
         <span className="places__sorting-caption" onClick={this.handleListClick}>Sort by</span>
 
         <span className="places__sorting-type" tabIndex={0} onClick={this.handleListClick}>
-                    Popular
+          {currentFilter.value}
+
           <svg className="places__sorting-arrow" width={7} height={4}>
             <use xlinkHref="#icon-arrow-select" />
           </svg>
@@ -120,4 +149,48 @@ class PlaceFilter extends React.PureComponent {
 
 }
 
-export default PlaceFilter;
+PlaceFilterItem.propTypes = {
+  filter: PropTypes.shape({
+    id: PropTypes.number,
+    value: PropTypes.string,
+  }),
+  currentFilter: PropTypes.shape({
+    id: PropTypes.number,
+    value: PropTypes.string,
+  }),
+  onSetCurrentFilter: PropTypes.func,
+};
+
+PlaceFilter.propTypes = {
+  initialOffers: PropTypes.arrayOf(PropTypes.object),
+  offers: PropTypes.arrayOf(PropTypes.object),
+  onSetDefaultOrderOffers: PropTypes.func,
+  onSetLowToHighOrderOffers: PropTypes.func,
+  onSetHighToLowOrderOffers: PropTypes.func,
+  onSetTopRatedFirstOrderOffers: PropTypes.func,
+};
+
+const mapStateToProps = (state) => ({
+  initialOffers: state.offers.initialOffers,
+  offers: state.offers.offers,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onSetDefaultOrderOffers: (offers) => {
+    dispatch(ActionCreator.setDefaultOrderOffers(offers));
+  },
+  onSetLowToHighOrderOffers: (offers) => {
+    dispatch(ActionCreator.setLowToHighOrderOffers(offers));
+  },
+  onSetHighToLowOrderOffers: (offers) => {
+    dispatch(ActionCreator.setHighToLowOrderOffers(offers));
+  },
+  onSetTopRatedFirstOrderOffers: (offers) => {
+    dispatch(ActionCreator.setTopRatedFirstOrderOffers(offers));
+  },
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(PlaceFilter);

@@ -4,7 +4,8 @@ import offers from '../../mocks/offers';
 
 const initialState = {
   city: offers[0].city,
-  offers,
+  initialOffers: offers,
+  offers: offers.slice(),
 };
 
 export default function createState(state = initialState, action) {
@@ -16,6 +17,26 @@ export default function createState(state = initialState, action) {
       });
 
     case ActionType.GET_OFFERS:
+      return extend(state, {
+        offers: action.payload,
+      });
+
+    case ActionType.SET_DEFAULT_ORDER_OFFERS:
+      return extend(state, {
+        offers: action.payload,
+      });
+
+    case ActionType.SET_LOW_TO_HIGH_ORDER_OFFERS:
+      return extend(state, {
+        offers: action.payload,
+      });
+
+    case ActionType.SET_HIGH_TO_LOW_ORDER_OFFERS:
+      return extend(state, {
+        offers: action.payload,
+      });
+
+    case ActionType.SET_TOP_RATED_FIRST_ORDER_OFFERS:
       return extend(state, {
         offers: action.payload,
       });

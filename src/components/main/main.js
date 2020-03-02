@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from "prop-types";
 import {connect} from 'react-redux';
 import classNames from 'classnames';
+import ActionCreator from '../../actions/action-creator';
 import PreviewPlaces from '../preview-places/preview-places';
 import Map from '../map/map';
 import Cities from '../cities/cities';
-import changeCityAction from '../../actions/changeCityAction';
 import PlaceFilter from '../place-filter/place-filter';
 
 const Main = ({offers, currentCity, getCities, onGetCity}) => {
@@ -93,10 +93,7 @@ const Main = ({offers, currentCity, getCities, onGetCity}) => {
                 <b className="places__found">{offers.length} places to stay in {currentCity}</b>
 
                 {/* рендерит блок фильтра */}
-                <PlaceFilter
-                  // properties
-                  offers={offers}
-                />
+                <PlaceFilter />
 
                 <div className="cities__places-list places__list tabs__content">
 
@@ -145,7 +142,7 @@ const mapStateToProps = (state) => ({
   getCities: () => {
     let set = new Set();
 
-    state.offers.offers.forEach((elem) => {
+    state.offers.initialOffers.forEach((elem) => {
       const city = elem.city;
       set.add(city);
     });
@@ -156,13 +153,13 @@ const mapStateToProps = (state) => ({
     return splittedCities;
   },
   offers: state.offers.offers.filter((elem) => {
-    return elem.city === state.offers.city;
+    return elem.city.includes(state.offers.city);
   }),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onGetCity: (city) => {
-    dispatch(changeCityAction(city));
+    dispatch(ActionCreator.changeCityAction(city));
   }
 });
 

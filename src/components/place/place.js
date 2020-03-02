@@ -280,8 +280,8 @@ Place.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.offers.offers.filter((elem) => {
-    return elem.city === state.offers.city;
+  offers: state.offers.initialOffers.filter((elem) => {
+    return elem.city.includes(state.offers.city);
   }),
   offer: state.offer.offer,
 });

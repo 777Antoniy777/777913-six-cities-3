@@ -7,7 +7,7 @@ import Place from './place';
 const mockStore = configureStore();
 
 // set mocha data
-const offers = [
+const initialOffers = [
   {
     id: 1,
     city: `city`,
@@ -75,7 +75,7 @@ const store = mockStore({
     offer,
   },
   offers: {
-    offers,
+    initialOffers,
   }
 });
 
@@ -87,7 +87,7 @@ it(`render Place`, () => {
   const tree = renderer.create(
       <Provider store={store}>
         <Place
-          offers={offers}
+          offers={initialOffers}
           offer={offer}
         />
       </Provider>)

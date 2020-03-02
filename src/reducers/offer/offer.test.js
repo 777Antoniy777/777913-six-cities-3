@@ -1,7 +1,42 @@
 import offerState from './offer';
 import ActionType from '../../action-type';
-import getCurrentOfferAction from '../../actions/getCurrentOfferAction';
-import setOfferStatusAction from '../../actions/setOfferStatusAction';
+import ActionCreator from '../../actions/action-creator';
+
+const offer = {
+  id: 1,
+  city: `Omsk`,
+  title: `title`,
+  premium: false,
+  src: `img/image.jpg`,
+  photos: [
+    `img/image-1.jpg`,
+  ],
+  price: 10,
+  description: `description`,
+  type: `type`,
+  rating: 1,
+  bedroomAmount: 1,
+  guestsAmount: 1,
+  items: [
+    `item1`,
+    `item2`,
+  ],
+  host: {
+    avatar: `img/avatar.jpg`,
+    name: `name`,
+    status: false,
+  },
+  reviews: [
+    {
+      id: 1,
+      body: `body`,
+      rating: 1,
+      name: `name`,
+      date: `date`,
+    },
+  ],
+  coords: [2, 3],
+};
 
 it(`Offer without additional parameters should return initial state`, () => {
   expect(offerState(void 0, {})).toEqual({
@@ -13,41 +48,71 @@ it(`Offer without additional parameters should return initial state`, () => {
 it(`Reducer should get current offer`, () => {
   expect(offerState({
     offer: null,
-    isShowOffer: false,
   }, {
     type: ActionType.GET_CURRENT_OFFER,
-    payload: undefined,
+    payload: offer,
   })).toEqual({
-    offer: undefined,
-    isShowOffer: false,
+    offer,
   });
 });
 
 it(`Reducer should set offer status`, () => {
   expect(offerState({
-    offer: null,
     isShowOffer: false,
   }, {
     type: ActionType.SET_OFFER_STATUS,
-    payload: undefined,
+    payload: false,
   })).toEqual({
-    offer: null,
-    isShowOffer: undefined,
+    isShowOffer: false,
+  });
+
+  expect(offerState({
+    isShowOffer: true,
+  }, {
+    type: ActionType.SET_OFFER_STATUS,
+    payload: true,
+  })).toEqual({
+    isShowOffer: true,
   });
 });
 
 describe(`Action creators work correctly`, () => {
-  it(`Action creator for get current offer`, () => {
-    expect(getCurrentOfferAction()).toEqual({
+  it(`Action creator for get current offer returns correct action`, () => {
+    expect(ActionCreator.getCurrentOfferAction())
+      .toEqual({
+        type: ActionType.GET_CURRENT_OFFER,
+        payload: undefined,
+      });
+  });
+
+  it(`Action creator for get current offer should returns "Offer"`, () => {
+    expect(ActionCreator.getCurrentOfferAction(offer))
+    .toEqual({
       type: ActionType.GET_CURRENT_OFFER,
+      payload: offer,
+    });
+  });
+
+  it(`Action creator for set offer status returns correct action`, () => {
+    expect(ActionCreator.setOfferStatusAction()).toEqual({
+      type: ActionType.SET_OFFER_STATUS,
       payload: undefined,
     });
   });
 
-  it(`Action creator for set offer status`, () => {
-    expect(setOfferStatusAction()).toEqual({
+  it(`Action creator for set offer status should returns "false"`, () => {
+    expect(ActionCreator.setOfferStatusAction(false))
+    .toEqual({
       type: ActionType.SET_OFFER_STATUS,
-      payload: undefined,
+      payload: false,
+    });
+  });
+
+  it(`Action creator for set offer status should returns "true"`, () => {
+    expect(ActionCreator.setOfferStatusAction(true))
+    .toEqual({
+      type: ActionType.SET_OFFER_STATUS,
+      payload: true,
     });
   });
 });
