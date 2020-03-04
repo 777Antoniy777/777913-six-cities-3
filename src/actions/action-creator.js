@@ -11,6 +11,16 @@ const ActionCreator = {
     payload: offer,
   }),
 
+  getHoveredOfferAction: (offer) => ({
+    type: ActionType.GET_HOVERED_OFFER,
+    payload: offer,
+  }),
+
+  removeHoveredOfferAction: (offer) => ({
+    type: ActionType.REMOVE_HOVERED_OFFER,
+    payload: offer,
+  }),
+
   setOfferStatusAction: (status) => ({
     type: ActionType.SET_OFFER_STATUS,
     payload: status,

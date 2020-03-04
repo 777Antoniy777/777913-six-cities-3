@@ -41,6 +41,7 @@ const offer = {
 it(`Offer without additional parameters should return initial state`, () => {
   expect(offerState(void 0, {})).toEqual({
     offer: null,
+    hoveredOffer: null,
     isShowOffer: false,
   });
 });
@@ -53,6 +54,28 @@ it(`Reducer should get current offer`, () => {
     payload: offer,
   })).toEqual({
     offer,
+  });
+});
+
+it(`Reducer should get hovered offer`, () => {
+  expect(offerState({
+    hoveredOffer: null,
+  }, {
+    type: ActionType.GET_HOVERED_OFFER,
+    payload: offer,
+  })).toEqual({
+    hoveredOffer: offer,
+  });
+});
+
+it(`Reducer should remove hovered offer`, () => {
+  expect(offerState({
+    hoveredOffer: offer,
+  }, {
+    type: ActionType.REMOVE_HOVERED_OFFER,
+    payload: null,
+  })).toEqual({
+    hoveredOffer: null,
   });
 });
 
@@ -90,6 +113,38 @@ describe(`Action creators work correctly`, () => {
     .toEqual({
       type: ActionType.GET_CURRENT_OFFER,
       payload: offer,
+    });
+  });
+
+  it(`Action creator for get hovered offer returns correct action`, () => {
+    expect(ActionCreator.getHoveredOfferAction())
+      .toEqual({
+        type: ActionType.GET_HOVERED_OFFER,
+        payload: undefined,
+      });
+  });
+
+  it(`Action creator for get hovered offer should returns "Offer"`, () => {
+    expect(ActionCreator.getHoveredOfferAction(offer))
+    .toEqual({
+      type: ActionType.GET_HOVERED_OFFER,
+      payload: offer,
+    });
+  });
+
+  it(`Action creator for remove hovered offer returns correct action`, () => {
+    expect(ActionCreator.removeHoveredOfferAction())
+      .toEqual({
+        type: ActionType.REMOVE_HOVERED_OFFER,
+        payload: undefined,
+      });
+  });
+
+  it(`Action creator for remove hovered offer should returns "null"`, () => {
+    expect(ActionCreator.removeHoveredOfferAction(null))
+    .toEqual({
+      type: ActionType.REMOVE_HOVERED_OFFER,
+      payload: null,
     });
   });
 

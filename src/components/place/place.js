@@ -8,10 +8,14 @@ import PlaceReviews from "../place-reviews/place-reviews";
 import PreviewPlaces from "../preview-places/preview-places";
 import Map from "../map/map";
 
-const Place = ({offers, offer}) => {
+const Place = ({offers, offer, hoveredOffer}) => {
   const {title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, reviews, host, coords} = offer;
   const {avatar, name, status} = host;
   const reviewsLength = reviews.length;
+  let hoveredCoords;
+  if (hoveredOffer !== null) {
+    hoveredCoords = hoveredOffer.coords;
+  }
 
   const getRating = (val) => {
     let ratingStars = Math.round(val);
@@ -24,7 +28,6 @@ const Place = ({offers, offer}) => {
     const splittedOffers = offers.filter((elem) => {
       return elem !== offer;
     });
-
     return splittedOffers;
   };
 
@@ -222,6 +225,7 @@ const Place = ({offers, offer}) => {
                 // properties
                 offers={offers}
                 activeCoords={coords}
+                hoveredCoords={hoveredCoords}
               />
             }
 
@@ -276,6 +280,24 @@ Place.propTypes = {
     host: PropTypes.object,
     coords: PropTypes.arrayOf(PropTypes.number),
   }),
+  hoveredOffer: PropTypes.shape({
+    id: PropTypes.number,
+    city: PropTypes.string,
+    title: PropTypes.string,
+    premium: PropTypes.bool,
+    src: PropTypes.string,
+    photos: PropTypes.arrayOf(PropTypes.string),
+    price: PropTypes.number,
+    description: PropTypes.string,
+    type: PropTypes.string,
+    rating: PropTypes.number,
+    bedroomAmount: PropTypes.number,
+    guestsAmount: PropTypes.number,
+    items: PropTypes.arrayOf(PropTypes.string),
+    reviews: PropTypes.arrayOf(PropTypes.object),
+    host: PropTypes.object,
+    coords: PropTypes.arrayOf(PropTypes.number),
+  }),
   offers: PropTypes.arrayOf(PropTypes.object),
 };
 
@@ -284,6 +306,7 @@ const mapStateToProps = (state) => ({
     return elem.city.includes(state.offers.city);
   }),
   offer: state.offer.offer,
+  hoveredOffer: state.offer.hoveredOffer,
 });
 
 export default connect(

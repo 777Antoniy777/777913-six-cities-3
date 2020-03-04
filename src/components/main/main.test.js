@@ -41,6 +41,9 @@ const offers = [
 ];
 const currentCity = `city`;
 
+const getCities = () => {};
+const onGetCity = () => {};
+
 const store = mockStore({
   offers: {
     city: offers[0].city,
@@ -51,9 +54,6 @@ const store = mockStore({
     isShowOffer: false,
   }
 });
-
-const getCities = () => {};
-const onGetCity = () => {};
 
 it(`render Main`, () => {
   beforeEach(() => { // Runs before each test in the suite

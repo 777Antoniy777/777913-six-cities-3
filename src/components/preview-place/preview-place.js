@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import classNames from 'classnames';
 import ActionCreator from '../../actions/action-creator';
 
-const PreviewPlace = ({placeData, isShowOffer, onGetCurrentOffer, onSetOfferStatus}) => {
+const PreviewPlace = ({placeData, isShowOffer, onGetCurrentOffer, onGetHoveredOffer, onRemoveHoveredOffer, onSetOfferStatus}) => {
   const {title, premium, src, price, type, rating} = placeData;
 
   const placeWrapperClass = classNames({
@@ -34,8 +34,16 @@ const PreviewPlace = ({placeData, isShowOffer, onGetCurrentOffer, onSetOfferStat
     window.scrollTo(0, 0);
   };
 
+  const handleCardMouseenter = () => {
+    onGetHoveredOffer(placeData);
+  };
+
+  const handleCardMouseleave = () => {
+    onRemoveHoveredOffer(null);
+  };
+
   return (
-    <article className={placeWrapperClass}>
+    <article className={placeWrapperClass} onMouseEnter={handleCardMouseenter} onMouseLeave={handleCardMouseleave}>
 
       { premium &&
         <div className="place-card__mark">
@@ -45,7 +53,7 @@ const PreviewPlace = ({placeData, isShowOffer, onGetCurrentOffer, onSetOfferStat
 
       <div className={placeImageWrapperClass}>
         <a href="#">
-          <img className="place-card__image" src={ src } width={260} height={200} alt="Place image" />
+          <img className="place-card__image" src={src} width={260} height={200} alt="Place image" />
         </a>
       </div>
 
@@ -105,6 +113,8 @@ PreviewPlace.propTypes = {
   isShowOffer: PropTypes.bool,
   onSetOfferStatus: PropTypes.func,
   onGetCurrentOffer: PropTypes.func,
+  onRemoveHoveredOffer: PropTypes.func,
+  onGetHoveredOffer: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -114,6 +124,12 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onGetCurrentOffer: (offer) => {
     dispatch(ActionCreator.getCurrentOfferAction(offer));
+  },
+  onGetHoveredOffer: (offer) => {
+    dispatch(ActionCreator.getHoveredOfferAction(offer));
+  },
+  onRemoveHoveredOffer: (offer) => {
+    dispatch(ActionCreator.removeHoveredOfferAction(offer));
   },
   onSetOfferStatus: (status) => {
     dispatch(ActionCreator.setOfferStatusAction(status));
