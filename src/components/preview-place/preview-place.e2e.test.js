@@ -49,41 +49,99 @@ const store = mockStore({
   },
 });
 
-it(`placeData and status should set into callback after click on title`, () => {
-  beforeEach(() => { // Runs before each test in the suite
-    store.clearActions();
+describe(`PreviewPlace should call correct callbacks`, () => {
+  it(`"placeData" and status should set into callback after click on title`, () => {
+    beforeEach(() => { // Runs before each test in the suite
+      store.clearActions();
+    });
+
+    const preventDefault = jest.fn();
+    const onGetCurrentOffer = jest.fn((data) => data);
+    const onSetOfferStatus = jest.fn((val) => val);
+    const scrollTo = jest.fn();
+    Object.defineProperty(global.window, `scrollTo`, {
+      value: scrollTo
+    });
+
+    const previewPlace = mount(
+        <Provider store={store}>
+          <PreviewPlace
+            placeData={placeData}
+            onGetCurrentOffer={onGetCurrentOffer}
+            onSetOfferStatus={onSetOfferStatus}
+          />
+        </Provider>
+    );
+
+    const title = previewPlace.find(`.place-card__name`);
+
+    const mockClickEvent = ({
+      preventDefault,
+      onGetCurrentOffer: onGetCurrentOffer(placeData),
+      onSetOfferStatus: onSetOfferStatus(true),
+    });
+
+    title.simulate(`click`, mockClickEvent);
+
+    expect(scrollTo).toHaveBeenCalledWith(0, 0);
+    expect(onGetCurrentOffer).toHaveBeenCalledTimes(1);
+    expect(onGetCurrentOffer.mock.calls[0][0]).toMatchObject(placeData);
+    expect(onSetOfferStatus).toHaveBeenCalledTimes(1);
   });
 
-  const preventDefault = jest.fn();
-  const onGetCurrentOffer = jest.fn((data) => data);
-  const onSetOfferStatus = jest.fn((val) => val);
-  const scrollTo = jest.fn();
-  Object.defineProperty(global.window, `scrollTo`, {
-    value: scrollTo
+  it(`"placeData" should set into callback after mouseenter on card`, () => {
+    beforeEach(() => { // Runs before each test in the suite
+      store.clearActions();
+    });
+
+    const onGetHoveredOffer = jest.fn((data) => data);
+
+    const previewPlace = mount(
+        <Provider store={store}>
+          <PreviewPlace
+            placeData={placeData}
+            onGetHoveredOffer={onGetHoveredOffer}
+          />
+        </Provider>
+    );
+
+    const card = previewPlace.find(`.place-card`);
+
+    const mockMouseenterEvent = ({
+      onGetHoveredOffer: onGetHoveredOffer(placeData),
+    });
+
+    card.simulate(`mouseenter`, mockMouseenterEvent);
+
+    expect(onGetHoveredOffer).toHaveBeenCalledTimes(1);
+    expect(onGetHoveredOffer.mock.calls[0][0]).toMatchObject(placeData);
   });
 
-  let previewPlace = mount(
-      <Provider store={store}>
-        <PreviewPlace
-          placeData={placeData}
-          onGetCurrentOffer={onGetCurrentOffer}
-          onSetOfferStatus={onSetOfferStatus}
-        />
-      </Provider>
-  );
+  it(`"null" should set into callback after mouseleave on card`, () => {
+    beforeEach(() => { // Runs before each test in the suite
+      store.clearActions();
+    });
 
-  const card = previewPlace.find(`.place-card__name`);
+    const onRemoveHoveredOffer = jest.fn((val) => val);
 
-  const mockEvent = ({
-    preventDefault,
-    onGetCurrentOffer: onGetCurrentOffer(placeData),
-    onSetOfferStatus: onSetOfferStatus(true),
+    const previewPlace = mount(
+        <Provider store={store}>
+          <PreviewPlace
+            placeData={placeData}
+            onRemoveHoveredOffer={onRemoveHoveredOffer}
+          />
+        </Provider>
+    );
+
+    const card = previewPlace.find(`.place-card`);
+
+    const mockMouseleaveEvent = ({
+      onRemoveHoveredOffer: onRemoveHoveredOffer(null),
+    });
+
+    card.simulate(`mouseleave`, mockMouseleaveEvent);
+
+    expect(onRemoveHoveredOffer).toHaveBeenCalledTimes(1);
+    expect(onRemoveHoveredOffer.mock.calls[0][0]).toBe(null);
   });
-
-  card.simulate(`click`, mockEvent);
-
-  expect(scrollTo).toHaveBeenCalledWith(0, 0);
-  expect(onGetCurrentOffer).toHaveBeenCalledTimes(1);
-  expect(onGetCurrentOffer.mock.calls[0][0]).toMatchObject(placeData);
-  expect(onSetOfferStatus).toHaveBeenCalledTimes(1);
 });

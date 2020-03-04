@@ -43,6 +43,7 @@ const offers = [
 const store = mockStore({
   offers: {
     city: offers[0].city,
+    initialOffers: offers,
     offers,
   },
   offer: {

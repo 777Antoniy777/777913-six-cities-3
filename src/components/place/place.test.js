@@ -7,7 +7,7 @@ import Place from './place';
 const mockStore = configureStore();
 
 // set mocha data
-const offers = [
+const initialOffers = [
   {
     id: 1,
     city: `city`,
@@ -69,13 +69,47 @@ const offer = {
   ],
   coord: [1, 1],
 };
+const hoveredOffer = {
+  id: 2,
+  city: `city`,
+  title: `title 1`,
+  premium: false,
+  src: `img/image1`,
+  photos: [
+    `img/image1`,
+    `img/image2`,
+  ],
+  price: 100,
+  description: `test`,
+  type: `type`,
+  rating: 500,
+  bedroomAmount: 30,
+  guestsAmount: 50,
+  items: [`item`],
+  host: {
+    avatar: `img/avatar-1.jpg`,
+    name: `name`,
+    status: true,
+  },
+  reviews: [
+    {
+      id: 1,
+      body: `text`,
+      rating: 5,
+      name: `name`,
+      date: `date`,
+    },
+  ],
+  coord: [2, 2],
+};
 
 const store = mockStore({
   offer: {
     offer,
+    hoveredOffer,
   },
   offers: {
-    offers,
+    initialOffers,
   }
 });
 
@@ -87,8 +121,9 @@ it(`render Place`, () => {
   const tree = renderer.create(
       <Provider store={store}>
         <Place
-          offers={offers}
+          offers={initialOffers}
           offer={offer}
+          hoveredOffer={hoveredOffer}
         />
       </Provider>)
       .toJSON();

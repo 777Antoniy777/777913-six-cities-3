@@ -39,6 +39,8 @@ const placeData = {
 };
 
 const onGetCurrentOffer = () => {};
+const onGetHoveredOffer = () => {};
+const onRemoveHoveredOffer = () => {};
 const onSetOfferStatus = () => {};
 
 const store = mockStore({
@@ -58,6 +60,8 @@ it(`render PreviewPlace`, () => {
           placeData={placeData}
           onGetCurrentOffer={onGetCurrentOffer}
           onSetShowOfferStatus={onSetOfferStatus}
+          onGetHoveredOffer={onGetHoveredOffer}
+          onRemoveHoveredOffer={onRemoveHoveredOffer}
         />
       </Provider>)
       .toJSON();

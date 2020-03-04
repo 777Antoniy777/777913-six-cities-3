@@ -34,30 +34,42 @@ class Map extends React.Component {
 
     this.setState({
       map,
-    }, this.getMarkersCoords);
+    }, this.getMarkers);
   }
 
-  getMarkersCoords() {
-    const {offers, activeCoords} = this.props;
-    const markersArr = [];
-    let icon = leaflet.icon({
-      iconUrl: `img/pin.svg`,
+  createMarker(url, coords) {
+    const icon = leaflet.icon({
+      iconUrl: url,
       iconSize: [30, 30],
     });
 
+    const marker = leaflet.marker(coords, {icon});
+
+    return marker;
+  }
+
+  getMarkers() {
+    const {offers, activeCoords, hoveredCoords} = this.props;
+    const markersArr = [];
+    let marker;
+
     offers.forEach((elem) => {
-      const marker = leaflet.marker(elem.coords, {icon});
+      marker = this.createMarker(`img/pin.svg`, elem.coords);
+
+      if (activeCoords) {
+        if (elem.coords === activeCoords) {
+          marker = this.createMarker(`img/pin-active.svg`, activeCoords);
+        }
+      }
+
+      if (hoveredCoords) {
+        if (elem.coords === hoveredCoords) {
+          marker = this.createMarker(`img/pin-active.svg`, hoveredCoords);
+        }
+      }
+
       markersArr.push(marker);
     });
-
-    if (activeCoords) {
-      icon = leaflet.icon({
-        iconUrl: `img/pin-active.svg`,
-        iconSize: [30, 30],
-      });
-      const marker = leaflet.marker(activeCoords, {icon});
-      markersArr.push(marker);
-    }
 
     this.addMarkersToMap(markersArr);
   }
@@ -97,7 +109,7 @@ class Map extends React.Component {
 
     if (cities.length !== 0) {
       this.removeMarkersFromMap();
-      this.getMarkersCoords();
+      this.getMarkers();
     }
   }
 
@@ -117,6 +129,7 @@ class Map extends React.Component {
 Map.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.object),
   activeCoords: PropTypes.arrayOf(PropTypes.number),
+  hoveredCoords: PropTypes.arrayOf(PropTypes.number),
 };
 
 export default Map;
