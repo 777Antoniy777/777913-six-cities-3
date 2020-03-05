@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import PreviewPlace from "../preview-place/preview-place";
 
-const PreviewPlaces = ({offers}) => {
+const PreviewPlaces = ({offers, onGetActiveItem}) => {
   return (
     <React.Fragment>
 
@@ -12,6 +12,8 @@ const PreviewPlaces = ({offers}) => {
             // properties
             key={elem.id}
             placeData={elem}
+            // handlers
+            onGetActiveItem={onGetActiveItem}
           />
         )
       }

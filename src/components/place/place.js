@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {connect} from 'react-redux';
+import ActionCreator from '../../actions/action-creator';
+import withActiveItem from "../../hocs/with-active-item/with-active-item";
 import PlacePhotos from "../place-photos/place-photos";
 import PlaceItems from "../place-items/place-items";
 import PlaceHost from "../place-host/place-host";
@@ -8,7 +10,9 @@ import PlaceReviews from "../place-reviews/place-reviews";
 import PreviewPlaces from "../preview-places/preview-places";
 import Map from "../map/map";
 
-const Place = ({offers, offer, hoveredOffer}) => {
+const PreviewPlacesWrappedHoc = withActiveItem(PreviewPlaces);
+
+const Place = ({offers, offer, hoveredOffer, onGetActiveItem}) => {
   const {title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, reviews, host, coords} = offer;
   const {avatar, name, status} = host;
   const reviewsLength = reviews.length;
@@ -242,9 +246,11 @@ const Place = ({offers, offer, hoveredOffer}) => {
               <div className="near-places__list places__list">
 
                 {/* рендерит превью мест */}
-                <PreviewPlaces
+                <PreviewPlacesWrappedHoc
                   // properties
                   offers={splittedOffers}
+                  // handlers
+                  onGetActiveItem={onGetActiveItem}
                 />
 
               </div>
@@ -309,7 +315,14 @@ const mapStateToProps = (state) => ({
   hoveredOffer: state.offer.hoveredOffer,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  onGetActiveItem: (item) => {
+    dispatch(ActionCreator.getActiveItemAction(item));
+  }
+});
+
 export default connect(
-    mapStateToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(Place);
 

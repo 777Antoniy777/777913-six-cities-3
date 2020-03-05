@@ -3,12 +3,16 @@ import PropTypes from "prop-types";
 import {connect} from 'react-redux';
 import classNames from 'classnames';
 import ActionCreator from '../../actions/action-creator';
+import withActiveItem from "../../hocs/with-active-item/with-active-item";
 import PreviewPlaces from '../preview-places/preview-places';
 import Map from '../map/map';
 import Cities from '../cities/cities';
 import PlaceFilter from '../place-filter/place-filter';
 
-const Main = ({offers, currentCity, getCities, onGetCity}) => {
+const CitiesWrappedHoc = withActiveItem(Cities);
+const PreviewPlacesWrappedHoc = withActiveItem(PreviewPlaces);
+
+const Main = ({offers, currentCity, getCities, onGetCity, onGetActiveItem}) => {
   const cities = getCities();
 
   const mainEmptyClass = classNames({
@@ -54,12 +58,13 @@ const Main = ({offers, currentCity, getCities, onGetCity}) => {
 
             {/* рендерит список городов */}
             { cities.length > 0 &&
-              <Cities
+              <CitiesWrappedHoc
                 // properties
                 cities={cities}
                 currentCity={currentCity}
                 // handlers
                 onGetCity={onGetCity}
+                onGetActiveItem={onGetActiveItem}
               />
             }
 
@@ -98,9 +103,11 @@ const Main = ({offers, currentCity, getCities, onGetCity}) => {
                 <div className="cities__places-list places__list tabs__content">
 
                   {/* рендерит превью мест */}
-                  <PreviewPlaces
+                  <PreviewPlacesWrappedHoc
                     // properties
                     offers={offers}
+                    // handlers
+                    onGetActiveItem={onGetActiveItem}
                   />
 
                 </div>
@@ -158,9 +165,13 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onGetCity: (city) => {
-    dispatch(ActionCreator.changeCityAction(city));
+  onGetActiveItem: (item) => {
+    dispatch(ActionCreator.getActiveItemAction(item));
+    // dispatch(ActionCreator.getCurrentOfferAction(city));
   }
+  // onGetCity: (city) => {
+  //   dispatch(ActionCreator.changeCityAction(city));
+  // }
 });
 
 export default connect(
