@@ -29,7 +29,7 @@ const PreviewPlace = ({placeData, isShowOffer, onGetCurrentOffer, onGetHoveredOf
   const handleTitleClick = (evt) => {
     evt.preventDefault();
 
-    // onGetCurrentOffer(placeData);
+    onGetCurrentOffer(placeData);
     onGetActiveItem(placeData);
     onSetOfferStatus(true);
     window.scrollTo(0, 0);

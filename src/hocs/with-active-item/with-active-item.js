@@ -5,24 +5,27 @@ const withActiveItem = (Component) => {
   class WithActiveItem extends React.PureComponent {
     constructor() {
       super();
-      // this.state = {
-      //   activeItem: null,
-      // };
+      this.state = {
+        activeItem: null,
+      };
 
-      // this.onGetActiveItem = this.onGetActiveItem.bind(this);
+      this.onGetActiveItem = this.onGetActiveItem.bind(this);
     }
 
-    // onGetActiveItem(item) {
-    //   this.setState({
-    //     activeItem: item,
-    //   });
-    // }
+    onGetActiveItem(item) {
+      this.setState({
+        activeItem: item,
+      });
+    }
 
     render() {
+      const {activeItem} = this.state;
+
       return (
         <Component
           {...this.props}
-          // onGetActiveItem={this.onGetActiveItem}
+          activeItem={activeItem}
+          onGetActiveItem={this.onGetActiveItem}
         />
       );
     }

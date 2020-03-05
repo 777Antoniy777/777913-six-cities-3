@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {connect} from 'react-redux';
 import ActionCreator from '../../actions/action-creator';
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
+import withMap from "../../hocs/with-map/with-map";
 import PlacePhotos from "../place-photos/place-photos";
 import PlaceItems from "../place-items/place-items";
 import PlaceHost from "../place-host/place-host";
@@ -11,8 +12,9 @@ import PreviewPlaces from "../preview-places/preview-places";
 import Map from "../map/map";
 
 const PreviewPlacesWrappedHoc = withActiveItem(PreviewPlaces);
+const MapWrapperHoc = withMap(Map);
 
-const Place = ({offers, offer, hoveredOffer, onGetActiveItem}) => {
+const Place = ({offers, offer, hoveredOffer, onGetCurrentOffer}) => {
   const {title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, reviews, host, coords} = offer;
   const {avatar, name, status} = host;
   const reviewsLength = reviews.length;
@@ -225,7 +227,13 @@ const Place = ({offers, offer, hoveredOffer, onGetActiveItem}) => {
 
             {/* карта с маркерами */}
             { offers.length > 0 &&
-              <Map
+              // <Map
+              //   // properties
+              //   offers={offers}
+              //   activeCoords={coords}
+              //   hoveredCoords={hoveredCoords}
+              // />
+              <MapWrapperHoc
                 // properties
                 offers={offers}
                 activeCoords={coords}
@@ -250,7 +258,7 @@ const Place = ({offers, offer, hoveredOffer, onGetActiveItem}) => {
                   // properties
                   offers={splittedOffers}
                   // handlers
-                  onGetActiveItem={onGetActiveItem}
+                  onGetCurrentOffer={onGetCurrentOffer}
                 />
 
               </div>
@@ -316,9 +324,13 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onGetActiveItem: (item) => {
-    dispatch(ActionCreator.getActiveItemAction(item));
-  }
+  // onGetActiveItem: (item) => {
+  //   dispatch(ActionCreator.getActiveItemAction(item));
+  // }
+
+  onGetCurrentOffer: (offer) => {
+    dispatch(ActionCreator.getCurrentOfferAction(offer));
+  },
 });
 
 export default connect(
