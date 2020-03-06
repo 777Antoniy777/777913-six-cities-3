@@ -11,11 +11,6 @@ const ActionCreator = {
     payload: offer,
   }),
 
-  // getActiveItemAction: (offer) => ({
-  //   type: ActionType.GET_ACTIVE_ITEM,
-  //   payload: offer,
-  // }),
-
   getHoveredOfferAction: (offer) => ({
     type: ActionType.GET_HOVERED_OFFER,
     payload: offer,

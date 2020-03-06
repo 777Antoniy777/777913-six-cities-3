@@ -2,34 +2,23 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const withActiveItem = (Component) => {
-  class WithActiveItem extends React.PureComponent {
-    constructor() {
-      super();
-      this.state = {
-        activeItem: null,
-      };
+  const WithActiveItem = (props) => {
 
-      this.onGetActiveItem = this.onGetActiveItem.bind(this);
-    }
+    const onGetActiveItem = (item) => {
+      props.onGetActiveItem(item);
+    };
 
-    onGetActiveItem(item) {
-      this.setState({
-        activeItem: item,
-      });
-    }
+    return (
+      <Component
+        {...props}
+        onGetActiveItem={onGetActiveItem}
+      />
+    );
+  };
 
-    render() {
-      const {activeItem} = this.state;
-
-      return (
-        <Component
-          {...this.props}
-          activeItem={activeItem}
-          onGetActiveItem={this.onGetActiveItem}
-        />
-      );
-    }
-  }
+  WithActiveItem.propTypes = {
+    onGetActiveItem: PropTypes.func,
+  };
 
   return WithActiveItem;
 };

@@ -38,7 +38,8 @@ const placeData = {
   coord: [1, 1],
 };
 
-const onGetCurrentOffer = () => {};
+const isShowOffer = true;
+const onGetActiveItem = () => {};
 const onGetHoveredOffer = () => {};
 const onRemoveHoveredOffer = () => {};
 const onSetOfferStatus = () => {};
@@ -58,7 +59,8 @@ it(`render PreviewPlace`, () => {
       <Provider store={store}>
         <PreviewPlace
           placeData={placeData}
-          onGetCurrentOffer={onGetCurrentOffer}
+          isShowOffer={isShowOffer}
+          onGetActiveItem={onGetActiveItem}
           onSetShowOfferStatus={onSetOfferStatus}
           onGetHoveredOffer={onGetHoveredOffer}
           onRemoveHoveredOffer={onRemoveHoveredOffer}

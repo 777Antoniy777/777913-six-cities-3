@@ -65,7 +65,7 @@ const Main = ({offers, currentCity, getCities, onGetCurrentCity, onGetCurrentOff
                 cities={cities}
                 currentCity={currentCity}
                 // handlers
-                onGetCurrentCity={onGetCurrentCity}
+                onGetActiveItem={onGetCurrentCity}
               />
             }
 
@@ -108,7 +108,7 @@ const Main = ({offers, currentCity, getCities, onGetCurrentCity, onGetCurrentOff
                     // properties
                     offers={offers}
                     // handlers
-                    onGetCurrentOffer={onGetCurrentOffer}
+                    onGetActiveItem={onGetCurrentOffer}
                   />
 
                 </div>
@@ -120,10 +120,6 @@ const Main = ({offers, currentCity, getCities, onGetCurrentCity, onGetCurrentOff
 
                   {/* карта с маркерами */}
                   { offers.length > 0 &&
-                    // <Map
-                    //   // properties
-                    //   offers={offers}
-                    // />
                     <MapWrapperHoc
                       // properties
                       offers={offers}
@@ -147,6 +143,7 @@ Main.propTypes = {
   currentCity: PropTypes.string,
   getCities: PropTypes.func,
   onGetCurrentCity: PropTypes.func,
+  onGetCurrentOffer: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -170,11 +167,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  // onGetActiveItem: (item) => {
-  //   dispatch(ActionCreator.getActiveItemAction(item));
-  //   // dispatch(ActionCreator.getCurrentOfferAction(city));
-  // }
-
   onGetCurrentCity: (city) => {
     dispatch(ActionCreator.getCurrentCityAction(city));
   },

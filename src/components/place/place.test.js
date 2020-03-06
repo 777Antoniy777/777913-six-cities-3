@@ -103,6 +103,8 @@ const hoveredOffer = {
   coord: [2, 2],
 };
 
+const onGetCurrentOffer = () => {};
+
 const store = mockStore({
   offer: {
     offer,
@@ -124,6 +126,7 @@ it(`render Place`, () => {
           offers={initialOffers}
           offer={offer}
           hoveredOffer={hoveredOffer}
+          onGetCurrentOffer={onGetCurrentOffer}
         />
       </Provider>)
       .toJSON();

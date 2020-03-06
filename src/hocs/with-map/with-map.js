@@ -130,6 +130,12 @@ const withMap = (Component) => {
     }
   }
 
+  WithMap.propTypes = {
+    offers: PropTypes.arrayOf(PropTypes.object),
+    activeCoords: PropTypes.arrayOf(PropTypes.number),
+    hoveredCoords: PropTypes.arrayOf(PropTypes.number),
+  };
+
   return WithMap;
 };
 

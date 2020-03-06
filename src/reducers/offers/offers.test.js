@@ -15,7 +15,7 @@ it(`Reducer should set current city`, () => {
   expect(offersState({
     city: ``,
   }, {
-    type: ActionType.CHANGE_CITY,
+    type: ActionType.GET_CURRENT_CITY,
     payload: `Moscow`,
   })).toEqual({
     city: `Moscow`,
@@ -74,17 +74,17 @@ it(`Reducer should set top rated first order of offers`, () => {
 
 describe(`Action creators work correctly`, () => {
   it(`Action creator for set city returns correct action`, () => {
-    expect(ActionCreator.changeCityAction())
+    expect(ActionCreator.getCurrentCityAction())
       .toEqual({
-        type: ActionType.CHANGE_CITY,
+        type: ActionType.GET_CURRENT_CITY,
         payload: undefined,
       });
   });
 
   it(`Action creator for set city should returns "Moscow" value of city`, () => {
-    expect(ActionCreator.changeCityAction(`Moscow`))
+    expect(ActionCreator.getCurrentCityAction(`Moscow`))
     .toEqual({
-      type: ActionType.CHANGE_CITY,
+      type: ActionType.GET_CURRENT_CITY,
       payload: `Moscow`,
     });
   });

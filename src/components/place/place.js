@@ -227,12 +227,6 @@ const Place = ({offers, offer, hoveredOffer, onGetCurrentOffer}) => {
 
             {/* карта с маркерами */}
             { offers.length > 0 &&
-              // <Map
-              //   // properties
-              //   offers={offers}
-              //   activeCoords={coords}
-              //   hoveredCoords={hoveredCoords}
-              // />
               <MapWrapperHoc
                 // properties
                 offers={offers}
@@ -258,7 +252,7 @@ const Place = ({offers, offer, hoveredOffer, onGetCurrentOffer}) => {
                   // properties
                   offers={splittedOffers}
                   // handlers
-                  onGetCurrentOffer={onGetCurrentOffer}
+                  onGetActiveItem={onGetCurrentOffer}
                 />
 
               </div>
@@ -313,6 +307,7 @@ Place.propTypes = {
     coords: PropTypes.arrayOf(PropTypes.number),
   }),
   offers: PropTypes.arrayOf(PropTypes.object),
+  onGetCurrentOffer: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -324,10 +319,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  // onGetActiveItem: (item) => {
-  //   dispatch(ActionCreator.getActiveItemAction(item));
-  // }
-
   onGetCurrentOffer: (offer) => {
     dispatch(ActionCreator.getCurrentOfferAction(offer));
   },
