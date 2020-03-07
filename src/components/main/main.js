@@ -5,6 +5,8 @@ import classNames from 'classnames';
 import ActionCreator from '../../actions/action-creator';
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 import withMap from "../../hocs/with-map/with-map";
+import withPlaceFilter from "../../hocs/with-place-filter/with-place-filter";
+import MainEmpty from "../main-empty/main-empty";
 import PreviewPlaces from '../preview-places/preview-places';
 import Map from '../map/map';
 import Cities from '../cities/cities';
@@ -13,8 +15,9 @@ import PlaceFilter from '../place-filter/place-filter';
 const CitiesWrappedHoc = withActiveItem(Cities);
 const PreviewPlacesWrappedHoc = withActiveItem(PreviewPlaces);
 const MapWrapperHoc = withMap(Map);
+const PlaceFilterWrapperHoc = withPlaceFilter(PlaceFilter);
 
-const Main = ({offers, currentCity, getCities, onGetCurrentCity, onGetCurrentOffer}) => {
+const Main = ({offers, initialOffers, filteredOffers, currentCity, getCities, onGetCurrentCity, onGetCurrentOffer, onSetDefaultOrderOffers, onSetLowToHighOrderOffers, onSetHighToLowOrderOffers, onSetTopRatedFirstOrderOffers}) => {
   const cities = getCities();
 
   const mainEmptyClass = classNames({
@@ -75,20 +78,7 @@ const Main = ({offers, currentCity, getCities, onGetCurrentCity, onGetCurrentOff
         <div className="cities">
 
           { offers.length === 0 &&
-            <div className="cities__places-container cities__places-container--empty container">
-
-              <section className="cities__no-places">
-
-                <div className="cities__status-wrapper tabs__content">
-                  <b className="cities__status">No places to stay available</b>
-                  <p className="cities__status-description">We could not find any property availbale at the moment in Dusseldorf</p>
-                </div>
-
-              </section>
-
-              <div className="cities__right-section" />
-
-            </div>
+            <MainEmpty />
           }
 
           { offers.length > 0 &&
@@ -99,7 +89,16 @@ const Main = ({offers, currentCity, getCities, onGetCurrentCity, onGetCurrentOff
                 <b className="places__found">{offers.length} places to stay in {currentCity}</b>
 
                 {/* рендерит блок фильтра */}
-                <PlaceFilter />
+                <PlaceFilterWrapperHoc
+                  // properties
+                  initialOffers={initialOffers}
+                  offers={filteredOffers}
+                  // handlers
+                  onSetDefaultOrderOffers={onSetDefaultOrderOffers}
+                  onSetLowToHighOrderOffers={onSetLowToHighOrderOffers}
+                  onSetHighToLowOrderOffers={onSetHighToLowOrderOffers}
+                  onSetTopRatedFirstOrderOffers={onSetTopRatedFirstOrderOffers}
+                />
 
                 <div className="cities__places-list places__list tabs__content">
 
@@ -140,10 +139,16 @@ const Main = ({offers, currentCity, getCities, onGetCurrentCity, onGetCurrentOff
 
 Main.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.object),
+  initialOffers: PropTypes.arrayOf(PropTypes.object),
+  filteredOffers: PropTypes.arrayOf(PropTypes.object),
   currentCity: PropTypes.string,
   getCities: PropTypes.func,
   onGetCurrentCity: PropTypes.func,
   onGetCurrentOffer: PropTypes.func,
+  onSetDefaultOrderOffers: PropTypes.func,
+  onSetLowToHighOrderOffers: PropTypes.func,
+  onSetHighToLowOrderOffers: PropTypes.func,
+  onSetTopRatedFirstOrderOffers: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -161,6 +166,8 @@ const mapStateToProps = (state) => ({
 
     return splittedCities;
   },
+  initialOffers: state.offers.initialOffers,
+  filteredOffers: state.offers.offers,
   offers: state.offers.offers.filter((elem) => {
     return elem.city.includes(state.offers.city);
   }),
@@ -172,6 +179,18 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onGetCurrentOffer: (offer) => {
     dispatch(ActionCreator.getCurrentOfferAction(offer));
+  },
+  onSetDefaultOrderOffers: (offers) => {
+    dispatch(ActionCreator.setDefaultOrderOffers(offers));
+  },
+  onSetLowToHighOrderOffers: (offers) => {
+    dispatch(ActionCreator.setLowToHighOrderOffers(offers));
+  },
+  onSetHighToLowOrderOffers: (offers) => {
+    dispatch(ActionCreator.setHighToLowOrderOffers(offers));
+  },
+  onSetTopRatedFirstOrderOffers: (offers) => {
+    dispatch(ActionCreator.setTopRatedFirstOrderOffers(offers));
   },
 });
 

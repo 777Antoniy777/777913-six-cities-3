@@ -39,11 +39,79 @@ const offers = [
     coord: [1, 1],
   },
 ];
+const initialOffers = [
+  {
+    id: 1,
+    city: `city`,
+    title: `title 1`,
+    premium: false,
+    src: `img/image1`,
+    photos: [`img/image1`],
+    price: 999999,
+    description: `test`,
+    type: `type`,
+    rating: 9999,
+    bedroomAmount: 30,
+    guestsAmount: 50,
+    items: [`item`],
+    host: {
+      avatar: `img/avatar-1.jpg`,
+      name: `name`,
+      status: false,
+    },
+    reviews: [
+      {
+        id: 1,
+        body: `text`,
+        rating: 5,
+        name: `name`,
+        date: `date`,
+      },
+    ],
+    coord: [1, 1],
+  },
+];
+const filteredOffers = [
+  {
+    id: 1,
+    city: `city`,
+    title: `title 1`,
+    premium: false,
+    src: `img/image1`,
+    photos: [`img/image1`],
+    price: 999999,
+    description: `test`,
+    type: `type`,
+    rating: 9999,
+    bedroomAmount: 30,
+    guestsAmount: 50,
+    items: [`item`],
+    host: {
+      avatar: `img/avatar-1.jpg`,
+      name: `name`,
+      status: false,
+    },
+    reviews: [
+      {
+        id: 1,
+        body: `text`,
+        rating: 5,
+        name: `name`,
+        date: `date`,
+      },
+    ],
+    coord: [1, 1],
+  },
+];
 const currentCity = `city`;
 
 const getCities = () => {};
 const onGetCurrentCity = () => {};
 const onGetCurrentOffer = () => {};
+const onSetDefaultOrderOffers = () => {};
+const onSetLowToHighOrderOffers = () => {};
+const onSetHighToLowOrderOffers = () => {};
+const onSetTopRatedFirstOrderOffers = () => {};
 
 const store = mockStore({
   offers: {
@@ -65,10 +133,16 @@ it(`render Main`, () => {
       <Provider store={store}>
         <Main
           offers={offers}
+          initialOffers={initialOffers}
+          filteredOffers={filteredOffers}
           currentCity={currentCity}
           getCities={getCities}
           onGetCurrentCity={onGetCurrentCity}
           onGetCurrentOffer={onGetCurrentOffer}
+          onSetDefaultOrderOffers={onSetDefaultOrderOffers}
+          onSetLowToHighOrderOffers={onSetLowToHighOrderOffers}
+          onSetHighToLowOrderOffers={onSetHighToLowOrderOffers}
+          onSetTopRatedFirstOrderOffers={onSetTopRatedFirstOrderOffers}
         />
       </Provider>)
       .toJSON();
