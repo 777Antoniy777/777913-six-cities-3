@@ -5,12 +5,12 @@ import PlaceFilter from './place-filter';
 // set mocha data
 const isFilterOpened = true;
 const currentFilter = {
-  id: 1,
+  id: `1`,
   value: `filter`,
 };
 const filtersArr = [
   {
-    id: 1,
+    id: `1`,
     value: `filter`,
   },
 ];

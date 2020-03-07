@@ -84,11 +84,11 @@ PlaceFilter.propTypes = {
 
 PlaceFilterItem.propTypes = {
   filter: PropTypes.shape({
-    id: PropTypes.number,
+    id: PropTypes.string,
     value: PropTypes.string,
   }),
   currentFilter: PropTypes.shape({
-    id: PropTypes.number,
+    id: PropTypes.string,
     value: PropTypes.string,
   }),
   onGetCurrentFilter: PropTypes.func,

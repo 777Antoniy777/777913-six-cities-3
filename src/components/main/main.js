@@ -26,31 +26,6 @@ const Main = ({offers, initialOffers, filteredOffers, currentCity, getCities, on
     'page__main--index-empty': offers.length === 0,
   });
 
-  const onFilterOffers = (curFilter) => {
-    const {id} = curFilter;
-    const clonnedInitialOffers = initialOffers.slice();
-
-    switch (id) {
-      case 1:
-        onSetDefaultOrderOffers(clonnedInitialOffers);
-        break;
-      case 2:
-        filteredOffers.sort((left, right) => left.price - right.price);
-        onSetLowToHighOrderOffers(filteredOffers);
-        break;
-      case 3:
-        filteredOffers.sort((left, right) => right.price - left.price);
-        onSetHighToLowOrderOffers(filteredOffers);
-        break;
-      case 4:
-        filteredOffers.sort((left, right) => right.rating - left.rating);
-        onSetTopRatedFirstOrderOffers(filteredOffers);
-        break;
-      default:
-        break;
-    }
-  };
-
   return (
     <div className="page page--gray page--main">
 
@@ -115,8 +90,14 @@ const Main = ({offers, initialOffers, filteredOffers, currentCity, getCities, on
 
                 {/* рендерит блок фильтра */}
                 <PlaceFilterWrapperHoc
+                  // properties
+                  initialOffers={initialOffers}
+                  offers={filteredOffers}
                   // handlers
-                  onFilterOffers={onFilterOffers}
+                  onSetDefaultOrderOffers={onSetDefaultOrderOffers}
+                  onSetLowToHighOrderOffers={onSetLowToHighOrderOffers}
+                  onSetHighToLowOrderOffers={onSetHighToLowOrderOffers}
+                  onSetTopRatedFirstOrderOffers={onSetTopRatedFirstOrderOffers}
                 />
 
                 <div className="cities__places-list places__list tabs__content">
