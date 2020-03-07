@@ -2,11 +2,34 @@ import React from 'react';
 import PropTypes from "prop-types";
 import classNames from 'classnames';
 
-const City = ({city, onGetCity, currentCity}) => {
+const Cities = ({cities, currentCity, onGetActiveItem}) => {
+  return (
+    <ul className="locations__list tabs__list">
+
+      { cities &&
+        cities.map((elem) =>
+
+          <City
+            // properties
+            key={elem}
+            city={elem}
+            currentCity={currentCity}
+            // handlers
+            onGetActiveItem={onGetActiveItem}
+          />
+
+        )
+      }
+
+    </ul>
+  );
+};
+
+const City = ({city, currentCity, onGetActiveItem}) => {
   const handleLinkClick = (evt) => {
     evt.preventDefault();
 
-    onGetCity(city);
+    onGetActiveItem(city);
   };
 
   const isActiveLink = (actCity, curCity) => {
@@ -32,39 +55,16 @@ const City = ({city, onGetCity, currentCity}) => {
   );
 };
 
-const Cities = ({cities, onGetCity, currentCity}) => {
-  return (
-    <ul className="locations__list tabs__list">
-
-      { cities &&
-        cities.map((elem) =>
-
-          <City
-            // properties
-            key={elem}
-            city={elem}
-            currentCity={currentCity}
-            // handlers
-            onGetCity={onGetCity}
-          />
-
-        )
-      }
-
-    </ul>
-  );
+Cities.propTypes = {
+  cities: PropTypes.arrayOf(PropTypes.string),
+  currentCity: PropTypes.string,
+  onGetActiveItem: PropTypes.func,
 };
 
 City.propTypes = {
   currentCity: PropTypes.string,
   city: PropTypes.string,
-  onGetCity: PropTypes.func,
-};
-
-Cities.propTypes = {
-  cities: PropTypes.arrayOf(PropTypes.string),
-  currentCity: PropTypes.string,
-  onGetCity: PropTypes.func,
+  onGetActiveItem: PropTypes.func,
 };
 
 export default Cities;

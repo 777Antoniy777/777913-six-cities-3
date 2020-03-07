@@ -43,6 +43,8 @@ const placeData = {
   coord: [1, 1],
 };
 
+const isShowOffer = true;
+
 const store = mockStore({
   offer: {
     isShowOffer: false
@@ -56,7 +58,7 @@ describe(`PreviewPlace should call correct callbacks`, () => {
     });
 
     const preventDefault = jest.fn();
-    const onGetCurrentOffer = jest.fn((data) => data);
+    const onGetActiveItem = jest.fn((data) => data);
     const onSetOfferStatus = jest.fn((val) => val);
     const scrollTo = jest.fn();
     Object.defineProperty(global.window, `scrollTo`, {
@@ -67,7 +69,8 @@ describe(`PreviewPlace should call correct callbacks`, () => {
         <Provider store={store}>
           <PreviewPlace
             placeData={placeData}
-            onGetCurrentOffer={onGetCurrentOffer}
+            isShowOffer={isShowOffer}
+            onGetActiveItem={onGetActiveItem}
             onSetOfferStatus={onSetOfferStatus}
           />
         </Provider>
@@ -77,16 +80,17 @@ describe(`PreviewPlace should call correct callbacks`, () => {
 
     const mockClickEvent = ({
       preventDefault,
-      onGetCurrentOffer: onGetCurrentOffer(placeData),
+      onGetActiveItem() {},
       onSetOfferStatus: onSetOfferStatus(true),
     });
 
     title.simulate(`click`, mockClickEvent);
 
     expect(scrollTo).toHaveBeenCalledWith(0, 0);
-    expect(onGetCurrentOffer).toHaveBeenCalledTimes(1);
-    expect(onGetCurrentOffer.mock.calls[0][0]).toMatchObject(placeData);
+    expect(onGetActiveItem).toHaveBeenCalledTimes(1);
+    expect(onGetActiveItem.mock.calls[0][0]).toMatchObject(placeData);
     expect(onSetOfferStatus).toHaveBeenCalledTimes(1);
+    expect(onSetOfferStatus.mock.calls[0][0]).toBe(isShowOffer);
   });
 
   it(`"placeData" should set into callback after mouseenter on card`, () => {
@@ -100,6 +104,7 @@ describe(`PreviewPlace should call correct callbacks`, () => {
         <Provider store={store}>
           <PreviewPlace
             placeData={placeData}
+            isShowOffer={isShowOffer}
             onGetHoveredOffer={onGetHoveredOffer}
           />
         </Provider>
@@ -128,6 +133,7 @@ describe(`PreviewPlace should call correct callbacks`, () => {
         <Provider store={store}>
           <PreviewPlace
             placeData={placeData}
+            isShowOffer={isShowOffer}
             onRemoveHoveredOffer={onRemoveHoveredOffer}
           />
         </Provider>

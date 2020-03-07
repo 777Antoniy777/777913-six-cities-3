@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import classNames from 'classnames';
 import ActionCreator from '../../actions/action-creator';
 
-const PreviewPlace = ({placeData, isShowOffer, onGetCurrentOffer, onGetHoveredOffer, onRemoveHoveredOffer, onSetOfferStatus}) => {
+const PreviewPlace = ({placeData, isShowOffer, onGetActiveItem, onGetHoveredOffer, onRemoveHoveredOffer, onSetOfferStatus}) => {
   const {title, premium, src, price, type, rating} = placeData;
 
   const placeWrapperClass = classNames({
@@ -29,7 +29,7 @@ const PreviewPlace = ({placeData, isShowOffer, onGetCurrentOffer, onGetHoveredOf
   const handleTitleClick = (evt) => {
     evt.preventDefault();
 
-    onGetCurrentOffer(placeData);
+    onGetActiveItem(placeData);
     onSetOfferStatus(true);
     window.scrollTo(0, 0);
   };
@@ -112,7 +112,7 @@ PreviewPlace.propTypes = {
   }),
   isShowOffer: PropTypes.bool,
   onSetOfferStatus: PropTypes.func,
-  onGetCurrentOffer: PropTypes.func,
+  onGetActiveItem: PropTypes.func,
   onRemoveHoveredOffer: PropTypes.func,
   onGetHoveredOffer: PropTypes.func,
 };
@@ -122,9 +122,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onGetCurrentOffer: (offer) => {
-    dispatch(ActionCreator.getCurrentOfferAction(offer));
-  },
   onGetHoveredOffer: (offer) => {
     dispatch(ActionCreator.getHoveredOfferAction(offer));
   },

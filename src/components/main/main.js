@@ -3,12 +3,18 @@ import PropTypes from "prop-types";
 import {connect} from 'react-redux';
 import classNames from 'classnames';
 import ActionCreator from '../../actions/action-creator';
+import withActiveItem from "../../hocs/with-active-item/with-active-item";
+import withMap from "../../hocs/with-map/with-map";
 import PreviewPlaces from '../preview-places/preview-places';
 import Map from '../map/map';
 import Cities from '../cities/cities';
 import PlaceFilter from '../place-filter/place-filter';
 
-const Main = ({offers, currentCity, getCities, onGetCity}) => {
+const CitiesWrappedHoc = withActiveItem(Cities);
+const PreviewPlacesWrappedHoc = withActiveItem(PreviewPlaces);
+const MapWrapperHoc = withMap(Map);
+
+const Main = ({offers, currentCity, getCities, onGetCurrentCity, onGetCurrentOffer}) => {
   const cities = getCities();
 
   const mainEmptyClass = classNames({
@@ -54,12 +60,12 @@ const Main = ({offers, currentCity, getCities, onGetCity}) => {
 
             {/* рендерит список городов */}
             { cities.length > 0 &&
-              <Cities
+              <CitiesWrappedHoc
                 // properties
                 cities={cities}
                 currentCity={currentCity}
                 // handlers
-                onGetCity={onGetCity}
+                onGetActiveItem={onGetCurrentCity}
               />
             }
 
@@ -98,9 +104,11 @@ const Main = ({offers, currentCity, getCities, onGetCity}) => {
                 <div className="cities__places-list places__list tabs__content">
 
                   {/* рендерит превью мест */}
-                  <PreviewPlaces
+                  <PreviewPlacesWrappedHoc
                     // properties
                     offers={offers}
+                    // handlers
+                    onGetActiveItem={onGetCurrentOffer}
                   />
 
                 </div>
@@ -112,7 +120,7 @@ const Main = ({offers, currentCity, getCities, onGetCity}) => {
 
                   {/* карта с маркерами */}
                   { offers.length > 0 &&
-                    <Map
+                    <MapWrapperHoc
                       // properties
                       offers={offers}
                     />
@@ -134,7 +142,8 @@ Main.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.object),
   currentCity: PropTypes.string,
   getCities: PropTypes.func,
-  onGetCity: PropTypes.func,
+  onGetCurrentCity: PropTypes.func,
+  onGetCurrentOffer: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -158,9 +167,12 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onGetCity: (city) => {
-    dispatch(ActionCreator.changeCityAction(city));
-  }
+  onGetCurrentCity: (city) => {
+    dispatch(ActionCreator.getCurrentCityAction(city));
+  },
+  onGetCurrentOffer: (offer) => {
+    dispatch(ActionCreator.getCurrentOfferAction(offer));
+  },
 });
 
 export default connect(

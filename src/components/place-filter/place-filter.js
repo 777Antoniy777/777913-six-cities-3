@@ -4,32 +4,6 @@ import {connect} from 'react-redux';
 import classNames from 'classnames';
 import ActionCreator from '../../actions/action-creator';
 
-const PlaceFilterItem = ({filter, currentFilter, onSetCurrentFilter}) => {
-  const {value} = filter;
-  const {value: currentValue} = currentFilter;
-
-  const isFilterActive = (actFilter, curFilter) => {
-    if (curFilter === actFilter) {
-      return true;
-    }
-
-    return false;
-  };
-
-  const filterItemClass = classNames({
-    'places__option': true,
-    'places__option--active': isFilterActive(value, currentValue),
-  });
-
-  const handleItemClick = () => {
-    onSetCurrentFilter(filter);
-  };
-
-  return (
-    <li className={filterItemClass} tabIndex={0} onClick={handleItemClick}>{value}</li>
-  );
-};
-
 class PlaceFilter extends React.PureComponent {
   constructor() {
     super();
@@ -149,6 +123,41 @@ class PlaceFilter extends React.PureComponent {
 
 }
 
+const PlaceFilterItem = ({filter, currentFilter, onSetCurrentFilter}) => {
+  const {value} = filter;
+  const {value: currentValue} = currentFilter;
+
+  const isFilterActive = (actFilter, curFilter) => {
+    if (curFilter === actFilter) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const filterItemClass = classNames({
+    'places__option': true,
+    'places__option--active': isFilterActive(value, currentValue),
+  });
+
+  const handleItemClick = () => {
+    onSetCurrentFilter(filter);
+  };
+
+  return (
+    <li className={filterItemClass} tabIndex={0} onClick={handleItemClick}>{value}</li>
+  );
+};
+
+PlaceFilter.propTypes = {
+  initialOffers: PropTypes.arrayOf(PropTypes.object),
+  offers: PropTypes.arrayOf(PropTypes.object),
+  onSetDefaultOrderOffers: PropTypes.func,
+  onSetLowToHighOrderOffers: PropTypes.func,
+  onSetHighToLowOrderOffers: PropTypes.func,
+  onSetTopRatedFirstOrderOffers: PropTypes.func,
+};
+
 PlaceFilterItem.propTypes = {
   filter: PropTypes.shape({
     id: PropTypes.number,
@@ -159,15 +168,6 @@ PlaceFilterItem.propTypes = {
     value: PropTypes.string,
   }),
   onSetCurrentFilter: PropTypes.func,
-};
-
-PlaceFilter.propTypes = {
-  initialOffers: PropTypes.arrayOf(PropTypes.object),
-  offers: PropTypes.arrayOf(PropTypes.object),
-  onSetDefaultOrderOffers: PropTypes.func,
-  onSetLowToHighOrderOffers: PropTypes.func,
-  onSetHighToLowOrderOffers: PropTypes.func,
-  onSetTopRatedFirstOrderOffers: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({

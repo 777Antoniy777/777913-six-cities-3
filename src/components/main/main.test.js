@@ -42,7 +42,8 @@ const offers = [
 const currentCity = `city`;
 
 const getCities = () => {};
-const onGetCity = () => {};
+const onGetCurrentCity = () => {};
+const onGetCurrentOffer = () => {};
 
 const store = mockStore({
   offers: {
@@ -66,7 +67,8 @@ it(`render Main`, () => {
           offers={offers}
           currentCity={currentCity}
           getCities={getCities}
-          onGetCity={onGetCity}
+          onGetCurrentCity={onGetCurrentCity}
+          onGetCurrentOffer={onGetCurrentOffer}
         />
       </Provider>)
       .toJSON();

@@ -40,6 +40,8 @@ const offers = [
   },
 ];
 
+const onGetActiveItem = () => {};
+
 const store = mockStore({
   offer: {
     isShowOffer: false,
@@ -59,6 +61,7 @@ it(`render PreviewPlaces`, () => {
       <Provider store={store}>
         <PreviewPlaces
           offers={offers}
+          onGetActiveItem={onGetActiveItem}
         />
       </Provider>)
       .toJSON();

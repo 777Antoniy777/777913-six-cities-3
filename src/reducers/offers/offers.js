@@ -11,14 +11,14 @@ const initialState = {
 export default function createState(state = initialState, action) {
   switch (action.type) {
 
-    case ActionType.CHANGE_CITY:
-      return extend(state, {
-        city: action.payload,
-      });
-
     case ActionType.GET_OFFERS:
       return extend(state, {
         offers: action.payload,
+      });
+
+    case ActionType.GET_CURRENT_CITY:
+      return extend(state, {
+        city: action.payload,
       });
 
     case ActionType.SET_DEFAULT_ORDER_OFFERS:

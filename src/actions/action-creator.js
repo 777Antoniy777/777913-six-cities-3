@@ -1,8 +1,8 @@
 import ActionType from '../action-type';
 
 const ActionCreator = {
-  changeCityAction: (city) => ({
-    type: ActionType.CHANGE_CITY,
+  getCurrentCityAction: (city) => ({
+    type: ActionType.GET_CURRENT_CITY,
     payload: city,
   }),
 

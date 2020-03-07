@@ -10,14 +10,14 @@ const cities = [
 ];
 const currentCity = `city`;
 
-const onGetCity = () => {};
+const onGetActiveItem = () => {};
 
 it(`render Cities`, () => {
   const tree = renderer.create(
       <Cities
         cities={cities}
         currentCity={currentCity}
-        onGetCity={onGetCity}
+        onGetActiveItem={onGetActiveItem}
       />)
       .toJSON();
 
