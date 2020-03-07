@@ -17,7 +17,7 @@ exports[`render PlaceFilter 1`] = `
     onClick={[Function]}
     tabIndex={0}
   >
-    Popular
+    filter
     <svg
       className="places__sorting-arrow"
       height={4}
@@ -28,5 +28,16 @@ exports[`render PlaceFilter 1`] = `
       />
     </svg>
   </span>
+  <ul
+    className="places__options places__options--custom places__options--opened"
+  >
+    <li
+      className="places__option places__option--active"
+      onClick={[Function]}
+      tabIndex={0}
+    >
+      filter
+    </li>
+  </ul>
 </form>
 `;

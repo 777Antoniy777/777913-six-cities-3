@@ -42,7 +42,6 @@ const placeData = {
   ],
   coord: [1, 1],
 };
-
 const isShowOffer = true;
 
 const store = mockStore({
