@@ -62,7 +62,7 @@ const Main = ({offers, initialOffers, filteredOffers, currentCity, getCities, on
           <section className="locations container">
 
             {/* рендерит список городов */}
-            { cities.length > 0 &&
+            {/* { cities.length > 0 &&
               <CitiesWrappedHoc
                 // properties
                 cities={cities}
@@ -70,7 +70,7 @@ const Main = ({offers, initialOffers, filteredOffers, currentCity, getCities, on
                 // handlers
                 onGetActiveItem={onGetCurrentCity}
               />
-            }
+            } */}
 
           </section>
         </div>
@@ -89,7 +89,7 @@ const Main = ({offers, initialOffers, filteredOffers, currentCity, getCities, on
                 <b className="places__found">{offers.length} places to stay in {currentCity}</b>
 
                 {/* рендерит блок фильтра */}
-                <PlaceFilterWrapperHoc
+                {/* <PlaceFilterWrapperHoc
                   // properties
                   initialOffers={initialOffers}
                   offers={filteredOffers}
@@ -98,7 +98,7 @@ const Main = ({offers, initialOffers, filteredOffers, currentCity, getCities, on
                   onSetLowToHighOrderOffers={onSetLowToHighOrderOffers}
                   onSetHighToLowOrderOffers={onSetHighToLowOrderOffers}
                   onSetTopRatedFirstOrderOffers={onSetTopRatedFirstOrderOffers}
-                />
+                /> */}
 
                 <div className="cities__places-list places__list tabs__content">
 
@@ -118,12 +118,12 @@ const Main = ({offers, initialOffers, filteredOffers, currentCity, getCities, on
                 <section className="cities__map map">
 
                   {/* карта с маркерами */}
-                  { offers.length > 0 &&
+                  {/* { offers.length > 0 &&
                     <MapWrapperHoc
                       // properties
                       offers={offers}
                     />
-                  }
+                  } */}
 
                 </section>
               </div>
@@ -169,7 +169,7 @@ const mapStateToProps = (state) => ({
   initialOffers: state.offers.initialOffers,
   filteredOffers: state.offers.offers,
   offers: state.offers.offers.filter((elem) => {
-    return elem.city.includes(state.offers.city);
+    return elem.city.name.includes(state.offers.city);
   }),
 });
 

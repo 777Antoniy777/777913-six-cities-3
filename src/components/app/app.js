@@ -7,15 +7,19 @@ import Place from '../place/place';
 
 const App = ({isShowOffer}) => {
   const renderOfferScreen = () => {
-    if (isShowOffer) {
-      return (
-        <Place />
-      );
-    } else {
-      return (
-        <Main />
-      );
-    }
+
+    return (
+      <Main />
+    );
+    // if (isShowOffer) {
+    //   return (
+    //     <Place />
+    //   );
+    // } else {
+    //   return (
+    //     <Main />
+    //   );
+    // }
   };
 
   const offerScreen = renderOfferScreen();

@@ -1,11 +1,17 @@
 import ActionType from '../../action-type';
 import {extend} from "../../utils.js";
-import offers from '../../mocks/offers';
+// import offersMock from '../../mocks/offers';
+
+// const initialState = {
+//   city: offersMock[0].city,
+//   initialOffers: offersMock,
+//   offers: offersMock.slice(),
+// };
 
 const initialState = {
-  city: offers[0].city,
-  initialOffers: offers,
-  offers: offers.slice(),
+  city: null,
+  initialOffers: [],
+  offers: [].slice(),
 };
 
 export default function createState(state = initialState, action) {
@@ -13,7 +19,9 @@ export default function createState(state = initialState, action) {
 
     case ActionType.GET_OFFERS:
       return extend(state, {
+        initialOffers: action.payload,
         offers: action.payload,
+        city: action.payload[0].city.name,
       });
 
     case ActionType.GET_CURRENT_CITY:
