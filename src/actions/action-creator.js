@@ -16,6 +16,11 @@ const ActionCreator = {
     payload: city,
   }),
 
+  getComments: (comments) => ({
+    type: ActionType.GET_COMMENTS,
+    payload: comments,
+  }),
+
   getCurrentCityAction: (city) => ({
     type: ActionType.GET_CURRENT_CITY,
     payload: city,

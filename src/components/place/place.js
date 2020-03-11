@@ -2,8 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import {connect} from 'react-redux';
 import ActionCreator from '../../actions/action-creator';
+import AsyncActionCreator from "../../actions/async-action-creator";
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 import withMap from "../../hocs/with-map/with-map";
+import withLoadData from "../../hocs/with-load-data/with-load-data";
 import PlacePhotos from "../place-photos/place-photos";
 import PlaceItems from "../place-items/place-items";
 import PlaceHost from "../place-host/place-host";
@@ -11,14 +13,13 @@ import PlaceReviews from "../place-reviews/place-reviews";
 import PreviewPlaces from "../preview-places/preview-places";
 import Map from "../map/map";
 
-const PreviewPlacesWrappedHoc = withActiveItem(PreviewPlaces);
-const MapWrapperHoc = withMap(Map);
+const PreviewPlacesWrappedHOC = withActiveItem(PreviewPlaces);
+const MapWrappedHOC = withMap(Map);
+const PlaceReviewsWrappedHOC = withLoadData(PlaceReviews);
 
-const Place = ({offers, offer, hoveredOffer, onGetCurrentOffer}) => {
-  const {title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, reviews, host, location} = offer;
+const Place = ({offers, offer, hoveredOffer, comments, onGetCurrentOffer, onGetComments}) => {
+  const {id, title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, reviews, host, location} = offer;
   const {avatar, name, status} = host;
-  // const reviewsLength = reviews.length;
-  const reviewsLength = 1;
   let hoveredLocation = null;
   if (hoveredOffer) {
     hoveredLocation = hoveredOffer.location;
@@ -161,13 +162,16 @@ const Place = ({offers, offer, hoveredOffer, onGetCurrentOffer}) => {
               />
 
               <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewsLength}</span></h2>
 
                 {/* рендерит отзывы пользователей */}
-                {/* <PlaceReviews
+
+                <PlaceReviewsWrappedHOC
                   // properties
-                  reviews={reviews}
-                /> */}
+                  hotelId={id}
+                  data={comments}
+                  // handlers
+                  onGetData={onGetComments}
+                />
 
                 <form className="reviews__form form" action="#" method="post">
                   <label className="reviews__label form__label" htmlFor="review">Your review</label>
@@ -230,7 +234,7 @@ const Place = ({offers, offer, hoveredOffer, onGetCurrentOffer}) => {
 
             {/* карта с маркерами */}
             { offers.length > 0 &&
-              <MapWrapperHoc
+              <MapWrappedHOC
                 // properties
                 offers={extendedOffersForMap}
                 activelocation={location}
@@ -251,7 +255,7 @@ const Place = ({offers, offer, hoveredOffer, onGetCurrentOffer}) => {
               <div className="near-places__list places__list">
 
                 {/* рендерит превью мест */}
-                <PreviewPlacesWrappedHoc
+                <PreviewPlacesWrappedHOC
                   // properties
                   offers={extendedOffersForPreviews}
                   // handlers
@@ -321,12 +325,16 @@ const mapStateToProps = (state) => ({
   }),
   offer: state.offer.offer,
   hoveredOffer: state.offer.hoveredOffer,
+  comments: state.comments.comments,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onGetCurrentOffer: (offer) => {
     dispatch(ActionCreator.getCurrentOfferAction(offer));
   },
+  onGetComments: (hotelId) => {
+    dispatch(AsyncActionCreator.getComments(hotelId));
+  }
 });
 
 export default connect(

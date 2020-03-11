@@ -1,25 +1,32 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const PlaceReviews = ({reviews}) => {
+const PlaceReviews = ({data: reviews}) => {
   const splittedReviews = reviews.slice(0, 10);
+  const reviewsLength = reviews.length;
+  // const reviewsLength = 1;
 
   return (
-    <ul className="reviews__list">
+    <React.Fragment>
+      <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewsLength}</span></h2>
 
-      {splittedReviews.map((elem) =>
-        <PlaceReview
-          key={elem.id}
-          review={elem}
-        />
-      )}
+      <ul className="reviews__list">
 
-    </ul>
+        {splittedReviews.map((elem) =>
+          <PlaceReview
+            key={elem.id}
+            review={elem}
+          />
+        )}
+
+      </ul>
+    </React.Fragment>
   );
 };
 
 const PlaceReview = ({review}) => {
-  const {body, rating, name, date} = review;
+  const {user, comment, rating, date} = review;
+  const {name} = user;
 
   const getRating = (val) => {
     let ratingStars = Math.round(val);
@@ -46,7 +53,7 @@ const PlaceReview = ({review}) => {
           </div>
         </div>
         <p className="reviews__text">
-          {body}
+          {comment}
         </p>
         {/* после получения данных с сервера заменить datetime */}
         <time className="reviews__time" dateTime="2019-04-24">{date}</time>

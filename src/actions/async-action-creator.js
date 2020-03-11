@@ -78,12 +78,26 @@ const AsyncActionCreator = {
   getOffers: () => (dispatch, getState, api) => {
     return api.get(`/hotels`)
       .then((response) => {
-        console.log(response);
+        console.log(`offers:`, response);
         response = createAdapter(response.data);
 
         dispatch(ActionCreator.getInitialOffers(response));
         dispatch(ActionCreator.getOffers(createAdapter(response.slice())));
         dispatch(ActionCreator.getInitialCity(response[0].city.name));
+      })
+      .catch(function (error) {
+        console.log(error);
+        throw error;
+      });
+  },
+
+  getComments: (hotelId) => (dispatch, getState, api) => {
+    return api.get(`/comments/${hotelId}`)
+      .then((response) => {
+        console.log(`сomments:`, response.data);
+        response = response.data;
+
+        dispatch(ActionCreator.getComments(response));
       })
       .catch(function (error) {
         console.log(error);
