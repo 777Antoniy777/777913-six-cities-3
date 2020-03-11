@@ -9,7 +9,6 @@ const withMap = (Component) => {
       this.map = React.createRef();
       this.state = {
         map: null,
-        center: [52.38333, 4.9],
         cities: [],
       };
     }
@@ -32,6 +31,7 @@ const withMap = (Component) => {
       const {cities} = this.state;
 
       if (cities.length !== 0) {
+        this.updateMapCenter();
         this.removeMarkersFromMap();
         this.getMarkers();
       }
@@ -44,8 +44,10 @@ const withMap = (Component) => {
     }
 
     createMap() {
-      const {center} = this.state;
-      const zoom = 12;
+      const {offers} = this.props;
+      const {location} = offers[0].city;
+      const {latitude, longitude, zoom} = location;
+      const center = [latitude, longitude];
       const mapRef = this.map.current;
       const voyager = leaflet.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
         attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
@@ -67,6 +69,16 @@ const withMap = (Component) => {
       }, this.getMarkers);
     }
 
+    updateMapCenter() {
+      const {offers} = this.props;
+      const {map} = this.state;
+      const {location} = offers[0].city;
+      const {latitude, longitude, zoom} = location;
+      const center = [latitude, longitude];
+
+      map.setView(center, zoom);
+    }
+
     createMarker(url, coords) {
       const icon = leaflet.icon({
         iconUrl: url,
@@ -79,22 +91,23 @@ const withMap = (Component) => {
     }
 
     getMarkers() {
-      const {offers, activeCoords, hoveredCoords} = this.props;
+      const {offers, activelocation, hoveredLocation} = this.props;
       const markersArr = [];
       let marker;
 
       offers.forEach((elem) => {
-        marker = this.createMarker(`img/pin.svg`, elem.coords);
+        const location = elem.location;
+        marker = this.createMarker(`img/pin.svg`, [location.latitude, location.longitude]);
 
-        if (activeCoords) {
-          if (elem.coords === activeCoords) {
-            marker = this.createMarker(`img/pin-active.svg`, activeCoords);
+        if (activelocation) {
+          if (location === activelocation) {
+            marker = this.createMarker(`img/pin-active.svg`, [activelocation.latitude, activelocation.longitude]);
           }
         }
 
-        if (hoveredCoords) {
-          if (elem.coords === hoveredCoords) {
-            marker = this.createMarker(`img/pin-active.svg`, hoveredCoords);
+        if (hoveredLocation) {
+          if (location === hoveredLocation) {
+            marker = this.createMarker(`img/pin-active.svg`, [hoveredLocation.latitude, hoveredLocation.longitude]);
           }
         }
 
@@ -132,8 +145,8 @@ const withMap = (Component) => {
 
   WithMap.propTypes = {
     offers: PropTypes.arrayOf(PropTypes.object),
-    activeCoords: PropTypes.arrayOf(PropTypes.number),
-    hoveredCoords: PropTypes.arrayOf(PropTypes.number),
+    activelocation: PropTypes.objectOf(PropTypes.number),
+    hoveredLocation: PropTypes.objectOf(PropTypes.number),
   };
 
   return WithMap;

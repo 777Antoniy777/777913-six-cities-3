@@ -15,12 +15,13 @@ const PreviewPlacesWrappedHoc = withActiveItem(PreviewPlaces);
 const MapWrapperHoc = withMap(Map);
 
 const Place = ({offers, offer, hoveredOffer, onGetCurrentOffer}) => {
-  const {title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, reviews, host, coords} = offer;
+  const {title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, reviews, host, location} = offer;
   const {avatar, name, status} = host;
-  const reviewsLength = reviews.length;
-  let hoveredCoords;
-  if (hoveredOffer !== null) {
-    hoveredCoords = hoveredOffer.coords;
+  // const reviewsLength = reviews.length;
+  const reviewsLength = 1;
+  let hoveredLocation = null;
+  if (hoveredOffer) {
+    hoveredLocation = hoveredOffer.location;
   }
 
   const getRating = (val) => {
@@ -31,13 +32,15 @@ const Place = ({offers, offer, hoveredOffer, onGetCurrentOffer}) => {
   };
 
   const splitOffers = () => {
-    const splittedOffers = offers.filter((elem) => {
-      return elem !== offer;
+    const filteredOffers = offers.filter((elem) => {
+      return elem.id !== offer.id;
     });
-    return splittedOffers;
+    return filteredOffers.slice(0, 3);
   };
 
-  const splittedOffers = splitOffers();
+  const extendedOffersForMap = splitOffers();
+  const extendedOffersForPreviews = splitOffers();
+  extendedOffersForMap.push(offer);
 
   return (
     <div className="page">
@@ -161,10 +164,10 @@ const Place = ({offers, offer, hoveredOffer, onGetCurrentOffer}) => {
                 <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewsLength}</span></h2>
 
                 {/* рендерит отзывы пользователей */}
-                <PlaceReviews
+                {/* <PlaceReviews
                   // properties
                   reviews={reviews}
-                />
+                /> */}
 
                 <form className="reviews__form form" action="#" method="post">
                   <label className="reviews__label form__label" htmlFor="review">Your review</label>
@@ -229,16 +232,16 @@ const Place = ({offers, offer, hoveredOffer, onGetCurrentOffer}) => {
             { offers.length > 0 &&
               <MapWrapperHoc
                 // properties
-                offers={offers}
-                activeCoords={coords}
-                hoveredCoords={hoveredCoords}
+                offers={extendedOffersForMap}
+                activelocation={location}
+                hoveredLocation={hoveredLocation}
               />
             }
 
           </section>
         </section>
 
-        { splittedOffers.length > 0 &&
+        { extendedOffersForPreviews.length > 0 &&
 
           <div className="container">
 
@@ -250,7 +253,7 @@ const Place = ({offers, offer, hoveredOffer, onGetCurrentOffer}) => {
                 {/* рендерит превью мест */}
                 <PreviewPlacesWrappedHoc
                   // properties
-                  offers={splittedOffers}
+                  offers={extendedOffersForPreviews}
                   // handlers
                   onGetActiveItem={onGetCurrentOffer}
                 />
@@ -270,11 +273,13 @@ const Place = ({offers, offer, hoveredOffer, onGetCurrentOffer}) => {
 };
 
 Place.propTypes = {
+  offers: PropTypes.arrayOf(PropTypes.object),
   offer: PropTypes.shape({
     id: PropTypes.number,
-    city: PropTypes.string,
+    city: PropTypes.object,
     title: PropTypes.string,
     premium: PropTypes.bool,
+    favorite: PropTypes.bool,
     src: PropTypes.string,
     photos: PropTypes.arrayOf(PropTypes.string),
     price: PropTypes.number,
@@ -286,13 +291,14 @@ Place.propTypes = {
     items: PropTypes.arrayOf(PropTypes.string),
     reviews: PropTypes.arrayOf(PropTypes.object),
     host: PropTypes.object,
-    coords: PropTypes.arrayOf(PropTypes.number),
+    location: PropTypes.objectOf(PropTypes.number),
   }),
   hoveredOffer: PropTypes.shape({
     id: PropTypes.number,
-    city: PropTypes.string,
+    city: PropTypes.object,
     title: PropTypes.string,
     premium: PropTypes.bool,
+    favorite: PropTypes.bool,
     src: PropTypes.string,
     photos: PropTypes.arrayOf(PropTypes.string),
     price: PropTypes.number,
@@ -304,15 +310,14 @@ Place.propTypes = {
     items: PropTypes.arrayOf(PropTypes.string),
     reviews: PropTypes.arrayOf(PropTypes.object),
     host: PropTypes.object,
-    coords: PropTypes.arrayOf(PropTypes.number),
+    location: PropTypes.objectOf(PropTypes.number),
   }),
-  offers: PropTypes.arrayOf(PropTypes.object),
   onGetCurrentOffer: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
   offers: state.offers.initialOffers.filter((elem) => {
-    return elem.city.includes(state.offers.city);
+    return elem.city.name.includes(state.offers.city);
   }),
   offer: state.offer.offer,
   hoveredOffer: state.offer.hoveredOffer,

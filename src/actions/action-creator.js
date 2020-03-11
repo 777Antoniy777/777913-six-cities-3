@@ -1,9 +1,19 @@
 import ActionType from '../action-type';
 
 const ActionCreator = {
+  getInitialOffers: (offers) => ({
+    type: ActionType.GET_INITIAL_OFFERS,
+    payload: offers,
+  }),
+
   getOffers: (offers) => ({
     type: ActionType.GET_OFFERS,
     payload: offers,
+  }),
+
+  getInitialCity: (city) => ({
+    type: ActionType.GET_INITIAL_CITY,
+    payload: city,
   }),
 
   getCurrentCityAction: (city) => ({

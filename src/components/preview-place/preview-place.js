@@ -96,9 +96,10 @@ const PreviewPlace = ({placeData, isShowOffer, onGetActiveItem, onGetHoveredOffe
 PreviewPlace.propTypes = {
   placeData: PropTypes.shape({
     id: PropTypes.number,
-    city: PropTypes.string,
+    city: PropTypes.object,
     title: PropTypes.string,
     premium: PropTypes.bool,
+    favorite: PropTypes.bool,
     src: PropTypes.string,
     photos: PropTypes.arrayOf(PropTypes.string),
     price: PropTypes.number,

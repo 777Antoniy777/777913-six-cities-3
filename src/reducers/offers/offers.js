@@ -11,17 +11,25 @@ import {extend} from "../../utils.js";
 const initialState = {
   city: null,
   initialOffers: [],
-  offers: [].slice(),
+  offers: [],
 };
 
 export default function createState(state = initialState, action) {
   switch (action.type) {
 
-    case ActionType.GET_OFFERS:
+    case ActionType.GET_INITIAL_OFFERS:
       return extend(state, {
         initialOffers: action.payload,
+      });
+
+    case ActionType.GET_OFFERS:
+      return extend(state, {
         offers: action.payload,
-        city: action.payload[0].city.name,
+      });
+
+    case ActionType.GET_INITIAL_CITY:
+      return extend(state, {
+        city: action.payload,
       });
 
     case ActionType.GET_CURRENT_CITY:
