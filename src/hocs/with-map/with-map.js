@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import leaflet from "leaflet";
-import {connect} from 'react-redux';
 
 const withMap = (Component) => {
   class WithMap extends React.Component {
@@ -92,14 +91,9 @@ const withMap = (Component) => {
     }
 
     getMarkers() {
-      const {offers, activelocation, hoveredOffer} = this.props;
+      const {offers, activelocation, hoveredLocation} = this.props;
       const markersArr = [];
       let marker;
-
-      let hoveredLocation = null;
-      if (hoveredOffer) {
-        hoveredLocation = hoveredOffer.location;
-      }
 
       offers.forEach((elem) => {
         const location = elem.location;
@@ -155,15 +149,7 @@ const withMap = (Component) => {
     hoveredLocation: PropTypes.objectOf(PropTypes.number),
   };
 
-  const mapStateToProps = (state) => ({
-    hoveredOffer: state.offer.hoveredOffer,
-  });
-
-  return connect(
-      mapStateToProps
-  )(WithMap);
-
-  // return WithMap;
+  return WithMap;
 };
 
 export default withMap;

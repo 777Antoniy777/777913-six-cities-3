@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {connect} from 'react-redux';
-import ActionCreator from '../../actions/action-creator';
-import AsyncActionCreator from "../../actions/async-action-creator";
+import {OfferActionCreator} from "../../actions/offer/action-creator";
+import {CommentsAsyncActionCreator} from "../../actions/comments/async-action-creator";
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 import withMap from "../../hocs/with-map/with-map";
 import withLoadData from "../../hocs/with-load-data/with-load-data";
@@ -18,12 +18,14 @@ const MapWrappedHOC = withMap(Map);
 const PlaceReviewsWrappedHOC = withLoadData(PlaceReviews);
 
 const Place = ({offers, offer, hoveredOffer, comments, onGetCurrentOffer, onGetComments}) => {
-  const {id, title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, reviews, host, location} = offer;
+  const {id, title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offer;
   const {avatar, name, status} = host;
-  // let hoveredLocation = null;
-  // if (hoveredOffer) {
-  //   hoveredLocation = hoveredOffer.location;
-  // }
+  const splittedReviews = comments.slice(0, 10);
+  const reviewsLength = splittedReviews.length;
+  let hoveredLocation = null;
+  if (hoveredOffer) {
+    hoveredLocation = hoveredOffer.location;
+  }
 
   const getRating = (val) => {
     let ratingStars = Math.round(val);
@@ -162,13 +164,13 @@ const Place = ({offers, offer, hoveredOffer, comments, onGetCurrentOffer, onGetC
               />
 
               <section className="property__reviews reviews">
+                <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewsLength}</span></h2>
 
                 {/* рендерит отзывы пользователей */}
-
                 <PlaceReviewsWrappedHOC
                   // properties
                   hotelId={id}
-                  data={comments}
+                  data={splittedReviews}
                   // handlers
                   onGetData={onGetComments}
                 />
@@ -238,7 +240,7 @@ const Place = ({offers, offer, hoveredOffer, comments, onGetCurrentOffer, onGetC
                 // properties
                 offers={extendedOffersForMap}
                 activelocation={location}
-                // hoveredLocation={hoveredLocation}
+                hoveredLocation={hoveredLocation}
               />
             }
 
@@ -293,7 +295,6 @@ Place.propTypes = {
     bedroomAmount: PropTypes.number,
     guestsAmount: PropTypes.number,
     items: PropTypes.arrayOf(PropTypes.string),
-    reviews: PropTypes.arrayOf(PropTypes.object),
     host: PropTypes.object,
     location: PropTypes.objectOf(PropTypes.number),
   }),
@@ -312,7 +313,6 @@ Place.propTypes = {
     bedroomAmount: PropTypes.number,
     guestsAmount: PropTypes.number,
     items: PropTypes.arrayOf(PropTypes.string),
-    reviews: PropTypes.arrayOf(PropTypes.object),
     host: PropTypes.object,
     location: PropTypes.objectOf(PropTypes.number),
   }),
@@ -324,16 +324,16 @@ const mapStateToProps = (state) => ({
     return elem.city.name.includes(state.offers.city);
   }),
   offer: state.offer.offer,
-  // hoveredOffer: state.offer.hoveredOffer,
+  hoveredOffer: state.offer.hoveredOffer,
   comments: state.comments.comments,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onGetCurrentOffer: (offer) => {
-    dispatch(ActionCreator.getCurrentOfferAction(offer));
+    dispatch(OfferActionCreator.getCurrentOffer(offer));
   },
   onGetComments: (hotelId) => {
-    dispatch(AsyncActionCreator.getComments(hotelId));
+    dispatch(CommentsAsyncActionCreator.getComments(hotelId));
   }
 });
 

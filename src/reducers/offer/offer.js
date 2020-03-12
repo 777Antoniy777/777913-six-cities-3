@@ -1,4 +1,4 @@
-import ActionType from '../../action-type';
+import {OfferActionType} from "../../actions/offer/action-creator";
 import {extend} from "../../utils.js";
 
 const initialState = {
@@ -10,22 +10,22 @@ const initialState = {
 export default function createState(state = initialState, action) {
   switch (action.type) {
 
-    case ActionType.GET_CURRENT_OFFER:
+    case OfferActionType.GET_CURRENT_OFFER:
       return extend(state, {
         offer: action.payload,
       });
 
-    case ActionType.GET_HOVERED_OFFER:
+    case OfferActionType.GET_HOVERED_OFFER:
       return extend(state, {
         hoveredOffer: action.payload,
       });
 
-    case ActionType.REMOVE_HOVERED_OFFER:
+    case OfferActionType.REMOVE_HOVERED_OFFER:
       return extend(state, {
         hoveredOffer: action.payload,
       });
 
-    case ActionType.SET_OFFER_STATUS:
+    case OfferActionType.SET_OFFER_STATUS:
       return extend(state, {
         isShowOffer: action.payload,
       });

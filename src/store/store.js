@@ -3,7 +3,7 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 import thunk from "redux-thunk";
 import rootReducer from "../reducers/index";
 import createAPI from "../api";
-import AsyncActionCreator from "../actions/async-action-creator";
+import {OffersAsyncActionCreator} from "../actions/offers/async-action-creator";
 
 // const onUnauthorized = () => {
 //   store.dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH));
@@ -17,7 +17,7 @@ const store = createStore(
     composeWithDevTools(applyMiddleware(thunk.withExtraArgument(api)))
 );
 
-store.dispatch(AsyncActionCreator.getOffers());
+store.dispatch(OffersAsyncActionCreator.getOffers());
 
 store.subscribe(() => {
   /* eslint-disable no-console */

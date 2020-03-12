@@ -1,5 +1,4 @@
-/* eslint-disable no-console */
-import ActionCreator from "./action-creator";
+import {OffersActionCreator} from "./action-creator";
 
 const createAdapter = (json) => {
   const arr = [];
@@ -74,30 +73,16 @@ const createAdapter = (json) => {
   return arr;
 };
 
-const AsyncActionCreator = {
+const OffersAsyncActionCreator = {
   getOffers: () => (dispatch, getState, api) => {
     return api.get(`/hotels`)
       .then((response) => {
         // console.log(`offers:`, response);
         response = createAdapter(response.data);
 
-        dispatch(ActionCreator.getInitialOffers(response));
-        dispatch(ActionCreator.getOffers(createAdapter(response.slice())));
-        dispatch(ActionCreator.getInitialCity(response[0].city.name));
-      })
-      .catch(function (error) {
-        console.log(error);
-        throw error;
-      });
-  },
-
-  getComments: (hotelId) => (dispatch, getState, api) => {
-    return api.get(`/comments/${hotelId}`)
-      .then((response) => {
-        console.log(`сomments:`, response.data);
-        response = response.data;
-
-        dispatch(ActionCreator.getComments(response));
+        dispatch(OffersActionCreator.getInitialOffers(response));
+        dispatch(OffersActionCreator.getOffers(createAdapter(response.slice())));
+        dispatch(OffersActionCreator.getInitialCity(response[0].city.name));
       })
       .catch(function (error) {
         console.log(error);
@@ -106,4 +91,4 @@ const AsyncActionCreator = {
   },
 };
 
-export default AsyncActionCreator;
+export {OffersAsyncActionCreator};

@@ -5,23 +5,19 @@ const withLoadData = (Component) => {
   class WithLoadData extends React.Component {
     constructor(props) {
       super(props);
-      this.map = React.createRef();
-      this.state = {
-        data: this.props.data,
-      };
     }
 
     shouldComponentUpdate(nextProps, nextState) {
       const {hotelId, onGetData} = this.props;
       console.log(this.props.hotelId, nextProps.hotelId)
-      console.log(this.props.data, nextProps.data)
+      console.log(this.props.data, nextProps.data, this.props.data === nextProps.data)
 
-      if (this.props.hotelId === nextProps.hotelId) {
+      if (_.isEqual(this.props.data, nextProps.data) && this.props.hotelId === nextProps.hotelId) {
         return false;
       }
 
-      // if (this.props.hotelId !== nextProps.hotelId) {
-      //   onGetData(hotelId);
+      // if (this.props.hotelId === nextProps.hotelId) {
+      //   return false;
       // }
 
       return true;
@@ -35,7 +31,7 @@ const withLoadData = (Component) => {
     }
 
     componentDidUpdate() {
-      const {hotelId, onGetData} = this.props;
+      const {hotelId, onGetData, data} = this.props;
       console.log(`ID:`, hotelId);
 
       onGetData(hotelId);

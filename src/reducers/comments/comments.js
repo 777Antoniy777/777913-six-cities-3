@@ -1,4 +1,4 @@
-import ActionType from '../../action-type';
+import {CommentsActionType} from "../../actions/comments/action-creator";
 import {extend} from "../../utils.js";
 
 const initialState = {
@@ -8,7 +8,7 @@ const initialState = {
 export default function createState(state = initialState, action) {
   switch (action.type) {
 
-    case ActionType.GET_COMMENTS:
+    case CommentsActionType.GET_COMMENTS:
       return extend(state, {
         comments: action.payload,
       });

@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from "prop-types";
 import {connect} from 'react-redux';
 import classNames from 'classnames';
-import ActionCreator from '../../actions/action-creator';
+import {OffersActionCreator} from "../../actions/offers/action-creator";
+import {OfferActionCreator} from "../../actions/offer/action-creator";
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 import withMap from "../../hocs/with-map/with-map";
 import withPlaceFilter from "../../hocs/with-place-filter/with-place-filter";
@@ -175,22 +176,22 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onGetCurrentCity: (city) => {
-    dispatch(ActionCreator.getCurrentCityAction(city));
+    dispatch(OffersActionCreator.getCurrentCity(city));
   },
   onGetCurrentOffer: (offer) => {
-    dispatch(ActionCreator.getCurrentOfferAction(offer));
+    dispatch(OfferActionCreator.getCurrentOffer(offer));
   },
   onSetDefaultOrderOffers: (offers) => {
-    dispatch(ActionCreator.setDefaultOrderOffers(offers));
+    dispatch(OffersActionCreator.setDefaultOrderOffers(offers));
   },
   onSetLowToHighOrderOffers: (offers) => {
-    dispatch(ActionCreator.setLowToHighOrderOffers(offers));
+    dispatch(OffersActionCreator.setLowToHighOrderOffers(offers));
   },
   onSetHighToLowOrderOffers: (offers) => {
-    dispatch(ActionCreator.setHighToLowOrderOffers(offers));
+    dispatch(OffersActionCreator.setHighToLowOrderOffers(offers));
   },
   onSetTopRatedFirstOrderOffers: (offers) => {
-    dispatch(ActionCreator.setTopRatedFirstOrderOffers(offers));
+    dispatch(OffersActionCreator.setTopRatedFirstOrderOffers(offers));
   },
 });
 

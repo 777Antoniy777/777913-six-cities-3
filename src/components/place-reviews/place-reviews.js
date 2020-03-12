@@ -2,28 +2,18 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const PlaceReviews = ({data: reviews}) => {
-  const splittedReviews = reviews.slice(0, 10);
-  const reviewsLength = reviews.length;
-
   return (
-    <React.Fragment>
-      { reviewsLength > 0 &&
-        <React.Fragment>
-          <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewsLength}</span></h2>
+    <ul className="reviews__list">
 
-          <ul className="reviews__list">
+      { reviews &&
+        reviews.map((elem) =>
+          <PlaceReview
+            key={elem.id}
+            review={elem}
+          />
+        )}
 
-            {splittedReviews.map((elem) =>
-              <PlaceReview
-                key={elem.id}
-                review={elem}
-              />
-            )}
-
-          </ul>
-        </React.Fragment>
-      }
-    </React.Fragment>
+    </ul>
   );
 };
 
