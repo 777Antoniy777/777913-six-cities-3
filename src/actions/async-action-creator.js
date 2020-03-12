@@ -78,7 +78,7 @@ const AsyncActionCreator = {
   getOffers: () => (dispatch, getState, api) => {
     return api.get(`/hotels`)
       .then((response) => {
-        console.log(`offers:`, response);
+        // console.log(`offers:`, response);
         response = createAdapter(response.data);
 
         dispatch(ActionCreator.getInitialOffers(response));

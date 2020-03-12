@@ -4,29 +4,32 @@ import PropTypes from "prop-types";
 const PlaceReviews = ({data: reviews}) => {
   const splittedReviews = reviews.slice(0, 10);
   const reviewsLength = reviews.length;
-  // const reviewsLength = 1;
 
   return (
     <React.Fragment>
-      <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewsLength}</span></h2>
+      { reviewsLength > 0 &&
+        <React.Fragment>
+          <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewsLength}</span></h2>
 
-      <ul className="reviews__list">
+          <ul className="reviews__list">
 
-        {splittedReviews.map((elem) =>
-          <PlaceReview
-            key={elem.id}
-            review={elem}
-          />
-        )}
+            {splittedReviews.map((elem) =>
+              <PlaceReview
+                key={elem.id}
+                review={elem}
+              />
+            )}
 
-      </ul>
+          </ul>
+        </React.Fragment>
+      }
     </React.Fragment>
   );
 };
 
 const PlaceReview = ({review}) => {
   const {user, comment, rating, date} = review;
-  const {name} = user;
+  const {name, avatar_url: avatar} = user;
 
   const getRating = (val) => {
     let ratingStars = Math.round(val);
@@ -40,7 +43,7 @@ const PlaceReview = ({review}) => {
 
       <div className="reviews__user user">
         <div className="reviews__avatar-wrapper user__avatar-wrapper">
-          <img className="reviews__avatar user__avatar" src="img/avatar-max.jpg" width={54} height={54} alt="Reviews avatar" />
+          <img className="reviews__avatar user__avatar" src={avatar} width={54} height={54} alt="Reviews avatar" />
         </div>
         <span className="reviews__user-name">{name}</span>
       </div>
@@ -55,8 +58,7 @@ const PlaceReview = ({review}) => {
         <p className="reviews__text">
           {comment}
         </p>
-        {/* после получения данных с сервера заменить datetime */}
-        <time className="reviews__time" dateTime="2019-04-24">{date}</time>
+        <time className="reviews__time" dateTime={date}>{date}</time>
       </div>
 
     </li>
@@ -64,15 +66,20 @@ const PlaceReview = ({review}) => {
 };
 
 PlaceReviews.propTypes = {
-  reviews: PropTypes.arrayOf(PropTypes.object),
+  data: PropTypes.arrayOf(PropTypes.object),
 };
 
 PlaceReview.propTypes = {
   review: PropTypes.shape({
     id: PropTypes.number,
-    body: PropTypes.string,
+    user: PropTypes.shape({
+      id: PropTypes.number,
+      is_pro: PropTypes.bool,
+      name: PropTypes.string,
+      avatar_url: PropTypes.string,
+    }),
+    comment: PropTypes.string,
     rating: PropTypes.number,
-    name: PropTypes.string,
     date: PropTypes.string,
   }),
 };

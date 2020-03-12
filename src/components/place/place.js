@@ -20,10 +20,10 @@ const PlaceReviewsWrappedHOC = withLoadData(PlaceReviews);
 const Place = ({offers, offer, hoveredOffer, comments, onGetCurrentOffer, onGetComments}) => {
   const {id, title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, reviews, host, location} = offer;
   const {avatar, name, status} = host;
-  let hoveredLocation = null;
-  if (hoveredOffer) {
-    hoveredLocation = hoveredOffer.location;
-  }
+  // let hoveredLocation = null;
+  // if (hoveredOffer) {
+  //   hoveredLocation = hoveredOffer.location;
+  // }
 
   const getRating = (val) => {
     let ratingStars = Math.round(val);
@@ -238,7 +238,7 @@ const Place = ({offers, offer, hoveredOffer, comments, onGetCurrentOffer, onGetC
                 // properties
                 offers={extendedOffersForMap}
                 activelocation={location}
-                hoveredLocation={hoveredLocation}
+                // hoveredLocation={hoveredLocation}
               />
             }
 
@@ -324,7 +324,7 @@ const mapStateToProps = (state) => ({
     return elem.city.name.includes(state.offers.city);
   }),
   offer: state.offer.offer,
-  hoveredOffer: state.offer.hoveredOffer,
+  // hoveredOffer: state.offer.hoveredOffer,
   comments: state.comments.comments,
 });
 
