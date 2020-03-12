@@ -4,7 +4,7 @@ const CommentsAsyncActionCreator = {
   getComments: (hotelId) => (dispatch, getState, api) => {
     return api.get(`/comments/${hotelId}`)
       .then((response) => {
-        console.log(`сomments:`, response.data);
+        console.log(`ПОЛУЧАЮ ДАННЫЕ:`, response.data);
         response = response.data;
 
         dispatch(CommentsActionCreator.getComments(response));

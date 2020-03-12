@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import {connect} from 'react-redux';
 import {OfferActionCreator} from "../../actions/offer/action-creator";
+import {CommentsActionCreator} from "../../actions/comments/action-creator";
 import {CommentsAsyncActionCreator} from "../../actions/comments/async-action-creator";
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 import withMap from "../../hocs/with-map/with-map";
@@ -17,7 +18,7 @@ const PreviewPlacesWrappedHOC = withActiveItem(PreviewPlaces);
 const MapWrappedHOC = withMap(Map);
 const PlaceReviewsWrappedHOC = withLoadData(PlaceReviews);
 
-const Place = ({offers, offer, hoveredOffer, comments, onGetCurrentOffer, onGetComments}) => {
+const Place = ({offers, offer, hoveredOffer, comments, status: commentsStatus, onGetCurrentOffer, onGetComments, onSetCommentsStatus}) => {
   const {id, title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offer;
   const {avatar, name, status} = host;
   const splittedReviews = comments.slice(0, 10);
@@ -35,10 +36,11 @@ const Place = ({offers, offer, hoveredOffer, comments, onGetCurrentOffer, onGetC
   };
 
   const splitOffers = () => {
-    const filteredOffers = offers.filter((elem) => {
-      return elem.id !== offer.id;
-    });
-    return filteredOffers.slice(0, 3);
+    // const filteredOffers = offers.filter((elem) => {
+    //   return elem.id !== offer.id;
+    // });
+    // return filteredOffers.slice(0, 3);
+    return offers.slice(0, 3);
   };
 
   const extendedOffersForMap = splitOffers();
@@ -169,10 +171,12 @@ const Place = ({offers, offer, hoveredOffer, comments, onGetCurrentOffer, onGetC
                 {/* рендерит отзывы пользователей */}
                 <PlaceReviewsWrappedHOC
                   // properties
-                  hotelId={id}
+                  offerId={id}
                   data={splittedReviews}
+                  status={commentsStatus}
                   // handlers
                   onGetData={onGetComments}
+                  onSetCommentsStatus={onSetCommentsStatus}
                 />
 
                 <form className="reviews__form form" action="#" method="post">
@@ -317,6 +321,8 @@ Place.propTypes = {
     location: PropTypes.objectOf(PropTypes.number),
   }),
   onGetCurrentOffer: PropTypes.func,
+  onGetComments: PropTypes.func,
+  onSetCommentsStatus: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -326,14 +332,18 @@ const mapStateToProps = (state) => ({
   offer: state.offer.offer,
   hoveredOffer: state.offer.hoveredOffer,
   comments: state.comments.comments,
+  status: state.comments.status,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onGetCurrentOffer: (offer) => {
     dispatch(OfferActionCreator.getCurrentOffer(offer));
   },
-  onGetComments: (hotelId) => {
-    dispatch(CommentsAsyncActionCreator.getComments(hotelId));
+  onGetComments: (offerId) => {
+    dispatch(CommentsAsyncActionCreator.getComments(offerId));
+  },
+  onSetCommentsStatus: (status) => {
+    dispatch(CommentsActionCreator.setCommentsStatus(status));
   }
 });
 
