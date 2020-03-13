@@ -77,15 +77,19 @@ const OffersAsyncActionCreator = {
   getOffers: () => (dispatch, getState, api) => {
     return api.get(`/hotels`)
       .then((response) => {
-        // console.log(`offers:`, response);
         response = createAdapter(response.data);
 
         dispatch(OffersActionCreator.getInitialOffers(response));
         dispatch(OffersActionCreator.getOffers(createAdapter(response.slice())));
         dispatch(OffersActionCreator.getInitialCity(response[0].city.name));
+        dispatch(OffersActionCreator.setOffersRequestStatus(`success`));
+        dispatch(OffersActionCreator.setOffersRequestMessage(null));
       })
       .catch(function (error) {
         console.log(error);
+        dispatch(OffersActionCreator.setOffersRequestStatus(`error`));
+        dispatch(OffersActionCreator.setOffersRequestMessage(`Ошибка загрузки предложений. Попробуйте позже`));
+
         throw error;
       });
   },

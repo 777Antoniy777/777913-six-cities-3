@@ -9,6 +9,8 @@ import {extend} from "../../utils.js";
 // };
 
 const initialState = {
+  requestStatus: null,
+  requestMessage: null,
   city: null,
   initialOffers: [],
   offers: [],
@@ -16,6 +18,16 @@ const initialState = {
 
 export default function createState(state = initialState, action) {
   switch (action.type) {
+
+    case OffersActionType.SET_OFFERS_REQUEST_STATUS:
+      return extend(state, {
+        requestStatus: action.payload,
+      });
+
+    case OffersActionType.SET_OFFERS_REQUEST_MESSAGE:
+      return extend(state, {
+        requestMessage: action.payload,
+      });
 
     case OffersActionType.GET_INITIAL_OFFERS:
       return extend(state, {

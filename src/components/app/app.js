@@ -19,13 +19,11 @@ const App = ({isShowOffer}) => {
     }
   };
 
-  const offerScreen = renderOfferScreen();
-
   return (
     <BrowserRouter>
       <Switch>
         <Route path="/" exact>
-          {offerScreen}
+          {renderOfferScreen()}
         </Route>
         <Route path="/offer">
           <Place />

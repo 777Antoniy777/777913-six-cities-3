@@ -21,7 +21,7 @@ store.dispatch(OffersAsyncActionCreator.getOffers());
 
 store.subscribe(() => {
   /* eslint-disable no-console */
-  // console.log(`store was changed`, store.getState());
+  console.log(`store was changed`, store.getState());
 });
 
 export default store;

@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import classNames from 'classnames';
 import {OffersActionCreator} from "../../actions/offers/action-creator";
 import {OfferActionCreator} from "../../actions/offer/action-creator";
+import {ErrorMainWrapperStyle, ErrorMessageStyle} from "../../style";
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 import withMap from "../../hocs/with-map/with-map";
 import withPlaceFilter from "../../hocs/with-place-filter/with-place-filter";
@@ -12,13 +13,14 @@ import PreviewPlaces from '../preview-places/preview-places';
 import Map from '../map/map';
 import Cities from '../cities/cities';
 import PlaceFilter from '../place-filter/place-filter';
+import ErrorMessage from "../error-message/error-message";
 
 const CitiesWrappedHoc = withActiveItem(Cities);
 const PreviewPlacesWrappedHoc = withActiveItem(PreviewPlaces);
 const MapWrapperHoc = withMap(Map);
 const PlaceFilterWrapperHoc = withPlaceFilter(PlaceFilter);
 
-const Main = ({offers, initialOffers, filteredOffers, currentCity, getCities, onGetCurrentCity, onGetCurrentOffer, onSetDefaultOrderOffers, onSetLowToHighOrderOffers, onSetHighToLowOrderOffers, onSetTopRatedFirstOrderOffers}) => {
+const Main = ({requestStatus, requestMessage, offers, initialOffers, filteredOffers, currentCity, getCities, getCurrentCity, getCurrentOffer, setDefaultOrderOffers, setLowToHighOrderOffers, setHighToLowOrderOffers, setTopRatedFirstOrderOffers}) => {
   const cities = getCities();
 
   const mainEmptyClass = classNames({
@@ -69,7 +71,7 @@ const Main = ({offers, initialOffers, filteredOffers, currentCity, getCities, on
                 cities={cities}
                 currentCity={currentCity}
                 // handlers
-                onGetActiveItem={onGetCurrentCity}
+                getActiveItem={getCurrentCity}
               />
             }
 
@@ -77,6 +79,15 @@ const Main = ({offers, initialOffers, filteredOffers, currentCity, getCities, on
         </div>
 
         <div className="cities">
+
+          { requestStatus === `error` &&
+            <ErrorMessage
+              // properties
+              requestMessage={requestMessage}
+              wrapperStyle={ErrorMainWrapperStyle}
+              messageStyle={ErrorMessageStyle}
+            />
+          }
 
           { offers.length === 0 &&
             <MainEmpty />
@@ -95,10 +106,10 @@ const Main = ({offers, initialOffers, filteredOffers, currentCity, getCities, on
                   initialOffers={initialOffers}
                   offers={filteredOffers}
                   // handlers
-                  onSetDefaultOrderOffers={onSetDefaultOrderOffers}
-                  onSetLowToHighOrderOffers={onSetLowToHighOrderOffers}
-                  onSetHighToLowOrderOffers={onSetHighToLowOrderOffers}
-                  onSetTopRatedFirstOrderOffers={onSetTopRatedFirstOrderOffers}
+                  setDefaultOrderOffers={setDefaultOrderOffers}
+                  setLowToHighOrderOffers={setLowToHighOrderOffers}
+                  setHighToLowOrderOffers={setHighToLowOrderOffers}
+                  setTopRatedFirstOrderOffers={setTopRatedFirstOrderOffers}
                 />
 
                 <div className="cities__places-list places__list tabs__content">
@@ -108,7 +119,7 @@ const Main = ({offers, initialOffers, filteredOffers, currentCity, getCities, on
                     // properties
                     offers={offers}
                     // handlers
-                    onGetActiveItem={onGetCurrentOffer}
+                    getActiveItem={getCurrentOffer}
                   />
 
                 </div>
@@ -139,20 +150,24 @@ const Main = ({offers, initialOffers, filteredOffers, currentCity, getCities, on
 };
 
 Main.propTypes = {
+  requestStatus: PropTypes.string,
+  requestMessage: PropTypes.string,
   offers: PropTypes.arrayOf(PropTypes.object),
   initialOffers: PropTypes.arrayOf(PropTypes.object),
   filteredOffers: PropTypes.arrayOf(PropTypes.object),
   currentCity: PropTypes.string,
   getCities: PropTypes.func,
-  onGetCurrentCity: PropTypes.func,
-  onGetCurrentOffer: PropTypes.func,
-  onSetDefaultOrderOffers: PropTypes.func,
-  onSetLowToHighOrderOffers: PropTypes.func,
-  onSetHighToLowOrderOffers: PropTypes.func,
-  onSetTopRatedFirstOrderOffers: PropTypes.func,
+  getCurrentCity: PropTypes.func,
+  getCurrentOffer: PropTypes.func,
+  setDefaultOrderOffers: PropTypes.func,
+  setLowToHighOrderOffers: PropTypes.func,
+  setHighToLowOrderOffers: PropTypes.func,
+  setTopRatedFirstOrderOffers: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
+  requestStatus: state.offers.requestStatus,
+  requestMessage: state.offers.requestMessage,
   currentCity: state.offers.city,
   getCities: () => {
     let set = new Set();
@@ -175,22 +190,22 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onGetCurrentCity: (city) => {
+  getCurrentCity: (city) => {
     dispatch(OffersActionCreator.getCurrentCity(city));
   },
-  onGetCurrentOffer: (offer) => {
+  getCurrentOffer: (offer) => {
     dispatch(OfferActionCreator.getCurrentOffer(offer));
   },
-  onSetDefaultOrderOffers: (offers) => {
+  setDefaultOrderOffers: (offers) => {
     dispatch(OffersActionCreator.setDefaultOrderOffers(offers));
   },
-  onSetLowToHighOrderOffers: (offers) => {
+  setLowToHighOrderOffers: (offers) => {
     dispatch(OffersActionCreator.setLowToHighOrderOffers(offers));
   },
-  onSetHighToLowOrderOffers: (offers) => {
+  setHighToLowOrderOffers: (offers) => {
     dispatch(OffersActionCreator.setHighToLowOrderOffers(offers));
   },
-  onSetTopRatedFirstOrderOffers: (offers) => {
+  setTopRatedFirstOrderOffers: (offers) => {
     dispatch(OffersActionCreator.setTopRatedFirstOrderOffers(offers));
   },
 });

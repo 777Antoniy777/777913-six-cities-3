@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import {connect} from 'react-redux';
 import {OfferActionCreator} from "../../actions/offer/action-creator";
-import {CommentsActionCreator} from "../../actions/comments/action-creator";
-import {CommentsAsyncActionCreator} from "../../actions/comments/async-action-creator";
+import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-creator";
+import {ErrorReviewWrapperStyle, ErrorMessageStyle} from "../../style";
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 import withMap from "../../hocs/with-map/with-map";
 import withLoadData from "../../hocs/with-load-data/with-load-data";
@@ -13,20 +13,44 @@ import PlaceHost from "../place-host/place-host";
 import PlaceReviews from "../place-reviews/place-reviews";
 import PreviewPlaces from "../preview-places/preview-places";
 import Map from "../map/map";
+import ErrorMessage from "../error-message/error-message";
 
 const PreviewPlacesWrappedHOC = withActiveItem(PreviewPlaces);
 const MapWrappedHOC = withMap(Map);
 const PlaceReviewsWrappedHOC = withLoadData(PlaceReviews);
 
-const Place = ({offers, offer, hoveredOffer, comments, status: commentsStatus, onGetCurrentOffer, onGetComments, onSetCommentsStatus}) => {
+const Place = ({offers, offer, hoveredOffer, requestStatus, requestMessage, reviews, onGetCurrentOffer, onGetReviews}) => {
   const {id, title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offer;
   const {avatar, name, status} = host;
-  const splittedReviews = comments.slice(0, 10);
+  const splittedReviews = reviews.slice(0, 10);
   const reviewsLength = splittedReviews.length;
   let hoveredLocation = null;
   if (hoveredOffer) {
     hoveredLocation = hoveredOffer.location;
   }
+
+  const renderPlaceReviews = () => {
+    if (requestStatus === `error`) {
+      return (
+        <ErrorMessage
+          // properties
+          requestMessage={requestMessage}
+          wrapperStyle={ErrorReviewWrapperStyle}
+          messageStyle={ErrorMessageStyle}
+        />
+      );
+    } else {
+      return (
+        <PlaceReviewsWrappedHOC
+          // properties
+          offerId={id}
+          data={splittedReviews}
+          // handlers
+          onGetData={onGetReviews}
+        />
+      );
+    }
+  };
 
   const getRating = (val) => {
     let ratingStars = Math.round(val);
@@ -36,11 +60,10 @@ const Place = ({offers, offer, hoveredOffer, comments, status: commentsStatus, o
   };
 
   const splitOffers = () => {
-    // const filteredOffers = offers.filter((elem) => {
-    //   return elem.id !== offer.id;
-    // });
-    // return filteredOffers.slice(0, 3);
-    return offers.slice(0, 3);
+    const filteredOffers = offers.filter((elem) => {
+      return elem.id !== offer.id;
+    });
+    return filteredOffers.slice(0, 3);
   };
 
   const extendedOffersForMap = splitOffers();
@@ -169,15 +192,7 @@ const Place = ({offers, offer, hoveredOffer, comments, status: commentsStatus, o
                 <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewsLength}</span></h2>
 
                 {/* рендерит отзывы пользователей */}
-                <PlaceReviewsWrappedHOC
-                  // properties
-                  offerId={id}
-                  data={splittedReviews}
-                  status={commentsStatus}
-                  // handlers
-                  onGetData={onGetComments}
-                  onSetCommentsStatus={onSetCommentsStatus}
-                />
+                {renderPlaceReviews()}
 
                 <form className="reviews__form form" action="#" method="post">
                   <label className="reviews__label form__label" htmlFor="review">Your review</label>
@@ -320,9 +335,11 @@ Place.propTypes = {
     host: PropTypes.object,
     location: PropTypes.objectOf(PropTypes.number),
   }),
+  requestStatus: PropTypes.string,
+  requestMessage: PropTypes.string,
+  reviews: PropTypes.arrayOf(PropTypes.object),
   onGetCurrentOffer: PropTypes.func,
-  onGetComments: PropTypes.func,
-  onSetCommentsStatus: PropTypes.func,
+  onGetReviews: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -331,20 +348,18 @@ const mapStateToProps = (state) => ({
   }),
   offer: state.offer.offer,
   hoveredOffer: state.offer.hoveredOffer,
-  comments: state.comments.comments,
-  status: state.comments.status,
+  requestStatus: state.reviews.requestStatus,
+  requestMessage: state.reviews.requestMessage,
+  reviews: state.reviews.reviews,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onGetCurrentOffer: (offer) => {
     dispatch(OfferActionCreator.getCurrentOffer(offer));
   },
-  onGetComments: (offerId) => {
-    dispatch(CommentsAsyncActionCreator.getComments(offerId));
+  onGetReviews: (offerId) => {
+    dispatch(ReviewsAsyncActionCreator.getReviews(offerId));
   },
-  onSetCommentsStatus: (status) => {
-    dispatch(CommentsActionCreator.setCommentsStatus(status));
-  }
 });
 
 export default connect(

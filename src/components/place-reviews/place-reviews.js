@@ -19,7 +19,7 @@ const PlaceReviews = ({data: reviews}) => {
 
 const PlaceReview = ({review}) => {
   const {user, comment, rating, date} = review;
-  const {name, avatar_url: avatar} = user;
+  const {name, avatar} = user;
 
   const getRating = (val) => {
     let ratingStars = Math.round(val);
@@ -64,9 +64,9 @@ PlaceReview.propTypes = {
     id: PropTypes.number,
     user: PropTypes.shape({
       id: PropTypes.number,
-      is_pro: PropTypes.bool,
+      status: PropTypes.bool,
       name: PropTypes.string,
-      avatar_url: PropTypes.string,
+      avatar: PropTypes.string,
     }),
     comment: PropTypes.string,
     rating: PropTypes.number,

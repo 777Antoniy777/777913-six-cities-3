@@ -7,37 +7,10 @@ const withLoadData = (Component) => {
       super(props);
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-      const {offerId, data, status} = this.props;
-      console.log(`this ID:`, this.props.offerId, `next ID:`, nextProps.offerId);
-      console.log(data, nextProps.data, _.isEqual(data, nextProps.data));
-
-      if (_.isEqual(data, nextProps.data) && offerId === nextProps.offerId) {
-        console.log(`ОСТАНОВИЛ ЗАГРУЗКУ`)
-        return false;
-      }
-
-      return true;
-    }
-
     componentDidMount() {
-      const {offerId, onGetData, onSetCommentsStatus} = this.props;
-      console.log(`Зашел в componentDidMount`);
+      const {offerId, onGetData} = this.props;
 
-      onSetCommentsStatus(`mount`);
       onGetData(offerId);
-    }
-
-    componentDidUpdate() {
-      const {offerId, status, onGetData, data, onSetCommentsStatus} = this.props;
-      console.log(`Зашел в componentDidUpdate`);
-
-      if (status !== `mount`) {
-        onGetData(offerId);
-      }
-      if (status !== `update`) {
-        onSetCommentsStatus(`update`);
-      }
     }
 
     render() {

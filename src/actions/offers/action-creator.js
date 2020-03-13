@@ -1,4 +1,6 @@
 const OffersActionType = {
+  SET_OFFERS_REQUEST_STATUS: `SET_OFFERS_REQUEST_STATUS`,
+  SET_OFFERS_REQUEST_MESSAGE: `SET_OFFERS_REQUEST_MESSAGE`,
   GET_INITIAL_OFFERS: `GET_INITIAL_OFFERS`,
   GET_OFFERS: `GET_OFFERS`,
   GET_INITIAL_CITY: `GET_INITIAL_CITY`,
@@ -10,6 +12,16 @@ const OffersActionType = {
 };
 
 const OffersActionCreator = {
+  setOffersRequestStatus: (status) => ({
+    type: OffersActionType.SET_OFFERS_REQUEST_STATUS,
+    payload: status,
+  }),
+
+  setOffersRequestMessage: (message) => ({
+    type: OffersActionType.SET_OFFERS_REQUEST_MESSAGE,
+    payload: message,
+  }),
+
   getInitialOffers: (offers) => ({
     type: OffersActionType.GET_INITIAL_OFFERS,
     payload: offers,

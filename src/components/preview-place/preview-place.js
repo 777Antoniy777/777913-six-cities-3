@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import classNames from 'classnames';
 import {OfferActionCreator} from '../../actions/offer/action-creator';
 
-const PreviewPlace = ({placeData, isShowOffer, onGetActiveItem, onGetHoveredOffer, onRemoveHoveredOffer, onSetOfferStatus}) => {
+const PreviewPlace = ({placeData, isShowOffer, getActiveItem, onGetHoveredOffer, onRemoveHoveredOffer, onSetOfferStatus}) => {
   const {title, premium, src, price, type, rating} = placeData;
 
   const placeWrapperClass = classNames({
@@ -29,7 +29,7 @@ const PreviewPlace = ({placeData, isShowOffer, onGetActiveItem, onGetHoveredOffe
   const handleTitleClick = (evt) => {
     evt.preventDefault();
 
-    onGetActiveItem(placeData);
+    getActiveItem(placeData);
     onSetOfferStatus(true);
     window.scrollTo(0, 0);
   };
@@ -113,7 +113,7 @@ PreviewPlace.propTypes = {
   }),
   isShowOffer: PropTypes.bool,
   onSetOfferStatus: PropTypes.func,
-  onGetActiveItem: PropTypes.func,
+  getActiveItem: PropTypes.func,
   onRemoveHoveredOffer: PropTypes.func,
   onGetHoveredOffer: PropTypes.func,
 };
