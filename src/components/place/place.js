@@ -1,27 +1,60 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {connect} from 'react-redux';
-import ActionCreator from '../../actions/action-creator';
+import {OfferActionCreator} from "../../actions/offer/action-creator";
+// import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-creator";
+import {getOffer, getHoveredOffer} from "../../reducers/offer/selectors";
+import {getInitialOffersSelector} from "../../reducers/offers/selectors";
+import {getRequestStatus, getRequestMessage, getReviews} from "../../reducers/reviews/selectors";
+import {ErrorReviewWrapperStyle, ErrorMessageStyle} from "../../style";
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 import withMap from "../../hocs/with-map/with-map";
+import withLoadData from "../../hocs/with-load-data/with-load-data";
 import PlacePhotos from "../place-photos/place-photos";
 import PlaceItems from "../place-items/place-items";
 import PlaceHost from "../place-host/place-host";
 import PlaceReviews from "../place-reviews/place-reviews";
 import PreviewPlaces from "../preview-places/preview-places";
 import Map from "../map/map";
+import ErrorMessage from "../error-message/error-message";
 
-const PreviewPlacesWrappedHoc = withActiveItem(PreviewPlaces);
-const MapWrapperHoc = withMap(Map);
+const PreviewPlacesWrappedHOC = withActiveItem(PreviewPlaces);
+const MapWrappedHOC = withMap(Map);
+const PlaceReviewsWrappedHOC = withLoadData(PlaceReviews);
 
-const Place = ({offers, offer, hoveredOffer, onGetCurrentOffer}) => {
-  const {title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, reviews, host, coords} = offer;
+// getReviews
+const Place = ({offers, offer, hoveredOffer, requestStatus, requestMessage, reviews, getCurrentOffer}) => {
+  const {id, title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offer;
   const {avatar, name, status} = host;
-  const reviewsLength = reviews.length;
-  let hoveredCoords;
-  if (hoveredOffer !== null) {
-    hoveredCoords = hoveredOffer.coords;
+  const splittedReviews = reviews.slice(0, 10);
+  const reviewsLength = splittedReviews.length;
+  let hoveredLocation = null;
+  if (hoveredOffer) {
+    hoveredLocation = hoveredOffer.location;
   }
+
+  const renderPlaceReviews = () => {
+    if (requestStatus === `error`) {
+      return (
+        <ErrorMessage
+          // properties
+          requestMessage={requestMessage}
+          wrapperStyle={ErrorReviewWrapperStyle}
+          messageStyle={ErrorMessageStyle}
+        />
+      );
+    } else {
+      return (
+        <PlaceReviewsWrappedHOC
+          // properties
+          offerId={id}
+          data={splittedReviews}
+          // handlers
+          // getData={getReviews}
+        />
+      );
+    }
+  };
 
   const getRating = (val) => {
     let ratingStars = Math.round(val);
@@ -31,13 +64,15 @@ const Place = ({offers, offer, hoveredOffer, onGetCurrentOffer}) => {
   };
 
   const splitOffers = () => {
-    const splittedOffers = offers.filter((elem) => {
-      return elem !== offer;
+    const filteredOffers = offers.filter((elem) => {
+      return elem.id !== offer.id;
     });
-    return splittedOffers;
+    return filteredOffers.slice(0, 3);
   };
 
-  const splittedOffers = splitOffers();
+  const extendedOffersForMap = splitOffers();
+  const extendedOffersForPreviews = splitOffers();
+  extendedOffersForMap.push(offer);
 
   return (
     <div className="page">
@@ -161,10 +196,7 @@ const Place = ({offers, offer, hoveredOffer, onGetCurrentOffer}) => {
                 <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewsLength}</span></h2>
 
                 {/* рендерит отзывы пользователей */}
-                <PlaceReviews
-                  // properties
-                  reviews={reviews}
-                />
+                {renderPlaceReviews()}
 
                 <form className="reviews__form form" action="#" method="post">
                   <label className="reviews__label form__label" htmlFor="review">Your review</label>
@@ -227,18 +259,18 @@ const Place = ({offers, offer, hoveredOffer, onGetCurrentOffer}) => {
 
             {/* карта с маркерами */}
             { offers.length > 0 &&
-              <MapWrapperHoc
+              <MapWrappedHOC
                 // properties
-                offers={offers}
-                activeCoords={coords}
-                hoveredCoords={hoveredCoords}
+                offers={extendedOffersForMap}
+                activelocation={location}
+                hoveredLocation={hoveredLocation}
               />
             }
 
           </section>
         </section>
 
-        { splittedOffers.length > 0 &&
+        { extendedOffersForPreviews.length > 0 &&
 
           <div className="container">
 
@@ -248,11 +280,11 @@ const Place = ({offers, offer, hoveredOffer, onGetCurrentOffer}) => {
               <div className="near-places__list places__list">
 
                 {/* рендерит превью мест */}
-                <PreviewPlacesWrappedHoc
+                <PreviewPlacesWrappedHOC
                   // properties
-                  offers={splittedOffers}
+                  offers={extendedOffersForPreviews}
                   // handlers
-                  onGetActiveItem={onGetCurrentOffer}
+                  getActiveItem={getCurrentOffer}
                 />
 
               </div>
@@ -270,11 +302,13 @@ const Place = ({offers, offer, hoveredOffer, onGetCurrentOffer}) => {
 };
 
 Place.propTypes = {
+  offers: PropTypes.arrayOf(PropTypes.object),
   offer: PropTypes.shape({
     id: PropTypes.number,
-    city: PropTypes.string,
+    city: PropTypes.object,
     title: PropTypes.string,
     premium: PropTypes.bool,
+    favorite: PropTypes.bool,
     src: PropTypes.string,
     photos: PropTypes.arrayOf(PropTypes.string),
     price: PropTypes.number,
@@ -284,15 +318,15 @@ Place.propTypes = {
     bedroomAmount: PropTypes.number,
     guestsAmount: PropTypes.number,
     items: PropTypes.arrayOf(PropTypes.string),
-    reviews: PropTypes.arrayOf(PropTypes.object),
     host: PropTypes.object,
-    coords: PropTypes.arrayOf(PropTypes.number),
+    location: PropTypes.objectOf(PropTypes.number),
   }),
   hoveredOffer: PropTypes.shape({
     id: PropTypes.number,
-    city: PropTypes.string,
+    city: PropTypes.object,
     title: PropTypes.string,
     premium: PropTypes.bool,
+    favorite: PropTypes.bool,
     src: PropTypes.string,
     photos: PropTypes.arrayOf(PropTypes.string),
     price: PropTypes.number,
@@ -302,26 +336,32 @@ Place.propTypes = {
     bedroomAmount: PropTypes.number,
     guestsAmount: PropTypes.number,
     items: PropTypes.arrayOf(PropTypes.string),
-    reviews: PropTypes.arrayOf(PropTypes.object),
     host: PropTypes.object,
-    coords: PropTypes.arrayOf(PropTypes.number),
+    location: PropTypes.objectOf(PropTypes.number),
   }),
-  offers: PropTypes.arrayOf(PropTypes.object),
-  onGetCurrentOffer: PropTypes.func,
+  requestStatus: PropTypes.string,
+  requestMessage: PropTypes.string,
+  reviews: PropTypes.arrayOf(PropTypes.object),
+  getCurrentOffer: PropTypes.func,
+  getReviews: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.offers.initialOffers.filter((elem) => {
-    return elem.city.includes(state.offers.city);
-  }),
-  offer: state.offer.offer,
-  hoveredOffer: state.offer.hoveredOffer,
+  offers: getInitialOffersSelector(state),
+  offer: getOffer(state),
+  hoveredOffer: getHoveredOffer(state),
+  requestStatus: getRequestStatus(state),
+  requestMessage: getRequestMessage(state),
+  reviews: getReviews(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onGetCurrentOffer: (offer) => {
-    dispatch(ActionCreator.getCurrentOfferAction(offer));
+  getCurrentOffer: (offer) => {
+    dispatch(OfferActionCreator.getCurrentOffer(offer));
   },
+  // getReviews: (offerId) => {
+  //   dispatch(ReviewsAsyncActionCreator.getReviews(offerId));
+  // },
 });
 
 export default connect(

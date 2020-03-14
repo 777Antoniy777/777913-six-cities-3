@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from "prop-types";
 import {connect} from 'react-redux';
 import {BrowserRouter, Switch, Route} from "react-router-dom";
+import {getShowOfferStatus} from "../../reducers/offer/selectors";
 import Main from '../main/main';
 import Place from '../place/place';
 
 const App = ({isShowOffer}) => {
   const renderOfferScreen = () => {
+
     if (isShowOffer) {
       return (
         <Place />
@@ -18,13 +20,11 @@ const App = ({isShowOffer}) => {
     }
   };
 
-  const offerScreen = renderOfferScreen();
-
   return (
     <BrowserRouter>
       <Switch>
         <Route path="/" exact>
-          {offerScreen}
+          {renderOfferScreen()}
         </Route>
         <Route path="/offer">
           <Place />
@@ -39,7 +39,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  isShowOffer: state.offer.isShowOffer,
+  isShowOffer: getShowOfferStatus(state),
 });
 
 export default connect(

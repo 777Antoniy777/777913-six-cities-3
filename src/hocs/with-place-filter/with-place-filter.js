@@ -32,44 +32,44 @@ const withPlaceFilter = (Component) => {
         },
       };
 
-      this.onSetFilterStatus = this.onSetFilterStatus.bind(this);
-      this.onGetCurrentFilter = this.onGetCurrentFilter.bind(this);
+      this.setFilterStatus = this.setFilterStatus.bind(this);
+      this.getCurrentFilter = this.getCurrentFilter.bind(this);
     }
 
     filterOffers() {
-      const {initialOffers, offers, onSetDefaultOrderOffers, onSetLowToHighOrderOffers, onSetHighToLowOrderOffers, onSetTopRatedFirstOrderOffers} = this.props;
+      const {initialOffers, offers, setDefaultOrderOffers, setLowToHighOrderOffers, setHighToLowOrderOffers, setTopRatedFirstOrderOffers} = this.props;
       const {currentFilter} = this.state;
       const {id} = currentFilter;
       const clonnedInitialOffers = initialOffers.slice();
 
       switch (id) {
         case FilterType.DEFAULT:
-          onSetDefaultOrderOffers(clonnedInitialOffers);
+          setDefaultOrderOffers(clonnedInitialOffers);
           break;
         case FilterType.LOW_TO_HIGH:
           offers.sort((left, right) => left.price - right.price);
-          onSetLowToHighOrderOffers(offers);
+          setLowToHighOrderOffers(offers);
           break;
         case FilterType.HIGH_TO_LOW:
           offers.sort((left, right) => right.price - left.price);
-          onSetHighToLowOrderOffers(offers);
+          setHighToLowOrderOffers(offers);
           break;
         case FilterType.TOP_RATED_FIRST:
           offers.sort((left, right) => right.rating - left.rating);
-          onSetTopRatedFirstOrderOffers(offers);
+          setTopRatedFirstOrderOffers(offers);
           break;
         default:
           break;
       }
     }
 
-    onSetFilterStatus() {
+    setFilterStatus() {
       this.setState((state) => ({
         isFilterOpened: !state.isFilterOpened,
       }));
     }
 
-    onGetCurrentFilter(obj) {
+    getCurrentFilter(obj) {
       this.setState({
         currentFilter: obj,
       }, this.filterOffers);
@@ -84,8 +84,8 @@ const withPlaceFilter = (Component) => {
           isFilterOpened={isFilterOpened}
           currentFilter={currentFilter}
           filtersArr={filtersArr}
-          onSetFilterStatus={this.onSetFilterStatus}
-          onGetCurrentFilter={this.onGetCurrentFilter}
+          setFilterStatus={this.setFilterStatus}
+          getCurrentFilter={this.getCurrentFilter}
         />
       );
     }
@@ -94,10 +94,10 @@ const withPlaceFilter = (Component) => {
   WithPlaceFilter.propTypes = {
     initialOffers: PropTypes.arrayOf(PropTypes.object),
     offers: PropTypes.arrayOf(PropTypes.object),
-    onSetDefaultOrderOffers: PropTypes.func,
-    onSetLowToHighOrderOffers: PropTypes.func,
-    onSetHighToLowOrderOffers: PropTypes.func,
-    onSetTopRatedFirstOrderOffers: PropTypes.func,
+    setDefaultOrderOffers: PropTypes.func,
+    setLowToHighOrderOffers: PropTypes.func,
+    setHighToLowOrderOffers: PropTypes.func,
+    setTopRatedFirstOrderOffers: PropTypes.func,
   };
 
   return WithPlaceFilter;

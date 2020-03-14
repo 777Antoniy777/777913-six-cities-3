@@ -7,7 +7,11 @@ const props = [];
 const offers = [
   {
     id: 1,
-    city: `city`,
+    city: {
+      id: 1,
+      name: `city`,
+      coords: [1, 1],
+    },
     title: `title 1`,
     premium: false,
     src: `img/image1`,
@@ -39,7 +43,11 @@ const offers = [
 const initialOffers = [
   {
     id: 1,
-    city: `city`,
+    city: {
+      id: 1,
+      name: `city`,
+      coords: [1, 1],
+    },
     title: `title 1`,
     premium: false,
     src: `img/image1`,
@@ -69,10 +77,10 @@ const initialOffers = [
   },
 ];
 
-const onSetDefaultOrderOffers = () => {};
-const onSetLowToHighOrderOffers = () => {};
-const onSetHighToLowOrderOffers = () => {};
-const onSetTopRatedFirstOrderOffers = () => {};
+const setDefaultOrderOffers = () => {};
+const setLowToHighOrderOffers = () => {};
+const setHighToLowOrderOffers = () => {};
+const setTopRatedFirstOrderOffers = () => {};
 
 const MockComponent = () => {
   return (
@@ -80,18 +88,18 @@ const MockComponent = () => {
   );
 };
 
-const PlaceFilterWrapperHoc = withPlaceFilter(MockComponent);
+const PlaceFilterWrappedHoc = withPlaceFilter(MockComponent);
 
 it(`render withPlaceFilter`, () => {
   const tree = renderer.create((
-    <PlaceFilterWrapperHoc
+    <PlaceFilterWrappedHoc
       props={props}
       offers={offers}
       initialOffers={initialOffers}
-      onSetDefaultOrderOffers={onSetDefaultOrderOffers}
-      onSetLowToHighOrderOffers={onSetLowToHighOrderOffers}
-      onSetHighToLowOrderOffers={onSetHighToLowOrderOffers}
-      onSetTopRatedFirstOrderOffers={onSetTopRatedFirstOrderOffers}
+      setDefaultOrderOffers={setDefaultOrderOffers}
+      setLowToHighOrderOffers={setLowToHighOrderOffers}
+      setHighToLowOrderOffers={setHighToLowOrderOffers}
+      setTopRatedFirstOrderOffers={setTopRatedFirstOrderOffers}
     />
   ), {
     createNodeMock() {

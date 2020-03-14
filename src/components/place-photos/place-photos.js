@@ -1,14 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const PlacePhoto = ({elem}) => {
-  return (
-    <div className="property__image-wrapper">
-      <img className="property__image" src={elem} alt="Photo studio" />
-    </div>
-  );
-};
-
 const PlacePhotos = ({photos}) => {
   return (
     <div className="property__gallery">
@@ -18,11 +10,19 @@ const PlacePhotos = ({photos}) => {
           <PlacePhoto
             // properties
             key={++i}
-            elem={elem}
+            photo={elem}
           />
         )
       }
 
+    </div>
+  );
+};
+
+const PlacePhoto = ({photo}) => {
+  return (
+    <div className="property__image-wrapper">
+      <img className="property__image" src={photo} alt="Photo studio" />
     </div>
   );
 };
@@ -32,7 +32,7 @@ PlacePhotos.propTypes = {
 };
 
 PlacePhoto.propTypes = {
-  elem: PropTypes.string,
+  photo: PropTypes.string,
 };
 
 export default PlacePhotos;

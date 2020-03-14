@@ -9,7 +9,11 @@ const mockStore = configureStore();
 // set mocha data
 const placeData = {
   id: 1,
-  city: `city`,
+  city: {
+    id: 1,
+    name: `city`,
+    coords: [1, 1],
+  },
   title: `title 1`,
   premium: false,
   src: `img/image1`,
@@ -37,12 +41,12 @@ const placeData = {
   ],
   coord: [1, 1],
 };
-
 const isShowOffer = true;
-const onGetActiveItem = () => {};
-const onGetHoveredOffer = () => {};
-const onRemoveHoveredOffer = () => {};
-const onSetOfferStatus = () => {};
+
+const getActiveItem = () => {};
+const getHoveredOffer = () => {};
+const removeHoveredOffer = () => {};
+const setOfferStatus = () => {};
 
 const store = mockStore({
   offer: {
@@ -60,10 +64,10 @@ it(`render PreviewPlace`, () => {
         <PreviewPlace
           placeData={placeData}
           isShowOffer={isShowOffer}
-          onGetActiveItem={onGetActiveItem}
-          onSetShowOfferStatus={onSetOfferStatus}
-          onGetHoveredOffer={onGetHoveredOffer}
-          onRemoveHoveredOffer={onRemoveHoveredOffer}
+          getActiveItem={getActiveItem}
+          getHoveredOffer={getHoveredOffer}
+          removeHoveredOffer={removeHoveredOffer}
+          setOfferStatus={setOfferStatus}
         />
       </Provider>)
       .toJSON();

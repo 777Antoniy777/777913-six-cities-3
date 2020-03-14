@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from "prop-types";
 import classNames from 'classnames';
 
-const Cities = ({cities, currentCity, onGetActiveItem}) => {
+const Cities = ({cities, currentCity, getActiveItem}) => {
   return (
     <ul className="locations__list tabs__list">
 
@@ -15,7 +15,7 @@ const Cities = ({cities, currentCity, onGetActiveItem}) => {
             city={elem}
             currentCity={currentCity}
             // handlers
-            onGetActiveItem={onGetActiveItem}
+            getActiveItem={getActiveItem}
           />
 
         )
@@ -25,11 +25,11 @@ const Cities = ({cities, currentCity, onGetActiveItem}) => {
   );
 };
 
-const City = ({city, currentCity, onGetActiveItem}) => {
+const City = ({city, currentCity, getActiveItem}) => {
   const handleLinkClick = (evt) => {
     evt.preventDefault();
 
-    onGetActiveItem(city);
+    getActiveItem(city);
   };
 
   const isActiveLink = (actCity, curCity) => {
@@ -58,13 +58,13 @@ const City = ({city, currentCity, onGetActiveItem}) => {
 Cities.propTypes = {
   cities: PropTypes.arrayOf(PropTypes.string),
   currentCity: PropTypes.string,
-  onGetActiveItem: PropTypes.func,
+  getActiveItem: PropTypes.func,
 };
 
 City.propTypes = {
   currentCity: PropTypes.string,
   city: PropTypes.string,
-  onGetActiveItem: PropTypes.func,
+  getActiveItem: PropTypes.func,
 };
 
 export default Cities;

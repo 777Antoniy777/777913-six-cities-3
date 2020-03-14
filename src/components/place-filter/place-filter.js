@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from "prop-types";
 import classNames from 'classnames';
 
-const PlaceFilter = ({isFilterOpened, currentFilter, filtersArr, onSetFilterStatus, onGetCurrentFilter}) => {
+const PlaceFilter = ({isFilterOpened, currentFilter, filtersArr, setFilterStatus, getCurrentFilter}) => {
   const filterListClass = classNames({
     'places__options': true,
     'places__options--custom': true,
@@ -10,7 +10,7 @@ const PlaceFilter = ({isFilterOpened, currentFilter, filtersArr, onSetFilterStat
   });
 
   const handleListClick = () => {
-    onSetFilterStatus();
+    setFilterStatus();
   };
 
   return (
@@ -37,7 +37,7 @@ const PlaceFilter = ({isFilterOpened, currentFilter, filtersArr, onSetFilterStat
                 filter={elem}
                 currentFilter={currentFilter}
                 // handlers
-                onGetCurrentFilter={onGetCurrentFilter}
+                getCurrentFilter={getCurrentFilter}
               />
             )}
 
@@ -48,7 +48,7 @@ const PlaceFilter = ({isFilterOpened, currentFilter, filtersArr, onSetFilterStat
   );
 };
 
-const PlaceFilterItem = ({filter, currentFilter, onGetCurrentFilter}) => {
+const PlaceFilterItem = ({filter, currentFilter, getCurrentFilter}) => {
   const {value} = filter;
   const {value: currentValue} = currentFilter;
 
@@ -66,7 +66,7 @@ const PlaceFilterItem = ({filter, currentFilter, onGetCurrentFilter}) => {
   });
 
   const handleItemClick = () => {
-    onGetCurrentFilter(filter);
+    getCurrentFilter(filter);
   };
 
   return (
@@ -78,8 +78,8 @@ PlaceFilter.propTypes = {
   isFilterOpened: PropTypes.bool,
   currentFilter: PropTypes.object,
   filtersArr: PropTypes.arrayOf(PropTypes.object),
-  onSetFilterStatus: PropTypes.func,
-  onGetCurrentFilter: PropTypes.func,
+  setFilterStatus: PropTypes.func,
+  getCurrentFilter: PropTypes.func,
 };
 
 PlaceFilterItem.propTypes = {
@@ -91,7 +91,7 @@ PlaceFilterItem.propTypes = {
     id: PropTypes.string,
     value: PropTypes.string,
   }),
-  onGetCurrentFilter: PropTypes.func,
+  getCurrentFilter: PropTypes.func,
 };
 
 export default PlaceFilter;

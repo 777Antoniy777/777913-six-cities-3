@@ -1,14 +1,17 @@
 import React from 'react';
 import renderer from "react-test-renderer";
-import PlaceItem from './place-items';
+import PlaceItems from './place-items';
 
 // set mocha data
-const item = `item1`;
+const items = [
+  `item-1`,
+  `item-2`,
+];
 
-it(`render PlaceItem`, () => {
+it(`render PlaceItems`, () => {
   const tree = renderer.create(
-      <PlaceItem
-        item={item}
+      <PlaceItems
+        items={items}
       />)
       .toJSON();
 

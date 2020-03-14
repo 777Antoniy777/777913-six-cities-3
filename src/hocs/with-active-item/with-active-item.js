@@ -3,21 +3,18 @@ import PropTypes from "prop-types";
 
 const withActiveItem = (Component) => {
   const WithActiveItem = (props) => {
-
-    const onGetActiveItem = (item) => {
-      props.onGetActiveItem(item);
-    };
+    const {getActiveItem} = props;
 
     return (
       <Component
         {...props}
-        onGetActiveItem={onGetActiveItem}
+        getActiveItem={getActiveItem}
       />
     );
   };
 
   WithActiveItem.propTypes = {
-    onGetActiveItem: PropTypes.func,
+    getActiveItem: PropTypes.func,
   };
 
   return WithActiveItem;

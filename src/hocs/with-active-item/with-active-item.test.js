@@ -4,7 +4,7 @@ import withActiveItem from "./with-active-item";
 
 // set mocha data
 const props = [];
-const onGetActiveItem = () => {};
+const getActiveItem = () => {};
 
 const MockComponent = () => {
   return (
@@ -12,13 +12,13 @@ const MockComponent = () => {
   );
 };
 
-const MapWrapperHoc = withActiveItem(MockComponent);
+const WithActiveItemHoc = withActiveItem(MockComponent);
 
 it(`render withActiveItem`, () => {
   const tree = renderer.create((
-    <MapWrapperHoc
+    <WithActiveItemHoc
       props={props}
-      onGetActiveItem={onGetActiveItem}
+      getActiveItem={getActiveItem}
     />
   ), {
     createNodeMock() {

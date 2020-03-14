@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render ErrorMessage 1`] = `
+<div
+  style={Object {}}
+>
+  <p
+    style={Object {}}
+  >
+    message
+  </p>
+</div>
+`;

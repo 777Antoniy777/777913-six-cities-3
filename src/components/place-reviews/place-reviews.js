@@ -1,25 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const PlaceReviews = ({reviews}) => {
-  const splittedReviews = reviews.slice(0, 10);
-
+const PlaceReviews = ({data: reviews}) => {
   return (
     <ul className="reviews__list">
 
-      {splittedReviews.map((elem) =>
-        <PlaceReview
-          key={elem.id}
-          review={elem}
-        />
-      )}
+      { reviews &&
+        reviews.map((elem) =>
+          <PlaceReview
+            key={elem.id}
+            review={elem}
+          />
+        )}
 
     </ul>
   );
 };
 
 const PlaceReview = ({review}) => {
-  const {body, rating, name, date} = review;
+  const {user, comment, rating, date} = review;
+  const {name, avatar} = user;
 
   const getRating = (val) => {
     let ratingStars = Math.round(val);
@@ -33,7 +33,7 @@ const PlaceReview = ({review}) => {
 
       <div className="reviews__user user">
         <div className="reviews__avatar-wrapper user__avatar-wrapper">
-          <img className="reviews__avatar user__avatar" src="img/avatar-max.jpg" width={54} height={54} alt="Reviews avatar" />
+          <img className="reviews__avatar user__avatar" src={avatar} width={54} height={54} alt="Reviews avatar" />
         </div>
         <span className="reviews__user-name">{name}</span>
       </div>
@@ -46,10 +46,9 @@ const PlaceReview = ({review}) => {
           </div>
         </div>
         <p className="reviews__text">
-          {body}
+          {comment}
         </p>
-        {/* после получения данных с сервера заменить datetime */}
-        <time className="reviews__time" dateTime="2019-04-24">{date}</time>
+        <time className="reviews__time" dateTime={date}>{date}</time>
       </div>
 
     </li>
@@ -57,15 +56,20 @@ const PlaceReview = ({review}) => {
 };
 
 PlaceReviews.propTypes = {
-  reviews: PropTypes.arrayOf(PropTypes.object),
+  data: PropTypes.arrayOf(PropTypes.object),
 };
 
 PlaceReview.propTypes = {
   review: PropTypes.shape({
     id: PropTypes.number,
-    body: PropTypes.string,
+    user: PropTypes.shape({
+      id: PropTypes.number,
+      status: PropTypes.bool,
+      name: PropTypes.string,
+      avatar: PropTypes.string,
+    }),
+    comment: PropTypes.string,
     rating: PropTypes.number,
-    name: PropTypes.string,
     date: PropTypes.string,
   }),
 };

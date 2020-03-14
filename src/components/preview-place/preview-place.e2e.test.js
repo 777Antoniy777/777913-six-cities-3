@@ -14,7 +14,11 @@ const mockStore = configureStore();
 // set mocha data
 const placeData = {
   id: 1,
-  city: `city`,
+  city: {
+    id: 1,
+    name: `city`,
+    coords: [1, 1],
+  },
   title: `title 1`,
   premium: false,
   src: `img/image1`,
@@ -57,8 +61,8 @@ describe(`PreviewPlace should call correct callbacks`, () => {
     });
 
     const preventDefault = jest.fn();
-    const onGetActiveItem = jest.fn((data) => data);
-    const onSetOfferStatus = jest.fn((val) => val);
+    const getActiveItem = jest.fn((data) => data);
+    const setOfferStatus = jest.fn((val) => val);
     const scrollTo = jest.fn();
     Object.defineProperty(global.window, `scrollTo`, {
       value: scrollTo
@@ -69,8 +73,8 @@ describe(`PreviewPlace should call correct callbacks`, () => {
           <PreviewPlace
             placeData={placeData}
             isShowOffer={isShowOffer}
-            onGetActiveItem={onGetActiveItem}
-            onSetOfferStatus={onSetOfferStatus}
+            getActiveItem={getActiveItem}
+            setOfferStatus={setOfferStatus}
           />
         </Provider>
     );
@@ -79,17 +83,17 @@ describe(`PreviewPlace should call correct callbacks`, () => {
 
     const mockClickEvent = ({
       preventDefault,
-      onGetActiveItem() {},
-      onSetOfferStatus: onSetOfferStatus(true),
+      getActiveItem() {},
+      setOfferStatus: setOfferStatus(true),
     });
 
     title.simulate(`click`, mockClickEvent);
 
     expect(scrollTo).toHaveBeenCalledWith(0, 0);
-    expect(onGetActiveItem).toHaveBeenCalledTimes(1);
-    expect(onGetActiveItem.mock.calls[0][0]).toMatchObject(placeData);
-    expect(onSetOfferStatus).toHaveBeenCalledTimes(1);
-    expect(onSetOfferStatus.mock.calls[0][0]).toBe(isShowOffer);
+    expect(getActiveItem).toHaveBeenCalledTimes(1);
+    expect(getActiveItem.mock.calls[0][0]).toMatchObject(placeData);
+    expect(setOfferStatus).toHaveBeenCalledTimes(1);
+    expect(setOfferStatus.mock.calls[0][0]).toBe(isShowOffer);
   });
 
   it(`"placeData" should set into callback after mouseenter on card`, () => {
@@ -97,14 +101,14 @@ describe(`PreviewPlace should call correct callbacks`, () => {
       store.clearActions();
     });
 
-    const onGetHoveredOffer = jest.fn((data) => data);
+    const getHoveredOffer = jest.fn((data) => data);
 
     const previewPlace = mount(
         <Provider store={store}>
           <PreviewPlace
             placeData={placeData}
             isShowOffer={isShowOffer}
-            onGetHoveredOffer={onGetHoveredOffer}
+            getHoveredOffer={getHoveredOffer}
           />
         </Provider>
     );
@@ -112,13 +116,13 @@ describe(`PreviewPlace should call correct callbacks`, () => {
     const card = previewPlace.find(`.place-card`);
 
     const mockMouseenterEvent = ({
-      onGetHoveredOffer: onGetHoveredOffer(placeData),
+      getHoveredOffer: getHoveredOffer(placeData),
     });
 
     card.simulate(`mouseenter`, mockMouseenterEvent);
 
-    expect(onGetHoveredOffer).toHaveBeenCalledTimes(1);
-    expect(onGetHoveredOffer.mock.calls[0][0]).toMatchObject(placeData);
+    expect(getHoveredOffer).toHaveBeenCalledTimes(1);
+    expect(getHoveredOffer.mock.calls[0][0]).toMatchObject(placeData);
   });
 
   it(`"null" should set into callback after mouseleave on card`, () => {
@@ -126,14 +130,14 @@ describe(`PreviewPlace should call correct callbacks`, () => {
       store.clearActions();
     });
 
-    const onRemoveHoveredOffer = jest.fn((val) => val);
+    const removeHoveredOffer = jest.fn((val) => val);
 
     const previewPlace = mount(
         <Provider store={store}>
           <PreviewPlace
             placeData={placeData}
             isShowOffer={isShowOffer}
-            onRemoveHoveredOffer={onRemoveHoveredOffer}
+            removeHoveredOffer={removeHoveredOffer}
           />
         </Provider>
     );
@@ -141,12 +145,12 @@ describe(`PreviewPlace should call correct callbacks`, () => {
     const card = previewPlace.find(`.place-card`);
 
     const mockMouseleaveEvent = ({
-      onRemoveHoveredOffer: onRemoveHoveredOffer(null),
+      onRemoveHoveredOffer: removeHoveredOffer(null),
     });
 
     card.simulate(`mouseleave`, mockMouseleaveEvent);
 
-    expect(onRemoveHoveredOffer).toHaveBeenCalledTimes(1);
-    expect(onRemoveHoveredOffer.mock.calls[0][0]).toBe(null);
+    expect(removeHoveredOffer).toHaveBeenCalledTimes(1);
+    expect(removeHoveredOffer.mock.calls[0][0]).toBe(null);
   });
 });

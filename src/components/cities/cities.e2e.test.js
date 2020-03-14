@@ -17,13 +17,13 @@ const currentCity = `Omsk`;
 
 it(`city should set into callback after click on link`, () => {
   const preventDefault = jest.fn();
-  const onGetActiveItem = jest.fn((city) => city);
+  const getActiveItem = jest.fn((city) => city);
 
   const cities = mount(
       <Cities
         cities={citiesArr}
         currentCity={currentCity}
-        onGetActiveItem={onGetActiveItem}
+        getActiveItem={getActiveItem}
       />
   );
 
@@ -31,11 +31,11 @@ it(`city should set into callback after click on link`, () => {
 
   const mockEvent = ({
     preventDefault,
-    onGetCity() {},
+    getActiveItem() {},
   });
 
   link.simulate(`click`, mockEvent);
 
-  expect(onGetActiveItem).toHaveBeenCalledTimes(1);
-  expect(onGetActiveItem.mock.calls[0][0]).toBe(currentCity);
+  expect(getActiveItem).toHaveBeenCalledTimes(1);
+  expect(getActiveItem.mock.calls[0][0]).toBe(currentCity);
 });
