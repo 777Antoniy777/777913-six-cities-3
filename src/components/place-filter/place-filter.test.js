@@ -15,8 +15,8 @@ const filtersArr = [
   },
 ];
 
-const onSetFilterStatus = () => {};
-const onGetCurrentFilter = () => {};
+const setFilterStatus = () => {};
+const getCurrentFilter = () => {};
 
 it(`render PlaceFilter`, () => {
   const tree = renderer.create(
@@ -24,8 +24,8 @@ it(`render PlaceFilter`, () => {
         isFilterOpened={isFilterOpened}
         currentFilter={currentFilter}
         filtersArr={filtersArr}
-        onSetFilterStatus={onSetFilterStatus}
-        onGetCurrentFilter={onGetCurrentFilter}
+        setFilterStatus={setFilterStatus}
+        getCurrentFilter={getCurrentFilter}
       />)
       .toJSON();
 

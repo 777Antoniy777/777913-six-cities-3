@@ -10,7 +10,11 @@ const mockStore = configureStore();
 const offers = [
   {
     id: 1,
-    city: `city`,
+    city: {
+      id: 1,
+      name: `city`,
+      coords: [1, 1],
+    },
     title: `title 1`,
     premium: false,
     src: `img/image1`,
@@ -40,15 +44,12 @@ const offers = [
   },
 ];
 
-const onGetActiveItem = () => {};
+const getActiveItem = () => {};
 
 const store = mockStore({
   offer: {
     isShowOffer: false,
   },
-  offers: {
-    offers,
-  }
 });
 
 
@@ -61,7 +62,7 @@ it(`render PreviewPlaces`, () => {
       <Provider store={store}>
         <PreviewPlaces
           offers={offers}
-          onGetActiveItem={onGetActiveItem}
+          getActiveItem={getActiveItem}
         />
       </Provider>)
       .toJSON();

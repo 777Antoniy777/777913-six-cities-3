@@ -6,17 +6,19 @@ import PlaceReviews from './place-reviews';
 const reviews = [
   {
     id: 1,
-    body: `text`,
-    rating: 5,
-    name: `name`,
-    date: `date`,
+    user: {
+      id: 1,
+      name: `name`,
+      comment: `comment`,
+    },
+    status: `status`,
   },
 ];
 
 it(`render PlaceReviews`, () => {
   const tree = renderer.create(
       <PlaceReviews
-        reviews={reviews}
+        data={reviews}
       />)
       .toJSON();
 

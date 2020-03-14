@@ -10,7 +10,7 @@ const PlaceItems = ({items}) => {
           <PlaceItem
             // properties
             key={++i}
-            elem={elem}
+            item={elem}
           />
         )
       }
@@ -19,10 +19,10 @@ const PlaceItems = ({items}) => {
   );
 };
 
-const PlaceItem = ({elem}) => {
+const PlaceItem = ({item}) => {
   return (
     <li className="property__inside-item">
-      {elem}
+      {item}
     </li>
   );
 };
@@ -32,7 +32,7 @@ PlaceItems.propTypes = {
 };
 
 PlaceItem.propTypes = {
-  elem: PropTypes.string,
+  item: PropTypes.string,
 };
 
 export default PlaceItems;

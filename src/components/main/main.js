@@ -17,8 +17,8 @@ import ErrorMessage from "../error-message/error-message";
 
 const CitiesWrappedHoc = withActiveItem(Cities);
 const PreviewPlacesWrappedHoc = withActiveItem(PreviewPlaces);
-const MapWrapperHoc = withMap(Map);
-const PlaceFilterWrapperHoc = withPlaceFilter(PlaceFilter);
+const MapWrappedHoc = withMap(Map);
+const PlaceFilterWrappedHoc = withPlaceFilter(PlaceFilter);
 
 const Main = ({requestStatus, requestMessage, offers, initialOffers, filteredOffers, currentCity, getCities, getCurrentCity, getCurrentOffer, setDefaultOrderOffers, setLowToHighOrderOffers, setHighToLowOrderOffers, setTopRatedFirstOrderOffers}) => {
   const cities = getCities();
@@ -101,7 +101,7 @@ const Main = ({requestStatus, requestMessage, offers, initialOffers, filteredOff
                 <b className="places__found">{offers.length} places to stay in {currentCity}</b>
 
                 {/* рендерит блок фильтра */}
-                <PlaceFilterWrapperHoc
+                <PlaceFilterWrappedHoc
                   // properties
                   initialOffers={initialOffers}
                   offers={filteredOffers}
@@ -131,7 +131,7 @@ const Main = ({requestStatus, requestMessage, offers, initialOffers, filteredOff
 
                   {/* карта с маркерами */}
                   { offers.length > 0 &&
-                    <MapWrapperHoc
+                    <MapWrappedHoc
                       // properties
                       offers={offers}
                     />

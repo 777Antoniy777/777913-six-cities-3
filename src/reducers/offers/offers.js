@@ -1,12 +1,5 @@
 import {OffersActionType} from "../../actions/offers/action-creator";
 import {extend} from "../../utils.js";
-// import offersMock from '../../mocks/offers';
-
-// const initialState = {
-//   city: offersMock[0].city,
-//   initialOffers: offersMock,
-//   offers: offersMock.slice(),
-// };
 
 const initialState = {
   requestStatus: null,

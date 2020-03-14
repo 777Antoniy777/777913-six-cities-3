@@ -13,7 +13,7 @@ const PreviewPlaces = ({offers, getActiveItem}) => {
             key={elem.id}
             placeData={elem}
             // handlers
-            onGetActiveItem={getActiveItem}
+            getActiveItem={getActiveItem}
           />
         )
       }

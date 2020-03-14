@@ -1,10 +1,15 @@
 import React from 'react';
 import renderer from "react-test-renderer";
-import withActiveItem from "./with-active-item";
+import withLoadData from "./with-load-data";
 
 // set mocha data
 const props = [];
-const getActiveItem = () => {};
+const data = [
+  {},
+];
+const offerId = 1;
+
+const getData = () => {};
 
 const MockComponent = () => {
   return (
@@ -12,13 +17,15 @@ const MockComponent = () => {
   );
 };
 
-const WithActiveItemHoc = withActiveItem(MockComponent);
+const ComponentWrappedHOC = withLoadData(MockComponent);
 
-it(`render withActiveItem`, () => {
+it(`render withLoadData`, () => {
   const tree = renderer.create((
-    <WithActiveItemHoc
+    <ComponentWrappedHOC
       props={props}
-      getActiveItem={getActiveItem}
+      offerId={offerId}
+      getData={getData}
+      data={data}
     />
   ), {
     createNodeMock() {

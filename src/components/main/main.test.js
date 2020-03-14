@@ -10,7 +10,11 @@ const mockStore = configureStore();
 const offers = [
   {
     id: 1,
-    city: `city`,
+    city: {
+      id: 1,
+      name: `city`,
+      coords: [1, 1],
+    },
     title: `title 1`,
     premium: false,
     src: `img/image1`,
@@ -42,7 +46,11 @@ const offers = [
 const initialOffers = [
   {
     id: 1,
-    city: `city`,
+    city: {
+      id: 1,
+      name: `city`,
+      coords: [1, 1],
+    },
     title: `title 1`,
     premium: false,
     src: `img/image1`,
@@ -74,7 +82,11 @@ const initialOffers = [
 const filteredOffers = [
   {
     id: 1,
-    city: `city`,
+    city: {
+      id: 1,
+      name: `city`,
+      coords: [1, 1],
+    },
     title: `title 1`,
     premium: false,
     src: `img/image1`,
@@ -104,19 +116,23 @@ const filteredOffers = [
   },
 ];
 const currentCity = `city`;
+const requestStatus = `status`;
+const requestMessage = `message`;
 
 const getCities = () => {};
-const onGetCurrentCity = () => {};
-const onGetCurrentOffer = () => {};
-const onSetDefaultOrderOffers = () => {};
-const onSetLowToHighOrderOffers = () => {};
-const onSetHighToLowOrderOffers = () => {};
-const onSetTopRatedFirstOrderOffers = () => {};
+const getCurrentCity = () => {};
+const getCurrentOffer = () => {};
+const setDefaultOrderOffers = () => {};
+const setLowToHighOrderOffers = () => {};
+const setHighToLowOrderOffers = () => {};
+const setTopRatedFirstOrderOffers = () => {};
 
 const store = mockStore({
   offers: {
-    city: offers[0].city,
-    initialOffers: offers,
+    requestStatus: null,
+    requestMessage: null,
+    city: `city`,
+    initialOffers,
     offers,
   },
   offer: {
@@ -132,17 +148,19 @@ it(`render Main`, () => {
   const tree = renderer.create(
       <Provider store={store}>
         <Main
+          requestStatus={requestStatus}
+          requestMessage={requestMessage}
           offers={offers}
           initialOffers={initialOffers}
           filteredOffers={filteredOffers}
           currentCity={currentCity}
           getCities={getCities}
-          onGetCurrentCity={onGetCurrentCity}
-          onGetCurrentOffer={onGetCurrentOffer}
-          onSetDefaultOrderOffers={onSetDefaultOrderOffers}
-          onSetLowToHighOrderOffers={onSetLowToHighOrderOffers}
-          onSetHighToLowOrderOffers={onSetHighToLowOrderOffers}
-          onSetTopRatedFirstOrderOffers={onSetTopRatedFirstOrderOffers}
+          getCurrentCity={getCurrentCity}
+          getCurrentOffer={getCurrentOffer}
+          setDefaultOrderOffers={setDefaultOrderOffers}
+          setLowToHighOrderOffers={setLowToHighOrderOffers}
+          setHighToLowOrderOffers={setHighToLowOrderOffers}
+          setTopRatedFirstOrderOffers={setTopRatedFirstOrderOffers}
         />
       </Provider>)
       .toJSON();

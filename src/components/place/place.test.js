@@ -10,7 +10,11 @@ const mockStore = configureStore();
 const initialOffers = [
   {
     id: 1,
-    city: `city`,
+    city: {
+      id: 1,
+      name: `city`,
+      coords: [1, 1],
+    },
     title: `title 1`,
     premium: false,
     src: `img/image1`,
@@ -41,7 +45,11 @@ const initialOffers = [
 ];
 const offer = {
   id: 1,
-  city: `city`,
+  city: {
+    id: 1,
+    name: `city`,
+    coords: [1, 1],
+  },
   title: `title 1`,
   premium: false,
   src: `img/image1`,
@@ -70,26 +78,27 @@ const offer = {
   coord: [1, 1],
 };
 const hoveredOffer = {
-  id: 2,
-  city: `city`,
+  id: 1,
+  city: {
+    id: 1,
+    name: `city`,
+    coords: [1, 1],
+  },
   title: `title 1`,
   premium: false,
   src: `img/image1`,
-  photos: [
-    `img/image1`,
-    `img/image2`,
-  ],
-  price: 100,
+  photos: [`img/image1`],
+  price: 999999,
   description: `test`,
   type: `type`,
-  rating: 500,
+  rating: 9999,
   bedroomAmount: 30,
   guestsAmount: 50,
   items: [`item`],
   host: {
     avatar: `img/avatar-1.jpg`,
     name: `name`,
-    status: true,
+    status: false,
   },
   reviews: [
     {
@@ -100,10 +109,24 @@ const hoveredOffer = {
       date: `date`,
     },
   ],
-  coord: [2, 2],
+  coord: [1, 1],
 };
+const reviews = [
+  {
+    id: 1,
+    user: {
+      id: 1,
+      name: `name`,
+      comment: `comment`,
+    },
+    status: `status`,
+  },
+];
+const requestStatus = `status`;
+const requestMessage = `message`;
 
-const onGetCurrentOffer = () => {};
+const getCurrentOffer = () => {};
+const getReviews = () => {};
 
 const store = mockStore({
   offer: {
@@ -112,7 +135,12 @@ const store = mockStore({
   },
   offers: {
     initialOffers,
-  }
+  },
+  reviews: {
+    requestStatus: null,
+    requestMessage: null,
+    reviews,
+  },
 });
 
 it(`render Place`, () => {
@@ -126,7 +154,10 @@ it(`render Place`, () => {
           offers={initialOffers}
           offer={offer}
           hoveredOffer={hoveredOffer}
-          onGetCurrentOffer={onGetCurrentOffer}
+          requestStatus={requestStatus}
+          requestMessage={requestMessage}
+          reviews={reviews}
+          getCurrentOffer={getCurrentOffer}
         />
       </Provider>)
       .toJSON();

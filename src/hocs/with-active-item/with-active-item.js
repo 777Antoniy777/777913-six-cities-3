@@ -3,10 +3,7 @@ import PropTypes from "prop-types";
 
 const withActiveItem = (Component) => {
   const WithActiveItem = (props) => {
-
-    const getActiveItem = (item) => {
-      props.getActiveItem(item);
-    };
+    const {getActiveItem} = props;
 
     return (
       <Component

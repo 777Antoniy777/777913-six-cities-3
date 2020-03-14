@@ -19,7 +19,7 @@ const PreviewPlacesWrappedHOC = withActiveItem(PreviewPlaces);
 const MapWrappedHOC = withMap(Map);
 const PlaceReviewsWrappedHOC = withLoadData(PlaceReviews);
 
-const Place = ({offers, offer, hoveredOffer, requestStatus, requestMessage, reviews, onGetCurrentOffer, onGetReviews}) => {
+const Place = ({offers, offer, hoveredOffer, requestStatus, requestMessage, reviews, getCurrentOffer, getReviews}) => {
   const {id, title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offer;
   const {avatar, name, status} = host;
   const splittedReviews = reviews.slice(0, 10);
@@ -46,7 +46,7 @@ const Place = ({offers, offer, hoveredOffer, requestStatus, requestMessage, revi
           offerId={id}
           data={splittedReviews}
           // handlers
-          onGetData={onGetReviews}
+          getData={getReviews}
         />
       );
     }
@@ -280,7 +280,7 @@ const Place = ({offers, offer, hoveredOffer, requestStatus, requestMessage, revi
                   // properties
                   offers={extendedOffersForPreviews}
                   // handlers
-                  onGetActiveItem={onGetCurrentOffer}
+                  getActiveItem={getCurrentOffer}
                 />
 
               </div>
@@ -338,8 +338,8 @@ Place.propTypes = {
   requestStatus: PropTypes.string,
   requestMessage: PropTypes.string,
   reviews: PropTypes.arrayOf(PropTypes.object),
-  onGetCurrentOffer: PropTypes.func,
-  onGetReviews: PropTypes.func,
+  getCurrentOffer: PropTypes.func,
+  getReviews: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -354,10 +354,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onGetCurrentOffer: (offer) => {
+  getCurrentOffer: (offer) => {
     dispatch(OfferActionCreator.getCurrentOffer(offer));
   },
-  onGetReviews: (offerId) => {
+  getReviews: (offerId) => {
     dispatch(ReviewsAsyncActionCreator.getReviews(offerId));
   },
 });

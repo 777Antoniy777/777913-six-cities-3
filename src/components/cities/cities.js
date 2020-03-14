@@ -15,7 +15,7 @@ const Cities = ({cities, currentCity, getActiveItem}) => {
             city={elem}
             currentCity={currentCity}
             // handlers
-            onGetActiveItem={getActiveItem}
+            getActiveItem={getActiveItem}
           />
 
         )

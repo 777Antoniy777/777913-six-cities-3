@@ -32,8 +32,8 @@ const withPlaceFilter = (Component) => {
         },
       };
 
-      this.onSetFilterStatus = this.onSetFilterStatus.bind(this);
-      this.onGetCurrentFilter = this.onGetCurrentFilter.bind(this);
+      this.setFilterStatus = this.setFilterStatus.bind(this);
+      this.getCurrentFilter = this.getCurrentFilter.bind(this);
     }
 
     filterOffers() {
@@ -63,13 +63,13 @@ const withPlaceFilter = (Component) => {
       }
     }
 
-    onSetFilterStatus() {
+    setFilterStatus() {
       this.setState((state) => ({
         isFilterOpened: !state.isFilterOpened,
       }));
     }
 
-    onGetCurrentFilter(obj) {
+    getCurrentFilter(obj) {
       this.setState({
         currentFilter: obj,
       }, this.filterOffers);
@@ -84,8 +84,8 @@ const withPlaceFilter = (Component) => {
           isFilterOpened={isFilterOpened}
           currentFilter={currentFilter}
           filtersArr={filtersArr}
-          onSetFilterStatus={this.onSetFilterStatus}
-          onGetCurrentFilter={this.onGetCurrentFilter}
+          setFilterStatus={this.setFilterStatus}
+          getCurrentFilter={this.getCurrentFilter}
         />
       );
     }

@@ -8,9 +8,9 @@ const withLoadData = (Component) => {
     }
 
     componentDidMount() {
-      const {offerId, onGetData} = this.props;
+      const {offerId, getData} = this.props;
 
-      onGetData(offerId);
+      getData(offerId);
     }
 
     render() {
@@ -28,7 +28,7 @@ const withLoadData = (Component) => {
   WithLoadData.propTypes = {
     offerId: PropTypes.number,
     data: PropTypes.arrayOf(PropTypes.object),
-    onGetData: PropTypes.func,
+    getData: PropTypes.func,
   };
 
   return WithLoadData;

@@ -22,72 +22,72 @@ const filtersArr = [
 
 describe(`PlaceFilter should call correct callbacks`, () => {
   it(`handler should call only 1 time after click on filter caption`, () => {
-    const onSetFilterStatus = jest.fn();
+    const setFilterStatus = jest.fn();
 
     const placeFilter = shallow(
         <PlaceFilter
           isFilterOpened={isFilterOpened}
           currentFilter={currentFilter}
           filtersArr={filtersArr}
-          onSetFilterStatus={onSetFilterStatus}
+          setFilterStatus={setFilterStatus}
         />
     );
 
     const filterCaption = placeFilter.find(`.places__sorting-caption`);
 
     const mockEvent = ({
-      onSetFilterStatus() {},
+      setFilterStatus() {},
     });
 
     filterCaption.simulate(`click`, mockEvent);
 
-    expect(onSetFilterStatus).toHaveBeenCalledTimes(1);
+    expect(setFilterStatus).toHaveBeenCalledTimes(1);
   });
 
   it(`handler should call only 1 time after click on filter span`, () => {
-    const onSetFilterStatus = jest.fn();
+    const setFilterStatus = jest.fn();
 
     const placeFilter = shallow(
         <PlaceFilter
           isFilterOpened={isFilterOpened}
           currentFilter={currentFilter}
           filtersArr={filtersArr}
-          onSetFilterStatus={onSetFilterStatus}
+          setFilterStatus={setFilterStatus}
         />
     );
 
     const filterSpan = placeFilter.find(`.places__sorting-type`);
 
     const mockEvent = ({
-      onSetFilterStatus() {},
+      setFilterStatus() {},
     });
 
     filterSpan.simulate(`click`, mockEvent);
 
-    expect(onSetFilterStatus).toHaveBeenCalledTimes(1);
+    expect(setFilterStatus).toHaveBeenCalledTimes(1);
   });
 
   it(`handler should call only 1 time and get "currentFilter" after click on filter item`, () => {
-    const onGetCurrentFilter = jest.fn((obj) => obj);
+    const getCurrentFilter = jest.fn((obj) => obj);
 
     const placeFilter = mount(
         <PlaceFilter
           isFilterOpened={isFilterOpened}
           currentFilter={currentFilter}
           filtersArr={filtersArr}
-          onGetCurrentFilter={onGetCurrentFilter}
+          getCurrentFilter={getCurrentFilter}
         />
     );
 
     const filterItem = placeFilter.find(`.places__option`);
 
     const mockEvent = ({
-      onGetCurrentFilter() {},
+      getCurrentFilter() {},
     });
 
     filterItem.simulate(`click`, mockEvent);
 
-    expect(onGetCurrentFilter).toHaveBeenCalledTimes(1);
-    expect(onGetCurrentFilter.mock.calls[0][0]).toMatchObject(currentFilter);
+    expect(getCurrentFilter).toHaveBeenCalledTimes(1);
+    expect(getCurrentFilter.mock.calls[0][0]).toMatchObject(currentFilter);
   });
 });

@@ -1,7 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`render PlaceItem 1`] = `
+exports[`render PlaceItems 1`] = `
 <ul
   className="property__inside-list"
-/>
+>
+  <li
+    className="property__inside-item"
+  >
+    item-1
+  </li>
+  <li
+    className="property__inside-item"
+  >
+    item-2
+  </li>
+</ul>
 `;

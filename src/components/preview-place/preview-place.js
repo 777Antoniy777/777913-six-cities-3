@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import classNames from 'classnames';
 import {OfferActionCreator} from '../../actions/offer/action-creator';
 
-const PreviewPlace = ({placeData, isShowOffer, getActiveItem, onGetHoveredOffer, onRemoveHoveredOffer, onSetOfferStatus}) => {
+const PreviewPlace = ({placeData, isShowOffer, getActiveItem, getHoveredOffer, removeHoveredOffer, setOfferStatus}) => {
   const {title, premium, src, price, type, rating} = placeData;
 
   const placeWrapperClass = classNames({
@@ -30,16 +30,16 @@ const PreviewPlace = ({placeData, isShowOffer, getActiveItem, onGetHoveredOffer,
     evt.preventDefault();
 
     getActiveItem(placeData);
-    onSetOfferStatus(true);
+    setOfferStatus(true);
     window.scrollTo(0, 0);
   };
 
   const handleCardMouseenter = () => {
-    onGetHoveredOffer(placeData);
+    getHoveredOffer(placeData);
   };
 
   const handleCardMouseleave = () => {
-    onRemoveHoveredOffer(null);
+    removeHoveredOffer(null);
   };
 
   return (
@@ -112,10 +112,10 @@ PreviewPlace.propTypes = {
     host: PropTypes.object,
   }),
   isShowOffer: PropTypes.bool,
-  onSetOfferStatus: PropTypes.func,
   getActiveItem: PropTypes.func,
-  onRemoveHoveredOffer: PropTypes.func,
-  onGetHoveredOffer: PropTypes.func,
+  setOfferStatus: PropTypes.func,
+  removeHoveredOffer: PropTypes.func,
+  getHoveredOffer: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -123,13 +123,13 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onGetHoveredOffer: (offer) => {
+  getHoveredOffer: (offer) => {
     dispatch(OfferActionCreator.getHoveredOffer(offer));
   },
-  onRemoveHoveredOffer: (offer) => {
+  removeHoveredOffer: (offer) => {
     dispatch(OfferActionCreator.removeHoveredOffer(offer));
   },
-  onSetOfferStatus: (status) => {
+  setOfferStatus: (status) => {
     dispatch(OfferActionCreator.setOfferStatus(status));
   }
 });

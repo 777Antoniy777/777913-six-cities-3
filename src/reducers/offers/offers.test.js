@@ -1,78 +1,81 @@
+import MockAdapter from "axios-mock-adapter";
+import createAPI from "../../api.js";
 import offersState from './offers';
 import {OffersActionType, OffersActionCreator} from "../../actions/offers/action-creator";
+import {OffersAsyncActionCreator} from "../../actions/offers/async-action-creator";
+
+const api = createAPI(() => {});
 
 const initialOffers = [
   {
     id: 1,
-    city: `Omsk`,
-    title: `title`,
+    city: {
+      id: 1,
+      name: `city`,
+      coords: [1, 1],
+    },
+    title: `title 1`,
     premium: false,
-    src: `img/image.jpg`,
-    photos: [
-      `img/image-1.jpg`,
-    ],
-    price: 10,
-    description: `description`,
+    src: `img/image1`,
+    photos: [`img/image1`],
+    price: 999999,
+    description: `test`,
     type: `type`,
-    rating: 1,
-    bedroomAmount: 1,
-    guestsAmount: 1,
-    items: [
-      `item1`,
-      `item2`,
-    ],
+    rating: 9999,
+    bedroomAmount: 30,
+    guestsAmount: 50,
+    items: [`item`],
     host: {
-      avatar: `img/avatar.jpg`,
+      avatar: `img/avatar-1.jpg`,
       name: `name`,
       status: false,
     },
     reviews: [
       {
         id: 1,
-        body: `body`,
-        rating: 1,
+        body: `text`,
+        rating: 5,
         name: `name`,
         date: `date`,
       },
     ],
-    coords: [2, 3],
+    coord: [1, 1],
   },
 ];
 const offers = [
   {
     id: 1,
-    city: `Omsk`,
-    title: `title`,
+    city: {
+      id: 1,
+      name: `city`,
+      coords: [1, 1],
+    },
+    title: `title 1`,
     premium: false,
-    src: `img/image.jpg`,
-    photos: [
-      `img/image-1.jpg`,
-    ],
-    price: 10,
-    description: `description`,
+    src: `img/image1`,
+    photos: [`img/image1`],
+    price: 999999,
+    description: `test`,
     type: `type`,
-    rating: 1,
-    bedroomAmount: 1,
-    guestsAmount: 1,
-    items: [
-      `item1`,
-      `item2`,
-    ],
+    rating: 9999,
+    bedroomAmount: 30,
+    guestsAmount: 50,
+    items: [`item`],
     host: {
-      avatar: `img/avatar.jpg`,
+      avatar: `img/avatar-1.jpg`,
       name: `name`,
       status: false,
     },
     reviews: [
       {
         id: 1,
-        body: `body`,
-        rating: 1,
+        body: `text`,
+        rating: 5,
         name: `name`,
         date: `date`,
       },
     ],
-    coords: [2, 3],
+    coord: [1, 1],
   },
 ];
 
@@ -199,6 +202,43 @@ it(`Reducer should set top rated first order of offers`, () => {
     payload: filteredOffers,
   })).toEqual({
     offers: filteredOffers,
+  });
+});
+
+describe(`Async action creator work correctly`, () => {
+  it(`Should make a correct API call to /hotels`, function () {
+    const apiMock = new MockAdapter(api);
+    const dispatch = jest.fn();
+    const getOffers = OffersAsyncActionCreator.getOffers();
+
+    apiMock
+      .onGet(`/hotels`)
+      .reply(200, initialOffers);
+
+    return getOffers(dispatch, () => {}, api)
+      .then(() => {
+        expect(dispatch).toHaveBeenCalledTimes(5);
+        expect(dispatch).toHaveBeenNthCalledWith(1, {
+          type: OffersActionType.GET_INITIAL_OFFERS,
+          payload: initialOffers,
+        });
+        expect(dispatch).toHaveBeenNthCalledWith(2, {
+          type: OffersActionType.GET_OFFERS,
+          payload: initialOffers,
+        });
+        expect(dispatch).toHaveBeenNthCalledWith(3, {
+          type: OffersActionType.GET_INITIAL_CITY,
+          payload: offers[0].city.name,
+        });
+        expect(dispatch).toHaveBeenNthCalledWith(4, {
+          type: OffersActionType.SET_OFFERS_REQUEST_STATUS,
+          payload: `success`,
+        });
+        expect(dispatch).toHaveBeenNthCalledWith(5, {
+          type: OffersActionType.SET_OFFERS_REQUEST_MESSAGE,
+          payload: null,
+        });
+      });
   });
 });
 
