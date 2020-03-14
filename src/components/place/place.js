@@ -2,7 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import {connect} from 'react-redux';
 import {OfferActionCreator} from "../../actions/offer/action-creator";
-import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-creator";
+// import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-creator";
+import {getOffer, getHoveredOffer} from "../../reducers/offer/selectors";
+import {getInitialOffersSelector} from "../../reducers/offers/selectors";
+import {getRequestStatus, getRequestMessage, getReviews} from "../../reducers/reviews/selectors";
 import {ErrorReviewWrapperStyle, ErrorMessageStyle} from "../../style";
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 import withMap from "../../hocs/with-map/with-map";
@@ -19,7 +22,8 @@ const PreviewPlacesWrappedHOC = withActiveItem(PreviewPlaces);
 const MapWrappedHOC = withMap(Map);
 const PlaceReviewsWrappedHOC = withLoadData(PlaceReviews);
 
-const Place = ({offers, offer, hoveredOffer, requestStatus, requestMessage, reviews, getCurrentOffer, getReviews}) => {
+// getReviews
+const Place = ({offers, offer, hoveredOffer, requestStatus, requestMessage, reviews, getCurrentOffer}) => {
   const {id, title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offer;
   const {avatar, name, status} = host;
   const splittedReviews = reviews.slice(0, 10);
@@ -46,7 +50,7 @@ const Place = ({offers, offer, hoveredOffer, requestStatus, requestMessage, revi
           offerId={id}
           data={splittedReviews}
           // handlers
-          getData={getReviews}
+          // getData={getReviews}
         />
       );
     }
@@ -343,23 +347,21 @@ Place.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.offers.initialOffers.filter((elem) => {
-    return elem.city.name.includes(state.offers.city);
-  }),
-  offer: state.offer.offer,
-  hoveredOffer: state.offer.hoveredOffer,
-  requestStatus: state.reviews.requestStatus,
-  requestMessage: state.reviews.requestMessage,
-  reviews: state.reviews.reviews,
+  offers: getInitialOffersSelector(state),
+  offer: getOffer(state),
+  hoveredOffer: getHoveredOffer(state),
+  requestStatus: getRequestStatus(state),
+  requestMessage: getRequestMessage(state),
+  reviews: getReviews(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getCurrentOffer: (offer) => {
     dispatch(OfferActionCreator.getCurrentOffer(offer));
   },
-  getReviews: (offerId) => {
-    dispatch(ReviewsAsyncActionCreator.getReviews(offerId));
-  },
+  // getReviews: (offerId) => {
+  //   dispatch(ReviewsAsyncActionCreator.getReviews(offerId));
+  // },
 });
 
 export default connect(

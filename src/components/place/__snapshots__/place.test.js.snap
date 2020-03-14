@@ -261,7 +261,6 @@ exports[`render Place 1`] = `
                       alt="Reviews avatar"
                       className="reviews__avatar user__avatar"
                       height={54}
-                      src="img/avatar-max.jpg"
                       width={54}
                     />
                   </div>
@@ -283,7 +282,7 @@ exports[`render Place 1`] = `
                       <span
                         style={
                           Object {
-                            "width": "100%",
+                            "width": "NaN%",
                           }
                         }
                       />
@@ -296,15 +295,10 @@ exports[`render Place 1`] = `
                   </div>
                   <p
                     className="reviews__text"
-                  >
-                    text
-                  </p>
+                  />
                   <time
                     className="reviews__time"
-                    dateTime="2019-04-24"
-                  >
-                    date
-                  </time>
+                  />
                 </div>
               </li>
             </ul>

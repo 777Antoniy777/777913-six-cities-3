@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from "prop-types";
 import {connect} from 'react-redux';
 import {BrowserRouter, Switch, Route} from "react-router-dom";
+import {getShowOfferStatus} from "../../reducers/offer/selectors";
 import Main from '../main/main';
 import Place from '../place/place';
 
@@ -38,7 +39,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  isShowOffer: state.offer.isShowOffer,
+  isShowOffer: getShowOfferStatus(state),
 });
 
 export default connect(

@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import classNames from 'classnames';
 import {OffersActionCreator} from "../../actions/offers/action-creator";
 import {OfferActionCreator} from "../../actions/offer/action-creator";
+import {getOffersSelector, getCitiesSelector, getRequestStatus, getRequestMessage, getInitialOffers, getOffers, getCity} from "../../reducers/offers/selectors";
 import {ErrorMainWrapperStyle, ErrorMessageStyle} from "../../style";
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 import withMap from "../../hocs/with-map/with-map";
@@ -20,8 +21,7 @@ const PreviewPlacesWrappedHoc = withActiveItem(PreviewPlaces);
 const MapWrappedHoc = withMap(Map);
 const PlaceFilterWrappedHoc = withPlaceFilter(PlaceFilter);
 
-const Main = ({requestStatus, requestMessage, offers, initialOffers, filteredOffers, currentCity, getCities, getCurrentCity, getCurrentOffer, setDefaultOrderOffers, setLowToHighOrderOffers, setHighToLowOrderOffers, setTopRatedFirstOrderOffers}) => {
-  const cities = getCities();
+const Main = ({requestStatus, requestMessage, offers, initialOffers, filteredOffers, currentCity, cities, getCurrentCity, getCurrentOffer, setDefaultOrderOffers, setLowToHighOrderOffers, setHighToLowOrderOffers, setTopRatedFirstOrderOffers}) => {
 
   const mainEmptyClass = classNames({
     'page__main': true,
@@ -156,7 +156,7 @@ Main.propTypes = {
   initialOffers: PropTypes.arrayOf(PropTypes.object),
   filteredOffers: PropTypes.arrayOf(PropTypes.object),
   currentCity: PropTypes.string,
-  getCities: PropTypes.func,
+  cities: PropTypes.arrayOf(PropTypes.string),
   getCurrentCity: PropTypes.func,
   getCurrentOffer: PropTypes.func,
   setDefaultOrderOffers: PropTypes.func,
@@ -166,24 +166,12 @@ Main.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  requestStatus: state.offers.requestStatus,
-  requestMessage: state.offers.requestMessage,
-  currentCity: state.offers.city,
-  getCities: () => {
-    let set = new Set();
-
-    state.offers.initialOffers.forEach((elem) => {
-      const city = elem.city.name;
-      set.add(city);
-    });
-
-    const cities = Array.from(set);
-    const splittedCities = cities.slice(0, 6);
-
-    return splittedCities;
-  },
-  initialOffers: state.offers.initialOffers,
-  filteredOffers: state.offers.offers,
+  requestStatus: getRequestStatus(state),
+  requestMessage: getRequestMessage(state),
+  currentCity: getCity(state),
+  cities: getCitiesSelector(state),
+  initialOffers: getInitialOffers(state),
+  filteredOffers: getOffers(state),
   offers: state.offers.offers.filter((elem) => {
     return elem.city.name.includes(state.offers.city);
   }),

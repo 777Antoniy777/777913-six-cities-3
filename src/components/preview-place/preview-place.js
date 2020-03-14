@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {connect} from 'react-redux';
 import classNames from 'classnames';
 import {OfferActionCreator} from '../../actions/offer/action-creator';
+import {getShowOfferStatus} from "../../reducers/offer/selectors";
 
 const PreviewPlace = ({placeData, isShowOffer, getActiveItem, getHoveredOffer, removeHoveredOffer, setOfferStatus}) => {
   const {title, premium, src, price, type, rating} = placeData;
@@ -119,7 +120,7 @@ PreviewPlace.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  isShowOffer: state.offer.isShowOffer,
+  isShowOffer: getShowOfferStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

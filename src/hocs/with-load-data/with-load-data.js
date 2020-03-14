@@ -10,7 +10,7 @@ const withLoadData = (Component) => {
     componentDidMount() {
       const {offerId, getData} = this.props;
 
-      getData(offerId);
+      // getData(offerId);
     }
 
     render() {
