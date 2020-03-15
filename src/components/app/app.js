@@ -2,11 +2,14 @@ import React from 'react';
 import PropTypes from "prop-types";
 import {connect} from 'react-redux';
 import {BrowserRouter, Switch, Route} from "react-router-dom";
+import {getAuthorizationStatus, getUserData} from "../../reducers/user/selectors";
 import {getShowOfferStatus} from "../../reducers/offer/selectors";
 import Main from '../main/main';
 import Place from '../place/place';
+import SignIn from "../sign-in/sign-in";
+import Header from "../header/header";
 
-const App = ({isShowOffer}) => {
+const App = ({isShowOffer, authorizationStatus, userData}) => {
   const renderOfferScreen = () => {
 
     if (isShowOffer) {
@@ -22,12 +25,21 @@ const App = ({isShowOffer}) => {
 
   return (
     <BrowserRouter>
+      <Header
+        // properties
+        authorizationStatus={authorizationStatus}
+        userData={userData}
+      />
+
       <Switch>
         <Route path="/" exact>
           {renderOfferScreen()}
         </Route>
         <Route path="/offer">
           <Place />
+        </Route>
+        <Route path="/signin">
+          <SignIn />
         </Route>
       </Switch>
     </BrowserRouter>
@@ -36,10 +48,14 @@ const App = ({isShowOffer}) => {
 
 App.propTypes = {
   isShowOffer: PropTypes.bool,
+  authorizationStatus: PropTypes.string,
+  userData: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
   isShowOffer: getShowOfferStatus(state),
+  authorizationStatus: getAuthorizationStatus(state),
+  userData: getUserData(state),
 });
 
 export default connect(

@@ -5,6 +5,11 @@ const FilterType = {
   TOP_RATED_FIRST: `topRatedFirst`,
 };
 
-export default FilterType;
+const AuthorizationStatus = {
+  NO_AUTH: `NO_AUTH`,
+  AUTH: `AUTH`,
+};
+
+export {FilterType, AuthorizationStatus};
 
 
