@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`render App 1`] = `
-<div
-  className="page page--gray page--main"
->
+Array [
   <header
     className="header"
   >
@@ -17,7 +15,8 @@ exports[`render App 1`] = `
           className="header__left"
         >
           <a
-            className="header__logo-link header__logo-link--active"
+            className="header__logo-link"
+            href="main.html"
           >
             <img
               alt="6 cities logo"
@@ -45,9 +44,9 @@ exports[`render App 1`] = `
                   className="header__avatar-wrapper user__avatar-wrapper"
                 />
                 <span
-                  className="header__user-name user__name"
+                  className="header__login"
                 >
-                  Oliver.conner@gmail.com
+                  Sign in
                 </span>
               </a>
             </li>
@@ -55,210 +54,214 @@ exports[`render App 1`] = `
         </nav>
       </div>
     </div>
-  </header>
-  <main
-    className="page__main page__main--index"
+  </header>,
+  <div
+    className="page page--gray page--main"
   >
-    <h1
-      className="visually-hidden"
+    <main
+      className="page__main page__main--index"
     >
-      Cities
-    </h1>
-    <div
-      className="tabs"
-    >
-      <section
-        className="locations container"
+      <h1
+        className="visually-hidden"
       >
-        <ul
-          className="locations__list tabs__list"
-        >
-          <li
-            className="locations__item"
-          >
-            <a
-              className="locations__item-link tabs__item tabs__item--active"
-              href="#"
-              onClick={[Function]}
-            >
-              <span>
-                city
-              </span>
-            </a>
-          </li>
-        </ul>
-      </section>
-    </div>
-    <div
-      className="cities"
-    >
+        Cities
+      </h1>
       <div
-        className="cities__places-container container"
+        className="tabs"
       >
         <section
-          className="cities__places places"
+          className="locations container"
         >
-          <h2
-            className="visually-hidden"
+          <ul
+            className="locations__list tabs__list"
           >
-            Places
-          </h2>
-          <b
-            className="places__found"
-          >
-            1
-             places to stay in 
-            city
-          </b>
-          <form
-            action="#"
-            className="places__sorting"
-            method="get"
-          >
-            <span
-              className="places__sorting-caption"
-              onClick={[Function]}
+            <li
+              className="locations__item"
             >
-              Sort by
-            </span>
-            <span
-              className="places__sorting-type"
-              onClick={[Function]}
-              tabIndex={0}
-            >
-              Popular
-              <svg
-                className="places__sorting-arrow"
-                height={4}
-                width={7}
+              <a
+                className="locations__item-link tabs__item tabs__item--active"
+                href="#"
+                onClick={[Function]}
               >
-                <use
-                  xlinkHref="#icon-arrow-select"
-                />
-              </svg>
-            </span>
-          </form>
-          <div
-            className="cities__places-list places__list tabs__content"
+                <span>
+                  city
+                </span>
+              </a>
+            </li>
+          </ul>
+        </section>
+      </div>
+      <div
+        className="cities"
+      >
+        <div
+          className="cities__places-container container"
+        >
+          <section
+            className="cities__places places"
           >
-            <article
-              className="place-card cities__place-card"
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
+            <h2
+              className="visually-hidden"
             >
-              <div
-                className="place-card__image-wrapper cities__image-wrapper"
+              Places
+            </h2>
+            <b
+              className="places__found"
+            >
+              1
+               places to stay in 
+              city
+            </b>
+            <form
+              action="#"
+              className="places__sorting"
+              method="get"
+            >
+              <span
+                className="places__sorting-caption"
+                onClick={[Function]}
               >
-                <a
-                  href="#"
+                Sort by
+              </span>
+              <span
+                className="places__sorting-type"
+                onClick={[Function]}
+                tabIndex={0}
+              >
+                Popular
+                <svg
+                  className="places__sorting-arrow"
+                  height={4}
+                  width={7}
                 >
-                  <img
-                    alt="Place image"
-                    className="place-card__image"
-                    height={200}
-                    src="img/image1"
-                    width={260}
+                  <use
+                    xlinkHref="#icon-arrow-select"
                   />
-                </a>
-              </div>
-              <div
-                className="place-card__info"
+                </svg>
+              </span>
+            </form>
+            <div
+              className="cities__places-list places__list tabs__content"
+            >
+              <article
+                className="place-card cities__place-card"
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
               >
                 <div
-                  className="place-card__price-wrapper"
-                >
-                  <div
-                    className="place-card__price"
-                  >
-                    <b
-                      className="place-card__price-value"
-                    >
-                      €
-                      999999
-                    </b>
-                    <span
-                      className="place-card__price-text"
-                    >
-                      / night
-                    </span>
-                  </div>
-                  <button
-                    className="place-card__bookmark-button button"
-                    type="button"
-                  >
-                    <svg
-                      className="place-card__bookmark-icon"
-                      height={19}
-                      width={18}
-                    >
-                      <use
-                        xlinkHref="#icon-bookmark"
-                      />
-                    </svg>
-                    <span
-                      className="visually-hidden"
-                    >
-                      To bookmarks
-                    </span>
-                  </button>
-                </div>
-                <div
-                  className="place-card__rating rating"
-                >
-                  <div
-                    className="place-card__stars rating__stars"
-                  >
-                    <span
-                      style={
-                        Object {
-                          "width": "199980%",
-                        }
-                      }
-                    />
-                    <span
-                      className="visually-hidden"
-                    >
-                      Rating
-                    </span>
-                  </div>
-                </div>
-                <h2
-                  className="place-card__name"
-                  onClick={[Function]}
+                  className="place-card__image-wrapper cities__image-wrapper"
                 >
                   <a
                     href="#"
                   >
-                    title 1
+                    <img
+                      alt="Place image"
+                      className="place-card__image"
+                      height={200}
+                      src="img/image1"
+                      width={260}
+                    />
                   </a>
-                </h2>
-                <p
-                  className="place-card__type"
+                </div>
+                <div
+                  className="place-card__info"
                 >
-                  type
-                </p>
-              </div>
-            </article>
-          </div>
-        </section>
-        <div
-          className="cities__right-section"
-        >
-          <section
-            className="cities__map map"
-          >
-            <div
-              id="map"
-              style={
-                Object {
-                  "height": "100%",
-                }
-              }
-            />
+                  <div
+                    className="place-card__price-wrapper"
+                  >
+                    <div
+                      className="place-card__price"
+                    >
+                      <b
+                        className="place-card__price-value"
+                      >
+                        €
+                        999999
+                      </b>
+                      <span
+                        className="place-card__price-text"
+                      >
+                        / night
+                      </span>
+                    </div>
+                    <button
+                      className="place-card__bookmark-button button"
+                      type="button"
+                    >
+                      <svg
+                        className="place-card__bookmark-icon"
+                        height={19}
+                        width={18}
+                      >
+                        <use
+                          xlinkHref="#icon-bookmark"
+                        />
+                      </svg>
+                      <span
+                        className="visually-hidden"
+                      >
+                        To bookmarks
+                      </span>
+                    </button>
+                  </div>
+                  <div
+                    className="place-card__rating rating"
+                  >
+                    <div
+                      className="place-card__stars rating__stars"
+                    >
+                      <span
+                        style={
+                          Object {
+                            "width": "199980%",
+                          }
+                        }
+                      />
+                      <span
+                        className="visually-hidden"
+                      >
+                        Rating
+                      </span>
+                    </div>
+                  </div>
+                  <h2
+                    className="place-card__name"
+                    onClick={[Function]}
+                  >
+                    <a
+                      href="#"
+                    >
+                      title 1
+                    </a>
+                  </h2>
+                  <p
+                    className="place-card__type"
+                  >
+                    type
+                  </p>
+                </div>
+              </article>
+            </div>
           </section>
+          <div
+            className="cities__right-section"
+          >
+            <section
+              className="cities__map map"
+            >
+              <div
+                id="map"
+                style={
+                  Object {
+                    "height": "100%",
+                  }
+                }
+              />
+            </section>
+          </div>
         </div>
       </div>
-    </div>
-  </main>
-</div>
+    </main>
+  </div>,
+]
 `;

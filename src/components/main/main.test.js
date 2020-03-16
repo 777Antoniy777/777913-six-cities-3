@@ -115,6 +115,10 @@ const filteredOffers = [
     coord: [1, 1],
   },
 ];
+const cities = [
+  `Moscow`,
+  `Omsk`,
+];
 const currentCity = `city`;
 const requestStatus = `status`;
 const requestMessage = `message`;
@@ -154,7 +158,7 @@ it(`render Main`, () => {
           initialOffers={initialOffers}
           filteredOffers={filteredOffers}
           currentCity={currentCity}
-          getCities={getCities}
+          cities={cities}
           getCurrentCity={getCurrentCity}
           getCurrentOffer={getCurrentOffer}
           setDefaultOrderOffers={setDefaultOrderOffers}

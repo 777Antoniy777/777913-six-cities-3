@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import FilterType from "../../enums";
+import {FilterType} from "../../enums";
 
 const withPlaceFilter = (Component) => {
   class WithPlaceFilter extends React.PureComponent {

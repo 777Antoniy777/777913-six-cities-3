@@ -13,6 +13,25 @@ const createAPI = (onUnauthorized) => {
     withCredentials: true,
   });
 
+  const onSuccess = (response) => {
+    return response;
+  };
+
+  const onError = (error) => {
+    const {response} = error;
+
+    if (response.status === Error.UNAUTHORIZED) {
+      onUnauthorized();
+
+      throw error;
+    }
+
+    throw error;
+  };
+
+  axiosInstance.interceptors.request.use(onSuccess, onError);
+  axiosInstance.interceptors.response.use(onSuccess, onError);
+
   return axiosInstance;
 };
 

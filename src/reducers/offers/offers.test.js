@@ -206,7 +206,7 @@ it(`Reducer should set top rated first order of offers`, () => {
 });
 
 describe(`Async action creator work correctly`, () => {
-  it(`Should make a correct API call to /hotels`, function () {
+  it(`Should make a correct correct GET to /hotels`, function () {
     const apiMock = new MockAdapter(api);
     const dispatch = jest.fn();
     const getOffers = OffersAsyncActionCreator.getOffers();
