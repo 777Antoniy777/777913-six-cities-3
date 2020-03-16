@@ -4,7 +4,7 @@ import {AuthorizationStatus} from "../../enums";
 
 const Header = ({authorizationStatus, userData}) => {
   const isUserLogin = () => {
-    if (authorizationStatus && authorizationStatus === AuthorizationStatus.AUTH && userData) {
+    if (authorizationStatus === AuthorizationStatus.AUTH && userData) {
       const {email} = userData;
 
       return (

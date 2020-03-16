@@ -15,6 +15,7 @@ import Map from '../map/map';
 import Cities from '../cities/cities';
 import PlaceFilter from '../place-filter/place-filter';
 import ErrorMessage from "../error-message/error-message";
+
 const CitiesWrappedHoc = withActiveItem(Cities);
 const PreviewPlacesWrappedHoc = withActiveItem(PreviewPlaces);
 const MapWrappedHoc = withMap(Map);

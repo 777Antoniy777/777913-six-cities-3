@@ -124,9 +124,10 @@ const reviews = [
 ];
 const requestStatus = `status`;
 const requestMessage = `message`;
+const authorizationStatus = `AUTH`;
 
 const getCurrentOffer = () => {};
-const getReviews = () => {};
+// const getReviews = () => {};
 
 const store = mockStore({
   offer: {
@@ -141,6 +142,9 @@ const store = mockStore({
     requestMessage: null,
     reviews,
   },
+  user: {
+    authorizationStatus: `NO_AUTH`,
+  }
 });
 
 it(`render Place`, () => {
@@ -157,6 +161,7 @@ it(`render Place`, () => {
           requestStatus={requestStatus}
           requestMessage={requestMessage}
           reviews={reviews}
+          authorizationStatus={authorizationStatus}
           getCurrentOffer={getCurrentOffer}
         />
       </Provider>)

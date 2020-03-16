@@ -3,15 +3,26 @@ import PropTypes from "prop-types";
 import {connect} from 'react-redux';
 import {UserAsyncActionCreator} from "../../actions/user/async-action-creator";
 
-const SignIn = ({login}) => {
+const SignIn = ({email, password, onInputChange, isFieldEmpty, isEmailValid, login}) => {
   const handleFormSubmit = (evt) => {
     evt.preventDefault();
   };
 
-  const handleButtonClick = (evt) => {
-    evt.preventDefault();
+  const handleButtonClick = () => {
+    const isEmailEmpty = isFieldEmpty(email);
+    const isPasswordEmpty = isFieldEmpty(password);
+    const isEmailCorrect = isEmailValid(email);
 
-    login();
+    if (!isEmailEmpty || !isPasswordEmpty) {
+      return false;
+    }
+
+    if (!isEmailCorrect) {
+      return false;
+    }
+
+    login(email, password);
+    return true;
   };
 
   return (
@@ -23,16 +34,17 @@ const SignIn = ({login}) => {
 
           <section className="login">
             <h1 className="login__title">Sign in</h1>
+
             <form className="login__form form" action="#" method="post" onSubmit={handleFormSubmit}>
 
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
-                <input className="login__input form__input" type="email" name="email" placeholder="Email" required />
+                <input className="login__input form__input" type="email" name="email" value={email} placeholder="Email" onChange={onInputChange} required />
               </div>
 
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input className="login__input form__input" type="password" name="password" placeholder="Password" required />
+                <input className="login__input form__input" type="password" name="password" value={password} placeholder="Password" onChange={onInputChange} required />
               </div>
 
               <button className="login__submit form__submit button" type="submit" onClick={handleButtonClick}>Sign in</button>
@@ -56,12 +68,17 @@ const SignIn = ({login}) => {
 };
 
 SignIn.propTypes = {
+  email: PropTypes.string,
+  password: PropTypes.string,
+  onInputChange: PropTypes.func,
+  isFieldEmpty: PropTypes.func,
+  isEmailValid: PropTypes.func,
   login: PropTypes.func,
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  login: () => {
-    dispatch(UserAsyncActionCreator.login());
+  login: (email, password) => {
+    dispatch(UserAsyncActionCreator.login(email, password));
   },
 });
 

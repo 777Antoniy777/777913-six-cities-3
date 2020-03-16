@@ -79,6 +79,14 @@ const initialOffers = [
     coord: [1, 1],
   },
 ];
+const isShowOffer = false;
+const authorizationStatus = `AUTH`;
+const userData = {
+  id: 1,
+  name: `name`,
+  avatar: `avatar`,
+  status: true,
+};
 
 const store = mockStore({
   offers: {
@@ -87,8 +95,12 @@ const store = mockStore({
     offers,
   },
   offer: {
-    isShowOffer: false
+    isShowOffer,
   },
+  user: {
+    authorizationStatus: `NO_AUTH`,
+    userData: null,
+  }
 });
 
 it(`render App`, () => {
@@ -98,7 +110,11 @@ it(`render App`, () => {
 
   const tree = renderer.create(
       <Provider store={store}>
-        <App />
+        <App
+          isShowOffer={isShowOffer}
+          authorizationStatus={authorizationStatus}
+          userData={userData}
+        />
       </Provider>)
       .toJSON();
 

@@ -4,10 +4,13 @@ import {connect} from 'react-redux';
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 import {getAuthorizationStatus, getUserData} from "../../reducers/user/selectors";
 import {getShowOfferStatus} from "../../reducers/offer/selectors";
+import withSignIn from "../../hocs/with-sign-in/with-sign-in";
 import Main from '../main/main';
 import Place from '../place/place';
 import SignIn from "../sign-in/sign-in";
 import Header from "../header/header";
+
+const SignInWrappedHOC = withSignIn(SignIn);
 
 const App = ({isShowOffer, authorizationStatus, userData}) => {
   const renderOfferScreen = () => {
@@ -39,7 +42,7 @@ const App = ({isShowOffer, authorizationStatus, userData}) => {
           <Place />
         </Route>
         <Route path="/signin">
-          <SignIn />
+          <SignInWrappedHOC />
         </Route>
       </Switch>
     </BrowserRouter>
