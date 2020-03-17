@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {AuthorizationStatus} from "../../enums";
 import {OfferActionCreator} from "../../actions/offer/action-creator";
 // import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-creator";
+import {UserReviewAsyncActionCreator} from "../../actions/user-review/async-action-creator";
 import {getOffer, getHoveredOffer} from "../../reducers/offer/selectors";
 import {getInitialOffersSelector} from "../../reducers/offers/selectors";
 import {getRequestStatus, getRequestMessage, getReviews} from "../../reducers/reviews/selectors";
@@ -12,20 +13,23 @@ import {ErrorReviewWrapperStyle, ErrorMessageStyle} from "../../style";
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 import withMap from "../../hocs/with-map/with-map";
 import withLoadData from "../../hocs/with-load-data/with-load-data";
+import withPlaceFormReviews from "../../hocs/with-place-form-reviews/with-place-form-reviews";
 import PlacePhotos from "../place-photos/place-photos";
 import PlaceItems from "../place-items/place-items";
 import PlaceHost from "../place-host/place-host";
 import PlaceReviews from "../place-reviews/place-reviews";
 import PreviewPlaces from "../preview-places/preview-places";
 import Map from "../map/map";
+import PlaceFormReviews from "../place-form-reviews/place-form-reviews";
 import ErrorMessage from "../error-message/error-message";
 
 const PreviewPlacesWrappedHOC = withActiveItem(PreviewPlaces);
 const MapWrappedHOC = withMap(Map);
 const PlaceReviewsWrappedHOC = withLoadData(PlaceReviews);
+const PlaceFormReviewsWrappedHOC = withPlaceFormReviews(PlaceFormReviews);
 
 // getReviews
-const Place = ({offers, offer, hoveredOffer, requestStatus, requestMessage, reviews, authorizationStatus, getCurrentOffer}) => {
+const Place = ({offers, offer, hoveredOffer, requestStatus, requestMessage, reviews, authorizationStatus, getCurrentOffer, getUserReview}) => {
   const {id, title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offer;
   const {avatar, name, status} = host;
   const splittedReviews = reviews.slice(0, 10);
@@ -172,60 +176,14 @@ const Place = ({offers, offer, hoveredOffer, requestStatus, requestMessage, revi
                 {/* рендерит отзывы пользователей */}
                 {renderPlaceReviews()}
 
-                { authorizationStatus === AuthorizationStatus.AUTH &&
-                  <form className="reviews__form form" action="#" method="post">
-                    <label className="reviews__label form__label" htmlFor="review">Your review</label>
-
-                    <div className="reviews__rating-form form__rating">
-
-                      <input className="form__rating-input visually-hidden" name="rating" defaultValue={5} id="5-stars" type="radio" />
-                      <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
-                        <svg className="form__star-image" width={37} height={33}>
-                          <use xlinkHref="#icon-star" />
-                        </svg>
-                      </label>
-
-                      <input className="form__rating-input visually-hidden" name="rating" defaultValue={4} id="4-stars" type="radio" />
-                      <label htmlFor="4-stars" className="reviews__rating-label form__rating-label" title="good">
-                        <svg className="form__star-image" width={37} height={33}>
-                          <use xlinkHref="#icon-star" />
-                        </svg>
-                      </label>
-
-                      <input className="form__rating-input visually-hidden" name="rating" defaultValue={3} id="3-stars" type="radio" />
-                      <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
-                        <svg className="form__star-image" width={37} height={33}>
-                          <use xlinkHref="#icon-star" />
-                        </svg>
-                      </label>
-
-                      <input className="form__rating-input visually-hidden" name="rating" defaultValue={2} id="2-stars" type="radio" />
-                      <label htmlFor="2-stars" className="reviews__rating-label form__rating-label" title="badly">
-                        <svg className="form__star-image" width={37} height={33}>
-                          <use xlinkHref="#icon-star" />
-                        </svg>
-                      </label>
-
-                      <input className="form__rating-input visually-hidden" name="rating" defaultValue={1} id="1-star" type="radio" />
-                      <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
-                        <svg className="form__star-image" width={37} height={33}>
-                          <use xlinkHref="#icon-star" />
-                        </svg>
-                      </label>
-
-                    </div>
-
-                    <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" defaultValue={``} />
-
-                    <div className="reviews__button-wrapper">
-                      <p className="reviews__help">
-                          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
-                      </p>
-                      <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>
-                    </div>
-
-                  </form>
-                }
+                {/* { authorizationStatus === AuthorizationStatus.AUTH && */}
+                <PlaceFormReviewsWrappedHOC
+                  // properties
+                  offerId={id}
+                  // handlers
+                  getUserReview={getUserReview}
+                />
+                {/* } */}
 
               </section>
 
@@ -341,6 +299,9 @@ const mapDispatchToProps = (dispatch) => ({
   // getReviews: (offerId) => {
   //   dispatch(ReviewsAsyncActionCreator.getReviews(offerId));
   // },
+  getUserReview: (offerId, value) => {
+    dispatch(UserReviewAsyncActionCreator.getUserReview(offerId, value));
+  }
 });
 
 export default connect(

@@ -86,7 +86,6 @@ const OffersAsyncActionCreator = {
         dispatch(OffersActionCreator.setOffersRequestMessage(null));
       })
       .catch(function (error) {
-        console.log(error);
         dispatch(OffersActionCreator.setOffersRequestStatus(`error`));
         dispatch(OffersActionCreator.setOffersRequestMessage(`Ошибка загрузки предложений. Попробуйте позже`));
 
