@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import PlaceFormReviewsStar from "../place-form-reviews-star/place-form-reviews-star";
 
-const PlaceFormReviews = ({offerId, textarea, getUserReview}) => {
+const PlaceFormReviews = ({offerId, textarea, radioButtonRefs, getReviewsOnPost}) => {
   const starTitles = [
     {
       id: 5,
@@ -31,10 +31,18 @@ const PlaceFormReviews = ({offerId, textarea, getUserReview}) => {
   };
 
   const handleButtonClick = () => {
-    const target = textarea.current;
-    const value = target.value;
+    const textareaTarget = textarea.current;
+    const textareaValue = textareaTarget.value;
 
-    getUserReview(offerId, textarea);
+    const radioButton = radioButtonRefs.find((elem) => {
+      return elem.current.checked === true;
+    });
+
+    const rating = radioButton.current.value;
+
+    getReviewsOnPost(offerId, textareaValue, rating);
+
+    return true;
   };
 
   return (
@@ -44,11 +52,12 @@ const PlaceFormReviews = ({offerId, textarea, getUserReview}) => {
       <div className="reviews__rating-form form__rating">
 
         { starTitles &&
-          starTitles.map((elem) =>
+          starTitles.map((elem, i) =>
             <PlaceFormReviewsStar
               // properties
               key={elem.id}
               star={elem}
+              radioButton={radioButtonRefs[i]}
             />
           )}
 
@@ -68,7 +77,10 @@ const PlaceFormReviews = ({offerId, textarea, getUserReview}) => {
 };
 
 PlaceFormReviews.propTypes = {
+  offerId: PropTypes.number,
   textarea: PropTypes.object,
+  radioButton: PropTypes.object,
+  getReviewsOnPost: PropTypes.func,
 };
 
 export default PlaceFormReviews;

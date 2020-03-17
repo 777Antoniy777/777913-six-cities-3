@@ -3,11 +3,10 @@ import PropTypes from "prop-types";
 import {connect} from 'react-redux';
 import {AuthorizationStatus} from "../../enums";
 import {OfferActionCreator} from "../../actions/offer/action-creator";
-// import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-creator";
-import {UserReviewAsyncActionCreator} from "../../actions/user-review/async-action-creator";
+import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-creator";
 import {getOffer, getHoveredOffer} from "../../reducers/offer/selectors";
 import {getInitialOffersSelector} from "../../reducers/offers/selectors";
-import {getRequestStatus, getRequestMessage, getReviews} from "../../reducers/reviews/selectors";
+import {getReviewsRequestStatus, getReviewsRequestMessage, getReviews} from "../../reducers/reviews/selectors";
 import {getAuthorizationStatus} from "../../reducers/user/selectors";
 import {ErrorReviewWrapperStyle, ErrorMessageStyle} from "../../style";
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
@@ -28,8 +27,7 @@ const MapWrappedHOC = withMap(Map);
 const PlaceReviewsWrappedHOC = withLoadData(PlaceReviews);
 const PlaceFormReviewsWrappedHOC = withPlaceFormReviews(PlaceFormReviews);
 
-// getReviews
-const Place = ({offers, offer, hoveredOffer, requestStatus, requestMessage, reviews, authorizationStatus, getCurrentOffer, getUserReview}) => {
+const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, reviews, authorizationStatus, getCurrentOffer, getReviewsOnGet, getReviewsOnPost}) => {
   const {id, title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offer;
   const {avatar, name, status} = host;
   const splittedReviews = reviews.slice(0, 10);
@@ -38,29 +36,6 @@ const Place = ({offers, offer, hoveredOffer, requestStatus, requestMessage, revi
   if (hoveredOffer) {
     hoveredLocation = hoveredOffer.location;
   }
-
-  const renderPlaceReviews = () => {
-    if (requestStatus === `error`) {
-      return (
-        <ErrorMessage
-          // properties
-          requestMessage={requestMessage}
-          wrapperStyle={ErrorReviewWrapperStyle}
-          messageStyle={ErrorMessageStyle}
-        />
-      );
-    } else {
-      return (
-        <PlaceReviewsWrappedHOC
-          // properties
-          offerId={id}
-          data={splittedReviews}
-          // handlers
-          // getData={getReviews}
-        />
-      );
-    }
-  };
 
   const getRating = (val) => {
     let ratingStars = Math.round(val);
@@ -173,15 +148,32 @@ const Place = ({offers, offer, hoveredOffer, requestStatus, requestMessage, revi
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewsLength}</span></h2>
 
+                {/* рендерит ошибку, если сервер недоступен */}
+                { reviewsRequestStatus === `error` &&
+                  <ErrorMessage
+                    // properties
+                    requestMessage={reviewsRequestMessage}
+                    wrapperStyle={ErrorReviewWrapperStyle}
+                    messageStyle={ErrorMessageStyle}
+                  />
+                }
+
                 {/* рендерит отзывы пользователей */}
-                {renderPlaceReviews()}
+                <PlaceReviewsWrappedHOC
+                  // properties
+                  offerId={id}
+                  data={splittedReviews}
+                  // handlers
+                  getData={getReviewsOnGet}
+                />
+                {/* {renderPlaceReviews()} */}
 
                 {/* { authorizationStatus === AuthorizationStatus.AUTH && */}
                 <PlaceFormReviewsWrappedHOC
                   // properties
                   offerId={id}
                   // handlers
-                  getUserReview={getUserReview}
+                  getReviewsOnPost={getReviewsOnPost}
                 />
                 {/* } */}
 
@@ -274,20 +266,21 @@ Place.propTypes = {
     host: PropTypes.object,
     location: PropTypes.objectOf(PropTypes.number),
   }),
-  requestStatus: PropTypes.string,
-  requestMessage: PropTypes.string,
+  reviewsRequestStatus: PropTypes.string,
+  reviewsRequestMessage: PropTypes.string,
   reviews: PropTypes.arrayOf(PropTypes.object),
   authorizationStatus: PropTypes.string,
   getCurrentOffer: PropTypes.func,
-  getReviews: PropTypes.func,
+  getReviewsOnGet: PropTypes.func,
+  getReviewsOnPost: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
   offers: getInitialOffersSelector(state),
   offer: getOffer(state),
   hoveredOffer: getHoveredOffer(state),
-  requestStatus: getRequestStatus(state),
-  requestMessage: getRequestMessage(state),
+  reviewsRequestStatus: getReviewsRequestStatus(state),
+  reviewsRequestMessage: getReviewsRequestMessage(state),
   reviews: getReviews(state),
   authorizationStatus: getAuthorizationStatus(state),
 });
@@ -296,11 +289,11 @@ const mapDispatchToProps = (dispatch) => ({
   getCurrentOffer: (offer) => {
     dispatch(OfferActionCreator.getCurrentOffer(offer));
   },
-  // getReviews: (offerId) => {
-  //   dispatch(ReviewsAsyncActionCreator.getReviews(offerId));
-  // },
-  getUserReview: (offerId, value) => {
-    dispatch(UserReviewAsyncActionCreator.getUserReview(offerId, value));
+  getReviewsOnGet: (offerId) => {
+    dispatch(ReviewsAsyncActionCreator.getReviewsOnGet(offerId));
+  },
+  getReviewsOnPost: (offerId, comment, rating) => {
+    dispatch(ReviewsAsyncActionCreator.getReviewsOnPost(offerId, comment, rating));
   }
 });
 
