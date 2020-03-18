@@ -5,6 +5,7 @@ const initialState = {
   requestStatus: null,
   requestMessage: null,
   reviews: [],
+  submitButtonStatus: true,
 };
 
 export default function createState(state = initialState, action) {
@@ -23,6 +24,11 @@ export default function createState(state = initialState, action) {
     case ReviewsActionType.GET_REVIEWS:
       return extend(state, {
         reviews: action.payload,
+      });
+
+    case ReviewsActionType.SET_SUBMIT_BUTTON_STATUS:
+      return extend(state, {
+        submitButtonStatus: action.payload,
       });
 
     default:

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import PlaceFormReviewsStar from "../place-form-reviews-star/place-form-reviews-star";
 
-const PlaceFormReviews = ({offerId, textarea, radioButtonRefs, getReviewsOnPost}) => {
+const PlaceFormReviews = ({offerId, review, rating, submitButtonStatus, getReviewsOnPost, isCommentValid, isStarChoose, handleInputChange, setSubmitButtonStatus}) => {
   const starTitles = [
     {
       id: 5,
@@ -26,21 +26,38 @@ const PlaceFormReviews = ({offerId, textarea, radioButtonRefs, getReviewsOnPost}
     },
   ];
 
+  const setButtonStyle = () => {
+    const obj = {};
+
+    if (!submitButtonStatus) {
+      obj.cursor = `pointer`;
+    } else {
+      obj.cursor = `auto`;
+    }
+
+    return obj;
+  };
+
   const handleFormSubmit = (evt) => {
     evt.preventDefault();
   };
 
   const handleButtonClick = () => {
-    const textareaTarget = textarea.current;
-    const textareaValue = textareaTarget.value;
+    const isCommentCorrect = isCommentValid(review);
+    const isRating = isStarChoose();
 
-    const radioButton = radioButtonRefs.find((elem) => {
-      return elem.current.checked === true;
-    });
+    if (!isCommentCorrect) {
+      return false;
+    }
 
-    const rating = radioButton.current.value;
+    if (!isRating) {
+      return false;
+    }
 
-    getReviewsOnPost(offerId, textareaValue, rating);
+    setSubmitButtonStatus(true);
+    setTimeout(() => {
+      getReviewsOnPost(offerId, review, isRating);
+    }, 5000);
 
     return true;
   };
@@ -57,19 +74,21 @@ const PlaceFormReviews = ({offerId, textarea, radioButtonRefs, getReviewsOnPost}
               // properties
               key={elem.id}
               star={elem}
-              radioButton={radioButtonRefs[i]}
+              rating={rating[i]}
+              // handlers
+              handleInputChange={handleInputChange}
             />
           )}
 
       </div>
 
-      <textarea ref={textarea} className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" defaultValue={``} />
+      <textarea id="review" className="reviews__textarea form__textarea" value={review} name="review" placeholder="Tell how was your stay, what you like and what can be improved" onChange={handleInputChange} />
 
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
                           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" onClick={handleButtonClick}>Submit</button>
+        <button style={setButtonStyle()} className="reviews__submit form__submit button" type="submit" onClick={handleButtonClick} disabled={submitButtonStatus}>Submit</button>
       </div>
 
     </form>
@@ -79,8 +98,10 @@ const PlaceFormReviews = ({offerId, textarea, radioButtonRefs, getReviewsOnPost}
 PlaceFormReviews.propTypes = {
   offerId: PropTypes.number,
   textarea: PropTypes.object,
-  radioButton: PropTypes.object,
+  radioButtonRefs: PropTypes.arrayOf(PropTypes.object),
   getReviewsOnPost: PropTypes.func,
+  isCommentValid: PropTypes.func,
+  isStarChoose: PropTypes.func,
 };
 
 export default PlaceFormReviews;

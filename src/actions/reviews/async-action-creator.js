@@ -83,10 +83,12 @@ const ReviewsAsyncActionCreator = {
         response = createAdapter(response.data);
 
         dispatch(ReviewsActionCreator.getReviews(response));
+        dispatch(ReviewsActionCreator.setSubmitButtonStatus(false));
         dispatch(ReviewsActionCreator.setReviewsRequestStatus(`success`));
         dispatch(ReviewsActionCreator.setReviewsRequestMessage(null));
       })
       .catch(function (error) {
+        dispatch(ReviewsActionCreator.setSubmitButtonStatus(false));
         dispatch(ReviewsActionCreator.setReviewsRequestStatus(`error`));
         dispatch(ReviewsActionCreator.setReviewsRequestMessage(`Невозможно отправить комментарий. Попробуйте позже`));
 

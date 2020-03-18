@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import {connect} from 'react-redux';
 import {AuthorizationStatus} from "../../enums";
 import {OfferActionCreator} from "../../actions/offer/action-creator";
+import {ReviewsActionCreator} from "../../actions/reviews/action-creator";
 import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-creator";
 import {getOffer, getHoveredOffer} from "../../reducers/offer/selectors";
 import {getInitialOffersSelector} from "../../reducers/offers/selectors";
-import {getReviewsRequestStatus, getReviewsRequestMessage, getReviews} from "../../reducers/reviews/selectors";
+import {getReviewsRequestStatus, getReviewsRequestMessage, getReviews, getSubmitButtonStatus} from "../../reducers/reviews/selectors";
 import {getAuthorizationStatus} from "../../reducers/user/selectors";
 import {ErrorReviewWrapperStyle, ErrorMessageStyle} from "../../style";
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
@@ -27,7 +28,7 @@ const MapWrappedHOC = withMap(Map);
 const PlaceReviewsWrappedHOC = withLoadData(PlaceReviews);
 const PlaceFormReviewsWrappedHOC = withPlaceFormReviews(PlaceFormReviews);
 
-const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, reviews, authorizationStatus, getCurrentOffer, getReviewsOnGet, getReviewsOnPost}) => {
+const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, reviews, authorizationStatus, submitButtonStatus, getCurrentOffer, getReviewsOnGet, getReviewsOnPost, setSubmitButtonStatus}) => {
   const {id, title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offer;
   const {avatar, name, status} = host;
   const splittedReviews = reviews.slice(0, 10);
@@ -172,8 +173,10 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
                 <PlaceFormReviewsWrappedHOC
                   // properties
                   offerId={id}
+                  submitButtonStatus={submitButtonStatus}
                   // handlers
                   getReviewsOnPost={getReviewsOnPost}
+                  setSubmitButtonStatus={setSubmitButtonStatus}
                 />
                 {/* } */}
 
@@ -283,6 +286,7 @@ const mapStateToProps = (state) => ({
   reviewsRequestMessage: getReviewsRequestMessage(state),
   reviews: getReviews(state),
   authorizationStatus: getAuthorizationStatus(state),
+  submitButtonStatus: getSubmitButtonStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -294,6 +298,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getReviewsOnPost: (offerId, comment, rating) => {
     dispatch(ReviewsAsyncActionCreator.getReviewsOnPost(offerId, comment, rating));
+  },
+  setSubmitButtonStatus: (status) => {
+    dispatch(ReviewsActionCreator.setSubmitButtonStatus(status));
   }
 });
 

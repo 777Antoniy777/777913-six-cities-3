@@ -10,4 +10,8 @@ const getReviews = (state) => {
   return state.reviews.reviews;
 };
 
-export {getReviewsRequestStatus, getReviewsRequestMessage, getReviews};
+const getSubmitButtonStatus = (state) => {
+  return state.reviews.submitButtonStatus;
+};
+
+export {getReviewsRequestStatus, getReviewsRequestMessage, getReviews, getSubmitButtonStatus};
