@@ -55,9 +55,7 @@ const PlaceFormReviews = ({offerId, review, rating, submitButtonStatus, getRevie
     }
 
     setSubmitButtonStatus(true);
-    setTimeout(() => {
-      getReviewsOnPost(offerId, review, isRating);
-    }, 5000);
+    getReviewsOnPost(offerId, review, isRating);
 
     return true;
   };

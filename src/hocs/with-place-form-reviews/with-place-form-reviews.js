@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const withPlaceFormReviews = (Component) => {
   class WithPlaceFormReviews extends React.PureComponent {
@@ -21,27 +22,39 @@ const withPlaceFormReviews = (Component) => {
       return true;
     }
 
-    // isStarChoose() {
-    //   const {stars} = this.state;
-    //   let rating = null;
+    isStarChoose() {
+      const {rating} = this.state;
+      let ratingValue = null;
 
-    //   const radioButton = stars.find((elem) => {
-    //     return elem.current.checked === true;
-    //   });
+      const radioButton = rating.find((elem) => {
+        return elem === true;
+      });
 
-    //   if (radioButton) {
-    //     rating = radioButton.current.value;
-    //   }
+      if (radioButton) {
+        ratingValue = radioButton;
+      }
 
-    //   if (!rating) {
-    //     return false;
-    //   }
+      if (!ratingValue) {
+        return false;
+      }
 
-    //   return rating;
-    // }
+      return ratingValue;
+    }
+
+    toggleDisabled() {
+      const {setSubmitButtonStatus} = this.props;
+      const {review} = this.state;
+      const isCommentCorrect = this.isCommentValid(review);
+      const isRating = this.isStarChoose();
+
+      if (isCommentCorrect && isRating) {
+        setSubmitButtonStatus(false);
+      } else {
+        setSubmitButtonStatus(true);
+      }
+    }
 
     handleInputChange(evt) {
-      const {setSubmitButtonStatus} = this.props;
       const {rating} = this.state;
       const target = evt.target;
       const type = target.type;
@@ -62,13 +75,7 @@ const withPlaceFormReviews = (Component) => {
 
       this.setState({
         [name]: value,
-      });
-
-      if (this.isCommentCorrect && this.isRating) {
-        setSubmitButtonStatus(false);
-      } else {
-        setSubmitButtonStatus(true);
-      }
+      }, this.toggleDisabled);
     }
 
     render() {
@@ -86,6 +93,10 @@ const withPlaceFormReviews = (Component) => {
       );
     }
   }
+
+  WithPlaceFormReviews.propTypes = {
+    setSubmitButtonStatus: PropTypes.func,
+  };
 
   return WithPlaceFormReviews;
 };
