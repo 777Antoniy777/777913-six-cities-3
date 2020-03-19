@@ -167,9 +167,9 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
                   // handlers
                   getData={getReviewsOnGet}
                 />
-                {/* {renderPlaceReviews()} */}
 
-                {/* { authorizationStatus === AuthorizationStatus.AUTH && */}
+                {/* рендерит форму отзывов */}
+                { authorizationStatus === AuthorizationStatus.AUTH &&
                 <PlaceFormReviewsWrappedHOC
                   // properties
                   offerId={id}
@@ -178,7 +178,7 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
                   getReviewsOnPost={getReviewsOnPost}
                   setSubmitButtonStatus={setSubmitButtonStatus}
                 />
-                {/* } */}
+                }
 
               </section>
 
