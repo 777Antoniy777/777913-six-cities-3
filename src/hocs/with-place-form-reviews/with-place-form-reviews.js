@@ -14,7 +14,7 @@ const withPlaceFormReviews = (Component) => {
       this.isCommentValid = this.isCommentValid.bind(this);
       this.isStarChoose = this.isStarChoose.bind(this);
       this.handleInputChange = this.handleInputChange.bind(this);
-      this.clearForm = this.clearForm.bind(this);
+      this.onClearForm = this.onClearForm.bind(this);
     }
 
     setSubmitButtonStatus(status) {
@@ -67,7 +67,7 @@ const withPlaceFormReviews = (Component) => {
       return ratingValue;
     }
 
-    clearForm() {
+    onClearForm() {
       this.setState({
         review: ``,
         rating: [false, false, false, false, false],
@@ -121,11 +121,11 @@ const withPlaceFormReviews = (Component) => {
           rating={rating}
           submitButtonStatus={submitButtonStatus}
           errors={errors}
-          setSubmitButtonStatus={this.setSubmitButtonStatus}
+          onSetSubmitButtonStatus={this.setSubmitButtonStatus}
           isCommentValid={this.isCommentValid}
           isStarChoose={this.isStarChoose}
           handleInputChange={this.handleInputChange}
-          clearForm={this.clearForm}
+          onClearForm={this.onClearForm}
           {...this.props}
         />
       );

@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render PlaceFormReviews 1`] = `
+Array [
+  <input
+    checked={false}
+    className="form__rating-input visually-hidden"
+    id="1-stars"
+    name="rating"
+    onChange={[Function]}
+    type="radio"
+    value={1}
+  />,
+  <label
+    className="reviews__rating-label form__rating-label"
+    htmlFor="1-stars"
+    title="perfect"
+  >
+    <svg
+      className="form__star-image"
+      height={33}
+      width={37}
+    >
+      <use
+        xlinkHref="#icon-star"
+      />
+    </svg>
+  </label>,
+]
+`;

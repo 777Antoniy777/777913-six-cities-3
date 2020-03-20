@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import PlaceFormReviewsStar from "../place-form-reviews-star/place-form-reviews-star";
 
-const PlaceFormReviews = ({offerId, review, rating, submitButtonStatus, errors, getReviewsOnPost, setSubmitButtonStatus, isCommentValid, isStarChoose, handleInputChange, clearForm}) => {
+const PlaceFormReviews = ({offerId, review, rating, submitButtonStatus, errors, getReviewsOnPost, onSetSubmitButtonStatus, isCommentValid, isStarChoose, handleInputChange, onClearForm}) => {
   const starTitles = [
     {
       id: 5,
@@ -54,8 +54,8 @@ const PlaceFormReviews = ({offerId, review, rating, submitButtonStatus, errors, 
       return false;
     }
 
-    setSubmitButtonStatus(true);
-    getReviewsOnPost(offerId, review, isRating, clearForm, setSubmitButtonStatus);
+    onSetSubmitButtonStatus(true);
+    getReviewsOnPost(offerId, review, isRating, onClearForm, onSetSubmitButtonStatus);
 
     return true;
   };
@@ -104,11 +104,11 @@ PlaceFormReviews.propTypes = {
   submitButtonStatus: PropTypes.bool,
   errors: PropTypes.arrayOf(PropTypes.string),
   getReviewsOnPost: PropTypes.func,
-  setSubmitButtonStatus: PropTypes.func,
+  onSetSubmitButtonStatus: PropTypes.func,
   isCommentValid: PropTypes.func,
   isStarChoose: PropTypes.func,
   handleInputChange: PropTypes.func,
-  clearForm: PropTypes.func,
+  onClearForm: PropTypes.func,
 };
 
 export default PlaceFormReviews;

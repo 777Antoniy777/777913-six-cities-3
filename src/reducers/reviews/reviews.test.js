@@ -1,5 +1,10 @@
+import MockAdapter from "axios-mock-adapter";
+import createAPI from "../../api.js";
 import reviewsState from './reviews';
 import {ReviewsActionType, ReviewsActionCreator} from "../../actions/reviews/action-creator";
+import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-creator";
+
+const api = createAPI(() => {});
 
 const reviews = [
   {
@@ -51,6 +56,69 @@ it(`Reducer should get reviews`, () => {
     payload: reviews,
   })).toEqual({
     reviews,
+  });
+});
+
+describe(`Async action creator work correctly`, () => {
+  it(`Should make a correct correct GET to /comments:hotelId`, function () {
+    const apiMock = new MockAdapter(api);
+    const hotelId = 10;
+    const dispatch = jest.fn();
+    const getReviewsOnPost = ReviewsAsyncActionCreator.getReviewsOnPost();
+
+    apiMock
+      .onGet(`/comments/${hotelId}`)
+      .reply(200, reviews);
+
+    return getReviewsOnPost(dispatch, () => {}, api)
+      .then(() => {
+        expect(dispatch).toHaveBeenCalledTimes(3);
+        expect(dispatch).toHaveBeenNthCalledWith(1, {
+          type: ReviewsActionType.GET_REVIEWS,
+          payload: reviews,
+        });
+        expect(dispatch).toHaveBeenNthCalledWith(2, {
+          type: ReviewsActionType.SET_REVIEWS_REQUEST_STATUS,
+          payload: `success`,
+        });
+        expect(dispatch).toHaveBeenNthCalledWith(3, {
+          type: ReviewsActionType.SET_REVIEWS_REQUEST_MESSAGE,
+          payload: null,
+        });
+      });
+  });
+
+  it(`Should make a correct correct POST to /comments:hotelId`, function () {
+    const apiMock = new MockAdapter(api);
+    const hotelId = 10;
+    const dispatch = jest.fn();
+    const getReviewsOnPost = ReviewsAsyncActionCreator.getReviewsOnPost();
+    const onClearForm = jest.fn();
+    const onSetSubmitButtonStatus = jest.fn();
+
+    apiMock
+      .onPost(`/comments/${hotelId}`)
+      .reply(200, reviews);
+
+    return getReviewsOnPost(dispatch, () => {}, api)
+      .then(() => {
+        onClearForm();
+        onSetSubmitButtonStatus(true);
+
+        expect(dispatch).toHaveBeenCalledTimes(3);
+        expect(dispatch).toHaveBeenNthCalledWith(1, {
+          type: ReviewsActionType.GET_REVIEWS,
+          payload: reviews,
+        });
+        expect(dispatch).toHaveBeenNthCalledWith(2, {
+          type: ReviewsActionType.SET_REVIEWS_REQUEST_STATUS,
+          payload: `success`,
+        });
+        expect(dispatch).toHaveBeenNthCalledWith(3, {
+          type: ReviewsActionType.SET_REVIEWS_REQUEST_MESSAGE,
+          payload: null,
+        });
+      });
   });
 });
 

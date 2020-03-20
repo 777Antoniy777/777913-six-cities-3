@@ -292,8 +292,8 @@ const mapDispatchToProps = (dispatch) => ({
   getReviewsOnGet: (offerId) => {
     dispatch(ReviewsAsyncActionCreator.getReviewsOnGet(offerId));
   },
-  getReviewsOnPost: (offerId, comment, rating, clearForm, setSubmitButtonStatus) => {
-    dispatch(ReviewsAsyncActionCreator.getReviewsOnPost(offerId, comment, rating, clearForm, setSubmitButtonStatus));
+  getReviewsOnPost: (offerId, comment, rating, onClearForm, onSetSubmitButtonStatus) => {
+    dispatch(ReviewsAsyncActionCreator.getReviewsOnPost(offerId, comment, rating, onClearForm, onSetSubmitButtonStatus));
   },
 });
 

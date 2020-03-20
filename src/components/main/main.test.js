@@ -120,10 +120,9 @@ const cities = [
   `Omsk`,
 ];
 const currentCity = `city`;
-const requestStatus = `status`;
-const requestMessage = `message`;
+const offersRequestStatus = `status`;
+const offersRequestMessage = `message`;
 
-const getCities = () => {};
 const getCurrentCity = () => {};
 const getCurrentOffer = () => {};
 const setDefaultOrderOffers = () => {};
@@ -152,8 +151,8 @@ it(`render Main`, () => {
   const tree = renderer.create(
       <Provider store={store}>
         <Main
-          requestStatus={requestStatus}
-          requestMessage={requestMessage}
+          offersRequestStatus={offersRequestStatus}
+          offersRequestMessage={offersRequestMessage}
           offers={offers}
           initialOffers={initialOffers}
           filteredOffers={filteredOffers}

@@ -1,10 +1,10 @@
 import {createSelector} from "reselect";
 
-const getRequestStatus = (state) => {
+const getOffersRequestStatus = (state) => {
   return state.offers.requestStatus;
 };
 
-const getRequestMessage = (state) => {
+const getOffersRequestMessage = (state) => {
   return state.offers.requestMessage;
 };
 
@@ -57,4 +57,4 @@ const getCitiesSelector = createSelector(
     }
 );
 
-export {getInitialOffersSelector, getOffersSelector, getCitiesSelector, getRequestStatus, getRequestMessage, getInitialOffers, getOffers, getCity};
+export {getInitialOffersSelector, getOffersSelector, getCitiesSelector, getOffersRequestStatus, getOffersRequestMessage, getInitialOffers, getOffers, getCity};

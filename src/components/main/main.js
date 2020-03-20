@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import classNames from 'classnames';
 import {OffersActionCreator} from "../../actions/offers/action-creator";
 import {OfferActionCreator} from "../../actions/offer/action-creator";
-import {getOffersSelector, getCitiesSelector, getRequestStatus, getRequestMessage, getInitialOffers, getOffers, getCity} from "../../reducers/offers/selectors";
+import {getCitiesSelector, getOffersRequestStatus, getOffersRequestMessage, getInitialOffers, getOffers, getCity} from "../../reducers/offers/selectors";
 import {ErrorMainWrapperStyle, ErrorMessageStyle} from "../../style";
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 import withMap from "../../hocs/with-map/with-map";
@@ -21,7 +21,7 @@ const PreviewPlacesWrappedHoc = withActiveItem(PreviewPlaces);
 const MapWrappedHoc = withMap(Map);
 const PlaceFilterWrappedHoc = withPlaceFilter(PlaceFilter);
 
-const Main = ({requestStatus, requestMessage, offers, initialOffers, filteredOffers, currentCity, cities, getCurrentCity, getCurrentOffer, setDefaultOrderOffers, setLowToHighOrderOffers, setHighToLowOrderOffers, setTopRatedFirstOrderOffers}) => {
+const Main = ({offersRequestStatus, offersRequestMessage, offers, initialOffers, filteredOffers, currentCity, cities, getCurrentCity, getCurrentOffer, setDefaultOrderOffers, setLowToHighOrderOffers, setHighToLowOrderOffers, setTopRatedFirstOrderOffers}) => {
 
   const mainEmptyClass = classNames({
     'page__main': true,
@@ -54,10 +54,10 @@ const Main = ({requestStatus, requestMessage, offers, initialOffers, filteredOff
 
         <div className="cities">
 
-          { requestStatus === `error` &&
+          { offersRequestStatus === `error` &&
             <ErrorMessage
               // properties
-              requestMessage={requestMessage}
+              requestMessage={offersRequestMessage}
               wrapperStyle={ErrorMainWrapperStyle}
               messageStyle={ErrorMessageStyle}
             />
@@ -124,8 +124,8 @@ const Main = ({requestStatus, requestMessage, offers, initialOffers, filteredOff
 };
 
 Main.propTypes = {
-  requestStatus: PropTypes.string,
-  requestMessage: PropTypes.string,
+  offersRequestStatus: PropTypes.string,
+  offersRequestMessage: PropTypes.string,
   offers: PropTypes.arrayOf(PropTypes.object),
   initialOffers: PropTypes.arrayOf(PropTypes.object),
   filteredOffers: PropTypes.arrayOf(PropTypes.object),
@@ -140,8 +140,8 @@ Main.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  requestStatus: getRequestStatus(state),
-  requestMessage: getRequestMessage(state),
+  offersRequestStatus: getOffersRequestStatus(state),
+  offersRequestMessage: getOffersRequestMessage(state),
   currentCity: getCity(state),
   cities: getCitiesSelector(state),
   initialOffers: getInitialOffers(state),
