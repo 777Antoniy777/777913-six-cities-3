@@ -21,7 +21,8 @@ PlaceFormReviewsStar.propTypes = {
     id: PropTypes.number,
     title: PropTypes.string,
   }),
-  starValue: PropTypes.bool,
+  rating: PropTypes.bool,
+  handleInputChange: PropTypes.func,
 };
 
 export default PlaceFormReviewsStar;

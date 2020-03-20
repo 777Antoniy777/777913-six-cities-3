@@ -75,20 +75,22 @@ const ReviewsAsyncActionCreator = {
       });
   },
 
-  getReviewsOnPost: (hotelId, comment, rating) => (dispatch, getState, api) => {
+  getReviewsOnPost: (hotelId, comment, rating, clearForm, setSubmitButtonStatus) => (dispatch, getState, api) => {
     const options = setOptions(comment, rating);
 
     return api.post(`/comments/${hotelId}`, options)
       .then((response) => {
         response = createAdapter(response.data);
+        clearForm();
+        setSubmitButtonStatus(true);
 
         dispatch(ReviewsActionCreator.getReviews(response));
-        dispatch(ReviewsActionCreator.setSubmitButtonStatus(false));
         dispatch(ReviewsActionCreator.setReviewsRequestStatus(`success`));
         dispatch(ReviewsActionCreator.setReviewsRequestMessage(null));
       })
       .catch(function (error) {
-        dispatch(ReviewsActionCreator.setSubmitButtonStatus(false));
+        setSubmitButtonStatus(false);
+
         dispatch(ReviewsActionCreator.setReviewsRequestStatus(`error`));
         dispatch(ReviewsActionCreator.setReviewsRequestMessage(`Невозможно отправить комментарий. Попробуйте позже`));
 

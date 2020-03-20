@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import PlaceFormReviewsStar from "../place-form-reviews-star/place-form-reviews-star";
 
-const PlaceFormReviews = ({offerId, review, rating, submitButtonStatus, getReviewsOnPost, isCommentValid, isStarChoose, handleInputChange, setSubmitButtonStatus}) => {
+const PlaceFormReviews = ({offerId, review, rating, submitButtonStatus, errors, getReviewsOnPost, setSubmitButtonStatus, isCommentValid, isStarChoose, handleInputChange, clearForm}) => {
   const starTitles = [
     {
       id: 5,
@@ -43,7 +43,7 @@ const PlaceFormReviews = ({offerId, review, rating, submitButtonStatus, getRevie
   };
 
   const handleButtonClick = () => {
-    const isCommentCorrect = isCommentValid(review);
+    const isCommentCorrect = isCommentValid(review, true);
     const isRating = isStarChoose();
 
     if (!isCommentCorrect) {
@@ -55,7 +55,7 @@ const PlaceFormReviews = ({offerId, review, rating, submitButtonStatus, getRevie
     }
 
     setSubmitButtonStatus(true);
-    getReviewsOnPost(offerId, review, isRating);
+    getReviewsOnPost(offerId, review, isRating, clearForm, setSubmitButtonStatus);
 
     return true;
   };
@@ -82,6 +82,10 @@ const PlaceFormReviews = ({offerId, review, rating, submitButtonStatus, getRevie
 
       <textarea id="review" className="reviews__textarea form__textarea" value={review} name="review" placeholder="Tell how was your stay, what you like and what can be improved" onChange={handleInputChange} />
 
+      { errors.length > 0 &&
+        <p style={{color: `red`}}>{errors[0]}</p>
+      }
+
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
                           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
@@ -95,11 +99,16 @@ const PlaceFormReviews = ({offerId, review, rating, submitButtonStatus, getRevie
 
 PlaceFormReviews.propTypes = {
   offerId: PropTypes.number,
-  textarea: PropTypes.object,
-  radioButtonRefs: PropTypes.arrayOf(PropTypes.object),
+  review: PropTypes.string,
+  rating: PropTypes.array,
+  submitButtonStatus: PropTypes.bool,
+  errors: PropTypes.arrayOf(PropTypes.string),
   getReviewsOnPost: PropTypes.func,
+  setSubmitButtonStatus: PropTypes.func,
   isCommentValid: PropTypes.func,
   isStarChoose: PropTypes.func,
+  handleInputChange: PropTypes.func,
+  clearForm: PropTypes.func,
 };
 
 export default PlaceFormReviews;

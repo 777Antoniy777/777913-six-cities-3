@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 const withPlaceFormReviews = (Component) => {
   class WithPlaceFormReviews extends React.PureComponent {
@@ -8,15 +7,43 @@ const withPlaceFormReviews = (Component) => {
       this.state = {
         review: ``,
         rating: [false, false, false, false, false],
+        submitButtonStatus: true,
+        errors: [],
       };
+      this.setSubmitButtonStatus = this.setSubmitButtonStatus.bind(this);
       this.isCommentValid = this.isCommentValid.bind(this);
       this.isStarChoose = this.isStarChoose.bind(this);
       this.handleInputChange = this.handleInputChange.bind(this);
+      this.clearForm = this.clearForm.bind(this);
     }
 
-    isCommentValid(value) {
-      if (value.length < 50 || value.length > 300) {
+    setSubmitButtonStatus(status) {
+      this.setState({
+        submitButtonStatus: status,
+      });
+    }
+
+    isCommentValid(value, isMaxLength) {
+      const {errors} = this.state;
+
+      if (value.length < 50) {
         return false;
+      }
+
+      if (isMaxLength) {
+        if (value.length > 300) {
+          this.setState({
+            errors: [`Комментарий не должен превышать 300 символов`],
+          });
+
+          return false;
+        }
+      }
+
+      if (errors.length > 0) {
+        this.setState({
+          errors: [],
+        });
       }
 
       return true;
@@ -25,14 +52,13 @@ const withPlaceFormReviews = (Component) => {
     isStarChoose() {
       const {rating} = this.state;
       let ratingValue = null;
+      const reversedRating = rating.slice().reverse();
 
-      const radioButton = rating.find((elem) => {
+      ratingValue = reversedRating.findIndex((elem) => {
         return elem === true;
       });
 
-      if (radioButton) {
-        ratingValue = radioButton;
-      }
+      ratingValue += 1;
 
       if (!ratingValue) {
         return false;
@@ -41,17 +67,25 @@ const withPlaceFormReviews = (Component) => {
       return ratingValue;
     }
 
+    clearForm() {
+      this.setState({
+        review: ``,
+        rating: [false, false, false, false, false],
+      });
+    }
+
     toggleDisabled() {
-      const {setSubmitButtonStatus} = this.props;
       const {review} = this.state;
       const isCommentCorrect = this.isCommentValid(review);
       const isRating = this.isStarChoose();
 
       if (isCommentCorrect && isRating) {
-        setSubmitButtonStatus(false);
-      } else {
-        setSubmitButtonStatus(true);
+        this.setSubmitButtonStatus(false);
+        return true;
       }
+
+      this.setSubmitButtonStatus(true);
+      return false;
     }
 
     handleInputChange(evt) {
@@ -79,24 +113,24 @@ const withPlaceFormReviews = (Component) => {
     }
 
     render() {
-      const {review, rating} = this.state;
+      const {review, rating, submitButtonStatus, errors} = this.state;
 
       return (
         <Component
           review={review}
           rating={rating}
+          submitButtonStatus={submitButtonStatus}
+          errors={errors}
+          setSubmitButtonStatus={this.setSubmitButtonStatus}
           isCommentValid={this.isCommentValid}
           isStarChoose={this.isStarChoose}
           handleInputChange={this.handleInputChange}
+          clearForm={this.clearForm}
           {...this.props}
         />
       );
     }
   }
-
-  WithPlaceFormReviews.propTypes = {
-    setSubmitButtonStatus: PropTypes.func,
-  };
 
   return WithPlaceFormReviews;
 };
