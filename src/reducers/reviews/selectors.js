@@ -1,8 +1,8 @@
-const getRequestStatus = (state) => {
+const getReviewsRequestStatus = (state) => {
   return state.reviews.requestStatus;
 };
 
-const getRequestMessage = (state) => {
+const getReviewsRequestMessage = (state) => {
   return state.reviews.requestMessage;
 };
 
@@ -10,4 +10,4 @@ const getReviews = (state) => {
   return state.reviews.reviews;
 };
 
-export {getRequestStatus, getRequestMessage, getReviews};
+export {getReviewsRequestStatus, getReviewsRequestMessage, getReviews};

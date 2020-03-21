@@ -3,29 +3,31 @@ import PropTypes from "prop-types";
 import {connect} from 'react-redux';
 import {AuthorizationStatus} from "../../enums";
 import {OfferActionCreator} from "../../actions/offer/action-creator";
-// import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-creator";
+import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-creator";
 import {getOffer, getHoveredOffer} from "../../reducers/offer/selectors";
 import {getInitialOffersSelector} from "../../reducers/offers/selectors";
-import {getRequestStatus, getRequestMessage, getReviews} from "../../reducers/reviews/selectors";
+import {getReviewsRequestStatus, getReviewsRequestMessage, getReviews} from "../../reducers/reviews/selectors";
 import {getAuthorizationStatus} from "../../reducers/user/selectors";
 import {ErrorReviewWrapperStyle, ErrorMessageStyle} from "../../style";
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 import withMap from "../../hocs/with-map/with-map";
 import withLoadData from "../../hocs/with-load-data/with-load-data";
+import withPlaceFormReviews from "../../hocs/with-place-form-reviews/with-place-form-reviews";
 import PlacePhotos from "../place-photos/place-photos";
 import PlaceItems from "../place-items/place-items";
 import PlaceHost from "../place-host/place-host";
 import PlaceReviews from "../place-reviews/place-reviews";
 import PreviewPlaces from "../preview-places/preview-places";
 import Map from "../map/map";
+import PlaceFormReviews from "../place-form-reviews/place-form-reviews";
 import ErrorMessage from "../error-message/error-message";
 
 const PreviewPlacesWrappedHOC = withActiveItem(PreviewPlaces);
 const MapWrappedHOC = withMap(Map);
 const PlaceReviewsWrappedHOC = withLoadData(PlaceReviews);
+const PlaceFormReviewsWrappedHOC = withPlaceFormReviews(PlaceFormReviews);
 
-// getReviews
-const Place = ({offers, offer, hoveredOffer, requestStatus, requestMessage, reviews, authorizationStatus, getCurrentOffer}) => {
+const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, reviews, authorizationStatus, getCurrentOffer, getReviewsOnGet, getReviewsOnPost}) => {
   const {id, title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offer;
   const {avatar, name, status} = host;
   const splittedReviews = reviews.slice(0, 10);
@@ -34,29 +36,6 @@ const Place = ({offers, offer, hoveredOffer, requestStatus, requestMessage, revi
   if (hoveredOffer) {
     hoveredLocation = hoveredOffer.location;
   }
-
-  const renderPlaceReviews = () => {
-    if (requestStatus === `error`) {
-      return (
-        <ErrorMessage
-          // properties
-          requestMessage={requestMessage}
-          wrapperStyle={ErrorReviewWrapperStyle}
-          messageStyle={ErrorMessageStyle}
-        />
-      );
-    } else {
-      return (
-        <PlaceReviewsWrappedHOC
-          // properties
-          offerId={id}
-          data={splittedReviews}
-          // handlers
-          // getData={getReviews}
-        />
-      );
-    }
-  };
 
   const getRating = (val) => {
     let ratingStars = Math.round(val);
@@ -170,61 +149,32 @@ const Place = ({offers, offer, hoveredOffer, requestStatus, requestMessage, revi
                 <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewsLength}</span></h2>
 
                 {/* рендерит отзывы пользователей */}
-                {renderPlaceReviews()}
+                <PlaceReviewsWrappedHOC
+                  // properties
+                  offerId={id}
+                  data={splittedReviews}
+                  // handlers
+                  getData={getReviewsOnGet}
+                />
 
+                {/* рендерит ошибку, если сервер недоступен */}
+                { reviewsRequestStatus === `error` &&
+                  <ErrorMessage
+                    // properties
+                    requestMessage={reviewsRequestMessage}
+                    wrapperStyle={ErrorReviewWrapperStyle}
+                    messageStyle={ErrorMessageStyle}
+                  />
+                }
+
+                {/* рендерит форму отзывов */}
                 { authorizationStatus === AuthorizationStatus.AUTH &&
-                  <form className="reviews__form form" action="#" method="post">
-                    <label className="reviews__label form__label" htmlFor="review">Your review</label>
-
-                    <div className="reviews__rating-form form__rating">
-
-                      <input className="form__rating-input visually-hidden" name="rating" defaultValue={5} id="5-stars" type="radio" />
-                      <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
-                        <svg className="form__star-image" width={37} height={33}>
-                          <use xlinkHref="#icon-star" />
-                        </svg>
-                      </label>
-
-                      <input className="form__rating-input visually-hidden" name="rating" defaultValue={4} id="4-stars" type="radio" />
-                      <label htmlFor="4-stars" className="reviews__rating-label form__rating-label" title="good">
-                        <svg className="form__star-image" width={37} height={33}>
-                          <use xlinkHref="#icon-star" />
-                        </svg>
-                      </label>
-
-                      <input className="form__rating-input visually-hidden" name="rating" defaultValue={3} id="3-stars" type="radio" />
-                      <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
-                        <svg className="form__star-image" width={37} height={33}>
-                          <use xlinkHref="#icon-star" />
-                        </svg>
-                      </label>
-
-                      <input className="form__rating-input visually-hidden" name="rating" defaultValue={2} id="2-stars" type="radio" />
-                      <label htmlFor="2-stars" className="reviews__rating-label form__rating-label" title="badly">
-                        <svg className="form__star-image" width={37} height={33}>
-                          <use xlinkHref="#icon-star" />
-                        </svg>
-                      </label>
-
-                      <input className="form__rating-input visually-hidden" name="rating" defaultValue={1} id="1-star" type="radio" />
-                      <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
-                        <svg className="form__star-image" width={37} height={33}>
-                          <use xlinkHref="#icon-star" />
-                        </svg>
-                      </label>
-
-                    </div>
-
-                    <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" defaultValue={``} />
-
-                    <div className="reviews__button-wrapper">
-                      <p className="reviews__help">
-                          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
-                      </p>
-                      <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>
-                    </div>
-
-                  </form>
+                <PlaceFormReviewsWrappedHOC
+                  // properties
+                  offerId={id}
+                  // handlers
+                  getReviewsOnPost={getReviewsOnPost}
+                />
                 }
 
               </section>
@@ -316,20 +266,21 @@ Place.propTypes = {
     host: PropTypes.object,
     location: PropTypes.objectOf(PropTypes.number),
   }),
-  requestStatus: PropTypes.string,
-  requestMessage: PropTypes.string,
+  reviewsRequestStatus: PropTypes.string,
+  reviewsRequestMessage: PropTypes.string,
   reviews: PropTypes.arrayOf(PropTypes.object),
   authorizationStatus: PropTypes.string,
   getCurrentOffer: PropTypes.func,
-  getReviews: PropTypes.func,
+  getReviewsOnGet: PropTypes.func,
+  getReviewsOnPost: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
   offers: getInitialOffersSelector(state),
   offer: getOffer(state),
   hoveredOffer: getHoveredOffer(state),
-  requestStatus: getRequestStatus(state),
-  requestMessage: getRequestMessage(state),
+  reviewsRequestStatus: getReviewsRequestStatus(state),
+  reviewsRequestMessage: getReviewsRequestMessage(state),
   reviews: getReviews(state),
   authorizationStatus: getAuthorizationStatus(state),
 });
@@ -338,9 +289,12 @@ const mapDispatchToProps = (dispatch) => ({
   getCurrentOffer: (offer) => {
     dispatch(OfferActionCreator.getCurrentOffer(offer));
   },
-  // getReviews: (offerId) => {
-  //   dispatch(ReviewsAsyncActionCreator.getReviews(offerId));
-  // },
+  getReviewsOnGet: (offerId) => {
+    dispatch(ReviewsAsyncActionCreator.getReviewsOnGet(offerId));
+  },
+  getReviewsOnPost: (offerId, comment, rating, onClearForm, onSetSubmitButtonStatus) => {
+    dispatch(ReviewsAsyncActionCreator.getReviewsOnPost(offerId, comment, rating, onClearForm, onSetSubmitButtonStatus));
+  },
 });
 
 export default connect(

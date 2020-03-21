@@ -1,5 +1,10 @@
 import {ReviewsActionCreator} from "./action-creator";
 
+const setOptions = (comment, rating) => ({
+  comment,
+  rating,
+});
+
 const createAdapter = (json) => {
   const arr = [];
   let val = ``;
@@ -53,7 +58,7 @@ const createAdapter = (json) => {
 };
 
 const ReviewsAsyncActionCreator = {
-  getReviews: (hotelId) => (dispatch, getState, api) => {
+  getReviewsOnGet: (hotelId) => (dispatch, getState, api) => {
     return api.get(`/comments/${hotelId}`)
       .then((response) => {
         response = createAdapter(response.data);
@@ -63,9 +68,31 @@ const ReviewsAsyncActionCreator = {
         dispatch(ReviewsActionCreator.setReviewsRequestMessage(null));
       })
       .catch(function (error) {
-        console.log(error, error.message);
         dispatch(ReviewsActionCreator.setReviewsRequestStatus(`error`));
         dispatch(ReviewsActionCreator.setReviewsRequestMessage(`Ошибка загрузки комментариев. Попробуйте позже`));
+
+        throw error;
+      });
+  },
+
+  getReviewsOnPost: (hotelId, comment, rating, onClearForm, onSetSubmitButtonStatus) => (dispatch, getState, api) => {
+    const options = setOptions(comment, rating);
+
+    return api.post(`/comments/${hotelId}`, options)
+      .then((response) => {
+        response = createAdapter(response.data);
+        onClearForm();
+        onSetSubmitButtonStatus(true);
+
+        dispatch(ReviewsActionCreator.getReviews(response));
+        dispatch(ReviewsActionCreator.setReviewsRequestStatus(`success`));
+        dispatch(ReviewsActionCreator.setReviewsRequestMessage(null));
+      })
+      .catch(function (error) {
+        onSetSubmitButtonStatus(false);
+
+        dispatch(ReviewsActionCreator.setReviewsRequestStatus(`error`));
+        dispatch(ReviewsActionCreator.setReviewsRequestMessage(`Невозможно отправить комментарий. Попробуйте позже`));
 
         throw error;
       });

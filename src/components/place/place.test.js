@@ -4,7 +4,12 @@ import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
 import Place from './place';
 
-const mockStore = configureStore();
+// import MockAdapter from "axios-mock-adapter";
+// import createAPI from "../../api.js";
+import thunk from "redux-thunk";
+
+const mockStore = configureStore([thunk]);
+// const api = createAPI(() => {});
 
 // set mocha data
 const initialOffers = [
@@ -122,12 +127,36 @@ const reviews = [
     status: `status`,
   },
 ];
-const requestStatus = `status`;
-const requestMessage = `message`;
+const reviewsRequestStatus = `status`;
+const reviewsRequestMessage = `message`;
 const authorizationStatus = `AUTH`;
 
 const getCurrentOffer = () => {};
-// const getReviews = () => {};
+const getReviewsOnGet = () => {};
+const getReviewsOnPost = () => {};
+
+// const getReviewsOnGet = (dispatch) => ({
+//   getReviewsOnGet: (offerId) => () => {
+//     dispatch(jest.fn(offerId));
+//   }
+// });
+// const getReviewsOnPost = () => {};
+
+// const reviewsAsyncActionCreator = jest.fn();
+// const getReviewsOnPost = (offerId) => {
+//   reviewsAsyncActionCreator(offerId);
+// };
+
+// const getReviewsOnPost = (dispatch, () => {}, api) => {};
+// const api = createAPI(() => {});
+// const apiMock = new MockAdapter(api);
+// const dispatch = () => {};
+// const getState = () => {};
+// const getReviewsOnPost = () => (dispatch, getState, api) => {};
+
+// apiMock
+//   .onGet(`/comments/1`)
+//   .reply(200, reviews);
 
 const store = mockStore({
   offer: {
@@ -158,11 +187,13 @@ it(`render Place`, () => {
           offers={initialOffers}
           offer={offer}
           hoveredOffer={hoveredOffer}
-          requestStatus={requestStatus}
-          requestMessage={requestMessage}
+          reviewsRequestStatus={reviewsRequestStatus}
+          reviewsRequestMessage={reviewsRequestMessage}
           reviews={reviews}
           authorizationStatus={authorizationStatus}
           getCurrentOffer={getCurrentOffer}
+          getReviewsOnGet={getReviewsOnGet}
+          getReviewsOnPost={getReviewsOnPost}
         />
       </Provider>)
       .toJSON();
