@@ -4,11 +4,12 @@ import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
 import Place from './place';
 
-import MockAdapter from "axios-mock-adapter";
-import createAPI from "../../api.js";
+// import MockAdapter from "axios-mock-adapter";
+// import createAPI from "../../api.js";
 import thunk from "redux-thunk";
 
-const mockStore = configureStore();
+const mockStore = configureStore([thunk]);
+// const api = createAPI(() => {});
 
 // set mocha data
 const initialOffers = [
@@ -131,20 +132,20 @@ const reviewsRequestMessage = `message`;
 const authorizationStatus = `AUTH`;
 
 const getCurrentOffer = () => {};
-// const getReviewsOnGet = () => {};
+const getReviewsOnGet = () => {};
+const getReviewsOnPost = () => {};
 
-const getReviewsOnGet = (dispatch) => ({
-  getReviewsOnGet: (offerId) => () => {
-    dispatch(jest.fn(offerId));
-  }
-});
-const offerId = 1;
+// const getReviewsOnGet = (dispatch) => ({
+//   getReviewsOnGet: (offerId) => () => {
+//     dispatch(jest.fn(offerId));
+//   }
+// });
 // const getReviewsOnPost = () => {};
 
-const reviewsAsyncActionCreator = jest.fn();
-const getReviewsOnPost = (offerId) => {
-  reviewsAsyncActionCreator(offerId);
-};
+// const reviewsAsyncActionCreator = jest.fn();
+// const getReviewsOnPost = (offerId) => {
+//   reviewsAsyncActionCreator(offerId);
+// };
 
 // const getReviewsOnPost = (dispatch, () => {}, api) => {};
 // const api = createAPI(() => {});

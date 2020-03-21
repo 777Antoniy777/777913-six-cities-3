@@ -19,7 +19,7 @@ const createAPI = (onUnauthorized) => {
 
   const onError = (error) => {
     const {response} = error;
-    console.log(response, error, error.status)
+    // console.log(response, error, error.status)
 
     if (response.status === Error.UNAUTHORIZED) {
       onUnauthorized();
