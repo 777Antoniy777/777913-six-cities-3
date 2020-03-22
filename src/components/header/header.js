@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import {AuthorizationStatus} from "../../enums";
+import {Link} from "react-router-dom";
+import {AuthorizationStatus, AppRoute} from "../../enums";
 
 const Header = ({authorizationStatus, userData}) => {
   const isUserLogin = () => {
@@ -8,18 +9,17 @@ const Header = ({authorizationStatus, userData}) => {
       const {email} = userData;
 
       return (
-        <React.Fragment>
+        <Link className="header__nav-link header__nav-link--profile" to={AppRoute.FAVORITES}>
           <div className="header__avatar-wrapper user__avatar-wrapper"></div>
           <span className="header__user-name user__name">{email}</span>
-        </React.Fragment>
+        </Link>
       );
     } else {
       return (
-        <React.Fragment>
-          <div className="header__avatar-wrapper user__avatar-wrapper">
-          </div>
+        <Link className="header__nav-link header__nav-link--profile" to={AppRoute.SIGN_IN}>
+          <div className="header__avatar-wrapper user__avatar-wrapper"></div>
           <span className="header__login">Sign in</span>
-        </React.Fragment>
+        </Link>
       );
     }
   };
@@ -38,12 +38,10 @@ const Header = ({authorizationStatus, userData}) => {
           <nav className="header__nav">
             <ul className="header__nav-list">
               <li className="header__nav-item user">
-                <a className="header__nav-link header__nav-link--profile" href="#">
 
-                  {/* рендерит анонимного, либо зарегестрированного пользователя*/}
-                  {isUserLogin()}
+                {/* рендерит анонимного, либо зарегестрированного пользователя*/}
+                {isUserLogin()}
 
-                </a>
               </li>
             </ul>
           </nav>

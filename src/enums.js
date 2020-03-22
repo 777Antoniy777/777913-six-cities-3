@@ -10,6 +10,11 @@ const AuthorizationStatus = {
   AUTH: `AUTH`,
 };
 
-export {FilterType, AuthorizationStatus};
+const AppRoute = {
+  MAIN: `/`,
+  SIGN_IN: `/login`,
+  FAVORITES: `/favorites`,
+  OFFER: (offerId) => `/offer/${offerId}`,
+};
 
-
+export {FilterType, AuthorizationStatus, AppRoute};
