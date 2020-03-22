@@ -31,7 +31,8 @@ const createAPI = (onUnauthorized) => {
   };
 
   axiosInstance.interceptors.request.use(onSuccess, onError);
-  axiosInstance.interceptors.response.use(onSuccess, onError);
+  //
+  // axiosInstance.interceptors.response.use(onSuccess, onError);
 
   return axiosInstance;
 };

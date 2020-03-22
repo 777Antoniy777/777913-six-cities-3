@@ -1,12 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {Link} from "react-router-dom";
 import {connect} from 'react-redux';
 import classNames from 'classnames';
+import {AppRoute} from "../../enums";
 import {OfferActionCreator} from '../../actions/offer/action-creator';
 import {getShowOfferStatus} from "../../reducers/offer/selectors";
 
 const PreviewPlace = ({placeData, isShowOffer, getActiveItem, getHoveredOffer, removeHoveredOffer, setOfferStatus}) => {
-  const {title, premium, src, price, type, rating} = placeData;
+  const {id, title, premium, src, price, type, rating} = placeData;
 
   const placeWrapperClass = classNames({
     'place-card': true,
@@ -84,7 +86,7 @@ const PreviewPlace = ({placeData, isShowOffer, getActiveItem, getHoveredOffer, r
         </div>
 
         <h2 className="place-card__name" onClick={handleTitleClick}>
-          <a href="#">{title}</a>
+          <Link to={AppRoute.OFFER(id)}>{title}</Link>
         </h2>
 
         <p className="place-card__type">{type}</p>

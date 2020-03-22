@@ -5,12 +5,18 @@ import {BrowserRouter, Switch, Route} from "react-router-dom";
 import {AppRoute} from "../../enums";
 import {getAuthorizationStatus, getUserData} from "../../reducers/user/selectors";
 import {getShowOfferStatus, getOffer} from "../../reducers/offer/selectors";
-import PrivateRouteToSignIn from "../private-route-to-sign-in/private-route-to-sign-in";
+import PrivateRoute from "../private-route/private-route";
 import withSignIn from "../../hocs/with-sign-in/with-sign-in";
 import Main from '../main/main';
 import Place from '../place/place';
 import SignIn from "../sign-in/sign-in";
 import Header from "../header/header";
+
+const Favorites = () => {
+  return (
+    <p>Favorites</p>
+  );
+};
 
 const SignInWrappedHOC = withSignIn(SignIn);
 
@@ -19,6 +25,8 @@ const App = ({isShowOffer, offer, authorizationStatus, userData}) => {
   if (offer) {
     id = offer.id;
   }
+
+  console.log(authorizationStatus);
 
   return (
     <BrowserRouter>
@@ -29,7 +37,8 @@ const App = ({isShowOffer, offer, authorizationStatus, userData}) => {
       />
 
       <Switch>
-        <Route path={AppRoute.MAIN} exact
+        <Route
+          path={AppRoute.MAIN} exact
           render={() => {
             return (
               <Main />
@@ -37,7 +46,8 @@ const App = ({isShowOffer, offer, authorizationStatus, userData}) => {
           }}
         />
 
-        <Route path={AppRoute.OFFER(id)}
+        <Route
+          path={AppRoute.OFFER(id)}
           render={() => {
             return (
               <Place />
@@ -45,7 +55,8 @@ const App = ({isShowOffer, offer, authorizationStatus, userData}) => {
           }}
         />
 
-        <Route path={AppRoute.SIGN_IN}
+        <Route
+          path={AppRoute.SIGN_IN}
           render={() => {
             return (
               <SignInWrappedHOC />
@@ -53,11 +64,10 @@ const App = ({isShowOffer, offer, authorizationStatus, userData}) => {
           }}
         />
 
-        <Route path={AppRoute.FAVORITES}
-          render={() => (
-            <React.Fragment>
-            </React.Fragment>
-          )}
+        <PrivateRoute
+          path={AppRoute.FAVORITES}
+          component={Favorites}
+          authorizationStatus={authorizationStatus}
         />
 
       </Switch>

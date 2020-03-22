@@ -168,14 +168,14 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
                 }
 
                 {/* рендерит форму отзывов */}
-                { authorizationStatus === AuthorizationStatus.AUTH &&
+                {/* { authorizationStatus === AuthorizationStatus.AUTH && */}
                 <PlaceFormReviewsWrappedHOC
                   // properties
                   offerId={id}
                   // handlers
                   getReviewsOnPost={getReviewsOnPost}
                 />
-                }
+                {/* } */}
 
               </section>
 
