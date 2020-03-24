@@ -74,11 +74,10 @@ const FavoritesAsyncActionCreator = {
     return api.post(`/favorite/${hotelId}/${status}`)
       .then((response) => {
         response = createAdapter(response.data);
-        console.log(response);
 
+        dispatch(OffersActionCreator.getFavoriteOffer(response));
         dispatch(FavoritesActionCreator.setFavoriteRequestStatus(`success`));
         dispatch(FavoritesActionCreator.setFavoriteRequestMessage(null));
-        dispatch(FavoritesActionCreator.getFavoriteOffer(response));
       })
       .catch(function (error) {
         dispatch(FavoritesActionCreator.setFavoriteRequestStatus(`error`));

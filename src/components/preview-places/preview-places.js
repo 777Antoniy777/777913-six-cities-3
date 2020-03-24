@@ -26,6 +26,7 @@ const PreviewPlaces = ({offers, getActiveItem, history}) => {
 PreviewPlaces.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.object),
   getActiveItem: PropTypes.func,
+  history: PropTypes.object,
 };
 
 export default PreviewPlaces;

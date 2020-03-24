@@ -5,7 +5,7 @@ const OffersActionType = {
   GET_OFFERS: `GET_OFFERS`,
   GET_INITIAL_CITY: `GET_INITIAL_CITY`,
   GET_CURRENT_CITY: `GET_CURRENT_CITY`,
-  // GET_FAVORITE_OFFER: `GET_FAVORITE_OFFER`,
+  GET_FAVORITE_OFFER: `GET_FAVORITE_OFFER`,
   SET_DEFAULT_ORDER_OFFERS: `SET_DEFAULT_ORDER_OFFERS`,
   SET_LOW_TO_HIGH_ORDER_OFFERS: `SET_LOW_TO_HIGH_ORDER_OFFERS`,
   SET_HIGH_TO_LOW_ORDER_OFFERS: `SET_HIGH_TO_LOW_ORDER_OFFERS`,
@@ -43,10 +43,10 @@ const OffersActionCreator = {
     payload: city,
   }),
 
-  // getFavoriteOffer: (offer) => ({
-  //   type: OffersActionType.GET_FAVORITE_OFFER,
-  //   payload: offer,
-  // }),
+  getFavoriteOffer: (offer) => ({
+    type: OffersActionType.GET_FAVORITE_OFFER,
+    payload: offer,
+  }),
 
   setDefaultOrderOffers: (offers) => ({
     type: OffersActionType.SET_DEFAULT_ORDER_OFFERS,

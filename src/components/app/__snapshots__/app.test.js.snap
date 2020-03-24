@@ -145,12 +145,12 @@ Array [
               className="cities__places-list places__list tabs__content"
             >
               <article
-                className="place-card cities__place-card"
+                className="place-card near-places__card"
                 onMouseEnter={[Function]}
                 onMouseLeave={[Function]}
               >
                 <div
-                  className="place-card__image-wrapper cities__image-wrapper"
+                  className="place-card__image-wrapper near-places__image-wrapper"
                 >
                   <a
                     href="#"
@@ -186,7 +186,8 @@ Array [
                       </span>
                     </div>
                     <button
-                      className="place-card__bookmark-button button"
+                      className="button place-card__bookmark-button"
+                      onClick={[Function]}
                       type="button"
                     >
                       <svg
@@ -230,7 +231,8 @@ Array [
                     onClick={[Function]}
                   >
                     <a
-                      href="#"
+                      href="/offer/1"
+                      onClick={[Function]}
                     >
                       title 1
                     </a>

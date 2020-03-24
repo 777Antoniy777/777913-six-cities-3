@@ -105,10 +105,12 @@ const PlaceFormReviews = ({offerId, authorizationStatus, review, rating, submitB
 
 PlaceFormReviews.propTypes = {
   offerId: PropTypes.number,
+  authorizationStatus: PropTypes.string,
   review: PropTypes.string,
   rating: PropTypes.array,
   submitButtonStatus: PropTypes.bool,
   errors: PropTypes.arrayOf(PropTypes.string),
+  history: PropTypes.object,
   getReviewsOnPost: PropTypes.func,
   onSetSubmitButtonStatus: PropTypes.func,
   isCommentValid: PropTypes.func,

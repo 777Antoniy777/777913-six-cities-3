@@ -4,7 +4,6 @@ import {extend} from "../../utils.js";
 const initialState = {
   requestStatus: null,
   requestMessage: null,
-  favoriteOffer: null,
 };
 
 export default function createState(state = initialState, action) {
@@ -18,11 +17,6 @@ export default function createState(state = initialState, action) {
     case FavoritesActionType.SET_FAVORITE_REQUEST_MESSAGE:
       return extend(state, {
         requestMessage: action.payload,
-      });
-
-    case FavoritesActionType.GET_FAVORITE_OFFER:
-      return extend(state, {
-        favoriteOffer: action.payload,
       });
 
     default:

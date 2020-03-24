@@ -272,6 +272,7 @@ Place.propTypes = {
   reviewsRequestMessage: PropTypes.string,
   reviews: PropTypes.arrayOf(PropTypes.object),
   authorizationStatus: PropTypes.string,
+  history: PropTypes.object,
   getCurrentOffer: PropTypes.func,
   getReviewsOnGet: PropTypes.func,
   getReviewsOnPost: PropTypes.func,

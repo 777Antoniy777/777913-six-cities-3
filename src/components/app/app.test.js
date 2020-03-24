@@ -79,7 +79,40 @@ const initialOffers = [
     coord: [1, 1],
   },
 ];
-const isShowOffer = false;
+const offer = {
+  id: 1,
+  city: {
+    id: 1,
+    name: `city`,
+    coords: [1, 1],
+  },
+  title: `title 1`,
+  premium: false,
+  src: `img/image1`,
+  photos: [`img/image1`],
+  price: 999999,
+  description: `test`,
+  type: `type`,
+  rating: 9999,
+  bedroomAmount: 30,
+  guestsAmount: 50,
+  items: [`item`],
+  host: {
+    avatar: `img/avatar-1.jpg`,
+    name: `name`,
+    status: false,
+  },
+  reviews: [
+    {
+      id: 1,
+      body: `text`,
+      rating: 5,
+      name: `name`,
+      date: `date`,
+    },
+  ],
+  coord: [1, 1],
+};
 const authorizationStatus = `AUTH`;
 const userData = {
   id: 1,
@@ -95,7 +128,7 @@ const store = mockStore({
     offers,
   },
   offer: {
-    isShowOffer,
+    offer,
   },
   user: {
     authorizationStatus: `NO_AUTH`,
@@ -111,7 +144,7 @@ it(`render App`, () => {
   const tree = renderer.create(
       <Provider store={store}>
         <App
-          isShowOffer={isShowOffer}
+          offer={offer}
           authorizationStatus={authorizationStatus}
           userData={userData}
         />

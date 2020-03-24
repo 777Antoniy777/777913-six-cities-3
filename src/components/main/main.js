@@ -25,7 +25,7 @@ const Main = ({offersRequestStatus, offersRequestMessage, offers, initialOffers,
   const mainEmptyClass = classNames({
     'page__main': true,
     'page__main--index': true,
-    'page__main--index-empty': offers.length === 0,
+    'page__main--index-empty': filteredOffers.length === 0,
   });
 
   return (
@@ -62,22 +62,22 @@ const Main = ({offersRequestStatus, offersRequestMessage, offers, initialOffers,
             />
           }
 
-          { offers.length === 0 &&
+          { filteredOffers.length === 0 &&
             <MainEmpty />
           }
 
-          { offers.length > 0 &&
+          { filteredOffers.length > 0 &&
             <div className="cities__places-container container">
 
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{offers.length} places to stay in {currentCity}</b>
+                <b className="places__found">{filteredOffers.length} places to stay in {currentCity}</b>
 
                 {/* рендерит блок фильтра */}
                 <PlaceFilterWrappedHoc
                   // properties
                   initialOffers={initialOffers}
-                  offers={filteredOffers}
+                  offers={offers}
                   // handlers
                   setDefaultOrderOffers={setDefaultOrderOffers}
                   setLowToHighOrderOffers={setLowToHighOrderOffers}
@@ -90,7 +90,7 @@ const Main = ({offersRequestStatus, offersRequestMessage, offers, initialOffers,
                   {/* рендерит превью мест */}
                   <PreviewPlacesWrappedHoc
                     // properties
-                    offers={offers}
+                    offers={filteredOffers}
                     history={history}
                     // handlers
                     getActiveItem={getCurrentOffer}
@@ -104,10 +104,10 @@ const Main = ({offersRequestStatus, offersRequestMessage, offers, initialOffers,
                 <section className="cities__map map">
 
                   {/* карта с маркерами */}
-                  { offers.length > 0 &&
+                  { filteredOffers.length > 0 &&
                     <MapWrappedHoc
                       // properties
-                      offers={offers}
+                      offers={filteredOffers}
                     />
                   }
 
@@ -131,6 +131,7 @@ Main.propTypes = {
   filteredOffers: PropTypes.arrayOf(PropTypes.object),
   currentCity: PropTypes.string,
   cities: PropTypes.arrayOf(PropTypes.string),
+  history: PropTypes.object,
   getCurrentCity: PropTypes.func,
   getCurrentOffer: PropTypes.func,
   setDefaultOrderOffers: PropTypes.func,
@@ -145,8 +146,8 @@ const mapStateToProps = (state) => ({
   currentCity: getCity(state),
   cities: getCitiesSelector(state),
   initialOffers: getInitialOffers(state),
-  filteredOffers: getOffers(state),
-  offers: state.offers.offers.filter((elem) => {
+  offers: getOffers(state),
+  filteredOffers: state.offers.offers.filter((elem) => {
     return elem.city.name.includes(state.offers.city);
   }),
 });

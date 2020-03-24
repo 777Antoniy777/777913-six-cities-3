@@ -1,5 +1,6 @@
 import React from 'react';
 import renderer from "react-test-renderer";
+import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
 import Main from './main';
@@ -122,6 +123,7 @@ const cities = [
 const currentCity = `city`;
 const offersRequestStatus = `status`;
 const offersRequestMessage = `message`;
+const history = {};
 
 const getCurrentCity = () => {};
 const getCurrentOffer = () => {};
@@ -138,8 +140,8 @@ const store = mockStore({
     initialOffers,
     offers,
   },
-  offer: {
-    isShowOffer: false,
+  user: {
+    authorizationStatus: `NO_AUTH`,
   }
 });
 
@@ -149,23 +151,26 @@ it(`render Main`, () => {
   });
 
   const tree = renderer.create(
-      <Provider store={store}>
-        <Main
-          offersRequestStatus={offersRequestStatus}
-          offersRequestMessage={offersRequestMessage}
-          offers={offers}
-          initialOffers={initialOffers}
-          filteredOffers={filteredOffers}
-          currentCity={currentCity}
-          cities={cities}
-          getCurrentCity={getCurrentCity}
-          getCurrentOffer={getCurrentOffer}
-          setDefaultOrderOffers={setDefaultOrderOffers}
-          setLowToHighOrderOffers={setLowToHighOrderOffers}
-          setHighToLowOrderOffers={setHighToLowOrderOffers}
-          setTopRatedFirstOrderOffers={setTopRatedFirstOrderOffers}
-        />
-      </Provider>)
+      <BrowserRouter>
+        <Provider store={store}>
+          <Main
+            offersRequestStatus={offersRequestStatus}
+            offersRequestMessage={offersRequestMessage}
+            offers={offers}
+            initialOffers={initialOffers}
+            filteredOffers={filteredOffers}
+            currentCity={currentCity}
+            cities={cities}
+            history={history}
+            getCurrentCity={getCurrentCity}
+            getCurrentOffer={getCurrentOffer}
+            setDefaultOrderOffers={setDefaultOrderOffers}
+            setLowToHighOrderOffers={setLowToHighOrderOffers}
+            setHighToLowOrderOffers={setHighToLowOrderOffers}
+            setTopRatedFirstOrderOffers={setTopRatedFirstOrderOffers}
+          />
+        </Provider>
+      </BrowserRouter>)
       .toJSON();
 
   expect(tree).toMatchSnapshot();

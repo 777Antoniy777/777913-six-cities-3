@@ -29,7 +29,7 @@ export default function createState(state = initialState, action) {
 
     case OffersActionType.GET_OFFERS:
       return extend(state, {
-        offers: action.payload,
+        offers: action.payload.slice(),
       });
 
     case OffersActionType.GET_INITIAL_CITY:
@@ -42,14 +42,14 @@ export default function createState(state = initialState, action) {
         city: action.payload,
       });
 
-    // case OffersActionType.GET_FAVORITE_OFFER:
-    //   const offers = initialState.offers;
-    //   console.log(offers);
+    case OffersActionType.GET_FAVORITE_OFFER:
+      const index = action.payload.id - 1;
+      const offers = [...state.offers.slice(0, index), action.payload, ...state.offers.slice(index + 1)];
 
-    //   return extend(state, {
-    //     offers: [action.payload],
-    //     // offers: [...offers.slice(0, action.payload.id), action.payload, ...initialState.offers.slice(action.payload.id + 1)],
-    //   });
+      return extend(state, {
+        initialOffers: offers,
+        offers: offers.slice(),
+      });
 
     case OffersActionType.SET_DEFAULT_ORDER_OFFERS:
       return extend(state, {

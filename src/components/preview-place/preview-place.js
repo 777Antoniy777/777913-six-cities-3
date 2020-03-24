@@ -6,22 +6,22 @@ import classNames from 'classnames';
 import {AuthorizationStatus, AppRoute} from "../../enums";
 import {OfferActionCreator} from '../../actions/offer/action-creator';
 import {FavoritesAsyncActionCreator} from "../../actions/favorites/async-action-creator";
-import {getShowOfferStatus} from "../../reducers/offer/selectors";
+import {getOffer} from "../../reducers/offer/selectors";
 import {getAuthorizationStatus} from "../../reducers/user/selectors";
 
-const PreviewPlace = ({placeData, isShowOffer, authorizationStatus, history, getActiveItem, getHoveredOffer, removeHoveredOffer, setOfferStatus, setFavoriteStatus}) => {
+const PreviewPlace = ({placeData, offer, authorizationStatus, history, getActiveItem, getHoveredOffer, removeHoveredOffer, setFavoriteStatus}) => {
   const {id, title, premium, favorite, src, price, type, rating} = placeData;
 
   const placeWrapperClass = classNames({
     'place-card': true,
-    'cities__place-card': !isShowOffer,
-    'near-places__card': isShowOffer,
+    'cities__place-card': !offer,
+    'near-places__card': offer,
   });
 
   const placeImageWrapperClass = classNames({
     'place-card__image-wrapper': true,
-    'cities__image-wrapper': !isShowOffer,
-    'near-places__image-wrapper': isShowOffer,
+    'cities__image-wrapper': !offer,
+    'near-places__image-wrapper': offer,
   });
 
   const favoriteButtonClass = classNames({
@@ -41,7 +41,6 @@ const PreviewPlace = ({placeData, isShowOffer, authorizationStatus, history, get
     evt.preventDefault();
 
     getActiveItem(placeData);
-    setOfferStatus(true);
     window.scrollTo(0, 0);
   };
 
@@ -135,16 +134,33 @@ PreviewPlace.propTypes = {
     items: PropTypes.arrayOf(PropTypes.string),
     host: PropTypes.object,
   }),
-  isShowOffer: PropTypes.bool,
+  offer: PropTypes.shape({
+    id: PropTypes.number,
+    city: PropTypes.object,
+    title: PropTypes.string,
+    premium: PropTypes.bool,
+    favorite: PropTypes.bool,
+    src: PropTypes.string,
+    photos: PropTypes.arrayOf(PropTypes.string),
+    price: PropTypes.number,
+    description: PropTypes.string,
+    type: PropTypes.string,
+    rating: PropTypes.number,
+    bedroomAmount: PropTypes.number,
+    guestsAmount: PropTypes.number,
+    items: PropTypes.arrayOf(PropTypes.string),
+    host: PropTypes.object,
+  }),
+  authorizationStatus: PropTypes.string,
+  history: PropTypes.object,
   getActiveItem: PropTypes.func,
-  setOfferStatus: PropTypes.func,
   removeHoveredOffer: PropTypes.func,
   getHoveredOffer: PropTypes.func,
+  setFavoriteStatus: PropTypes.func,
 };
 
-// может убрать isShowOffer?
 const mapStateToProps = (state) => ({
-  isShowOffer: getShowOfferStatus(state),
+  offer: getOffer(state),
   authorizationStatus: getAuthorizationStatus(state),
 });
 
@@ -154,9 +170,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
   removeHoveredOffer: (offer) => {
     dispatch(OfferActionCreator.removeHoveredOffer(offer));
-  },
-  setOfferStatus: (status) => {
-    dispatch(OfferActionCreator.setOfferStatus(status));
   },
   setFavoriteStatus: (hotelId, status) => {
     dispatch(FavoritesAsyncActionCreator.setFavoriteStatus(hotelId, status));

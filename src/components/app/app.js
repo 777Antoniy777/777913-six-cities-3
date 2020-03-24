@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 import {AuthorizationStatus, AppRoute} from "../../enums";
 import {getAuthorizationStatus, getUserData} from "../../reducers/user/selectors";
-import {getShowOfferStatus, getOffer} from "../../reducers/offer/selectors";
+import {getOffer} from "../../reducers/offer/selectors";
 import PrivateRoute from "../private-route/private-route";
 import withSignIn from "../../hocs/with-sign-in/with-sign-in";
 import Main from '../main/main';
@@ -20,7 +20,7 @@ const Favorites = () => {
 
 const SignInWrappedHOC = withSignIn(SignIn);
 
-const App = ({isShowOffer, offer, authorizationStatus, userData}) => {
+const App = ({offer, authorizationStatus, userData}) => {
   let id;
 
   if (!authorizationStatus) {
@@ -82,7 +82,6 @@ const App = ({isShowOffer, offer, authorizationStatus, userData}) => {
 };
 
 App.propTypes = {
-  // isShowOffer: PropTypes.bool,
   offer: PropTypes.object,
   authorizationStatus: PropTypes.string,
   userData: PropTypes.object,
@@ -90,7 +89,6 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  // isShowOffer: getShowOfferStatus(state),
   offer: getOffer(state),
   authorizationStatus: getAuthorizationStatus(state),
   userData: getUserData(state),
