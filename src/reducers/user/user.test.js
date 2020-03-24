@@ -16,7 +16,7 @@ const userData = {
 
 it(`User without additional parameters should return initial state`, () => {
   expect(userState(void 0, {})).toEqual({
-    authorizationStatus: AuthorizationStatus.NO_AUTH,
+    authorizationStatus: null,
     userData: null,
   });
 });

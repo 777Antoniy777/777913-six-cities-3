@@ -300,6 +300,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
+export {Place};
 export default connect(
     mapStateToProps,
     mapDispatchToProps

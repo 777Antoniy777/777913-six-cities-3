@@ -16,7 +16,7 @@ const PrivateRoute = ({component: Component, authorizationStatus, condRedirect, 
 };
 
 PrivateRoute.propTypes = {
-  component: PropTypes.node,
+  component: PropTypes.func,
   authorizationStatus: PropTypes.string,
   condRedirect: PropTypes.string,
   linkRedirect: PropTypes.string,
