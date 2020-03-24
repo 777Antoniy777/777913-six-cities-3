@@ -3,12 +3,14 @@ import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 import {connect} from 'react-redux';
 import classNames from 'classnames';
-import {AppRoute} from "../../enums";
+import {AuthorizationStatus, AppRoute} from "../../enums";
 import {OfferActionCreator} from '../../actions/offer/action-creator';
+import {FavoritesAsyncActionCreator} from "../../actions/favorites/async-action-creator";
 import {getShowOfferStatus} from "../../reducers/offer/selectors";
+import {getAuthorizationStatus} from "../../reducers/user/selectors";
 
-const PreviewPlace = ({placeData, isShowOffer, getActiveItem, getHoveredOffer, removeHoveredOffer, setOfferStatus}) => {
-  const {id, title, premium, src, price, type, rating} = placeData;
+const PreviewPlace = ({placeData, isShowOffer, authorizationStatus, history, getActiveItem, getHoveredOffer, removeHoveredOffer, setOfferStatus, setFavoriteStatus}) => {
+  const {id, title, premium, favorite, src, price, type, rating} = placeData;
 
   const placeWrapperClass = classNames({
     'place-card': true,
@@ -20,6 +22,12 @@ const PreviewPlace = ({placeData, isShowOffer, getActiveItem, getHoveredOffer, r
     'place-card__image-wrapper': true,
     'cities__image-wrapper': !isShowOffer,
     'near-places__image-wrapper': isShowOffer,
+  });
+
+  const favoriteButtonClass = classNames({
+    'button': true,
+    'place-card__bookmark-button': true,
+    'place-card__bookmark-button--active': favorite,
   });
 
   const getRating = (val) => {
@@ -43,6 +51,19 @@ const PreviewPlace = ({placeData, isShowOffer, getActiveItem, getHoveredOffer, r
 
   const handleCardMouseleave = () => {
     removeHoveredOffer(null);
+  };
+
+  const handleFavoriteButtonClick = (evt) => {
+    evt.preventDefault();
+
+    if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
+      history.push(AppRoute.SIGN_IN);
+      return false;
+    }
+
+    setFavoriteStatus(id, +!favorite);
+
+    return true;
   };
 
   return (
@@ -69,7 +90,7 @@ const PreviewPlace = ({placeData, isShowOffer, getActiveItem, getHoveredOffer, r
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
 
-          <button className="place-card__bookmark-button button" type="button">
+          <button className={favoriteButtonClass} type="button" onClick={handleFavoriteButtonClick}>
             <svg className="place-card__bookmark-icon" width={18} height={19}>
               <use xlinkHref="#icon-bookmark" />
             </svg>
@@ -121,8 +142,10 @@ PreviewPlace.propTypes = {
   getHoveredOffer: PropTypes.func,
 };
 
+// может убрать isShowOffer?
 const mapStateToProps = (state) => ({
   isShowOffer: getShowOfferStatus(state),
+  authorizationStatus: getAuthorizationStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -134,7 +157,10 @@ const mapDispatchToProps = (dispatch) => ({
   },
   setOfferStatus: (status) => {
     dispatch(OfferActionCreator.setOfferStatus(status));
-  }
+  },
+  setFavoriteStatus: (hotelId, status) => {
+    dispatch(FavoritesAsyncActionCreator.setFavoriteStatus(hotelId, status));
+  },
 });
 
 export default connect(

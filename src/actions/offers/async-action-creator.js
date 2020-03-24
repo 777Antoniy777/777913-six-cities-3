@@ -80,7 +80,7 @@ const OffersAsyncActionCreator = {
         response = createAdapter(response.data);
 
         dispatch(OffersActionCreator.getInitialOffers(response));
-        dispatch(OffersActionCreator.getOffers(createAdapter(response.slice())));
+        dispatch(OffersActionCreator.getOffers(response.slice()));
         dispatch(OffersActionCreator.getInitialCity(response[0].city.name));
         dispatch(OffersActionCreator.setOffersRequestStatus(`success`));
         dispatch(OffersActionCreator.setOffersRequestMessage(null));

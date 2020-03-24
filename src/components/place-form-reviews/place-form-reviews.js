@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {AuthorizationStatus, AppRoute} from "../../enums";
 import PlaceFormReviewsStar from "../place-form-reviews-star/place-form-reviews-star";
 
-const PlaceFormReviews = ({offerId, review, rating, submitButtonStatus, errors, getReviewsOnPost, onSetSubmitButtonStatus, isCommentValid, isStarChoose, handleInputChange, onClearForm}) => {
+const PlaceFormReviews = ({offerId, authorizationStatus, review, rating, submitButtonStatus, errors, history, getReviewsOnPost, onSetSubmitButtonStatus, isCommentValid, isStarChoose, handleInputChange, onClearForm}) => {
   const starTitles = [
     {
       id: 5,
@@ -45,6 +46,11 @@ const PlaceFormReviews = ({offerId, review, rating, submitButtonStatus, errors, 
   const handleButtonClick = () => {
     const isCommentCorrect = isCommentValid(review, true);
     const isRating = isStarChoose();
+
+    if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
+      history.push(AppRoute.SIGN_IN);
+      return false;
+    }
 
     if (!isCommentCorrect) {
       return false;

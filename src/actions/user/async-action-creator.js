@@ -42,7 +42,7 @@ const UserAsyncActionCreator = {
         dispatch(UserActionCreator.setAuthorizationStatus(AuthorizationStatus.AUTH));
         dispatch(UserActionCreator.getUserData(response));
       })
-      .catch(function (error) {
+      .catch((error) => {
         throw error;
       });
   },
@@ -57,7 +57,7 @@ const UserAsyncActionCreator = {
         dispatch(UserActionCreator.setAuthorizationStatus(AuthorizationStatus.AUTH));
         dispatch(UserActionCreator.getUserData(response));
       })
-      .catch(function (error) {
+      .catch((error) => {
         throw error;
       });
   },

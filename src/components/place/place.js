@@ -27,7 +27,7 @@ const MapWrappedHOC = withMap(Map);
 const PlaceReviewsWrappedHOC = withLoadData(PlaceReviews);
 const PlaceFormReviewsWrappedHOC = withPlaceFormReviews(PlaceFormReviews);
 
-const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, reviews, authorizationStatus, getCurrentOffer, getReviewsOnGet, getReviewsOnPost}) => {
+const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, reviews, authorizationStatus, history, getCurrentOffer, getReviewsOnGet, getReviewsOnPost}) => {
   const {id, title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offer;
   const {avatar, name, status} = host;
   const splittedReviews = reviews.slice(0, 10);
@@ -168,14 +168,16 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
                 }
 
                 {/* рендерит форму отзывов */}
-                {/* { authorizationStatus === AuthorizationStatus.AUTH && */}
+                { authorizationStatus === AuthorizationStatus.AUTH &&
                 <PlaceFormReviewsWrappedHOC
                   // properties
                   offerId={id}
+                  authorizationStatus={authorizationStatus}
+                  history={history}
                   // handlers
                   getReviewsOnPost={getReviewsOnPost}
                 />
-                {/* } */}
+                }
 
               </section>
 

@@ -19,7 +19,6 @@ const createAPI = (onUnauthorized) => {
 
   const onError = (error) => {
     const {response} = error;
-    // console.log(response, error, error.status)
 
     if (response.status === Error.UNAUTHORIZED) {
       onUnauthorized();
@@ -30,9 +29,7 @@ const createAPI = (onUnauthorized) => {
     throw error;
   };
 
-  axiosInstance.interceptors.request.use(onSuccess, onError);
-  //
-  // axiosInstance.interceptors.response.use(onSuccess, onError);
+  axiosInstance.interceptors.response.use(onSuccess, onError);
 
   return axiosInstance;
 };

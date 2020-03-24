@@ -1,9 +1,8 @@
-import {AuthorizationStatus} from "../../enums";
 import {UserActionType} from "../../actions/user/action-creator";
 import {extend} from "../../utils.js";
 
 const initialState = {
-  authorizationStatus: AuthorizationStatus.NO_AUTH,
+  authorizationStatus: null,
   userData: null,
 };
 

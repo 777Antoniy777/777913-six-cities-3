@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from "prop-types";
 import {connect} from 'react-redux';
 import {BrowserRouter, Switch, Route} from "react-router-dom";
-import {AppRoute} from "../../enums";
+import {AuthorizationStatus, AppRoute} from "../../enums";
 import {getAuthorizationStatus, getUserData} from "../../reducers/user/selectors";
 import {getShowOfferStatus, getOffer} from "../../reducers/offer/selectors";
 import PrivateRoute from "../private-route/private-route";
@@ -22,11 +22,14 @@ const SignInWrappedHOC = withSignIn(SignIn);
 
 const App = ({isShowOffer, offer, authorizationStatus, userData}) => {
   let id;
+
+  if (!authorizationStatus) {
+    return false;
+  }
+
   if (offer) {
     id = offer.id;
   }
-
-  console.log(authorizationStatus);
 
   return (
     <BrowserRouter>
@@ -39,34 +42,37 @@ const App = ({isShowOffer, offer, authorizationStatus, userData}) => {
       <Switch>
         <Route
           path={AppRoute.MAIN} exact
-          render={() => {
-            return (
-              <Main />
-            );
-          }}
+          render={(props) => (
+            <Main
+              history={props.history}
+            />
+          )}
         />
 
         <Route
           path={AppRoute.OFFER(id)}
-          render={() => {
-            return (
-              <Place />
-            );
-          }}
-        />
-
-        <Route
-          path={AppRoute.SIGN_IN}
-          render={() => {
-            return (
-              <SignInWrappedHOC />
-            );
-          }}
+          render={(props) => (
+            <Place
+              history={props.history}
+            />
+          )}
         />
 
         <PrivateRoute
+          // properties
+          path={AppRoute.SIGN_IN}
+          component={SignInWrappedHOC}
+          condRedirect={AuthorizationStatus.NO_AUTH}
+          linkRedirect={AppRoute.MAIN}
+          authorizationStatus={authorizationStatus}
+        />
+
+        <PrivateRoute
+          // properties
           path={AppRoute.FAVORITES}
           component={Favorites}
+          condRedirect={AuthorizationStatus.AUTH}
+          linkRedirect={AppRoute.SIGN_IN}
           authorizationStatus={authorizationStatus}
         />
 
@@ -80,6 +86,7 @@ App.propTypes = {
   offer: PropTypes.object,
   authorizationStatus: PropTypes.string,
   userData: PropTypes.object,
+  history: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({

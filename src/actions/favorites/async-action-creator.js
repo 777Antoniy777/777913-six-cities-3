@@ -1,0 +1,92 @@
+import {FavoritesActionCreator} from "./action-creator";
+import {OffersActionCreator} from "../offers/action-creator";
+
+const createAdapter = (json) => {
+  const obj = json;
+  const newObj = {};
+  let val = ``;
+
+  for (let key in obj) {
+    if (key) {
+      val = obj[key];
+
+      switch (key) {
+        case `preview_image`:
+          newObj.src = val;
+          break;
+        case `bedrooms`:
+          newObj.bedroomAmount = val;
+          break;
+        case `max_adults`:
+          newObj.guestsAmount = val;
+          break;
+        case `is_favorite`:
+          newObj.favorite = val;
+          break;
+        case `is_premium`:
+          newObj.premium = val;
+          break;
+        case `images`:
+          newObj.photos = val;
+          break;
+        case `goods`:
+          newObj.items = val;
+          break;
+        case `host`:
+          const hostObj = val;
+          const newHostObj = {};
+          let hostVal = ``;
+
+          for (let hostKey in hostObj) {
+            if (hostKey) {
+              hostVal = hostObj[hostKey];
+
+              switch (hostKey) {
+                case `is_pro`:
+                  newHostObj.status = hostVal;
+                  break;
+                case `avatar_url`:
+                  newHostObj.avatar = hostVal;
+                  break;
+                default:
+                  newHostObj[hostKey] = hostVal;
+                  break;
+              }
+
+            }
+          }
+
+          newObj.host = newHostObj;
+          break;
+        default:
+          newObj[key] = val;
+          break;
+      }
+
+    }
+  }
+
+  return newObj;
+};
+
+const FavoritesAsyncActionCreator = {
+  setFavoriteStatus: (hotelId, status) => (dispatch, getState, api) => {
+    return api.post(`/favorite/${hotelId}/${status}`)
+      .then((response) => {
+        response = createAdapter(response.data);
+        console.log(response);
+
+        dispatch(FavoritesActionCreator.setFavoriteRequestStatus(`success`));
+        dispatch(FavoritesActionCreator.setFavoriteRequestMessage(null));
+        dispatch(FavoritesActionCreator.getFavoriteOffer(response));
+      })
+      .catch(function (error) {
+        dispatch(FavoritesActionCreator.setFavoriteRequestStatus(`error`));
+        dispatch(FavoritesActionCreator.setFavoriteRequestMessage(`Ошибка загрузки избранного предложения. Попробуйте позже`));
+
+        throw error;
+      });
+  },
+};
+
+export {FavoritesAsyncActionCreator};

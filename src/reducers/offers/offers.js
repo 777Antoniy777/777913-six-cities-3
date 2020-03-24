@@ -42,6 +42,15 @@ export default function createState(state = initialState, action) {
         city: action.payload,
       });
 
+    // case OffersActionType.GET_FAVORITE_OFFER:
+    //   const offers = initialState.offers;
+    //   console.log(offers);
+
+    //   return extend(state, {
+    //     offers: [action.payload],
+    //     // offers: [...offers.slice(0, action.payload.id), action.payload, ...initialState.offers.slice(action.payload.id + 1)],
+    //   });
+
     case OffersActionType.SET_DEFAULT_ORDER_OFFERS:
       return extend(state, {
         offers: action.payload,

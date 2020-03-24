@@ -9,10 +9,20 @@ const getOffersRequestMessage = (state) => {
 };
 
 const getInitialOffers = (state) => {
+  if (state.favorites.favoriteOffer) {
+    const {id} = state.favorites.favoriteOffer;
+    return [...state.offers.initialOffers.slice(0, id - 1), state.favorites.favoriteOffer, ...state.offers.initialOffers.slice(id)];
+  }
+
   return state.offers.initialOffers;
 };
 
 const getOffers = (state) => {
+  if (state.favorites.favoriteOffer) {
+    const {id} = state.favorites.favoriteOffer;
+    return [...state.offers.offers.slice(0, id - 1), state.favorites.favoriteOffer, ...state.offers.offers.slice(id)];
+  }
+
   return state.offers.offers;
 };
 
