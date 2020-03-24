@@ -16,7 +16,7 @@ const userData = {
 
 it(`User without additional parameters should return initial state`, () => {
   expect(userState(void 0, {})).toEqual({
-    authorizationStatus: AuthorizationStatus.NO_AUTH,
+    authorizationStatus: null,
     userData: null,
   });
 });
@@ -102,11 +102,13 @@ describe(`Async action creator work correctly`, () => {
 
   it(`Should make a correct POST request to /login`, function () {
     const apiMock = new MockAdapter(api);
+    const email = `email`;
+    const password = `password`;
     const dispatch = jest.fn();
-    const login = UserAsyncActionCreator.login();
+    const login = UserAsyncActionCreator.login(email, password);
 
     apiMock
-      .onPost(`/login`)
+      .onPost(`/login`, {email, password})
       .reply(200, userData);
 
     return login(dispatch, () => {}, api)
@@ -125,14 +127,6 @@ describe(`Async action creator work correctly`, () => {
 });
 
 describe(`Action creators work correctly`, () => {
-  it(`Action creator for set authorization status return correct action`, () => {
-    expect(UserActionCreator.setAuthorizationStatus())
-      .toEqual({
-        type: UserActionType.SET_AUTHORIZATION_STATUS,
-        payload: undefined,
-      });
-  });
-
   it(`Action creator for set authorization status should return "AUTH" value`, () => {
     expect(UserActionCreator.setAuthorizationStatus(AuthorizationStatus.AUTH))
     .toEqual({
@@ -147,14 +141,6 @@ describe(`Action creators work correctly`, () => {
       type: UserActionType.SET_AUTHORIZATION_STATUS,
       payload: AuthorizationStatus.NO_AUTH,
     });
-  });
-
-  it(`Action creator for set user data return correct action`, () => {
-    expect(UserActionCreator.getUserData())
-      .toEqual({
-        type: UserActionType.GET_USER_DATA,
-        payload: undefined,
-      });
   });
 
   it(`Action creator for set user data should return "userData" value`, () => {

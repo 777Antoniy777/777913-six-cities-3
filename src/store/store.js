@@ -22,10 +22,10 @@ const store = createStore(
 store.dispatch(OffersAsyncActionCreator.getOffers());
 store.dispatch(UserAsyncActionCreator.checkUserStatus());
 
-store.subscribe(() => {
-  /* eslint-disable no-console */
-  console.log(`store was changed`, store.getState());
-});
+// store.subscribe(() => {
+//   /* eslint-disable no-console */
+//   console.log(`store was changed`, store.getState());
+// });
 
 export default store;
 

@@ -1,6 +1,7 @@
 import React from "react";
 import Enzyme, {mount} from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
+import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
 import PreviewPlace from "./preview-place";
@@ -46,12 +47,52 @@ const placeData = {
   ],
   coord: [1, 1],
 };
-const isShowOffer = true;
+const offer = {
+  id: 1,
+  city: {
+    id: 1,
+    name: `city`,
+    coords: [1, 1],
+  },
+  title: `title 1`,
+  premium: false,
+  src: `img/image1`,
+  photos: [`img/image1`],
+  price: 999999,
+  description: `test`,
+  type: `type`,
+  rating: 9999,
+  bedroomAmount: 30,
+  guestsAmount: 50,
+  items: [`item`],
+  host: {
+    avatar: `img/avatar-1.jpg`,
+    name: `name`,
+    status: false,
+  },
+  reviews: [
+    {
+      id: 1,
+      body: `text`,
+      rating: 5,
+      name: `name`,
+      date: `date`,
+    },
+  ],
+  coord: [1, 1],
+};
+const authorizationStatus = `AUTH`;
+const history = {
+  push: jest.fn()
+};
 
 const store = mockStore({
   offer: {
-    isShowOffer: false
+    offer,
   },
+  user: {
+    authorizationStatus: `NO_AUTH`,
+  }
 });
 
 describe(`PreviewPlace should call correct callbacks`, () => {
@@ -62,21 +103,23 @@ describe(`PreviewPlace should call correct callbacks`, () => {
 
     const preventDefault = jest.fn();
     const getActiveItem = jest.fn((data) => data);
-    const setOfferStatus = jest.fn((val) => val);
     const scrollTo = jest.fn();
     Object.defineProperty(global.window, `scrollTo`, {
       value: scrollTo
     });
 
     const previewPlace = mount(
-        <Provider store={store}>
-          <PreviewPlace
-            placeData={placeData}
-            isShowOffer={isShowOffer}
-            getActiveItem={getActiveItem}
-            setOfferStatus={setOfferStatus}
-          />
-        </Provider>
+        <BrowserRouter>
+          <Provider store={store}>
+            <PreviewPlace
+              placeData={placeData}
+              offer={offer}
+              authorizationStatus={authorizationStatus}
+              history={history}
+              getActiveItem={getActiveItem}
+            />
+          </Provider>
+        </BrowserRouter>
     );
 
     const title = previewPlace.find(`.place-card__name`);
@@ -84,7 +127,6 @@ describe(`PreviewPlace should call correct callbacks`, () => {
     const mockClickEvent = ({
       preventDefault,
       getActiveItem() {},
-      setOfferStatus: setOfferStatus(true),
     });
 
     title.simulate(`click`, mockClickEvent);
@@ -92,8 +134,6 @@ describe(`PreviewPlace should call correct callbacks`, () => {
     expect(scrollTo).toHaveBeenCalledWith(0, 0);
     expect(getActiveItem).toHaveBeenCalledTimes(1);
     expect(getActiveItem.mock.calls[0][0]).toMatchObject(placeData);
-    expect(setOfferStatus).toHaveBeenCalledTimes(1);
-    expect(setOfferStatus.mock.calls[0][0]).toBe(isShowOffer);
   });
 
   it(`"placeData" should set into callback after mouseenter on card`, () => {
@@ -104,13 +144,17 @@ describe(`PreviewPlace should call correct callbacks`, () => {
     const getHoveredOffer = jest.fn((data) => data);
 
     const previewPlace = mount(
-        <Provider store={store}>
-          <PreviewPlace
-            placeData={placeData}
-            isShowOffer={isShowOffer}
-            getHoveredOffer={getHoveredOffer}
-          />
-        </Provider>
+        <BrowserRouter>
+          <Provider store={store}>
+            <PreviewPlace
+              placeData={placeData}
+              offer={offer}
+              authorizationStatus={authorizationStatus}
+              history={history}
+              getHoveredOffer={getHoveredOffer}
+            />
+          </Provider>
+        </BrowserRouter>
     );
 
     const card = previewPlace.find(`.place-card`);
@@ -133,13 +177,17 @@ describe(`PreviewPlace should call correct callbacks`, () => {
     const removeHoveredOffer = jest.fn((val) => val);
 
     const previewPlace = mount(
-        <Provider store={store}>
-          <PreviewPlace
-            placeData={placeData}
-            isShowOffer={isShowOffer}
-            removeHoveredOffer={removeHoveredOffer}
-          />
-        </Provider>
+        <BrowserRouter>
+          <Provider store={store}>
+            <PreviewPlace
+              placeData={placeData}
+              offer={offer}
+              authorizationStatus={authorizationStatus}
+              history={history}
+              removeHoveredOffer={removeHoveredOffer}
+            />
+          </Provider>
+        </BrowserRouter>
     );
 
     const card = previewPlace.find(`.place-card`);
@@ -152,5 +200,40 @@ describe(`PreviewPlace should call correct callbacks`, () => {
 
     expect(removeHoveredOffer).toHaveBeenCalledTimes(1);
     expect(removeHoveredOffer.mock.calls[0][0]).toBe(null);
+  });
+
+  it(`callback should call with favorite status and id after click on the favorite button`, () => {
+    beforeEach(() => { // Runs before each test in the suite
+      store.clearActions();
+    });
+
+    const {id, premium} = offer;
+    const setFavoriteStatus = jest.fn((val) => val);
+
+    const previewPlace = mount(
+        <BrowserRouter>
+          <Provider store={store}>
+            <PreviewPlace
+              placeData={placeData}
+              offer={offer}
+              authorizationStatus={authorizationStatus}
+              history={history}
+              setFavoriteStatus={setFavoriteStatus}
+            />
+          </Provider>
+        </BrowserRouter>
+    );
+
+    const favoriteButton = previewPlace.find(`.place-card__bookmark-button`);
+
+    const mockClickEvent = ({
+      setFavoriteStatus: setFavoriteStatus(id, premium),
+    });
+
+    favoriteButton.simulate(`click`, mockClickEvent);
+
+    expect(setFavoriteStatus).toHaveBeenCalledTimes(1);
+    expect(setFavoriteStatus.mock.calls[0][0]).toBe(id);
+    expect(setFavoriteStatus.mock.calls[0][1]).toBe(premium);
   });
 });

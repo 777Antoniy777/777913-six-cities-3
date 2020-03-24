@@ -1,5 +1,6 @@
 import React from 'react';
 import renderer from "react-test-renderer";
+import {BrowserRouter} from "react-router-dom";
 import Header from "./header";
 
 // set mocha data
@@ -13,10 +14,12 @@ const userData = {
 
 it(`render Header`, () => {
   const tree = renderer.create(
-      <Header
-        authorizationStatus={authorizationStatus}
-        userData={userData}
-      />)
+      <BrowserRouter>
+        <Header
+          authorizationStatus={authorizationStatus}
+          userData={userData}
+        />
+      </BrowserRouter>)
       .toJSON();
 
   expect(tree).toMatchSnapshot();

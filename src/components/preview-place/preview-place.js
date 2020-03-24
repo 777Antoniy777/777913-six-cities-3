@@ -1,23 +1,33 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {Link} from "react-router-dom";
 import {connect} from 'react-redux';
 import classNames from 'classnames';
+import {AuthorizationStatus, AppRoute} from "../../enums";
 import {OfferActionCreator} from '../../actions/offer/action-creator';
-import {getShowOfferStatus} from "../../reducers/offer/selectors";
+import {FavoritesAsyncActionCreator} from "../../actions/favorites/async-action-creator";
+import {getOffer} from "../../reducers/offer/selectors";
+import {getAuthorizationStatus} from "../../reducers/user/selectors";
 
-const PreviewPlace = ({placeData, isShowOffer, getActiveItem, getHoveredOffer, removeHoveredOffer, setOfferStatus}) => {
-  const {title, premium, src, price, type, rating} = placeData;
+const PreviewPlace = ({placeData, offer, authorizationStatus, history, getActiveItem, getHoveredOffer, removeHoveredOffer, setFavoriteStatus}) => {
+  const {id, title, premium, favorite, src, price, type, rating} = placeData;
 
   const placeWrapperClass = classNames({
     'place-card': true,
-    'cities__place-card': !isShowOffer,
-    'near-places__card': isShowOffer,
+    'cities__place-card': !offer,
+    'near-places__card': offer,
   });
 
   const placeImageWrapperClass = classNames({
     'place-card__image-wrapper': true,
-    'cities__image-wrapper': !isShowOffer,
-    'near-places__image-wrapper': isShowOffer,
+    'cities__image-wrapper': !offer,
+    'near-places__image-wrapper': offer,
+  });
+
+  const favoriteButtonClass = classNames({
+    'button': true,
+    'place-card__bookmark-button': true,
+    'place-card__bookmark-button--active': favorite,
   });
 
   const getRating = (val) => {
@@ -31,7 +41,6 @@ const PreviewPlace = ({placeData, isShowOffer, getActiveItem, getHoveredOffer, r
     evt.preventDefault();
 
     getActiveItem(placeData);
-    setOfferStatus(true);
     window.scrollTo(0, 0);
   };
 
@@ -41,6 +50,19 @@ const PreviewPlace = ({placeData, isShowOffer, getActiveItem, getHoveredOffer, r
 
   const handleCardMouseleave = () => {
     removeHoveredOffer(null);
+  };
+
+  const handleFavoriteButtonClick = (evt) => {
+    evt.preventDefault();
+
+    if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
+      history.push(AppRoute.SIGN_IN);
+      return false;
+    }
+
+    setFavoriteStatus(id, +!favorite);
+
+    return true;
   };
 
   return (
@@ -67,7 +89,7 @@ const PreviewPlace = ({placeData, isShowOffer, getActiveItem, getHoveredOffer, r
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
 
-          <button className="place-card__bookmark-button button" type="button">
+          <button className={favoriteButtonClass} type="button" onClick={handleFavoriteButtonClick}>
             <svg className="place-card__bookmark-icon" width={18} height={19}>
               <use xlinkHref="#icon-bookmark" />
             </svg>
@@ -84,7 +106,7 @@ const PreviewPlace = ({placeData, isShowOffer, getActiveItem, getHoveredOffer, r
         </div>
 
         <h2 className="place-card__name" onClick={handleTitleClick}>
-          <a href="#">{title}</a>
+          <Link to={AppRoute.OFFER(id)}>{title}</Link>
         </h2>
 
         <p className="place-card__type">{type}</p>
@@ -112,15 +134,34 @@ PreviewPlace.propTypes = {
     items: PropTypes.arrayOf(PropTypes.string),
     host: PropTypes.object,
   }),
-  isShowOffer: PropTypes.bool,
+  offer: PropTypes.shape({
+    id: PropTypes.number,
+    city: PropTypes.object,
+    title: PropTypes.string,
+    premium: PropTypes.bool,
+    favorite: PropTypes.bool,
+    src: PropTypes.string,
+    photos: PropTypes.arrayOf(PropTypes.string),
+    price: PropTypes.number,
+    description: PropTypes.string,
+    type: PropTypes.string,
+    rating: PropTypes.number,
+    bedroomAmount: PropTypes.number,
+    guestsAmount: PropTypes.number,
+    items: PropTypes.arrayOf(PropTypes.string),
+    host: PropTypes.object,
+  }),
+  authorizationStatus: PropTypes.string,
+  history: PropTypes.object,
   getActiveItem: PropTypes.func,
-  setOfferStatus: PropTypes.func,
   removeHoveredOffer: PropTypes.func,
   getHoveredOffer: PropTypes.func,
+  setFavoriteStatus: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
-  isShowOffer: getShowOfferStatus(state),
+  offer: getOffer(state),
+  authorizationStatus: getAuthorizationStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -130,9 +171,9 @@ const mapDispatchToProps = (dispatch) => ({
   removeHoveredOffer: (offer) => {
     dispatch(OfferActionCreator.removeHoveredOffer(offer));
   },
-  setOfferStatus: (status) => {
-    dispatch(OfferActionCreator.setOfferStatus(status));
-  }
+  setFavoriteStatus: (hotelId, status) => {
+    dispatch(FavoritesAsyncActionCreator.setFavoriteStatus(hotelId, status));
+  },
 });
 
 export default connect(

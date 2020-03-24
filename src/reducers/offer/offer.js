@@ -4,7 +4,6 @@ import {extend} from "../../utils.js";
 const initialState = {
   offer: null,
   hoveredOffer: null,
-  isShowOffer: false,
 };
 
 export default function createState(state = initialState, action) {
@@ -23,11 +22,6 @@ export default function createState(state = initialState, action) {
     case OfferActionType.REMOVE_HOVERED_OFFER:
       return extend(state, {
         hoveredOffer: action.payload,
-      });
-
-    case OfferActionType.SET_OFFER_STATUS:
-      return extend(state, {
-        isShowOffer: action.payload,
       });
 
     default:

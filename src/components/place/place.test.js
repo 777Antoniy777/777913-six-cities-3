@@ -1,15 +1,11 @@
 import React from 'react';
 import renderer from "react-test-renderer";
+import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
-import Place from './place';
+import {Place} from './place';
 
-// import MockAdapter from "axios-mock-adapter";
-// import createAPI from "../../api.js";
-import thunk from "redux-thunk";
-
-const mockStore = configureStore([thunk]);
-// const api = createAPI(() => {});
+const mockStore = configureStore();
 
 // set mocha data
 const initialOffers = [
@@ -130,41 +126,19 @@ const reviews = [
 const reviewsRequestStatus = `status`;
 const reviewsRequestMessage = `message`;
 const authorizationStatus = `AUTH`;
+const history = {};
 
 const getCurrentOffer = () => {};
 const getReviewsOnGet = () => {};
 const getReviewsOnPost = () => {};
 
-// const getReviewsOnGet = (dispatch) => ({
-//   getReviewsOnGet: (offerId) => () => {
-//     dispatch(jest.fn(offerId));
-//   }
-// });
-// const getReviewsOnPost = () => {};
-
-// const reviewsAsyncActionCreator = jest.fn();
-// const getReviewsOnPost = (offerId) => {
-//   reviewsAsyncActionCreator(offerId);
-// };
-
-// const getReviewsOnPost = (dispatch, () => {}, api) => {};
-// const api = createAPI(() => {});
-// const apiMock = new MockAdapter(api);
-// const dispatch = () => {};
-// const getState = () => {};
-// const getReviewsOnPost = () => (dispatch, getState, api) => {};
-
-// apiMock
-//   .onGet(`/comments/1`)
-//   .reply(200, reviews);
-
 const store = mockStore({
+  offers: {
+    initialOffers,
+  },
   offer: {
     offer,
     hoveredOffer,
-  },
-  offers: {
-    initialOffers,
   },
   reviews: {
     requestStatus: null,
@@ -182,20 +156,23 @@ it(`render Place`, () => {
   });
 
   const tree = renderer.create(
-      <Provider store={store}>
-        <Place
-          offers={initialOffers}
-          offer={offer}
-          hoveredOffer={hoveredOffer}
-          reviewsRequestStatus={reviewsRequestStatus}
-          reviewsRequestMessage={reviewsRequestMessage}
-          reviews={reviews}
-          authorizationStatus={authorizationStatus}
-          getCurrentOffer={getCurrentOffer}
-          getReviewsOnGet={getReviewsOnGet}
-          getReviewsOnPost={getReviewsOnPost}
-        />
-      </Provider>)
+      <BrowserRouter>
+        <Provider store={store}>
+          <Place
+            offers={initialOffers}
+            offer={offer}
+            hoveredOffer={hoveredOffer}
+            reviewsRequestStatus={reviewsRequestStatus}
+            reviewsRequestMessage={reviewsRequestMessage}
+            reviews={reviews}
+            authorizationStatus={authorizationStatus}
+            history={history}
+            getCurrentOffer={getCurrentOffer}
+            getReviewsOnGet={getReviewsOnGet}
+            getReviewsOnPost={getReviewsOnPost}
+          />
+        </Provider>
+      </BrowserRouter>)
       .toJSON();
 
   expect(tree).toMatchSnapshot();

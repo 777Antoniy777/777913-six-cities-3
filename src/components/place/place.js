@@ -27,7 +27,7 @@ const MapWrappedHOC = withMap(Map);
 const PlaceReviewsWrappedHOC = withLoadData(PlaceReviews);
 const PlaceFormReviewsWrappedHOC = withPlaceFormReviews(PlaceFormReviews);
 
-const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, reviews, authorizationStatus, getCurrentOffer, getReviewsOnGet, getReviewsOnPost}) => {
+const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, reviews, authorizationStatus, history, getCurrentOffer, getReviewsOnGet, getReviewsOnPost}) => {
   const {id, title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offer;
   const {avatar, name, status} = host;
   const splittedReviews = reviews.slice(0, 10);
@@ -172,6 +172,8 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
                 <PlaceFormReviewsWrappedHOC
                   // properties
                   offerId={id}
+                  authorizationStatus={authorizationStatus}
+                  history={history}
                   // handlers
                   getReviewsOnPost={getReviewsOnPost}
                 />
@@ -270,6 +272,7 @@ Place.propTypes = {
   reviewsRequestMessage: PropTypes.string,
   reviews: PropTypes.arrayOf(PropTypes.object),
   authorizationStatus: PropTypes.string,
+  history: PropTypes.object,
   getCurrentOffer: PropTypes.func,
   getReviewsOnGet: PropTypes.func,
   getReviewsOnPost: PropTypes.func,
@@ -297,6 +300,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
+export {Place};
 export default connect(
     mapStateToProps,
     mapDispatchToProps

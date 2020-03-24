@@ -41,7 +41,6 @@ it(`Offer without additional parameters should return initial state`, () => {
   expect(offerState(void 0, {})).toEqual({
     offer: null,
     hoveredOffer: null,
-    isShowOffer: false,
   });
 });
 
@@ -78,48 +77,12 @@ it(`Reducer should remove hovered offer`, () => {
   });
 });
 
-it(`Reducer should set offer status`, () => {
-  expect(offerState({
-    isShowOffer: false,
-  }, {
-    type: OfferActionType.SET_OFFER_STATUS,
-    payload: false,
-  })).toEqual({
-    isShowOffer: false,
-  });
-
-  expect(offerState({
-    isShowOffer: true,
-  }, {
-    type: OfferActionType.SET_OFFER_STATUS,
-    payload: true,
-  })).toEqual({
-    isShowOffer: true,
-  });
-});
-
 describe(`Action creators work correctly`, () => {
-  it(`Action creator for get current offer returns correct action`, () => {
-    expect(OfferActionCreator.getCurrentOffer())
-      .toEqual({
-        type: OfferActionType.GET_CURRENT_OFFER,
-        payload: undefined,
-      });
-  });
-
   it(`Action creator for get current offer should returns "Offer"`, () => {
     expect(OfferActionCreator.getCurrentOffer(offer))
       .toEqual({
         type: OfferActionType.GET_CURRENT_OFFER,
         payload: offer,
-      });
-  });
-
-  it(`Action creator for get hovered offer returns correct action`, () => {
-    expect(OfferActionCreator.getHoveredOffer())
-      .toEqual({
-        type: OfferActionType.GET_HOVERED_OFFER,
-        payload: undefined,
       });
   });
 
@@ -131,43 +94,11 @@ describe(`Action creators work correctly`, () => {
       });
   });
 
-  it(`Action creator for remove hovered offer returns correct action`, () => {
-    expect(OfferActionCreator.removeHoveredOffer())
-      .toEqual({
-        type: OfferActionType.REMOVE_HOVERED_OFFER,
-        payload: undefined,
-      });
-  });
-
   it(`Action creator for remove hovered offer should returns "null"`, () => {
     expect(OfferActionCreator.removeHoveredOffer(null))
       .toEqual({
         type: OfferActionType.REMOVE_HOVERED_OFFER,
         payload: null,
-      });
-  });
-
-  it(`Action creator for set offer status returns correct action`, () => {
-    expect(OfferActionCreator.setOfferStatus())
-      .toEqual({
-        type: OfferActionType.SET_OFFER_STATUS,
-        payload: undefined,
-      });
-  });
-
-  it(`Action creator for set offer status should returns "false"`, () => {
-    expect(OfferActionCreator.setOfferStatus(false))
-      .toEqual({
-        type: OfferActionType.SET_OFFER_STATUS,
-        payload: false,
-      });
-  });
-
-  it(`Action creator for set offer status should returns "true"`, () => {
-    expect(OfferActionCreator.setOfferStatus(true))
-      .toEqual({
-        type: OfferActionType.SET_OFFER_STATUS,
-        payload: true,
       });
   });
 });
