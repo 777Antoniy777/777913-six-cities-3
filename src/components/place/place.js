@@ -7,12 +7,13 @@ import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-crea
 import {getOffer, getHoveredOffer} from "../../reducers/offer/selectors";
 import {getInitialOffersSelector} from "../../reducers/offers/selectors";
 import {getReviewsRequestStatus, getReviewsRequestMessage, getReviews} from "../../reducers/reviews/selectors";
-import {getAuthorizationStatus} from "../../reducers/user/selectors";
+import {getUserData} from "../../reducers/user/selectors";
 import {ErrorReviewWrapperStyle, ErrorMessageStyle} from "../../style";
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 import withMap from "../../hocs/with-map/with-map";
 import withLoadData from "../../hocs/with-load-data/with-load-data";
 import withPlaceFormReviews from "../../hocs/with-place-form-reviews/with-place-form-reviews";
+import Header from "../header/header";
 import PlacePhotos from "../place-photos/place-photos";
 import PlaceItems from "../place-items/place-items";
 import PlaceHost from "../place-host/place-host";
@@ -27,7 +28,7 @@ const MapWrappedHOC = withMap(Map);
 const PlaceReviewsWrappedHOC = withLoadData(PlaceReviews);
 const PlaceFormReviewsWrappedHOC = withPlaceFormReviews(PlaceFormReviews);
 
-const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, reviews, authorizationStatus, history, getCurrentOffer, getReviewsOnGet, getReviewsOnPost}) => {
+const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, reviews, authorizationStatus, userData, history, location: routeLocation, getCurrentOffer, getReviewsOnGet, getReviewsOnPost}) => {
   const {id, title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offer;
   const {avatar, name, status} = host;
   const splittedReviews = reviews.slice(0, 10);
@@ -57,6 +58,13 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
 
   return (
     <div className="page">
+
+      {/* Хедер приложения */}
+      <Header
+        // properties
+        authorizationStatus={authorizationStatus}
+        userData={userData}
+      />
 
       <main className="page__main page__main--property">
 
@@ -169,14 +177,14 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
 
                 {/* рендерит форму отзывов */}
                 { authorizationStatus === AuthorizationStatus.AUTH &&
-                <PlaceFormReviewsWrappedHOC
-                  // properties
-                  offerId={id}
-                  authorizationStatus={authorizationStatus}
-                  history={history}
-                  // handlers
-                  getReviewsOnPost={getReviewsOnPost}
-                />
+                  <PlaceFormReviewsWrappedHOC
+                    // properties
+                    offerId={id}
+                    authorizationStatus={authorizationStatus}
+                    history={history}
+                    // handlers
+                    getReviewsOnPost={getReviewsOnPost}
+                  />
                 }
 
               </section>
@@ -212,6 +220,7 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
                 <PreviewPlacesWrappedHOC
                   // properties
                   offers={extendedOffersForPreviews}
+                  location={routeLocation}
                   // handlers
                   getActiveItem={getCurrentOffer}
                 />
@@ -272,7 +281,9 @@ Place.propTypes = {
   reviewsRequestMessage: PropTypes.string,
   reviews: PropTypes.arrayOf(PropTypes.object),
   authorizationStatus: PropTypes.string,
+  userData: PropTypes.object,
   history: PropTypes.object,
+  location: PropTypes.object,
   getCurrentOffer: PropTypes.func,
   getReviewsOnGet: PropTypes.func,
   getReviewsOnPost: PropTypes.func,
@@ -285,7 +296,7 @@ const mapStateToProps = (state) => ({
   reviewsRequestStatus: getReviewsRequestStatus(state),
   reviewsRequestMessage: getReviewsRequestMessage(state),
   reviews: getReviews(state),
-  authorizationStatus: getAuthorizationStatus(state),
+  userData: getUserData(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

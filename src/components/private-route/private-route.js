@@ -3,12 +3,17 @@ import PropTypes from "prop-types";
 import {Route, Redirect} from "react-router-dom";
 
 const PrivateRoute = ({component: Component, authorizationStatus, condRedirect, linkRedirect, ...rest}) => {
+  const {getData} = rest;
+
   return (
     <Route
       {...rest}
       render={(props) => (
       authorizationStatus === condRedirect
-        ? <Component {...props} />
+        ? <Component
+            getData={getData}
+            {...props}
+          />
         : <Redirect to={linkRedirect} />
       )}
     />

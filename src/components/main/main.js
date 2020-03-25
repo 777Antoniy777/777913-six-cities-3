@@ -5,10 +5,12 @@ import classNames from 'classnames';
 import {OffersActionCreator} from "../../actions/offers/action-creator";
 import {OfferActionCreator} from "../../actions/offer/action-creator";
 import {getCitiesSelector, getOffersRequestStatus, getOffersRequestMessage, getInitialOffers, getOffers, getCity} from "../../reducers/offers/selectors";
+import {getUserData} from "../../reducers/user/selectors";
 import {ErrorMainWrapperStyle, ErrorMessageStyle} from "../../style";
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 import withMap from "../../hocs/with-map/with-map";
 import withPlaceFilter from "../../hocs/with-place-filter/with-place-filter";
+import Header from "../header/header";
 import MainEmpty from "../main-empty/main-empty";
 import PreviewPlaces from '../preview-places/preview-places';
 import Map from '../map/map';
@@ -21,7 +23,7 @@ const PreviewPlacesWrappedHoc = withActiveItem(PreviewPlaces);
 const MapWrappedHoc = withMap(Map);
 const PlaceFilterWrappedHoc = withPlaceFilter(PlaceFilter);
 
-const Main = ({offersRequestStatus, offersRequestMessage, offers, initialOffers, filteredOffers, currentCity, cities, history, getCurrentCity, getCurrentOffer, setDefaultOrderOffers, setLowToHighOrderOffers, setHighToLowOrderOffers, setTopRatedFirstOrderOffers}) => {
+const Main = ({offersRequestStatus, offersRequestMessage, offers, initialOffers, filteredOffers, currentCity, cities, authorizationStatus, userData, history, location, getCurrentCity, getCurrentOffer, setDefaultOrderOffers, setLowToHighOrderOffers, setHighToLowOrderOffers, setTopRatedFirstOrderOffers}) => {
   const mainEmptyClass = classNames({
     'page__main': true,
     'page__main--index': true,
@@ -30,6 +32,13 @@ const Main = ({offersRequestStatus, offersRequestMessage, offers, initialOffers,
 
   return (
     <div className="page page--gray page--main">
+
+      {/* Хедер приложения */}
+      <Header
+        // properties
+        authorizationStatus={authorizationStatus}
+        userData={userData}
+      />
 
       <main className={mainEmptyClass}>
         <h1 className="visually-hidden">Cities</h1>
@@ -62,6 +71,7 @@ const Main = ({offersRequestStatus, offersRequestMessage, offers, initialOffers,
             />
           }
 
+          {/* рендерит пустую страницу, если не пришло приделожений */}
           { filteredOffers.length === 0 &&
             <MainEmpty />
           }
@@ -92,6 +102,7 @@ const Main = ({offersRequestStatus, offersRequestMessage, offers, initialOffers,
                     // properties
                     offers={filteredOffers}
                     history={history}
+                    location={location}
                     // handlers
                     getActiveItem={getCurrentOffer}
                   />
@@ -131,7 +142,10 @@ Main.propTypes = {
   filteredOffers: PropTypes.arrayOf(PropTypes.object),
   currentCity: PropTypes.string,
   cities: PropTypes.arrayOf(PropTypes.string),
+  authorizationStatus: PropTypes.string,
+  userData: PropTypes.object,
   history: PropTypes.object,
+  location: PropTypes.object,
   getCurrentCity: PropTypes.func,
   getCurrentOffer: PropTypes.func,
   setDefaultOrderOffers: PropTypes.func,
@@ -145,6 +159,7 @@ const mapStateToProps = (state) => ({
   offersRequestMessage: getOffersRequestMessage(state),
   currentCity: getCity(state),
   cities: getCitiesSelector(state),
+  userData: getUserData(state),
   initialOffers: getInitialOffers(state),
   offers: getOffers(state),
   filteredOffers: state.offers.offers.filter((elem) => {

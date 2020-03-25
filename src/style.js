@@ -29,4 +29,14 @@ const ErrorMessageStyle = {
   color: `red`,
 };
 
-export {ErrorMainWrapperStyle, ErrorReviewWrapperStyle, ErrorMessageStyle};
+const ImageBigStyle = {
+  width: 260,
+  height: 200,
+};
+
+const ImageSmallStyle = {
+  width: 150,
+  height: 110,
+};
+
+export {ErrorMainWrapperStyle, ErrorReviewWrapperStyle, ErrorMessageStyle, ImageBigStyle, ImageSmallStyle};
