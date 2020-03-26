@@ -11,8 +11,9 @@ const PrivateRoute = ({component: Component, authorizationStatus, condRedirect, 
       render={(props) => (
       authorizationStatus === condRedirect
         ? <Component
-            getData={getData}
             {...props}
+            authorizationStatus={authorizationStatus}
+            getData={getData}
           />
         : <Redirect to={linkRedirect} />
       )}

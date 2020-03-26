@@ -39,4 +39,12 @@ const ImageSmallStyle = {
   height: 110,
 };
 
-export {ErrorMainWrapperStyle, ErrorReviewWrapperStyle, ErrorMessageStyle, ImageBigStyle, ImageSmallStyle};
+const MainLinkStyle = {
+  'cursor': `pointer`,
+};
+
+const AnotherLinkStyle = {
+  'cursor': `auto`,
+};
+
+export {ErrorMainWrapperStyle, ErrorReviewWrapperStyle, ErrorMessageStyle, ImageBigStyle, ImageSmallStyle, MainLinkStyle, AnotherLinkStyle};

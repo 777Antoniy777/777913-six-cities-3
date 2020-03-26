@@ -38,6 +38,7 @@ const Main = ({offersRequestStatus, offersRequestMessage, offers, initialOffers,
         // properties
         authorizationStatus={authorizationStatus}
         userData={userData}
+        location={location}
       />
 
       <main className={mainEmptyClass}>

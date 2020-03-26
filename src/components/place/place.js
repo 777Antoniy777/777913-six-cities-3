@@ -64,6 +64,7 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
         // properties
         authorizationStatus={authorizationStatus}
         userData={userData}
+        location={routeLocation}
       />
 
       <main className="page__main page__main--property">

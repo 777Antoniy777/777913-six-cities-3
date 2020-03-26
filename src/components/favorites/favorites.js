@@ -5,29 +5,30 @@ import {Link} from "react-router-dom";
 import classNames from 'classnames';
 import {AppRoute} from "../../enums";
 import {getFavoriteOffers, getFavoriteCitiesSelector} from "../../reducers/favorites/selectors";
+import {getUserData} from "../../reducers/user/selectors";
 import {OfferActionCreator} from "../../actions/offer/action-creator";
-import withActiveItem from "../../hocs/with-active-item/with-active-item";
-import PreviewPlaces from '../preview-places/preview-places';
+import Header from "../header/header";
 import FavoritesEmpty from "../favorites-empty/favorites-empty";
+import FavoriteCities from "../favorite-cities/favorite-cities";
 
-const PreviewPlacesWrappedHoc = withActiveItem(PreviewPlaces);
-
-const Favorites = ({favoriteOffers, favoriteCities, history, location, getCurrentOffer}) => {
+const Favorites = ({favoriteOffers, favoriteCities, authorizationStatus, userData, history, location, getCurrentOffer}) => {
   const favoritePageEmptyClass = classNames({
     'page': true,
     'page--favorites-empty': favoriteOffers.length === 0,
   });
 
-  const filterFavoriteOffers = (city) => {
-    return favoriteOffers.filter((elem) => {
-      return elem.city.name.includes(city);
-    });
-  };
-
   return (
     <div className={favoritePageEmptyClass}>
 
-      {/* рендерит пустую страницу, если не пришло приделожений */}
+      {/* Хедер приложения */}
+      <Header
+        // properties
+        authorizationStatus={authorizationStatus}
+        userData={userData}
+        location={location}
+      />
+
+      {/* рендерит пустую страницу, если не пришло предложений */}
       { favoriteOffers.length === 0 &&
         <FavoritesEmpty />
       }
@@ -39,38 +40,16 @@ const Favorites = ({favoriteOffers, favoriteCities, history, location, getCurren
             <section className="favorites">
               <h1 className="favorites__title">Saved listing</h1>
 
-              <ul className="favorites__list">
-
-                { favoriteCities &&
-                  favoriteCities.map((elem) =>
-                    <li key={elem} className="favorites__locations-items">
-
-                      <div className="favorites__locations locations locations--current">
-                        <div className="locations__item">
-                          <a className="locations__item-link" href="#">
-                            <span>{elem}</span>
-                          </a>
-                        </div>
-                      </div>
-
-                      <div className="favorites__places">
-
-                        {/* рендерит превью мест */}
-                        <PreviewPlacesWrappedHoc
-                          // properties
-                          offers={filterFavoriteOffers(elem)}
-                          history={history}
-                          location={location}
-                          // handlers
-                          getActiveItem={getCurrentOffer}
-                        />
-
-                      </div>
-
-                    </li>
-                  )}
-
-              </ul>
+              {/* рендерит список избранных городов */}
+              <FavoriteCities
+                // properties
+                favoriteOffers={favoriteOffers}
+                favoriteCities={favoriteCities}
+                history={history}
+                location={location}
+                // handlers
+                getCurrentOffer={getCurrentOffer}
+              />
 
             </section>
 
@@ -91,6 +70,8 @@ const Favorites = ({favoriteOffers, favoriteCities, history, location, getCurren
 Favorites.propTypes = {
   favoriteOffers: PropTypes.arrayOf(PropTypes.object),
   favoriteCities: PropTypes.arrayOf(PropTypes.string),
+  authorizationStatus: PropTypes.string,
+  userData: PropTypes.object,
   history: PropTypes.object,
   location: PropTypes.object,
   getCurrentOffer: PropTypes.func,
@@ -99,6 +80,7 @@ Favorites.propTypes = {
 const mapStateToProps = (state) => ({
   favoriteOffers: getFavoriteOffers(state),
   favoriteCities: getFavoriteCitiesSelector(state),
+  userData: getUserData(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
