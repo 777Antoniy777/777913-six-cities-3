@@ -2,22 +2,26 @@
 
 exports[`render PreviewPlace 1`] = `
 <article
-  className="place-card near-places__card"
+  className="place-card"
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
 >
   <div
-    className="place-card__image-wrapper near-places__image-wrapper"
+    className="place-card__image-wrapper"
   >
     <a
       href="#"
     >
       <img
-        alt="Place image"
+        alt="title 1"
         className="place-card__image"
-        height={200}
         src="img/image1"
-        width={260}
+        style={
+          Object {
+            "height": 200,
+            "width": 260,
+          }
+        }
       />
     </a>
   </div>

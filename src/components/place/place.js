@@ -209,7 +209,6 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
         </section>
 
         { extendedOffersForPreviews.length > 0 &&
-
           <div className="container">
 
             <section className="near-places places">
@@ -231,7 +230,6 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
             </section>
 
           </div>
-
         }
 
       </main>

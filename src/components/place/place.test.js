@@ -126,7 +126,16 @@ const reviews = [
 const reviewsRequestStatus = `status`;
 const reviewsRequestMessage = `message`;
 const authorizationStatus = `AUTH`;
+const userData = {
+  id: 1,
+  name: `name`,
+  avatar: `avatar`,
+  status: true,
+};
 const history = {};
+const location = {
+  pathname: `/pathname`,
+};
 
 const getCurrentOffer = () => {};
 const getReviewsOnGet = () => {};
@@ -147,6 +156,7 @@ const store = mockStore({
   },
   user: {
     authorizationStatus: `NO_AUTH`,
+    userData: null,
   }
 });
 
@@ -166,7 +176,9 @@ it(`render Place`, () => {
             reviewsRequestMessage={reviewsRequestMessage}
             reviews={reviews}
             authorizationStatus={authorizationStatus}
+            userData={userData}
             history={history}
+            location={location}
             getCurrentOffer={getCurrentOffer}
             getReviewsOnGet={getReviewsOnGet}
             getReviewsOnPost={getReviewsOnPost}

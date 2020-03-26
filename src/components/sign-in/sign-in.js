@@ -5,7 +5,7 @@ import {getUserData} from "../../reducers/user/selectors";
 import {UserAsyncActionCreator} from "../../actions/user/async-action-creator";
 import Header from "../header/header";
 
-const SignIn = ({email, password, onInputChange, isFieldEmpty, isEmailValid, login, authorizationStatus, userData}) => {
+const SignIn = ({email, password, login, location, authorizationStatus, userData, onInputChange, isFieldEmpty, isEmailValid}) => {
   const handleFormSubmit = (evt) => {
     evt.preventDefault();
   };
@@ -84,6 +84,7 @@ SignIn.propTypes = {
   isFieldEmpty: PropTypes.func,
   isEmailValid: PropTypes.func,
   login: PropTypes.func,
+  location: PropTypes.object,
   authorizationStatus: PropTypes.string,
   userData: PropTypes.object,
 };

@@ -15,7 +15,13 @@ exports[`render Header 1`] = `
       >
         <a
           className="header__logo-link"
-          href="main.html"
+          href="/"
+          onClick={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+            }
+          }
         >
           <img
             alt="6 cities logo"

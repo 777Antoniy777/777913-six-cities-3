@@ -11,6 +11,9 @@ const userData = {
   avatar: `avatar`,
   status: true,
 };
+const location = {
+  pathname: `/pathname`,
+};
 
 it(`render Header`, () => {
   const tree = renderer.create(
@@ -18,6 +21,7 @@ it(`render Header`, () => {
         <Header
           authorizationStatus={authorizationStatus}
           userData={userData}
+          location={location}
         />
       </BrowserRouter>)
       .toJSON();
