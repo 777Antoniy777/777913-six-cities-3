@@ -47,49 +47,15 @@ const placeData = {
   ],
   coord: [1, 1],
 };
-const offer = {
-  id: 1,
-  city: {
-    id: 1,
-    name: `city`,
-    coords: [1, 1],
-  },
-  title: `title 1`,
-  premium: false,
-  src: `img/image1`,
-  photos: [`img/image1`],
-  price: 999999,
-  description: `test`,
-  type: `type`,
-  rating: 9999,
-  bedroomAmount: 30,
-  guestsAmount: 50,
-  items: [`item`],
-  host: {
-    avatar: `img/avatar-1.jpg`,
-    name: `name`,
-    status: false,
-  },
-  reviews: [
-    {
-      id: 1,
-      body: `text`,
-      rating: 5,
-      name: `name`,
-      date: `date`,
-    },
-  ],
-  coord: [1, 1],
-};
 const authorizationStatus = `AUTH`;
 const history = {
   push: jest.fn()
 };
+const location = {
+  pathname: `/pathname`,
+};
 
 const store = mockStore({
-  offer: {
-    offer,
-  },
   user: {
     authorizationStatus: `NO_AUTH`,
   }
@@ -113,9 +79,9 @@ describe(`PreviewPlace should call correct callbacks`, () => {
           <Provider store={store}>
             <PreviewPlace
               placeData={placeData}
-              offer={offer}
               authorizationStatus={authorizationStatus}
               history={history}
+              location={location}
               getActiveItem={getActiveItem}
             />
           </Provider>
@@ -148,9 +114,9 @@ describe(`PreviewPlace should call correct callbacks`, () => {
           <Provider store={store}>
             <PreviewPlace
               placeData={placeData}
-              offer={offer}
               authorizationStatus={authorizationStatus}
               history={history}
+              location={location}
               getHoveredOffer={getHoveredOffer}
             />
           </Provider>
@@ -181,9 +147,9 @@ describe(`PreviewPlace should call correct callbacks`, () => {
           <Provider store={store}>
             <PreviewPlace
               placeData={placeData}
-              offer={offer}
               authorizationStatus={authorizationStatus}
               history={history}
+              location={location}
               removeHoveredOffer={removeHoveredOffer}
             />
           </Provider>
@@ -207,7 +173,7 @@ describe(`PreviewPlace should call correct callbacks`, () => {
       store.clearActions();
     });
 
-    const {id, premium} = offer;
+    const {id, premium} = placeData;
     const setFavoriteStatus = jest.fn((val) => val);
 
     const previewPlace = mount(
@@ -215,9 +181,9 @@ describe(`PreviewPlace should call correct callbacks`, () => {
           <Provider store={store}>
             <PreviewPlace
               placeData={placeData}
-              offer={offer}
               authorizationStatus={authorizationStatus}
               history={history}
+              location={location}
               setFavoriteStatus={setFavoriteStatus}
             />
           </Provider>
