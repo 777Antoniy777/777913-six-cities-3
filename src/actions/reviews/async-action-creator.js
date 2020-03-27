@@ -58,7 +58,7 @@ const createAdapter = (json) => {
 };
 
 const ReviewsAsyncActionCreator = {
-  getReviewsOnGet: (hotelId) => (dispatch, getState, api) => {
+  getReviews: (hotelId) => (dispatch, getState, api) => {
     return api.get(`/comments/${hotelId}`)
       .then((response) => {
         response = createAdapter(response.data);
@@ -75,7 +75,7 @@ const ReviewsAsyncActionCreator = {
       });
   },
 
-  getReviewsOnPost: (hotelId, comment, rating, onClearForm, onSetSubmitButtonStatus) => (dispatch, getState, api) => {
+  sendReview: (hotelId, comment, rating, onClearForm, onSetSubmitButtonStatus) => (dispatch, getState, api) => {
     const options = setOptions(comment, rating);
 
     return api.post(`/comments/${hotelId}`, options)

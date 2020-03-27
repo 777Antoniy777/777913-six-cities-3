@@ -24,6 +24,11 @@ export default function createState(state = initialState, action) {
         hoveredOffer: action.payload,
       });
 
+    case OfferActionType.GET_FAVORITE_OFFER:
+      return extend(state, {
+        offer: action.payload,
+      });
+
     default:
       return state;
   }

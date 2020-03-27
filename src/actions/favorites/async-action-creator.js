@@ -1,5 +1,6 @@
 import {FavoritesActionCreator} from "./action-creator";
 import {OffersActionCreator} from "../offers/action-creator";
+import {OfferActionCreator} from "../offer/action-creator";
 
 const createAdapterOnGet = (json) => {
   const arr = [];
@@ -166,6 +167,7 @@ const FavoritesAsyncActionCreator = {
         response = createAdapterOnPost(response.data);
 
         dispatch(OffersActionCreator.getFavoriteOffer(response));
+        dispatch(OfferActionCreator.getFavoriteOffer(response));
         dispatch(FavoritesActionCreator.getFavoriteOffer(response));
         dispatch(FavoritesActionCreator.setFavoriteRequestStatus(`success`));
         dispatch(FavoritesActionCreator.setFavoriteRequestMessage(null));

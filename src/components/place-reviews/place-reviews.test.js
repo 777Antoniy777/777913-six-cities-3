@@ -18,7 +18,7 @@ const reviews = [
 it(`render PlaceReviews`, () => {
   const tree = renderer.create(
       <PlaceReviews
-        data={reviews}
+        reviews={reviews}
       />)
       .toJSON();
 

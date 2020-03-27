@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const PlaceReviews = ({data: reviews}) => {
+const PlaceReviews = ({reviews}) => {
   return (
     <ul className="reviews__list">
 
@@ -20,6 +20,17 @@ const PlaceReviews = ({data: reviews}) => {
 const PlaceReview = ({review}) => {
   const {user, comment, rating, date} = review;
   const {name, avatar} = user;
+
+  const getDate = (dateReview) => {
+    const months = [`January`, `February`, `March`, `April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`];
+    const actualDate = new Date(dateReview);
+    const year = actualDate.getFullYear();
+    const indexMonth = actualDate.getMonth();
+    const month = months.find((elem, i) => i === indexMonth);
+    const complexDate = `${month} ${year}`;
+
+    return complexDate;
+  };
 
   const getRating = (val) => {
     let ratingStars = Math.round(val);
@@ -48,7 +59,7 @@ const PlaceReview = ({review}) => {
         <p className="reviews__text">
           {comment}
         </p>
-        <time className="reviews__time" dateTime={date}>{date}</time>
+        <time className="reviews__time" dateTime={date}>{getDate(date)}</time>
       </div>
 
     </li>
@@ -56,7 +67,7 @@ const PlaceReview = ({review}) => {
 };
 
 PlaceReviews.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object),
+  reviews: PropTypes.arrayOf(PropTypes.object),
 };
 
 PlaceReview.propTypes = {

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {AuthorizationStatus, AppRoute} from "../../enums";
 import PlaceFormReviewsStar from "../place-form-reviews-star/place-form-reviews-star";
 
-const PlaceFormReviews = ({offerId, authorizationStatus, review, rating, submitButtonStatus, errors, history, getReviewsOnPost, onSetSubmitButtonStatus, isCommentValid, isStarChoose, handleInputChange, onClearForm}) => {
+const PlaceFormReviews = ({offerId, authorizationStatus, review, rating, submitButtonStatus, errors, history, sendReview, onSetSubmitButtonStatus, isCommentValid, isStarChoose, handleInputChange, onClearForm}) => {
   const starTitles = [
     {
       id: 5,
@@ -61,7 +61,7 @@ const PlaceFormReviews = ({offerId, authorizationStatus, review, rating, submitB
     }
 
     onSetSubmitButtonStatus(true);
-    getReviewsOnPost(offerId, review, isRating, onClearForm, onSetSubmitButtonStatus);
+    sendReview(offerId, review, isRating, onClearForm, onSetSubmitButtonStatus);
 
     return true;
   };
@@ -111,7 +111,7 @@ PlaceFormReviews.propTypes = {
   submitButtonStatus: PropTypes.bool,
   errors: PropTypes.arrayOf(PropTypes.string),
   history: PropTypes.object,
-  getReviewsOnPost: PropTypes.func,
+  sendReview: PropTypes.func,
   onSetSubmitButtonStatus: PropTypes.func,
   isCommentValid: PropTypes.func,
   isStarChoose: PropTypes.func,

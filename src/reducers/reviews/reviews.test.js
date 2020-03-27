@@ -64,13 +64,13 @@ describe(`Async action creator work correctly`, () => {
     const apiMock = new MockAdapter(api);
     const hotelId = 10;
     const dispatch = jest.fn();
-    const getReviewsOnGet = ReviewsAsyncActionCreator.getReviewsOnGet(hotelId);
+    const getReviews = ReviewsAsyncActionCreator.getReviews(hotelId);
 
     apiMock
       .onGet(`/comments/${hotelId}`)
       .reply(200, reviews);
 
-    return getReviewsOnGet(dispatch, () => {}, api)
+    return getReviews(dispatch, () => {}, api)
       .then(() => {
         expect(dispatch).toHaveBeenCalledTimes(3);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
@@ -96,13 +96,13 @@ describe(`Async action creator work correctly`, () => {
     const onClearForm = jest.fn();
     const onSetSubmitButtonStatus = jest.fn();
     const dispatch = jest.fn();
-    const getReviewsOnPost = ReviewsAsyncActionCreator.getReviewsOnPost(hotelId, comment, rating, onClearForm, onSetSubmitButtonStatus);
+    const sendReview = ReviewsAsyncActionCreator.sendReview(hotelId, comment, rating, onClearForm, onSetSubmitButtonStatus);
 
     apiMock
       .onPost(`/comments/${hotelId}`, {comment, rating})
       .reply(200, reviews);
 
-    return getReviewsOnPost(dispatch, () => {}, api)
+    return sendReview(dispatch, () => {}, api)
       .then(() => {
         onClearForm();
         onSetSubmitButtonStatus(true);

@@ -6,10 +6,11 @@ import classNames from 'classnames';
 import {AuthorizationStatus, AppRoute} from "../../enums";
 import {ImageBigStyle, ImageSmallStyle} from "../../style";
 import {OfferActionCreator} from '../../actions/offer/action-creator';
+import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-creator";
 import {FavoritesAsyncActionCreator} from "../../actions/favorites/async-action-creator";
 import {getAuthorizationStatus} from "../../reducers/user/selectors";
 
-const PreviewPlace = ({placeData, authorizationStatus, history, location, getActiveItem, getHoveredOffer, removeHoveredOffer, setFavoriteStatus}) => {
+const PreviewPlace = ({placeData, authorizationStatus, history, location, getActiveItem, getHoveredOffer, removeHoveredOffer, setFavoriteStatus, getReviews}) => {
   const {id, title, premium, favorite, src, price, type, rating} = placeData;
   let imageStyle = ImageBigStyle;
   let pathname;
@@ -57,6 +58,7 @@ const PreviewPlace = ({placeData, authorizationStatus, history, location, getAct
   const handleTitleClick = (evt) => {
     evt.preventDefault();
 
+    getReviews(id);
     getActiveItem(placeData);
     window.scrollTo(0, 0);
   };
@@ -158,6 +160,7 @@ PreviewPlace.propTypes = {
   removeHoveredOffer: PropTypes.func,
   getHoveredOffer: PropTypes.func,
   setFavoriteStatus: PropTypes.func,
+  getReviews: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -174,8 +177,12 @@ const mapDispatchToProps = (dispatch) => ({
   setFavoriteStatus: (hotelId, status) => {
     dispatch(FavoritesAsyncActionCreator.setFavoriteStatus(hotelId, status));
   },
+  getReviews: (offerId) => {
+    dispatch(ReviewsAsyncActionCreator.getReviews(offerId));
+  },
 });
 
+export {PreviewPlace};
 export default connect(
     mapStateToProps,
     mapDispatchToProps

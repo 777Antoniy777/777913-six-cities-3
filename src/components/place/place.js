@@ -1,17 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {connect} from 'react-redux';
-import {AuthorizationStatus} from "../../enums";
+import classNames from 'classnames';
+import {AuthorizationStatus, AppRoute} from "../../enums";
 import {OfferActionCreator} from "../../actions/offer/action-creator";
 import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-creator";
+import {FavoritesAsyncActionCreator} from "../../actions/favorites/async-action-creator";
 import {getOffer, getHoveredOffer} from "../../reducers/offer/selectors";
 import {getInitialOffersSelector} from "../../reducers/offers/selectors";
-import {getReviewsRequestStatus, getReviewsRequestMessage, getReviews} from "../../reducers/reviews/selectors";
+import {getReviewsRequestStatus, getReviewsRequestMessage, getReviewsSelector} from "../../reducers/reviews/selectors";
 import {getUserData} from "../../reducers/user/selectors";
 import {ErrorReviewWrapperStyle, ErrorMessageStyle} from "../../style";
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 import withMap from "../../hocs/with-map/with-map";
-import withLoadData from "../../hocs/with-load-data/with-load-data";
 import withPlaceFormReviews from "../../hocs/with-place-form-reviews/with-place-form-reviews";
 import Header from "../header/header";
 import PlacePhotos from "../place-photos/place-photos";
@@ -25,11 +26,10 @@ import ErrorMessage from "../error-message/error-message";
 
 const PreviewPlacesWrappedHOC = withActiveItem(PreviewPlaces);
 const MapWrappedHOC = withMap(Map);
-const PlaceReviewsWrappedHOC = withLoadData(PlaceReviews);
 const PlaceFormReviewsWrappedHOC = withPlaceFormReviews(PlaceFormReviews);
 
-const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, reviews, authorizationStatus, userData, history, location: routeLocation, getCurrentOffer, getReviewsOnGet, getReviewsOnPost}) => {
-  const {id, title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offer;
+const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, reviews, authorizationStatus, userData, history, location: routeLocation, getCurrentOffer, sendReview, setFavoriteStatus}) => {
+  const {id, title, premium, favorite, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offer;
   const {avatar, name, status} = host;
   const splittedReviews = reviews.slice(0, 10);
   const reviewsLength = splittedReviews.length;
@@ -37,6 +37,12 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
   if (hoveredOffer) {
     hoveredLocation = hoveredOffer.location;
   }
+
+  const favoriteButtonClass = classNames({
+    'button': true,
+    'property__bookmark-button': true,
+    'property__bookmark-button--active': favorite,
+  });
 
   const getRating = (val) => {
     let ratingStars = Math.round(val);
@@ -50,6 +56,19 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
       return elem.id !== offer.id;
     });
     return filteredOffers.slice(0, 3);
+  };
+
+  const handleFavoriteButtonClick = (evt) => {
+    evt.preventDefault();
+
+    if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
+      history.push(AppRoute.SIGN_IN);
+      return false;
+    }
+
+    setFavoriteStatus(id, +!favorite);
+
+    return true;
   };
 
   const extendedOffersForMap = splitOffers();
@@ -96,7 +115,7 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
                   {title}
                 </h1>
 
-                <button className="property__bookmark-button button" type="button">
+                <button className={favoriteButtonClass} type="button" onClick={handleFavoriteButtonClick}>
                   <svg className="property__bookmark-icon" width={31} height={33}>
                     <use xlinkHref="#icon-bookmark" />
                   </svg>
@@ -158,12 +177,9 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
                 <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewsLength}</span></h2>
 
                 {/* рендерит отзывы пользователей */}
-                <PlaceReviewsWrappedHOC
+                <PlaceReviews
                   // properties
-                  offerId={id}
-                  data={splittedReviews}
-                  // handlers
-                  getData={getReviewsOnGet}
+                  reviews={splittedReviews}
                 />
 
                 {/* рендерит ошибку, если сервер недоступен */}
@@ -184,7 +200,7 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
                     authorizationStatus={authorizationStatus}
                     history={history}
                     // handlers
-                    getReviewsOnPost={getReviewsOnPost}
+                    sendReview={sendReview}
                   />
                 }
 
@@ -284,8 +300,8 @@ Place.propTypes = {
   history: PropTypes.object,
   location: PropTypes.object,
   getCurrentOffer: PropTypes.func,
-  getReviewsOnGet: PropTypes.func,
-  getReviewsOnPost: PropTypes.func,
+  sendReview: PropTypes.func,
+  setFavoriteStatus: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -294,7 +310,7 @@ const mapStateToProps = (state) => ({
   hoveredOffer: getHoveredOffer(state),
   reviewsRequestStatus: getReviewsRequestStatus(state),
   reviewsRequestMessage: getReviewsRequestMessage(state),
-  reviews: getReviews(state),
+  reviews: getReviewsSelector(state),
   userData: getUserData(state),
 });
 
@@ -302,11 +318,11 @@ const mapDispatchToProps = (dispatch) => ({
   getCurrentOffer: (offer) => {
     dispatch(OfferActionCreator.getCurrentOffer(offer));
   },
-  getReviewsOnGet: (offerId) => {
-    dispatch(ReviewsAsyncActionCreator.getReviewsOnGet(offerId));
+  sendReview: (offerId, comment, rating, onClearForm, onSetSubmitButtonStatus) => {
+    dispatch(ReviewsAsyncActionCreator.sendReview(offerId, comment, rating, onClearForm, onSetSubmitButtonStatus));
   },
-  getReviewsOnPost: (offerId, comment, rating, onClearForm, onSetSubmitButtonStatus) => {
-    dispatch(ReviewsAsyncActionCreator.getReviewsOnPost(offerId, comment, rating, onClearForm, onSetSubmitButtonStatus));
+  setFavoriteStatus: (hotelId, status) => {
+    dispatch(FavoritesAsyncActionCreator.setFavoriteStatus(hotelId, status));
   },
 });
 

@@ -52,6 +52,7 @@ const getActiveItem = () => {};
 const getHoveredOffer = () => {};
 const removeHoveredOffer = () => {};
 const setFavoriteStatus = () => {};
+const getReviews = () => {};
 
 const store = mockStore({
   user: {
@@ -76,6 +77,7 @@ it(`render PreviewPlace`, () => {
             getHoveredOffer={getHoveredOffer}
             removeHoveredOffer={removeHoveredOffer}
             setFavoriteStatus={setFavoriteStatus}
+            getReviews={getReviews}
           />
         </Provider>
       </BrowserRouter>)

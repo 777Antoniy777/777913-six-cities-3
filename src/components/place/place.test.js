@@ -138,8 +138,7 @@ const location = {
 };
 
 const getCurrentOffer = () => {};
-const getReviewsOnGet = () => {};
-const getReviewsOnPost = () => {};
+const sendReview = () => {};
 
 const store = mockStore({
   offers: {
@@ -180,8 +179,7 @@ it(`render Place`, () => {
             history={history}
             location={location}
             getCurrentOffer={getCurrentOffer}
-            getReviewsOnGet={getReviewsOnGet}
-            getReviewsOnPost={getReviewsOnPost}
+            sendReview={sendReview}
           />
         </Provider>
       </BrowserRouter>)

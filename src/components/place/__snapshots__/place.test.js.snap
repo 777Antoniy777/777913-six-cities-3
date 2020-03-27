@@ -100,7 +100,8 @@ exports[`render Place 1`] = `
               title 1
             </h1>
             <button
-              className="property__bookmark-button button"
+              className="button property__bookmark-button"
+              onClick={[Function]}
               type="button"
             >
               <svg
@@ -303,7 +304,9 @@ exports[`render Place 1`] = `
                   />
                   <time
                     className="reviews__time"
-                  />
+                  >
+                    undefined NaN
+                  </time>
                 </div>
               </li>
             </ul>

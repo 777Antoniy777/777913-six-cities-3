@@ -3,6 +3,7 @@ import createAPI from "../../api.js";
 import offerState from "./favorites";
 import {FavoritesActionType, FavoritesActionCreator} from "../../actions/favorites/action-creator";
 import {OffersActionType} from "../../actions/offers/action-creator";
+import {OfferActionType} from "../../actions/offer/action-creator";
 import {FavoritesAsyncActionCreator} from "../../actions/favorites/async-action-creator";
 
 const api = createAPI(() => {});
@@ -176,20 +177,24 @@ describe(`Async action creator work correctly`, () => {
 
     return setFavoriteStatus(dispatch, () => {}, api)
       .then(() => {
-        expect(dispatch).toHaveBeenCalledTimes(4);
+        expect(dispatch).toHaveBeenCalledTimes(5);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
           type: OffersActionType.GET_FAVORITE_OFFER,
           payload: favoriteOffer,
         });
         expect(dispatch).toHaveBeenNthCalledWith(2, {
-          type: FavoritesActionType.GET_FAVORITE_OFFER,
+          type: OfferActionType.GET_FAVORITE_OFFER,
           payload: favoriteOffer,
         });
         expect(dispatch).toHaveBeenNthCalledWith(3, {
+          type: FavoritesActionType.GET_FAVORITE_OFFER,
+          payload: favoriteOffer,
+        });
+        expect(dispatch).toHaveBeenNthCalledWith(4, {
           type: FavoritesActionType.SET_FAVORITE_REQUEST_STATUS,
           payload: `success`,
         });
-        expect(dispatch).toHaveBeenNthCalledWith(4, {
+        expect(dispatch).toHaveBeenNthCalledWith(5, {
           type: FavoritesActionType.SET_FAVORITE_REQUEST_MESSAGE,
           payload: null,
         });
