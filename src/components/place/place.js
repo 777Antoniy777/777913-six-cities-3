@@ -7,7 +7,7 @@ import {OfferActionCreator} from "../../actions/offer/action-creator";
 import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-creator";
 import {FavoritesAsyncActionCreator} from "../../actions/favorites/async-action-creator";
 import {getOffer, getHoveredOffer} from "../../reducers/offer/selectors";
-import {getInitialOffersSelector} from "../../reducers/offers/selectors";
+import {getInitialOffersSelector, getMapOffersSelector, getNearbyOffers} from "../../reducers/offers/selectors";
 import {getReviewsRequestStatus, getReviewsRequestMessage, getReviewsSelector} from "../../reducers/reviews/selectors";
 import {getUserData} from "../../reducers/user/selectors";
 import {ErrorReviewWrapperStyle, ErrorMessageStyle} from "../../style";
@@ -28,7 +28,7 @@ const PreviewPlacesWrappedHOC = withActiveItem(PreviewPlaces);
 const MapWrappedHOC = withMap(Map);
 const PlaceFormReviewsWrappedHOC = withPlaceFormReviews(PlaceFormReviews);
 
-const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, reviews, authorizationStatus, userData, history, location: routeLocation, getCurrentOffer, sendReview, setFavoriteStatus}) => {
+const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, reviews, authorizationStatus, userData, history, location: routeLocation, nearbyOffers, mapOffers, getCurrentOffer, sendReview, setFavoriteStatus}) => {
   const {id, title, premium, favorite, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offer;
   const {avatar, name, status} = host;
   const splittedReviews = reviews.slice(0, 10);
@@ -51,13 +51,6 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
     return `${ratingStars}%`;
   };
 
-  const splitOffers = () => {
-    const filteredOffers = offers.filter((elem) => {
-      return elem.id !== offer.id;
-    });
-    return filteredOffers.slice(0, 3);
-  };
-
   const handleFavoriteButtonClick = (evt) => {
     evt.preventDefault();
 
@@ -70,10 +63,6 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
 
     return true;
   };
-
-  const extendedOffersForMap = splitOffers();
-  const extendedOffersForPreviews = splitOffers();
-  extendedOffersForMap.push(offer);
 
   return (
     <div className="page">
@@ -215,7 +204,7 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
             { offers.length > 0 &&
               <MapWrappedHOC
                 // properties
-                offers={extendedOffersForMap}
+                offers={mapOffers}
                 activelocation={location}
                 hoveredLocation={hoveredLocation}
               />
@@ -224,7 +213,7 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
           </section>
         </section>
 
-        { extendedOffersForPreviews.length > 0 &&
+        { nearbyOffers.length > 0 &&
           <div className="container">
 
             <section className="near-places places">
@@ -235,7 +224,7 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
                 {/* рендерит превью мест */}
                 <PreviewPlacesWrappedHOC
                   // properties
-                  offers={extendedOffersForPreviews}
+                  offers={nearbyOffers}
                   location={routeLocation}
                   // handlers
                   getActiveItem={getCurrentOffer}
@@ -299,6 +288,8 @@ Place.propTypes = {
   userData: PropTypes.object,
   history: PropTypes.object,
   location: PropTypes.object,
+  nearbyOffers: PropTypes.arrayOf(PropTypes.object),
+  mapOffers: PropTypes.arrayOf(PropTypes.object),
   getCurrentOffer: PropTypes.func,
   sendReview: PropTypes.func,
   setFavoriteStatus: PropTypes.func,
@@ -312,6 +303,8 @@ const mapStateToProps = (state) => ({
   reviewsRequestMessage: getReviewsRequestMessage(state),
   reviews: getReviewsSelector(state),
   userData: getUserData(state),
+  nearbyOffers: getNearbyOffers(state),
+  mapOffers: getMapOffersSelector(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -92,6 +92,23 @@ const OffersAsyncActionCreator = {
         throw error;
       });
   },
+
+  getNearbyOffers: (hotelId) => (dispatch, getState, api) => {
+    return api.get(`/hotels/${hotelId}/nearby`)
+      .then((response) => {
+        response = createAdapter(response.data);
+
+        dispatch(OffersActionCreator.getNearbyOffers(response));
+        dispatch(OffersActionCreator.setOffersRequestStatus(`success`));
+        dispatch(OffersActionCreator.setOffersRequestMessage(null));
+      })
+      .catch(function (error) {
+        dispatch(OffersActionCreator.setOffersRequestStatus(`error`));
+        dispatch(OffersActionCreator.setOffersRequestMessage(`Ошибка загрузки предложений. Попробуйте позже`));
+
+        throw error;
+      });
+  },
 };
 
 export {OffersAsyncActionCreator};

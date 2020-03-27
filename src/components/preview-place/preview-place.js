@@ -8,9 +8,10 @@ import {ImageBigStyle, ImageSmallStyle} from "../../style";
 import {OfferActionCreator} from '../../actions/offer/action-creator';
 import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-creator";
 import {FavoritesAsyncActionCreator} from "../../actions/favorites/async-action-creator";
+import {OffersAsyncActionCreator} from "../../actions/offers/async-action-creator";
 import {getAuthorizationStatus} from "../../reducers/user/selectors";
 
-const PreviewPlace = ({placeData, authorizationStatus, history, location, getActiveItem, getHoveredOffer, removeHoveredOffer, setFavoriteStatus, getReviews}) => {
+const PreviewPlace = ({placeData, authorizationStatus, history, location, getActiveItem, getHoveredOffer, removeHoveredOffer, setFavoriteStatus, getReviews, getNearbyOffers}) => {
   const {id, title, premium, favorite, src, price, type, rating} = placeData;
   let imageStyle = ImageBigStyle;
   let pathname;
@@ -59,6 +60,7 @@ const PreviewPlace = ({placeData, authorizationStatus, history, location, getAct
     evt.preventDefault();
 
     getReviews(id);
+    getNearbyOffers(id);
     getActiveItem(placeData);
     window.scrollTo(0, 0);
   };
@@ -161,6 +163,7 @@ PreviewPlace.propTypes = {
   getHoveredOffer: PropTypes.func,
   setFavoriteStatus: PropTypes.func,
   getReviews: PropTypes.func,
+  getNearbyOffers: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -179,6 +182,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getReviews: (offerId) => {
     dispatch(ReviewsAsyncActionCreator.getReviews(offerId));
+  },
+  getNearbyOffers: (offerId) => {
+    dispatch(OffersAsyncActionCreator.getNearbyOffers(offerId));
   },
 });
 

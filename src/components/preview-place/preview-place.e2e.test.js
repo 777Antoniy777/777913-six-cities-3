@@ -56,6 +56,7 @@ const location = {
 };
 
 const getReviews = () => {};
+const getNearbyOffers = () => {};
 
 const store = mockStore({
   user: {
@@ -86,6 +87,7 @@ describe(`PreviewPlace should call correct callbacks`, () => {
               location={location}
               getActiveItem={getActiveItem}
               getReviews={getReviews}
+              getNearbyOffers={getNearbyOffers}
             />
           </Provider>
         </BrowserRouter>
@@ -122,6 +124,7 @@ describe(`PreviewPlace should call correct callbacks`, () => {
               location={location}
               getHoveredOffer={getHoveredOffer}
               getReviews={getReviews}
+              getNearbyOffers={getNearbyOffers}
             />
           </Provider>
         </BrowserRouter>
@@ -156,6 +159,7 @@ describe(`PreviewPlace should call correct callbacks`, () => {
               location={location}
               removeHoveredOffer={removeHoveredOffer}
               getReviews={getReviews}
+              getNearbyOffers={getNearbyOffers}
             />
           </Provider>
         </BrowserRouter>
@@ -191,6 +195,7 @@ describe(`PreviewPlace should call correct callbacks`, () => {
               location={location}
               setFavoriteStatus={setFavoriteStatus}
               getReviews={getReviews}
+              getNearbyOffers={getNearbyOffers}
             />
           </Provider>
         </BrowserRouter>

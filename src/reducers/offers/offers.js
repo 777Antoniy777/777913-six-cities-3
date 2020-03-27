@@ -7,6 +7,7 @@ const initialState = {
   city: null,
   initialOffers: [],
   offers: [],
+  nearbyOffers: [],
 };
 
 export default function createState(state = initialState, action) {
@@ -30,6 +31,11 @@ export default function createState(state = initialState, action) {
     case OffersActionType.GET_OFFERS:
       return extend(state, {
         offers: action.payload.slice(),
+      });
+
+    case OffersActionType.GET_NEARBY_OFFERS:
+      return extend(state, {
+        nearbyOffers: action.payload,
       });
 
     case OffersActionType.GET_INITIAL_CITY:
