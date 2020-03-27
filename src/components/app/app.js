@@ -3,24 +3,21 @@ import PropTypes from "prop-types";
 import {connect} from 'react-redux';
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 import {AuthorizationStatus, AppRoute} from "../../enums";
-import {getAuthorizationStatus, getUserData} from "../../reducers/user/selectors";
+import {getAuthorizationStatus} from "../../reducers/user/selectors";
 import {getOffer} from "../../reducers/offer/selectors";
+import {FavoritesAsyncActionCreator} from "../../actions/favorites/async-action-creator";
 import PrivateRoute from "../private-route/private-route";
 import withSignIn from "../../hocs/with-sign-in/with-sign-in";
+import withLoadData from "../../hocs/with-load-data/with-load-data";
 import Main from '../main/main';
 import Place from '../place/place';
 import SignIn from "../sign-in/sign-in";
-import Header from "../header/header";
-
-const Favorites = () => {
-  return (
-    <p>Favorites</p>
-  );
-};
+import Favorites from "../favorites/favorites";
 
 const SignInWrappedHOC = withSignIn(SignIn);
+const FavoritesWrappedHOC = withLoadData(Favorites);
 
-const App = ({offer, authorizationStatus, userData}) => {
+const App = ({offer, authorizationStatus, getFavoriteOffers}) => {
   let id;
 
   if (!authorizationStatus) {
@@ -33,18 +30,14 @@ const App = ({offer, authorizationStatus, userData}) => {
 
   return (
     <BrowserRouter>
-      <Header
-        // properties
-        authorizationStatus={authorizationStatus}
-        userData={userData}
-      />
-
       <Switch>
         <Route
           path={AppRoute.MAIN} exact
           render={(props) => (
             <Main
+              authorizationStatus={authorizationStatus}
               history={props.history}
+              location={props.location}
             />
           )}
         />
@@ -53,7 +46,9 @@ const App = ({offer, authorizationStatus, userData}) => {
           path={AppRoute.OFFER(id)}
           render={(props) => (
             <Place
+              authorizationStatus={authorizationStatus}
               history={props.history}
+              location={props.location}
             />
           )}
         />
@@ -70,10 +65,12 @@ const App = ({offer, authorizationStatus, userData}) => {
         <PrivateRoute
           // properties
           path={AppRoute.FAVORITES}
-          component={Favorites}
+          component={FavoritesWrappedHOC}
           condRedirect={AuthorizationStatus.AUTH}
           linkRedirect={AppRoute.SIGN_IN}
           authorizationStatus={authorizationStatus}
+          // handlers
+          getData={getFavoriteOffers}
         />
 
       </Switch>
@@ -86,14 +83,22 @@ App.propTypes = {
   authorizationStatus: PropTypes.string,
   userData: PropTypes.object,
   history: PropTypes.object,
+  location: PropTypes.object,
+  getFavoriteOffers: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
   offer: getOffer(state),
   authorizationStatus: getAuthorizationStatus(state),
-  userData: getUserData(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getFavoriteOffers: (offers) => {
+    dispatch(FavoritesAsyncActionCreator.getFavoriteOffers(offers));
+  },
 });
 
 export default connect(
-    mapStateToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(App);

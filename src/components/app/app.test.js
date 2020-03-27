@@ -114,12 +114,8 @@ const offer = {
   coord: [1, 1],
 };
 const authorizationStatus = `AUTH`;
-const userData = {
-  id: 1,
-  name: `name`,
-  avatar: `avatar`,
-  status: true,
-};
+
+const getFavoriteOffers = () => {};
 
 const store = mockStore({
   offers: {
@@ -132,7 +128,6 @@ const store = mockStore({
   },
   user: {
     authorizationStatus: `NO_AUTH`,
-    userData: null,
   }
 });
 
@@ -146,7 +141,7 @@ it(`render App`, () => {
         <App
           offer={offer}
           authorizationStatus={authorizationStatus}
-          userData={userData}
+          getFavoriteOffers={getFavoriteOffers}
         />
       </Provider>)
       .toJSON();

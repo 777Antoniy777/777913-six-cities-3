@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import {connect} from 'react-redux';
+import {getUserData} from "../../reducers/user/selectors";
 import {UserAsyncActionCreator} from "../../actions/user/async-action-creator";
+import Header from "../header/header";
 
-const SignIn = ({email, password, onInputChange, isFieldEmpty, isEmailValid, login}) => {
+const SignIn = ({email, password, login, location, authorizationStatus, userData, onInputChange, isFieldEmpty, isEmailValid}) => {
   const handleFormSubmit = (evt) => {
     evt.preventDefault();
   };
@@ -27,6 +29,14 @@ const SignIn = ({email, password, onInputChange, isFieldEmpty, isEmailValid, log
 
   return (
     <div className="page page--gray page--login">
+
+      {/* Хедер приложения */}
+      <Header
+        // properties
+        authorizationStatus={authorizationStatus}
+        userData={userData}
+        location={location}
+      />
 
       <main className="page__main page__main--login">
 
@@ -74,7 +84,14 @@ SignIn.propTypes = {
   isFieldEmpty: PropTypes.func,
   isEmailValid: PropTypes.func,
   login: PropTypes.func,
+  location: PropTypes.object,
+  authorizationStatus: PropTypes.string,
+  userData: PropTypes.object,
 };
+
+const mapStateToProps = (state) => ({
+  userData: getUserData(state),
+});
 
 const mapDispatchToProps = (dispatch) => ({
   login: (email, password) => {
@@ -83,6 +100,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(SignIn);

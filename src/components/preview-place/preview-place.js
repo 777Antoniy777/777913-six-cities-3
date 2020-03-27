@@ -4,24 +4,41 @@ import {Link} from "react-router-dom";
 import {connect} from 'react-redux';
 import classNames from 'classnames';
 import {AuthorizationStatus, AppRoute} from "../../enums";
+import {ImageBigStyle, ImageSmallStyle} from "../../style";
 import {OfferActionCreator} from '../../actions/offer/action-creator';
 import {FavoritesAsyncActionCreator} from "../../actions/favorites/async-action-creator";
-import {getOffer} from "../../reducers/offer/selectors";
 import {getAuthorizationStatus} from "../../reducers/user/selectors";
 
-const PreviewPlace = ({placeData, offer, authorizationStatus, history, getActiveItem, getHoveredOffer, removeHoveredOffer, setFavoriteStatus}) => {
+const PreviewPlace = ({placeData, authorizationStatus, history, location, getActiveItem, getHoveredOffer, removeHoveredOffer, setFavoriteStatus}) => {
   const {id, title, premium, favorite, src, price, type, rating} = placeData;
+  let imageStyle = ImageBigStyle;
+  let pathname;
+
+  if (location) {
+    pathname = location.pathname;
+  }
+
+  if (pathname === `/favorites`) {
+    imageStyle = ImageSmallStyle;
+  }
 
   const placeWrapperClass = classNames({
     'place-card': true,
-    'cities__place-card': !offer,
-    'near-places__card': offer,
+    'cities__place-card': pathname === `/`,
+    'near-places__card': pathname.startsWith(`/offer`),
+    'favorites__card': pathname === `/favorites`,
   });
 
   const placeImageWrapperClass = classNames({
     'place-card__image-wrapper': true,
-    'cities__image-wrapper': !offer,
-    'near-places__image-wrapper': offer,
+    'cities__image-wrapper': pathname === `/`,
+    'near-places__image-wrapper': pathname.startsWith(`/offer`),
+    'favorites__image-wrapper': pathname === `/favorites`,
+  });
+
+  const placeInfoWrapperClass = classNames({
+    'place-card__info': true,
+    'favorites__card-info': pathname === `/favorites`,
   });
 
   const favoriteButtonClass = classNames({
@@ -76,11 +93,11 @@ const PreviewPlace = ({placeData, offer, authorizationStatus, history, getActive
 
       <div className={placeImageWrapperClass}>
         <a href="#">
-          <img className="place-card__image" src={src} width={260} height={200} alt="Place image" />
+          <img className="place-card__image" style={imageStyle} src={src} alt={title} />
         </a>
       </div>
 
-      <div className="place-card__info">
+      <div className={placeInfoWrapperClass}>
 
         <div className="place-card__price-wrapper">
 
@@ -134,25 +151,9 @@ PreviewPlace.propTypes = {
     items: PropTypes.arrayOf(PropTypes.string),
     host: PropTypes.object,
   }),
-  offer: PropTypes.shape({
-    id: PropTypes.number,
-    city: PropTypes.object,
-    title: PropTypes.string,
-    premium: PropTypes.bool,
-    favorite: PropTypes.bool,
-    src: PropTypes.string,
-    photos: PropTypes.arrayOf(PropTypes.string),
-    price: PropTypes.number,
-    description: PropTypes.string,
-    type: PropTypes.string,
-    rating: PropTypes.number,
-    bedroomAmount: PropTypes.number,
-    guestsAmount: PropTypes.number,
-    items: PropTypes.arrayOf(PropTypes.string),
-    host: PropTypes.object,
-  }),
   authorizationStatus: PropTypes.string,
   history: PropTypes.object,
+  location: PropTypes.object,
   getActiveItem: PropTypes.func,
   removeHoveredOffer: PropTypes.func,
   getHoveredOffer: PropTypes.func,
@@ -160,7 +161,6 @@ PreviewPlace.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  offer: getOffer(state),
   authorizationStatus: getAuthorizationStatus(state),
 });
 

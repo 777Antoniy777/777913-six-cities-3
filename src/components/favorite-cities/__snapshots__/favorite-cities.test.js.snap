@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render FavoriteCities 1`] = `
+<ul
+  className="favorites__list"
+>
+  <li
+    className="favorites__locations-items"
+  >
+    <div
+      className="favorites__locations locations locations--current"
+    >
+      <div
+        className="locations__item"
+      >
+        <a
+          className="locations__item-link"
+          href="#"
+        >
+          <span>
+            Moscow
+          </span>
+        </a>
+      </div>
+    </div>
+    <div
+      className="favorites__places"
+    />
+  </li>
+  <li
+    className="favorites__locations-items"
+  >
+    <div
+      className="favorites__locations locations locations--current"
+    >
+      <div
+        className="locations__item"
+      >
+        <a
+          className="locations__item-link"
+          href="#"
+        >
+          <span>
+            Omsk
+          </span>
+        </a>
+      </div>
+    </div>
+    <div
+      className="favorites__places"
+    />
+  </li>
+</ul>
+`;
