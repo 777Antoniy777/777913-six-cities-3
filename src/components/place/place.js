@@ -28,9 +28,18 @@ const PreviewPlacesWrappedHOC = withActiveItem(PreviewPlaces);
 const MapWrappedHOC = withMap(Map);
 const PlaceFormReviewsWrappedHOC = withPlaceFormReviews(PlaceFormReviews);
 
-const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, reviews, authorizationStatus, userData, history, location: routeLocation, nearbyOffers, mapOffers, getCurrentOffer, sendReview, setFavoriteStatus}) => {
-  const {id, title, premium, favorite, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offer;
+const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, reviews, authorizationStatus, userData, history, location: routeLocation, match, nearbyOffers, mapOffers, getCurrentOffer, sendReview, setFavoriteStatus}) => {
+  // const {id, title, premium, favorite, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offer;
+  // const {avatar, name, status} = host;
+
+  const routeParameter = match.params.hotelID;
+  const offerTest = offers.find((elem) => {
+    return elem.id === +routeParameter;
+  });
+
+  const {id, title, premium, favorite, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offerTest;
   const {avatar, name, status} = host;
+
   const splittedReviews = reviews.slice(0, 10);
   const reviewsLength = splittedReviews.length;
   let hoveredLocation = null;
@@ -201,7 +210,7 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
           <section className="property__map map">
 
             {/* карта с маркерами */}
-            { offers.length > 0 &&
+            { mapOffers.length > 0 &&
               <MapWrappedHOC
                 // properties
                 offers={mapOffers}
@@ -288,6 +297,7 @@ Place.propTypes = {
   userData: PropTypes.object,
   history: PropTypes.object,
   location: PropTypes.object,
+  match: PropTypes.object,
   nearbyOffers: PropTypes.arrayOf(PropTypes.object),
   mapOffers: PropTypes.arrayOf(PropTypes.object),
   getCurrentOffer: PropTypes.func,

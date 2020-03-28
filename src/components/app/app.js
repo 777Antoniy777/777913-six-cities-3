@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import {connect} from 'react-redux';
-import {BrowserRouter, Switch, Route} from "react-router-dom";
+import {BrowserRouter, Switch, Route, Link} from "react-router-dom";
 import {AuthorizationStatus, AppRoute} from "../../enums";
 import {getAuthorizationStatus} from "../../reducers/user/selectors";
 import {getOffer} from "../../reducers/offer/selectors";
@@ -18,15 +18,14 @@ const SignInWrappedHOC = withSignIn(SignIn);
 const FavoritesWrappedHOC = withLoadData(Favorites);
 
 const App = ({offer, authorizationStatus, getFavoriteOffers}) => {
-  let id;
-
   if (!authorizationStatus) {
     return false;
   }
 
-  if (offer) {
-    id = offer.id;
-  }
+  // let id;
+  // if (offer) {
+  //   id = offer.id;
+  // }
 
   return (
     <BrowserRouter>
@@ -43,12 +42,14 @@ const App = ({offer, authorizationStatus, getFavoriteOffers}) => {
         />
 
         <Route
-          path={AppRoute.OFFER(id)}
+          path={`/offer/:hotelID`}
+          // path={AppRoute.OFFER(id)}
           render={(props) => (
             <Place
               authorizationStatus={authorizationStatus}
               history={props.history}
               location={props.location}
+              match={props.match}
             />
           )}
         />
@@ -73,6 +74,19 @@ const App = ({offer, authorizationStatus, getFavoriteOffers}) => {
           getData={getFavoriteOffers}
         />
 
+        <Route
+          render={() => (
+            <React.Fragment>
+              <h1>
+                404.
+                <br />
+                <small>Page not found</small>
+              </h1>
+              <Link to="/">Go to main page</Link>
+            </React.Fragment>
+          )}
+        />
+
       </Switch>
     </BrowserRouter>
   );
@@ -84,6 +98,7 @@ App.propTypes = {
   userData: PropTypes.object,
   history: PropTypes.object,
   location: PropTypes.object,
+  match: PropTypes.object,
   getFavoriteOffers: PropTypes.func,
 };
 
