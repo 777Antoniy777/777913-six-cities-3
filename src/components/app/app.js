@@ -74,9 +74,9 @@ const App = ({authorizationStatus, getFavoriteOffers}) => {
         />
 
         <Route
-          render={() => (
-            <NotFound />
-          )}
+          // properties
+          path={``}
+          render={() => (<NotFound />)}
         />
 
       </Switch>
