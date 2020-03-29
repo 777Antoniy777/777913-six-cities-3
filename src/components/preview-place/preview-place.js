@@ -1,16 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
-import {connect} from 'react-redux';
-import classNames from 'classnames';
+import {connect} from "react-redux";
+import classNames from "classnames";
 import {AuthorizationStatus, AppRoute} from "../../enums";
 import {ImageBigStyle, ImageSmallStyle, ErrorReviewWrapperStyle, ErrorMessageStyle} from "../../style";
-import {OfferActionCreator} from '../../actions/offer/action-creator';
+import {getAuthorizationStatus} from "../../reducers/user/selectors";
+import {getFavoritesRequestStatus, getFavoritesRequestMessage} from "../../reducers/favorites/selectors";
+import {OfferActionCreator} from "../../actions/offer/action-creator";
 import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-creator";
 import {FavoritesAsyncActionCreator} from "../../actions/favorites/async-action-creator";
 import {OffersAsyncActionCreator} from "../../actions/offers/async-action-creator";
-import {getAuthorizationStatus} from "../../reducers/user/selectors";
-import {getFavoritesRequestStatus, getFavoritesRequestMessage} from "../../reducers/favorites/selectors";
 import ErrorMessage from "../error-message/error-message";
 
 const PreviewPlace = ({placeData, favoritesRequestStatus, favoritesRequestMessage, authorizationStatus, history, location, getActiveItem, getHoveredOffer, removeHoveredOffer, setFavoriteStatus, getReviews, getNearbyOffers}) => {

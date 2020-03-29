@@ -1,6 +1,6 @@
 import MockAdapter from "axios-mock-adapter";
 import createAPI from "../../api.js";
-import offersState from './offers';
+import offersState from "./offers";
 import {OffersActionType, OffersActionCreator} from "../../actions/offers/action-creator";
 import {OffersAsyncActionCreator} from "../../actions/offers/async-action-creator";
 

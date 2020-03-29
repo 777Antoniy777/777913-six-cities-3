@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 import renderer from "react-test-renderer";
-import PlaceHost from './place-host';
+import PlaceHost from "./place-host";
 
 // set mocha data
 const status = false;

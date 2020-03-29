@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 import PropTypes from "prop-types";
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
-import PreviewPlaces from '../preview-places/preview-places';
+import PreviewPlaces from "../preview-places/preview-places";
 
 const PreviewPlacesWrappedHoc = withActiveItem(PreviewPlaces);
 

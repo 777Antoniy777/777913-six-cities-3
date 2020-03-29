@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 import renderer from "react-test-renderer";
-import Map from './map';
+import Map from "./map";
 
 // set mocha data
 const map = React.createRef();

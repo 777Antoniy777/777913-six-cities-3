@@ -1,5 +1,5 @@
-import offerState from './offer';
-import {OfferActionType, OfferActionCreator} from '../../actions/offer/action-creator';
+import offerState from "./offer";
+import {OfferActionType, OfferActionCreator} from "../../actions/offer/action-creator";
 
 const offer = {
   id: 1,

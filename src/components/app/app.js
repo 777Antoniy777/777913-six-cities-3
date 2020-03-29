@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 import PropTypes from "prop-types";
-import {connect} from 'react-redux';
+import {connect} from "react-redux";
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 import {AuthorizationStatus, AppRoute} from "../../enums";
 import {getAuthorizationStatus} from "../../reducers/user/selectors";

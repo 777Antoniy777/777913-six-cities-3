@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 import renderer from "react-test-renderer";
-import PlaceReviews from './place-reviews';
+import PlaceReviews from "./place-reviews";
 
 // set mocha data
 const reviews = [

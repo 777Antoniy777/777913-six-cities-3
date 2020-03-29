@@ -1,7 +1,7 @@
 import MockAdapter from "axios-mock-adapter";
 import createAPI from "../../api.js";
 import {AuthorizationStatus} from "../../enums";
-import userState from './user';
+import userState from "./user";
 import {UserActionType, UserActionCreator} from "../../actions/user/action-creator";
 import {UserAsyncActionCreator} from "../../actions/user/async-action-creator";
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import renderer from "react-test-renderer";
 import PlaceFormReviewsStar from "./place-form-reviews-star";
 

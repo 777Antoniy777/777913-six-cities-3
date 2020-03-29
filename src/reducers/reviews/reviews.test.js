@@ -1,6 +1,6 @@
 import MockAdapter from "axios-mock-adapter";
 import createAPI from "../../api.js";
-import reviewsState from './reviews';
+import reviewsState from "./reviews";
 import {ReviewsActionType, ReviewsActionCreator} from "../../actions/reviews/action-creator";
 import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-creator";
 

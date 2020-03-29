@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 import PropTypes from "prop-types";
-import {connect} from 'react-redux';
+import {connect} from "react-redux";
 import {Link} from "react-router-dom";
-import classNames from 'classnames';
+import classNames from "classnames";
 import {AppRoute} from "../../enums";
+import {ErrorMainWrapperStyle, ErrorMessageStyle} from "../../style";
 import {getFavoriteCitiesSelector, getFavoriteOffers, getFavoritesRequestStatus, getFavoritesRequestMessage} from "../../reducers/favorites/selectors";
 import {getUserData} from "../../reducers/user/selectors";
-import {ErrorMainWrapperStyle, ErrorMessageStyle} from "../../style";
 import {OfferActionCreator} from "../../actions/offer/action-creator";
 import Header from "../header/header";
 import FavoritesEmpty from "../favorites-empty/favorites-empty";
