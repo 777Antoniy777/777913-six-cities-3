@@ -197,6 +197,10 @@ const reviews = [
 ];
 const reviewsRequestStatus = `status`;
 const reviewsRequestMessage = `message`;
+const offersRequestStatus = `status`;
+const offersRequestMessage = `message`;
+const favoritesRequestStatus = `status`;
+const favoritesRequestMessage = `message`;
 const authorizationStatus = `AUTH`;
 const userData = {
   id: 1,
@@ -207,6 +211,11 @@ const userData = {
 const history = {};
 const location = {
   pathname: `/pathname`,
+};
+const match = {
+  params: {
+    hotelID: 1,
+  },
 };
 
 const getCurrentOffer = () => {};
@@ -226,6 +235,10 @@ const store = mockStore({
     requestStatus: null,
     requestMessage: null,
     reviews,
+  },
+  favorites: {
+    requestStatus: null,
+    requestMessage: null,
   },
   user: {
     authorizationStatus: `NO_AUTH`,
@@ -247,11 +260,16 @@ it(`render Place`, () => {
             hoveredOffer={hoveredOffer}
             reviewsRequestStatus={reviewsRequestStatus}
             reviewsRequestMessage={reviewsRequestMessage}
+            offersRequestStatus={offersRequestStatus}
+            offersRequestMessage={offersRequestMessage}
+            favoritesRequestStatus={favoritesRequestStatus}
+            favoritesRequestMessage={favoritesRequestMessage}
             reviews={reviews}
             authorizationStatus={authorizationStatus}
             userData={userData}
             history={history}
             location={location}
+            match={match}
             nearbyOffers={nearbyOffers}
             mapOffers={mapOffers}
             getCurrentOffer={getCurrentOffer}

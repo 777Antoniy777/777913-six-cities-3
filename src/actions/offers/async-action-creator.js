@@ -1,3 +1,4 @@
+import {StartResponseProperty, EndResponseProperty} from "../../enums";
 import {OffersActionCreator} from "./action-creator";
 
 const createAdapter = (json) => {
@@ -12,28 +13,28 @@ const createAdapter = (json) => {
         val = obj[key];
 
         switch (key) {
-          case `preview_image`:
-            newObj.src = val;
+          case StartResponseProperty.PREVIEW_IMAGE:
+            newObj[EndResponseProperty.SRC] = val;
             break;
-          case `bedrooms`:
-            newObj.bedroomAmount = val;
+          case StartResponseProperty.BEDROOMS:
+            newObj[EndResponseProperty.BEDROOM_AMOUNT] = val;
             break;
-          case `max_adults`:
-            newObj.guestsAmount = val;
+          case StartResponseProperty.MAX_ADULTS:
+            newObj[EndResponseProperty.GUESTS_AMOUNT] = val;
             break;
-          case `is_favorite`:
-            newObj.favorite = val;
+          case StartResponseProperty.IS_FAVORITE:
+            newObj[EndResponseProperty.FAVORITE] = val;
             break;
-          case `is_premium`:
-            newObj.premium = val;
+          case StartResponseProperty.IS_PREMIUM:
+            newObj[EndResponseProperty.PREMIUM] = val;
             break;
-          case `images`:
-            newObj.photos = val;
+          case StartResponseProperty.IMAGES:
+            newObj[EndResponseProperty.PHOTOS] = val;
             break;
-          case `goods`:
-            newObj.items = val;
+          case StartResponseProperty.GOODS:
+            newObj[EndResponseProperty.ITEMS] = val;
             break;
-          case `host`:
+          case StartResponseProperty.HOST:
             const hostObj = val;
             const newHostObj = {};
             let hostVal = ``;
@@ -43,11 +44,11 @@ const createAdapter = (json) => {
                 hostVal = hostObj[hostKey];
 
                 switch (hostKey) {
-                  case `is_pro`:
-                    newHostObj.status = hostVal;
+                  case StartResponseProperty.IS_PRO:
+                    newHostObj[EndResponseProperty.STATUS] = hostVal;
                     break;
-                  case `avatar_url`:
-                    newHostObj.avatar = hostVal;
+                  case StartResponseProperty.AVATAR_URL:
+                    newHostObj[EndResponseProperty.AVATAR] = hostVal;
                     break;
                   default:
                     newHostObj[hostKey] = hostVal;
@@ -57,7 +58,7 @@ const createAdapter = (json) => {
               }
             }
 
-            newObj.host = newHostObj;
+            newObj[StartResponseProperty.HOST] = newHostObj;
             break;
           default:
             newObj[key] = val;

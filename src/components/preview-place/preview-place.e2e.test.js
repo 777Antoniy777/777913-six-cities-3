@@ -48,6 +48,8 @@ const placeData = {
   coord: [1, 1],
 };
 const authorizationStatus = `AUTH`;
+const favoritesRequestStatus = `status`;
+const favoritesRequestMessage = `message`;
 const history = {
   push: jest.fn()
 };
@@ -59,6 +61,10 @@ const getReviews = () => {};
 const getNearbyOffers = () => {};
 
 const store = mockStore({
+  favorites: {
+    requestStatus: null,
+    requestMessage: null,
+  },
   user: {
     authorizationStatus: `NO_AUTH`,
   }
@@ -83,6 +89,8 @@ describe(`PreviewPlace should call correct callbacks`, () => {
             <PreviewPlace
               placeData={placeData}
               authorizationStatus={authorizationStatus}
+              favoritesRequestStatus={favoritesRequestStatus}
+              favoritesRequestMessage={favoritesRequestMessage}
               history={history}
               location={location}
               getActiveItem={getActiveItem}
@@ -120,6 +128,8 @@ describe(`PreviewPlace should call correct callbacks`, () => {
             <PreviewPlace
               placeData={placeData}
               authorizationStatus={authorizationStatus}
+              favoritesRequestStatus={favoritesRequestStatus}
+              favoritesRequestMessage={favoritesRequestMessage}
               history={history}
               location={location}
               getHoveredOffer={getHoveredOffer}
@@ -155,6 +165,8 @@ describe(`PreviewPlace should call correct callbacks`, () => {
             <PreviewPlace
               placeData={placeData}
               authorizationStatus={authorizationStatus}
+              favoritesRequestStatus={favoritesRequestStatus}
+              favoritesRequestMessage={favoritesRequestMessage}
               history={history}
               location={location}
               removeHoveredOffer={removeHoveredOffer}
@@ -191,6 +203,8 @@ describe(`PreviewPlace should call correct callbacks`, () => {
             <PreviewPlace
               placeData={placeData}
               authorizationStatus={authorizationStatus}
+              favoritesRequestStatus={favoritesRequestStatus}
+              favoritesRequestMessage={favoritesRequestMessage}
               history={history}
               location={location}
               setFavoriteStatus={setFavoriteStatus}

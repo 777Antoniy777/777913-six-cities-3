@@ -43,6 +43,8 @@ const placeData = {
   coord: [1, 1],
 };
 const authorizationStatus = `AUTH`;
+const favoritesRequestStatus = `status`;
+const favoritesRequestMessage = `message`;
 const history = {};
 const location = {
   pathname: `/pathname`,
@@ -56,6 +58,10 @@ const getReviews = () => {};
 const getNearbyOffers = () => {};
 
 const store = mockStore({
+  favorites: {
+    requestStatus: null,
+    requestMessage: null,
+  },
   user: {
     authorizationStatus: `NO_AUTH`,
   }
@@ -72,6 +78,8 @@ it(`render PreviewPlace`, () => {
           <PreviewPlace
             placeData={placeData}
             authorizationStatus={authorizationStatus}
+            favoritesRequestStatus={favoritesRequestStatus}
+            favoritesRequestMessage={favoritesRequestMessage}
             history={history}
             location={location}
             getActiveItem={getActiveItem}

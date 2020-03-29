@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 import {AuthorizationStatus, AppRoute} from "../../enums";
 import {getAuthorizationStatus} from "../../reducers/user/selectors";
-import {getOffer} from "../../reducers/offer/selectors";
+// import {getOffer} from "../../reducers/offer/selectors";
 import {FavoritesAsyncActionCreator} from "../../actions/favorites/async-action-creator";
 import PrivateRoute from "../private-route/private-route";
 import withSignIn from "../../hocs/with-sign-in/with-sign-in";
@@ -18,7 +18,7 @@ import NotFound from "../not-found/not-found";
 const SignInWrappedHOC = withSignIn(SignIn);
 const FavoritesWrappedHOC = withLoadData(Favorites);
 
-const App = ({offer, authorizationStatus, getFavoriteOffers}) => {
+const App = ({authorizationStatus, getFavoriteOffers}) => {
   if (!authorizationStatus) {
     return false;
   }
@@ -43,8 +43,7 @@ const App = ({offer, authorizationStatus, getFavoriteOffers}) => {
         />
 
         <Route
-          path={`/offer/:hotelID`}
-          // path={AppRoute.OFFER(id)}
+          path={AppRoute.OFFER.ROUTE}
           render={(props) => (
             <Place
               // properties
@@ -86,14 +85,14 @@ const App = ({offer, authorizationStatus, getFavoriteOffers}) => {
 };
 
 App.propTypes = {
-  offer: PropTypes.object,
+  // offer: PropTypes.object,
   authorizationStatus: PropTypes.string,
   userData: PropTypes.object,
   getFavoriteOffers: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
-  offer: getOffer(state),
+  // offer: getOffer(state),
   authorizationStatus: getAuthorizationStatus(state),
 });
 

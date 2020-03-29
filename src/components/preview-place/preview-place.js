@@ -139,7 +139,7 @@ const PreviewPlace = ({placeData, favoritesRequestStatus, favoritesRequestMessag
         </div>
 
         <h2 className="place-card__name" onClick={handleTitleClick}>
-          <Link to={AppRoute.OFFER(id)}>{title}</Link>
+          <Link to={AppRoute.OFFER.setLink(id)}>{title}</Link>
         </h2>
 
         <p className="place-card__type">{type}</p>

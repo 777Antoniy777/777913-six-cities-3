@@ -48,6 +48,8 @@ const favoriteCities = [
   `Moscow`,
   `Omsk`,
 ];
+const favoritesRequestStatus = `status`;
+const favoritesRequestMessage = `message`;
 const authorizationStatus = `AUTH`;
 const userData = {
   id: 1,
@@ -81,6 +83,8 @@ it(`render Favorites`, () => {
       <BrowserRouter>
         <Provider store={store}>
           <Favorites
+            favoritesRequestStatus={favoritesRequestStatus}
+            favoritesRequestMessage={favoritesRequestMessage}
             favoriteOffers={favoriteOffers}
             favoriteCities={favoriteCities}
             authorizationStatus={authorizationStatus}

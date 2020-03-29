@@ -150,6 +150,10 @@ const store = mockStore({
     initialOffers,
     offers,
   },
+  favorites: {
+    requestStatus: null,
+    requestMessage: null,
+  },
   user: {
     authorizationStatus: `NO_AUTH`,
     userData: null,

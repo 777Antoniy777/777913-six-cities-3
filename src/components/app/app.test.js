@@ -126,6 +126,10 @@ const store = mockStore({
   offer: {
     offer,
   },
+  favorites: {
+    requestStatus: null,
+    requestMessage: null,
+  },
   user: {
     authorizationStatus: `NO_AUTH`,
   }
