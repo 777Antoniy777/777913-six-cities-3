@@ -75,7 +75,7 @@ const App = ({authorizationStatus, getFavoriteOffers}) => {
 
         <Route
           // properties
-          path={``}
+          path={AppRoute.NOT_FOUND.ROUTE}
           render={() => (<NotFound />)}
         />
 

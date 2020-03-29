@@ -44,6 +44,10 @@ const AppRoute = {
     ROUTE: `/offer/:hotelID`,
     setLink: (offerId) => `/offer/${offerId}`,
   },
+  NOT_FOUND: {
+    ROUTE: ``,
+    LINK: `/404`,
+  },
 };
 
 export {FilterType, StartResponseProperty, EndResponseProperty, AuthorizationStatus, AppRoute};

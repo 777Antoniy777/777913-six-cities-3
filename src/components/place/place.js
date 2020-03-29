@@ -4,13 +4,14 @@ import {connect} from "react-redux";
 import classNames from "classnames";
 import {AuthorizationStatus, AppRoute} from "../../enums";
 import {ErrorReviewWrapperStyle, ErrorMessageStyle} from "../../style";
-import {getOffer, getHoveredOffer} from "../../reducers/offer/selectors";
-import {getInitialOffersSelector, getMapOffersSelector, getOffersRequestStatus, getOffersRequestMessage, getNearbyOffers} from "../../reducers/offers/selectors";
+import {getHoveredOffer} from "../../reducers/offer/selectors";
+import {getMapOffersSelector, getOffersRequestStatus, getOffersRequestMessage, getInitialOffers, getNearbyOffers} from "../../reducers/offers/selectors";
 import {getReviewsRequestStatus, getReviewsRequestMessage, getReviewsSelector} from "../../reducers/reviews/selectors";
 import {getUserData} from "../../reducers/user/selectors";
 import {getFavoritesRequestStatus, getFavoritesRequestMessage} from "../../reducers/favorites/selectors";
 import {OfferActionCreator} from "../../actions/offer/action-creator";
 import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-creator";
+import {OffersAsyncActionCreator} from "../../actions/offers/async-action-creator";
 import {FavoritesAsyncActionCreator} from "../../actions/favorites/async-action-creator";
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 import withMap from "../../hocs/with-map/with-map";
@@ -29,35 +30,29 @@ const PreviewPlacesWrappedHOC = withActiveItem(PreviewPlaces);
 const MapWrappedHOC = withMap(Map);
 const PlaceFormReviewsWrappedHOC = withPlaceFormReviews(PlaceFormReviews);
 
-const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, offersRequestStatus, offersRequestMessage, favoritesRequestStatus, favoritesRequestMessage, reviews, authorizationStatus, userData, history, location: routeLocation, match, nearbyOffers, mapOffers, getCurrentOffer, sendReview, setFavoriteStatus}) => {
-  // const {id, title, premium, favorite, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offer;
-  // const {avatar, name, status} = host;
+const Place = ({offers, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, offersRequestStatus, offersRequestMessage, favoritesRequestStatus, favoritesRequestMessage, reviews, authorizationStatus, userData, history, location: routeLocation, match, nearbyOffers, mapOffers, getCurrentOffer, sendReview, setFavoriteStatus, getReviews, getNearbyOffers}) => {
 
-  console.log(match, match.params.hotelID)
-
-  if (!match || !offers) {
+  if (offers.length === 0) {
     return false;
   }
 
   const routeParameter = match.params.hotelID;
+  const offer = offers.find((elem) => elem.id === +routeParameter);
 
-  // if (!routeParameter) {
-  //   return false;
-  // }
-
-  const offerTest = offers.find((elem) => {
-    console.log(offers, +routeParameter)
-    return elem.id === +routeParameter;
-  });
-
-  console.log(offerTest)
-
-  if (!offerTest) {
+  if (!offer) {
+    history.push(AppRoute.NOT_FOUND.LINK);
     return false;
   }
 
-  const {id, title, premium, favorite, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offerTest;
+  const {id, title, premium, favorite, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offer;
   const {avatar, name, status} = host;
+
+  if (reviews.length === 0) {
+    getReviews(id);
+  }
+
+  // getReviews(id);
+  // getNearbyOffers(id);
 
   const splittedReviews = reviews.slice(0, 10);
   const reviewsLength = splittedReviews.length;
@@ -293,24 +288,6 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
 
 Place.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.object),
-  offer: PropTypes.shape({
-    id: PropTypes.number,
-    city: PropTypes.object,
-    title: PropTypes.string,
-    premium: PropTypes.bool,
-    favorite: PropTypes.bool,
-    src: PropTypes.string,
-    photos: PropTypes.arrayOf(PropTypes.string),
-    price: PropTypes.number,
-    description: PropTypes.string,
-    type: PropTypes.string,
-    rating: PropTypes.number,
-    bedroomAmount: PropTypes.number,
-    guestsAmount: PropTypes.number,
-    items: PropTypes.arrayOf(PropTypes.string),
-    host: PropTypes.object,
-    location: PropTypes.objectOf(PropTypes.number),
-  }),
   hoveredOffer: PropTypes.shape({
     id: PropTypes.number,
     city: PropTypes.object,
@@ -349,8 +326,7 @@ Place.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  offers: getInitialOffersSelector(state),
-  offer: getOffer(state),
+  offers: getInitialOffers(state),
   hoveredOffer: getHoveredOffer(state),
   offersRequestStatus: getOffersRequestStatus(state),
   offersRequestMessage: getOffersRequestMessage(state),
@@ -373,6 +349,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   setFavoriteStatus: (hotelId, status) => {
     dispatch(FavoritesAsyncActionCreator.setFavoriteStatus(hotelId, status));
+  },
+  getReviews: (offerId) => {
+    dispatch(ReviewsAsyncActionCreator.getReviews(offerId));
+  },
+  getNearbyOffers: (offerId) => {
+    dispatch(OffersAsyncActionCreator.getNearbyOffers(offerId));
   },
 });
 

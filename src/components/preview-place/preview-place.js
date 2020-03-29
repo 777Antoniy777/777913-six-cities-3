@@ -61,8 +61,8 @@ const PreviewPlace = ({placeData, favoritesRequestStatus, favoritesRequestMessag
   const handleTitleClick = (evt) => {
     evt.preventDefault();
 
-    getReviews(id);
-    getNearbyOffers(id);
+    // getReviews(id);
+    // getNearbyOffers(id);
     getActiveItem(placeData);
     window.scrollTo(0, 0);
   };
@@ -196,12 +196,12 @@ const mapDispatchToProps = (dispatch) => ({
   setFavoriteStatus: (hotelId, status) => {
     dispatch(FavoritesAsyncActionCreator.setFavoriteStatus(hotelId, status));
   },
-  getReviews: (offerId) => {
-    dispatch(ReviewsAsyncActionCreator.getReviews(offerId));
-  },
-  getNearbyOffers: (offerId) => {
-    dispatch(OffersAsyncActionCreator.getNearbyOffers(offerId));
-  },
+  // getReviews: (offerId) => {
+  //   dispatch(ReviewsAsyncActionCreator.getReviews(offerId));
+  // },
+  // getNearbyOffers: (offerId) => {
+  //   dispatch(OffersAsyncActionCreator.getNearbyOffers(offerId));
+  // },
 });
 
 export {PreviewPlace};
