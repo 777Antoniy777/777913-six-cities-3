@@ -3,14 +3,15 @@ import PropTypes from "prop-types";
 import {connect} from 'react-redux';
 import classNames from 'classnames';
 import {AuthorizationStatus, AppRoute} from "../../enums";
+import {ErrorReviewWrapperStyle, ErrorMessageStyle} from "../../style";
 import {OfferActionCreator} from "../../actions/offer/action-creator";
 import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-creator";
 import {FavoritesAsyncActionCreator} from "../../actions/favorites/async-action-creator";
 import {getOffer, getHoveredOffer} from "../../reducers/offer/selectors";
-import {getInitialOffersSelector, getMapOffersSelector, getNearbyOffers} from "../../reducers/offers/selectors";
+import {getInitialOffersSelector, getMapOffersSelector, getOffersRequestStatus, getOffersRequestMessage, getNearbyOffers} from "../../reducers/offers/selectors";
 import {getReviewsRequestStatus, getReviewsRequestMessage, getReviewsSelector} from "../../reducers/reviews/selectors";
 import {getUserData} from "../../reducers/user/selectors";
-import {ErrorReviewWrapperStyle, ErrorMessageStyle} from "../../style";
+import {getFavoritesRequestStatus, getFavoritesRequestMessage} from "../../reducers/favorites/selectors";
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 import withMap from "../../hocs/with-map/with-map";
 import withPlaceFormReviews from "../../hocs/with-place-form-reviews/with-place-form-reviews";
@@ -28,7 +29,7 @@ const PreviewPlacesWrappedHOC = withActiveItem(PreviewPlaces);
 const MapWrappedHOC = withMap(Map);
 const PlaceFormReviewsWrappedHOC = withPlaceFormReviews(PlaceFormReviews);
 
-const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, reviews, authorizationStatus, userData, history, location: routeLocation, match, nearbyOffers, mapOffers, getCurrentOffer, sendReview, setFavoriteStatus}) => {
+const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, offersRequestStatus, offersRequestMessage, favoritesRequestStatus, favoritesRequestMessage, reviews, authorizationStatus, userData, history, location: routeLocation, match, nearbyOffers, mapOffers, getCurrentOffer, sendReview, setFavoriteStatus}) => {
   // const {id, title, premium, favorite, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offer;
   // const {avatar, name, status} = host;
 
@@ -132,6 +133,16 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
                 <span className="property__rating-value rating__value">{rating}</span>
               </div>
 
+              {/* рендерит ошибку, если сервер недоступен */}
+              { favoritesRequestStatus === `error` &&
+                <ErrorMessage
+                  // properties
+                  requestMessage={favoritesRequestMessage}
+                  wrapperStyle={ErrorReviewWrapperStyle}
+                  messageStyle={ErrorMessageStyle}
+                />
+              }
+
               <ul className="property__features">
 
                 <li className="property__feature property__feature--entire">
@@ -222,6 +233,16 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
           </section>
         </section>
 
+        {/* рендерит ошибку, если сервер недоступен */}
+        { offersRequestStatus === `error` &&
+          <ErrorMessage
+            // properties
+            requestMessage={offersRequestMessage}
+            wrapperStyle={ErrorReviewWrapperStyle}
+            messageStyle={ErrorMessageStyle}
+          />
+        }
+
         { nearbyOffers.length > 0 &&
           <div className="container">
 
@@ -292,6 +313,10 @@ Place.propTypes = {
   }),
   reviewsRequestStatus: PropTypes.string,
   reviewsRequestMessage: PropTypes.string,
+  offersRequestStatus: PropTypes.string,
+  offersRequestMessage: PropTypes.string,
+  favoritesRequestStatus: PropTypes.string,
+  favoritesRequestMessage: PropTypes.string,
   reviews: PropTypes.arrayOf(PropTypes.object),
   authorizationStatus: PropTypes.string,
   userData: PropTypes.object,
@@ -309,8 +334,12 @@ const mapStateToProps = (state) => ({
   offers: getInitialOffersSelector(state),
   offer: getOffer(state),
   hoveredOffer: getHoveredOffer(state),
+  offersRequestStatus: getOffersRequestStatus(state),
+  offersRequestMessage: getOffersRequestMessage(state),
   reviewsRequestStatus: getReviewsRequestStatus(state),
   reviewsRequestMessage: getReviewsRequestMessage(state),
+  favoritesRequestStatus: getFavoritesRequestStatus(state),
+  favoritesRequestMessage: getFavoritesRequestMessage(state),
   reviews: getReviewsSelector(state),
   userData: getUserData(state),
   nearbyOffers: getNearbyOffers(state),

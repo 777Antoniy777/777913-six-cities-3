@@ -4,14 +4,16 @@ import {Link} from "react-router-dom";
 import {connect} from 'react-redux';
 import classNames from 'classnames';
 import {AuthorizationStatus, AppRoute} from "../../enums";
-import {ImageBigStyle, ImageSmallStyle} from "../../style";
+import {ImageBigStyle, ImageSmallStyle, ErrorReviewWrapperStyle, ErrorMessageStyle} from "../../style";
 import {OfferActionCreator} from '../../actions/offer/action-creator';
 import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-creator";
 import {FavoritesAsyncActionCreator} from "../../actions/favorites/async-action-creator";
 import {OffersAsyncActionCreator} from "../../actions/offers/async-action-creator";
 import {getAuthorizationStatus} from "../../reducers/user/selectors";
+import {getFavoritesRequestStatus, getFavoritesRequestMessage} from "../../reducers/favorites/selectors";
+import ErrorMessage from "../error-message/error-message";
 
-const PreviewPlace = ({placeData, authorizationStatus, history, location, getActiveItem, getHoveredOffer, removeHoveredOffer, setFavoriteStatus, getReviews, getNearbyOffers}) => {
+const PreviewPlace = ({placeData, favoritesRequestStatus, favoritesRequestMessage, authorizationStatus, history, location, getActiveItem, getHoveredOffer, removeHoveredOffer, setFavoriteStatus, getReviews, getNearbyOffers}) => {
   const {id, title, premium, favorite, src, price, type, rating} = placeData;
   let imageStyle = ImageBigStyle;
   let pathname;
@@ -119,6 +121,16 @@ const PreviewPlace = ({placeData, authorizationStatus, history, location, getAct
 
         </div>
 
+        {/* рендерит ошибку, если сервер недоступен */}
+        { favoritesRequestStatus === `error` &&
+          <ErrorMessage
+            // properties
+            requestMessage={favoritesRequestMessage}
+            wrapperStyle={ErrorReviewWrapperStyle}
+            messageStyle={ErrorMessageStyle}
+          />
+        }
+
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
             <span style={{width: `${getRating(rating)}`}} />
@@ -155,6 +167,8 @@ PreviewPlace.propTypes = {
     items: PropTypes.arrayOf(PropTypes.string),
     host: PropTypes.object,
   }),
+  favoritesRequestStatus: PropTypes.string,
+  favoritesRequestMessage: PropTypes.string,
   authorizationStatus: PropTypes.string,
   history: PropTypes.object,
   location: PropTypes.object,
@@ -167,6 +181,8 @@ PreviewPlace.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
+  favoritesRequestStatus: getFavoritesRequestStatus(state),
+  favoritesRequestMessage: getFavoritesRequestMessage(state),
   authorizationStatus: getAuthorizationStatus(state),
 });
 

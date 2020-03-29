@@ -39,6 +39,8 @@ const UserAsyncActionCreator = {
       .then((response) => {
         response = createAdapter(response.data);
 
+        dispatch(UserActionCreator.setUserRequestStatus(`success`));
+        dispatch(UserActionCreator.setUserRequestMessage(null));
         dispatch(UserActionCreator.setAuthorizationStatus(AuthorizationStatus.AUTH));
         dispatch(UserActionCreator.getUserData(response));
       })
@@ -54,10 +56,15 @@ const UserAsyncActionCreator = {
       .then((response) => {
         response = createAdapter(response.data);
 
+        dispatch(UserActionCreator.setUserRequestStatus(`success`));
+        dispatch(UserActionCreator.setUserRequestMessage(null));
         dispatch(UserActionCreator.setAuthorizationStatus(AuthorizationStatus.AUTH));
         dispatch(UserActionCreator.getUserData(response));
       })
       .catch((error) => {
+        dispatch(UserActionCreator.setUserRequestStatus(`error`));
+        dispatch(UserActionCreator.setUserRequestMessage(`Ошибка сервера. Повторите позже`));
+
         throw error;
       });
   },

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import {connect} from 'react-redux';
-import {BrowserRouter, Switch, Route, Link} from "react-router-dom";
+import {BrowserRouter, Switch, Route} from "react-router-dom";
 import {AuthorizationStatus, AppRoute} from "../../enums";
 import {getAuthorizationStatus} from "../../reducers/user/selectors";
 import {getOffer} from "../../reducers/offer/selectors";
@@ -13,6 +13,7 @@ import Main from '../main/main';
 import Place from '../place/place';
 import SignIn from "../sign-in/sign-in";
 import Favorites from "../favorites/favorites";
+import NotFound from "../not-found/not-found";
 
 const SignInWrappedHOC = withSignIn(SignIn);
 const FavoritesWrappedHOC = withLoadData(Favorites);
@@ -34,9 +35,9 @@ const App = ({offer, authorizationStatus, getFavoriteOffers}) => {
           path={AppRoute.MAIN} exact
           render={(props) => (
             <Main
+              // properties
+              {...props}
               authorizationStatus={authorizationStatus}
-              history={props.history}
-              location={props.location}
             />
           )}
         />
@@ -46,10 +47,9 @@ const App = ({offer, authorizationStatus, getFavoriteOffers}) => {
           // path={AppRoute.OFFER(id)}
           render={(props) => (
             <Place
+              // properties
+              {...props}
               authorizationStatus={authorizationStatus}
-              history={props.history}
-              location={props.location}
-              match={props.match}
             />
           )}
         />
@@ -76,14 +76,7 @@ const App = ({offer, authorizationStatus, getFavoriteOffers}) => {
 
         <Route
           render={() => (
-            <React.Fragment>
-              <h1>
-                404.
-                <br />
-                <small>Page not found</small>
-              </h1>
-              <Link to="/">Go to main page</Link>
-            </React.Fragment>
+            <NotFound />
           )}
         />
 
@@ -96,9 +89,6 @@ App.propTypes = {
   offer: PropTypes.object,
   authorizationStatus: PropTypes.string,
   userData: PropTypes.object,
-  history: PropTypes.object,
-  location: PropTypes.object,
-  match: PropTypes.object,
   getFavoriteOffers: PropTypes.func,
 };
 

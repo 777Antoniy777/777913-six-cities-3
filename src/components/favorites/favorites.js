@@ -4,14 +4,16 @@ import {connect} from 'react-redux';
 import {Link} from "react-router-dom";
 import classNames from 'classnames';
 import {AppRoute} from "../../enums";
-import {getFavoriteOffers, getFavoriteCitiesSelector} from "../../reducers/favorites/selectors";
+import {getFavoriteCitiesSelector, getFavoriteOffers, getFavoritesRequestStatus, getFavoritesRequestMessage} from "../../reducers/favorites/selectors";
 import {getUserData} from "../../reducers/user/selectors";
+import {ErrorMainWrapperStyle, ErrorMessageStyle} from "../../style";
 import {OfferActionCreator} from "../../actions/offer/action-creator";
 import Header from "../header/header";
 import FavoritesEmpty from "../favorites-empty/favorites-empty";
 import FavoriteCities from "../favorite-cities/favorite-cities";
+import ErrorMessage from "../error-message/error-message";
 
-const Favorites = ({favoriteOffers, favoriteCities, authorizationStatus, userData, history, location, getCurrentOffer}) => {
+const Favorites = ({favoritesRequestStatus, favoritesRequestMessage, favoriteOffers, favoriteCities, authorizationStatus, userData, history, location, getCurrentOffer}) => {
   const favoritePageEmptyClass = classNames({
     'page': true,
     'page--favorites-empty': favoriteOffers.length === 0,
@@ -27,6 +29,16 @@ const Favorites = ({favoriteOffers, favoriteCities, authorizationStatus, userDat
         userData={userData}
         location={location}
       />
+
+      {/* рендерит ошибку, если сервер недоступен */}
+      { favoritesRequestStatus === `error` &&
+        <ErrorMessage
+          // properties
+          requestMessage={favoritesRequestMessage}
+          wrapperStyle={ErrorMainWrapperStyle}
+          messageStyle={ErrorMessageStyle}
+        />
+      }
 
       {/* рендерит пустую страницу, если не пришло предложений */}
       { favoriteOffers.length === 0 &&
@@ -68,6 +80,8 @@ const Favorites = ({favoriteOffers, favoriteCities, authorizationStatus, userDat
 };
 
 Favorites.propTypes = {
+  favoritesRequestStatus: PropTypes.string,
+  favoritesRequestMessage: PropTypes.string,
   favoriteOffers: PropTypes.arrayOf(PropTypes.object),
   favoriteCities: PropTypes.arrayOf(PropTypes.string),
   authorizationStatus: PropTypes.string,
@@ -78,6 +92,8 @@ Favorites.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
+  favoritesRequestStatus: getFavoritesRequestStatus(state),
+  favoritesRequestMessage: getFavoritesRequestMessage(state),
   favoriteOffers: getFavoriteOffers(state),
   favoriteCities: getFavoriteCitiesSelector(state),
   userData: getUserData(state),

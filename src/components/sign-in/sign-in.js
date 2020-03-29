@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import {connect} from 'react-redux';
+import {ErrorReviewWrapperStyle, ErrorMessageStyle} from "../../style";
 import {getUserData} from "../../reducers/user/selectors";
+import {getUserRequestStatus, getUserRequestMessage} from "../../reducers/user/selectors";
 import {UserAsyncActionCreator} from "../../actions/user/async-action-creator";
 import Header from "../header/header";
+import ErrorMessage from "../error-message/error-message";
 
-const SignIn = ({email, password, login, location, authorizationStatus, userData, onInputChange, isFieldEmpty, isEmailValid}) => {
+const SignIn = ({email, password, login, location, userRequestStatus, userRequestMessage, authorizationStatus, userData, onInputChange, isFieldEmpty, isEmailValid}) => {
   const handleFormSubmit = (evt) => {
     evt.preventDefault();
   };
@@ -57,6 +60,16 @@ const SignIn = ({email, password, login, location, authorizationStatus, userData
                 <input className="login__input form__input" type="password" name="password" value={password} placeholder="Password" onChange={onInputChange} required />
               </div>
 
+              {/* рендерит ошибку, если сервер недоступен */}
+              { userRequestStatus === `error` &&
+                <ErrorMessage
+                  // properties
+                  requestMessage={userRequestMessage}
+                  wrapperStyle={ErrorReviewWrapperStyle}
+                  messageStyle={ErrorMessageStyle}
+                />
+              }
+
               <button className="login__submit form__submit button" type="submit" onClick={handleButtonClick}>Sign in</button>
             </form>
 
@@ -85,11 +98,15 @@ SignIn.propTypes = {
   isEmailValid: PropTypes.func,
   login: PropTypes.func,
   location: PropTypes.object,
+  userRequestStatus: PropTypes.string,
+  userRequestMessage: PropTypes.string,
   authorizationStatus: PropTypes.string,
   userData: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
+  userRequestStatus: getUserRequestStatus(state),
+  userRequestMessage: getUserRequestMessage(state),
   userData: getUserData(state),
 });
 

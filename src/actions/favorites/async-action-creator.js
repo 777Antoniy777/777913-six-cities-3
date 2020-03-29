@@ -162,7 +162,7 @@ const FavoritesAsyncActionCreator = {
   },
 
   setFavoriteStatus: (hotelId, status) => (dispatch, getState, api) => {
-    return api.post(`/favorite/${hotelId}/${status}`)
+    return api.post(`/favorte/${hotelId}/${status}`)
       .then((response) => {
         response = createAdapterOnPost(response.data);
 

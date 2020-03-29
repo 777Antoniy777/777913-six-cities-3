@@ -1,5 +1,13 @@
 import {createSelector} from "reselect";
 
+const getFavoritesRequestStatus = (state) => {
+  return state.favorites.requestStatus;
+};
+
+const getFavoritesRequestMessage = (state) => {
+  return state.favorites.requestMessage;
+};
+
 const getFavoriteOffers = (state) => {
   return state.favorites.favoriteOffers;
 };
@@ -21,4 +29,4 @@ const getFavoriteCitiesSelector = createSelector(
     }
 );
 
-export {getFavoriteOffers, getFavoriteCitiesSelector};
+export {getFavoriteCitiesSelector, getFavoriteOffers, getFavoritesRequestStatus, getFavoritesRequestMessage};
