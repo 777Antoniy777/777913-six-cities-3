@@ -15,7 +15,7 @@ const PlaceHost = ({status, avatar, name, description}) => {
 
       <div className="property__host-user user">
         <div className={statusHostClass}>
-          <img className="property__avatar user__avatar" src={avatar} width={74} height={74} alt="Host avatar" />
+          <img className="property__avatar user__avatar" src={`/${avatar}`} width={74} height={74} alt="Host avatar" />
         </div>
         <span className="property__user-name">
           {name}

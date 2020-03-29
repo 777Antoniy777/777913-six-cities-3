@@ -22,7 +22,7 @@ const PreviewPlace = ({placeData, favoritesRequestStatus, favoritesRequestMessag
     pathname = location.pathname;
   }
 
-  if (pathname === `/favorites`) {
+  if (pathname.startsWith(`/favorites`)) {
     imageStyle = ImageSmallStyle;
   }
 
@@ -30,19 +30,19 @@ const PreviewPlace = ({placeData, favoritesRequestStatus, favoritesRequestMessag
     'place-card': true,
     'cities__place-card': pathname === `/`,
     'near-places__card': pathname.startsWith(`/offer`),
-    'favorites__card': pathname === `/favorites`,
+    'favorites__card': pathname.startsWith(`/favorites`),
   });
 
   const placeImageWrapperClass = classNames({
     'place-card__image-wrapper': true,
     'cities__image-wrapper': pathname === `/`,
     'near-places__image-wrapper': pathname.startsWith(`/offer`),
-    'favorites__image-wrapper': pathname === `/favorites`,
+    'favorites__image-wrapper': pathname.startsWith(`/favorites`),
   });
 
   const placeInfoWrapperClass = classNames({
     'place-card__info': true,
-    'favorites__card-info': pathname === `/favorites`,
+    'favorites__card-info': pathname.startsWith(`/favorites`),
   });
 
   const favoriteButtonClass = classNames({

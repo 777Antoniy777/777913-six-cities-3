@@ -33,10 +33,28 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
   // const {id, title, premium, favorite, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offer;
   // const {avatar, name, status} = host;
 
+  console.log(match, match.params.hotelID)
+
+  if (!match || !offers) {
+    return false;
+  }
+
   const routeParameter = match.params.hotelID;
+
+  // if (!routeParameter) {
+  //   return false;
+  // }
+
   const offerTest = offers.find((elem) => {
+    console.log(offers, +routeParameter)
     return elem.id === +routeParameter;
   });
+
+  console.log(offerTest)
+
+  if (!offerTest) {
+    return false;
+  }
 
   const {id, title, premium, favorite, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offerTest;
   const {avatar, name, status} = host;

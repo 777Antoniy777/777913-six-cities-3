@@ -40,11 +40,22 @@ const withMap = (Component) => {
     componentWillUnmount() {
       const {map} = this.state;
 
+      if (!map) {
+        return false;
+      }
+
       map.remove();
+
+      return true;
     }
 
     createMap() {
       const {offers} = this.props;
+
+      if (!offers[0]) {
+        return false;
+      }
+
       const {location} = offers[0].city;
       const {latitude, longitude, zoom} = location;
       const center = [latitude, longitude];
@@ -67,6 +78,8 @@ const withMap = (Component) => {
       this.setState({
         map,
       }, this.getMarkers);
+
+      return true;
     }
 
     updateMapCenter() {
@@ -97,17 +110,17 @@ const withMap = (Component) => {
 
       offers.forEach((elem) => {
         const location = elem.location;
-        marker = this.createMarker(`img/pin.svg`, [location.latitude, location.longitude]);
+        marker = this.createMarker(`/img/pin.svg`, [location.latitude, location.longitude]);
 
         if (activelocation) {
           if (location === activelocation) {
-            marker = this.createMarker(`img/pin-active.svg`, [activelocation.latitude, activelocation.longitude]);
+            marker = this.createMarker(`/img/pin-active.svg`, [activelocation.latitude, activelocation.longitude]);
           }
         }
 
         if (hoveredLocation) {
           if (location === hoveredLocation) {
-            marker = this.createMarker(`img/pin-active.svg`, [hoveredLocation.latitude, hoveredLocation.longitude]);
+            marker = this.createMarker(`/img/pin-active.svg`, [hoveredLocation.latitude, hoveredLocation.longitude]);
           }
         }
 
