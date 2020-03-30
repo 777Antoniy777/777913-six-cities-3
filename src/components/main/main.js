@@ -6,7 +6,6 @@ import {ErrorMainWrapperStyle, ErrorMessageStyle} from "../../style";
 import {getCitiesSelector, getOffersRequestStatus, getOffersRequestMessage, getInitialOffers, getOffers, getCity} from "../../reducers/offers/selectors";
 import {getUserData} from "../../reducers/user/selectors";
 import {OffersActionCreator} from "../../actions/offers/action-creator";
-import {OfferActionCreator} from "../../actions/offer/action-creator";
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 import withMap from "../../hocs/with-map/with-map";
 import withPlaceFilter from "../../hocs/with-place-filter/with-place-filter";
@@ -19,11 +18,10 @@ import PlaceFilter from "../place-filter/place-filter";
 import ErrorMessage from "../error-message/error-message";
 
 const CitiesWrappedHoc = withActiveItem(Cities);
-const PreviewPlacesWrappedHoc = withActiveItem(PreviewPlaces);
 const MapWrappedHoc = withMap(Map);
 const PlaceFilterWrappedHoc = withPlaceFilter(PlaceFilter);
 
-const Main = ({offersRequestStatus, offersRequestMessage, offers, initialOffers, filteredOffers, currentCity, cities, authorizationStatus, userData, history, location, getCurrentCity, getCurrentOffer, setDefaultOrderOffers, setLowToHighOrderOffers, setHighToLowOrderOffers, setTopRatedFirstOrderOffers}) => {
+const Main = ({offersRequestStatus, offersRequestMessage, offers, initialOffers, filteredOffers, currentCity, cities, authorizationStatus, userData, history, location, getCurrentCity, setDefaultOrderOffers, setLowToHighOrderOffers, setHighToLowOrderOffers, setTopRatedFirstOrderOffers}) => {
   const mainEmptyClass = classNames({
     'page__main': true,
     'page__main--index': true,
@@ -99,13 +97,11 @@ const Main = ({offersRequestStatus, offersRequestMessage, offers, initialOffers,
                 <div className="cities__places-list places__list tabs__content">
 
                   {/* рендерит превью мест */}
-                  <PreviewPlacesWrappedHoc
+                  <PreviewPlaces
                     // properties
                     offers={filteredOffers}
                     history={history}
                     location={location}
-                    // handlers
-                    getActiveItem={getCurrentOffer}
                   />
 
                 </div>
@@ -148,7 +144,6 @@ Main.propTypes = {
   history: PropTypes.object,
   location: PropTypes.object,
   getCurrentCity: PropTypes.func,
-  getCurrentOffer: PropTypes.func,
   setDefaultOrderOffers: PropTypes.func,
   setLowToHighOrderOffers: PropTypes.func,
   setHighToLowOrderOffers: PropTypes.func,
@@ -171,9 +166,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getCurrentCity: (city) => {
     dispatch(OffersActionCreator.getCurrentCity(city));
-  },
-  getCurrentOffer: (offer) => {
-    dispatch(OfferActionCreator.getCurrentOffer(offer));
   },
   setDefaultOrderOffers: (offers) => {
     dispatch(OffersActionCreator.setDefaultOrderOffers(offers));

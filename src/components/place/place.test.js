@@ -8,42 +8,6 @@ import {Place} from "./place";
 const mockStore = configureStore();
 
 // set mocha data
-const initialOffers = [
-  {
-    id: 1,
-    city: {
-      id: 1,
-      name: `city`,
-      coords: [1, 1],
-    },
-    title: `title 1`,
-    premium: false,
-    src: `img/image1`,
-    photos: [`img/image1`],
-    price: 999999,
-    description: `test`,
-    type: `type`,
-    rating: 9999,
-    bedroomAmount: 30,
-    guestsAmount: 50,
-    items: [`item`],
-    host: {
-      avatar: `img/avatar-1.jpg`,
-      name: `name`,
-      status: false,
-    },
-    reviews: [
-      {
-        id: 1,
-        body: `text`,
-        rating: 5,
-        name: `name`,
-        date: `date`,
-      },
-    ],
-    coord: [1, 1],
-  },
-];
 const offer = {
   id: 1,
   city: {
@@ -148,42 +112,6 @@ const nearbyOffers = [
     coord: [1, 1],
   },
 ];
-const mapOffers = [
-  {
-    id: 1,
-    city: {
-      id: 1,
-      name: `city`,
-      coords: [1, 1],
-    },
-    title: `title 1`,
-    premium: false,
-    src: `img/image1`,
-    photos: [`img/image1`],
-    price: 999999,
-    description: `test`,
-    type: `type`,
-    rating: 9999,
-    bedroomAmount: 30,
-    guestsAmount: 50,
-    items: [`item`],
-    host: {
-      avatar: `img/avatar-1.jpg`,
-      name: `name`,
-      status: false,
-    },
-    reviews: [
-      {
-        id: 1,
-        body: `text`,
-        rating: 5,
-        name: `name`,
-        date: `date`,
-      },
-    ],
-    coord: [1, 1],
-  },
-];
 const reviews = [
   {
     id: 1,
@@ -212,19 +140,12 @@ const history = {};
 const location = {
   pathname: `/pathname`,
 };
-const match = {
-  params: {
-    hotelID: 1,
-  },
-};
 
-const getCurrentOffer = () => {};
 const sendReview = () => {};
 const setFavoriteStatus = () => {};
 
 const store = mockStore({
   offers: {
-    initialOffers,
     nearbyOffers,
   },
   offer: {
@@ -255,7 +176,6 @@ it(`render Place`, () => {
       <BrowserRouter>
         <Provider store={store}>
           <Place
-            offers={initialOffers}
             offer={offer}
             hoveredOffer={hoveredOffer}
             reviewsRequestStatus={reviewsRequestStatus}
@@ -269,10 +189,7 @@ it(`render Place`, () => {
             userData={userData}
             history={history}
             location={location}
-            match={match}
             nearbyOffers={nearbyOffers}
-            mapOffers={mapOffers}
-            getCurrentOffer={getCurrentOffer}
             sendReview={sendReview}
             setFavoriteStatus={setFavoriteStatus}
           />

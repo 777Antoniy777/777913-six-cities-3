@@ -30,7 +30,7 @@ exports[`render Favorites 1`] = `
               alt="6 cities logo"
               className="header__logo"
               height={41}
-              src="img/logo.svg"
+              src="/img/logo.svg"
               width={81}
             />
           </a>
@@ -225,7 +225,7 @@ exports[`render Favorites 1`] = `
         alt="6 cities logo"
         className="footer__logo"
         height={33}
-        src="img/logo.svg"
+        src="/img/logo.svg"
         width={64}
       />
     </a>

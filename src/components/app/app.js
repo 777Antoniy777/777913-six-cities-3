@@ -4,11 +4,16 @@ import {connect} from "react-redux";
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 import {AuthorizationStatus, AppRoute} from "../../enums";
 import {getAuthorizationStatus} from "../../reducers/user/selectors";
-// import {getOffer} from "../../reducers/offer/selectors";
+import {getInitialOffers} from "../../reducers/offers/selectors";
+import {OfferActionCreator} from "../../actions/offer/action-creator";
+import {OffersAsyncActionCreator} from "../../actions/offers/async-action-creator";
+import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-creator";
 import {FavoritesAsyncActionCreator} from "../../actions/favorites/async-action-creator";
 import PrivateRoute from "../private-route/private-route";
 import withSignIn from "../../hocs/with-sign-in/with-sign-in";
 import withLoadData from "../../hocs/with-load-data/with-load-data";
+import withPlace from "../../hocs/with-place/with-place";
+import withActiveItem from "../../hocs/with-active-item/with-active-item";
 import Main from '../main/main';
 import Place from '../place/place';
 import SignIn from "../sign-in/sign-in";
@@ -17,16 +22,12 @@ import NotFound from "../not-found/not-found";
 
 const SignInWrappedHOC = withSignIn(SignIn);
 const FavoritesWrappedHOC = withLoadData(Favorites);
+const PlaceWrappedHOC = withActiveItem(withPlace(Place));
 
-const App = ({authorizationStatus, getFavoriteOffers}) => {
+const App = ({authorizationStatus, offers, getFavoriteOffers, getCurrentOffer, getReviews, getNearbyOffers}) => {
   if (!authorizationStatus) {
     return false;
   }
-
-  // let id;
-  // if (offer) {
-  //   id = offer.id;
-  // }
 
   return (
     <BrowserRouter>
@@ -45,10 +46,15 @@ const App = ({authorizationStatus, getFavoriteOffers}) => {
         <Route
           path={AppRoute.OFFER.ROUTE}
           render={(props) => (
-            <Place
+            <PlaceWrappedHOC
               // properties
               {...props}
               authorizationStatus={authorizationStatus}
+              offers={offers}
+              // handlers
+              getReviews={getReviews}
+              getNearbyOffers={getNearbyOffers}
+              getActiveItem={getCurrentOffer}
             />
           )}
         />
@@ -85,20 +91,31 @@ const App = ({authorizationStatus, getFavoriteOffers}) => {
 };
 
 App.propTypes = {
-  // offer: PropTypes.object,
   authorizationStatus: PropTypes.string,
-  userData: PropTypes.object,
+  offers: PropTypes.arrayOf(PropTypes.object),
   getFavoriteOffers: PropTypes.func,
+  getCurrentOffer: PropTypes.func,
+  getReviews: PropTypes.func,
+  getNearbyOffers: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
-  // offer: getOffer(state),
   authorizationStatus: getAuthorizationStatus(state),
+  offers: getInitialOffers(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getFavoriteOffers: (offers) => {
     dispatch(FavoritesAsyncActionCreator.getFavoriteOffers(offers));
+  },
+  getReviews: (offerId) => {
+    dispatch(ReviewsAsyncActionCreator.getReviews(offerId));
+  },
+  getNearbyOffers: (offerId) => {
+    dispatch(OffersAsyncActionCreator.getNearbyOffers(offerId));
+  },
+  getCurrentOffer: (offer) => {
+    dispatch(OfferActionCreator.getCurrentOffer(offer));
   },
 });
 

@@ -8,12 +8,10 @@ import {ImageBigStyle, ImageSmallStyle, ErrorReviewWrapperStyle, ErrorMessageSty
 import {getAuthorizationStatus} from "../../reducers/user/selectors";
 import {getFavoritesRequestStatus, getFavoritesRequestMessage} from "../../reducers/favorites/selectors";
 import {OfferActionCreator} from "../../actions/offer/action-creator";
-import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-creator";
 import {FavoritesAsyncActionCreator} from "../../actions/favorites/async-action-creator";
-import {OffersAsyncActionCreator} from "../../actions/offers/async-action-creator";
 import ErrorMessage from "../error-message/error-message";
 
-const PreviewPlace = ({placeData, favoritesRequestStatus, favoritesRequestMessage, authorizationStatus, history, location, getActiveItem, getHoveredOffer, removeHoveredOffer, setFavoriteStatus, getReviews, getNearbyOffers}) => {
+const PreviewPlace = ({placeData, favoritesRequestStatus, favoritesRequestMessage, authorizationStatus, history, location, getHoveredOffer, removeHoveredOffer, setFavoriteStatus}) => {
   const {id, title, premium, favorite, src, price, type, rating} = placeData;
   let imageStyle = ImageBigStyle;
   let pathname;
@@ -61,9 +59,6 @@ const PreviewPlace = ({placeData, favoritesRequestStatus, favoritesRequestMessag
   const handleTitleClick = (evt) => {
     evt.preventDefault();
 
-    // getReviews(id);
-    // getNearbyOffers(id);
-    getActiveItem(placeData);
     window.scrollTo(0, 0);
   };
 
@@ -172,12 +167,9 @@ PreviewPlace.propTypes = {
   authorizationStatus: PropTypes.string,
   history: PropTypes.object,
   location: PropTypes.object,
-  getActiveItem: PropTypes.func,
   removeHoveredOffer: PropTypes.func,
   getHoveredOffer: PropTypes.func,
   setFavoriteStatus: PropTypes.func,
-  getReviews: PropTypes.func,
-  getNearbyOffers: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -196,12 +188,6 @@ const mapDispatchToProps = (dispatch) => ({
   setFavoriteStatus: (hotelId, status) => {
     dispatch(FavoritesAsyncActionCreator.setFavoriteStatus(hotelId, status));
   },
-  // getReviews: (offerId) => {
-  //   dispatch(ReviewsAsyncActionCreator.getReviews(offerId));
-  // },
-  // getNearbyOffers: (offerId) => {
-  //   dispatch(OffersAsyncActionCreator.getNearbyOffers(offerId));
-  // },
 });
 
 export {PreviewPlace};

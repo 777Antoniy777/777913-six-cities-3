@@ -57,9 +57,6 @@ const location = {
   pathname: `/pathname`,
 };
 
-const getReviews = () => {};
-const getNearbyOffers = () => {};
-
 const store = mockStore({
   favorites: {
     requestStatus: null,
@@ -71,13 +68,12 @@ const store = mockStore({
 });
 
 describe(`PreviewPlace should call correct callbacks`, () => {
-  it(`"placeData" and status should set into callback after click on title`, () => {
+  it(`page should scroll up after click on title`, () => {
     beforeEach(() => { // Runs before each test in the suite
       store.clearActions();
     });
 
     const preventDefault = jest.fn();
-    const getActiveItem = jest.fn((data) => data);
     const scrollTo = jest.fn();
     Object.defineProperty(global.window, `scrollTo`, {
       value: scrollTo
@@ -93,9 +89,6 @@ describe(`PreviewPlace should call correct callbacks`, () => {
               favoritesRequestMessage={favoritesRequestMessage}
               history={history}
               location={location}
-              getActiveItem={getActiveItem}
-              getReviews={getReviews}
-              getNearbyOffers={getNearbyOffers}
             />
           </Provider>
         </BrowserRouter>
@@ -105,14 +98,11 @@ describe(`PreviewPlace should call correct callbacks`, () => {
 
     const mockClickEvent = ({
       preventDefault,
-      getActiveItem() {},
     });
 
     title.simulate(`click`, mockClickEvent);
 
     expect(scrollTo).toHaveBeenCalledWith(0, 0);
-    expect(getActiveItem).toHaveBeenCalledTimes(1);
-    expect(getActiveItem.mock.calls[0][0]).toMatchObject(placeData);
   });
 
   it(`"placeData" should set into callback after mouseenter on card`, () => {
@@ -133,8 +123,6 @@ describe(`PreviewPlace should call correct callbacks`, () => {
               history={history}
               location={location}
               getHoveredOffer={getHoveredOffer}
-              getReviews={getReviews}
-              getNearbyOffers={getNearbyOffers}
             />
           </Provider>
         </BrowserRouter>
@@ -170,8 +158,6 @@ describe(`PreviewPlace should call correct callbacks`, () => {
               history={history}
               location={location}
               removeHoveredOffer={removeHoveredOffer}
-              getReviews={getReviews}
-              getNearbyOffers={getNearbyOffers}
             />
           </Provider>
         </BrowserRouter>
@@ -208,8 +194,6 @@ describe(`PreviewPlace should call correct callbacks`, () => {
               history={history}
               location={location}
               setFavoriteStatus={setFavoriteStatus}
-              getReviews={getReviews}
-              getNearbyOffers={getNearbyOffers}
             />
           </Provider>
         </BrowserRouter>

@@ -7,13 +7,12 @@ import {AppRoute} from "../../enums";
 import {ErrorMainWrapperStyle, ErrorMessageStyle} from "../../style";
 import {getFavoriteCitiesSelector, getFavoriteOffers, getFavoritesRequestStatus, getFavoritesRequestMessage} from "../../reducers/favorites/selectors";
 import {getUserData} from "../../reducers/user/selectors";
-import {OfferActionCreator} from "../../actions/offer/action-creator";
 import Header from "../header/header";
 import FavoritesEmpty from "../favorites-empty/favorites-empty";
 import FavoriteCities from "../favorite-cities/favorite-cities";
 import ErrorMessage from "../error-message/error-message";
 
-const Favorites = ({favoritesRequestStatus, favoritesRequestMessage, favoriteOffers, favoriteCities, authorizationStatus, userData, history, location, getCurrentOffer}) => {
+const Favorites = ({favoritesRequestStatus, favoritesRequestMessage, favoriteOffers, favoriteCities, authorizationStatus, userData, history, location}) => {
   const favoritePageEmptyClass = classNames({
     'page': true,
     'page--favorites-empty': favoriteOffers.length === 0,
@@ -59,8 +58,6 @@ const Favorites = ({favoritesRequestStatus, favoritesRequestMessage, favoriteOff
                 favoriteCities={favoriteCities}
                 history={history}
                 location={location}
-                // handlers
-                getCurrentOffer={getCurrentOffer}
               />
 
             </section>
@@ -88,7 +85,6 @@ Favorites.propTypes = {
   userData: PropTypes.object,
   history: PropTypes.object,
   location: PropTypes.object,
-  getCurrentOffer: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -99,13 +95,6 @@ const mapStateToProps = (state) => ({
   userData: getUserData(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  getCurrentOffer: (offer) => {
-    dispatch(OfferActionCreator.getCurrentOffer(offer));
-  },
-});
-
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+    mapStateToProps
 )(Favorites);

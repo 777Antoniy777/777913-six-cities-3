@@ -128,6 +128,8 @@ const withMap = (Component) => {
       });
 
       this.addMarkersToMap(markersArr);
+
+      return true;
     }
 
     addMarkersToMap(markersArr) {

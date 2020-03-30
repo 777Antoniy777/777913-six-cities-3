@@ -62,8 +62,6 @@ const location = {
   pathname: `/pathname`,
 };
 
-const getCurrentOffer = () => {};
-
 const store = mockStore({
   favorites: {
     favoriteOffers,
@@ -91,7 +89,6 @@ it(`render Favorites`, () => {
             userData={userData}
             history={history}
             location={location}
-            getCurrentOffer={getCurrentOffer}
           />
         </Provider>
       </BrowserRouter>)

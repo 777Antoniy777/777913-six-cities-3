@@ -136,7 +136,6 @@ const location = {
 };
 
 const getCurrentCity = () => {};
-const getCurrentOffer = () => {};
 const setDefaultOrderOffers = () => {};
 const setLowToHighOrderOffers = () => {};
 const setHighToLowOrderOffers = () => {};
@@ -181,7 +180,6 @@ it(`render Main`, () => {
             history={history}
             location={location}
             getCurrentCity={getCurrentCity}
-            getCurrentOffer={getCurrentOffer}
             setDefaultOrderOffers={setDefaultOrderOffers}
             setLowToHighOrderOffers={setLowToHighOrderOffers}
             setHighToLowOrderOffers={setHighToLowOrderOffers}

@@ -27,8 +27,6 @@ const location = {
 };
 
 const onInputChange = () => {};
-const isFieldEmpty = () => {};
-const isEmailValid = () => {};
 const login = () => {};
 
 const store = mockStore({

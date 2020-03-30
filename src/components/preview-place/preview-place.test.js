@@ -50,12 +50,9 @@ const location = {
   pathname: `/pathname`,
 };
 
-const getActiveItem = () => {};
 const getHoveredOffer = () => {};
 const removeHoveredOffer = () => {};
 const setFavoriteStatus = () => {};
-const getReviews = () => {};
-const getNearbyOffers = () => {};
 
 const store = mockStore({
   favorites: {
@@ -82,12 +79,9 @@ it(`render PreviewPlace`, () => {
             favoritesRequestMessage={favoritesRequestMessage}
             history={history}
             location={location}
-            getActiveItem={getActiveItem}
             getHoveredOffer={getHoveredOffer}
             removeHoveredOffer={removeHoveredOffer}
             setFavoriteStatus={setFavoriteStatus}
-            getReviews={getReviews}
-            getNearbyOffers={getNearbyOffers}
           />
         </Provider>
       </BrowserRouter>)

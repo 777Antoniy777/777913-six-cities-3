@@ -30,7 +30,7 @@ exports[`render Place 1`] = `
               alt="6 cities logo"
               className="header__logo"
               height={41}
-              src="img/logo.svg"
+              src="/img/logo.svg"
               width={81}
             />
           </a>
@@ -218,7 +218,7 @@ exports[`render Place 1`] = `
                   alt="Host avatar"
                   className="property__avatar user__avatar"
                   height={74}
-                  src="img/avatar-1.jpg"
+                  src="/img/avatar-1.jpg"
                   width={74}
                 />
               </div>
