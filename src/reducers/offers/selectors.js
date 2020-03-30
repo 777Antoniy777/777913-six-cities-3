@@ -20,6 +20,10 @@ const getCity = (state) => {
   return state.offers.city;
 };
 
+const getNearbyOffers = (state) => {
+  return state.offers.nearbyOffers.slice(0, 3);
+};
+
 const getInitialOffersSelector = createSelector(
     getInitialOffers,
     getCity,
@@ -57,4 +61,4 @@ const getCitiesSelector = createSelector(
     }
 );
 
-export {getInitialOffersSelector, getOffersSelector, getCitiesSelector, getOffersRequestStatus, getOffersRequestMessage, getInitialOffers, getOffers, getCity};
+export {getInitialOffersSelector, getOffersSelector, getCitiesSelector, getOffersRequestStatus, getOffersRequestMessage, getInitialOffers, getOffers, getCity, getNearbyOffers};

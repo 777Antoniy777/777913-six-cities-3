@@ -1,6 +1,6 @@
 import MockAdapter from "axios-mock-adapter";
 import createAPI from "../../api.js";
-import offersState from './offers';
+import offersState from "./offers";
 import {OffersActionType, OffersActionCreator} from "../../actions/offers/action-creator";
 import {OffersAsyncActionCreator} from "../../actions/offers/async-action-creator";
 
@@ -78,6 +78,42 @@ const offers = [
     coord: [1, 1],
   },
 ];
+const nearbyOffers = [
+  {
+    id: 1,
+    city: {
+      id: 1,
+      name: `city`,
+      coords: [1, 1],
+    },
+    title: `title 1`,
+    premium: false,
+    src: `img/image1`,
+    photos: [`img/image1`],
+    price: 999999,
+    description: `test`,
+    type: `type`,
+    rating: 9999,
+    bedroomAmount: 30,
+    guestsAmount: 50,
+    items: [`item`],
+    host: {
+      avatar: `img/avatar-1.jpg`,
+      name: `name`,
+      status: false,
+    },
+    reviews: [
+      {
+        id: 1,
+        body: `text`,
+        rating: 5,
+        name: `name`,
+        date: `date`,
+      },
+    ],
+    coord: [1, 1],
+  },
+];
 const favoriteOffer = {
   id: 2,
   city: {
@@ -120,6 +156,7 @@ it(`Offers without additional parameters should return initial state`, () => {
     city: null,
     initialOffers: [],
     offers: [],
+    nearbyOffers: [],
   });
 });
 
@@ -164,6 +201,17 @@ it(`Reducer should set offers`, () => {
     payload: offers,
   })).toEqual({
     offers,
+  });
+});
+
+it(`Reducer should get nearby offers`, () => {
+  expect(offersState({
+    nearbyOffers: [],
+  }, {
+    type: OffersActionType.GET_NEARBY_OFFERS,
+    payload: nearbyOffers,
+  })).toEqual({
+    nearbyOffers,
   });
 });
 
@@ -256,7 +304,7 @@ it(`Reducer should set top rated first order of offers`, () => {
 });
 
 describe(`Async action creator work correctly`, () => {
-  it(`Should make a correct correct GET to /hotels`, function () {
+  it(`Should make a correct GET to /hotels`, function () {
     const apiMock = new MockAdapter(api);
     const dispatch = jest.fn();
     const getOffers = OffersAsyncActionCreator.getOffers();
@@ -285,6 +333,34 @@ describe(`Async action creator work correctly`, () => {
           payload: `success`,
         });
         expect(dispatch).toHaveBeenNthCalledWith(5, {
+          type: OffersActionType.SET_OFFERS_REQUEST_MESSAGE,
+          payload: null,
+        });
+      });
+  });
+
+  it(`Should make a correct GET to /hotels/:hotelId/nearby`, function () {
+    const apiMock = new MockAdapter(api);
+    const hotelId = 1;
+    const dispatch = jest.fn();
+    const getNearbyOffers = OffersAsyncActionCreator.getNearbyOffers(hotelId);
+
+    apiMock
+      .onGet(`/hotels/${hotelId}/nearby`)
+      .reply(200, nearbyOffers);
+
+    return getNearbyOffers(dispatch, () => {}, api)
+      .then(() => {
+        expect(dispatch).toHaveBeenCalledTimes(3);
+        expect(dispatch).toHaveBeenNthCalledWith(1, {
+          type: OffersActionType.GET_NEARBY_OFFERS,
+          payload: nearbyOffers,
+        });
+        expect(dispatch).toHaveBeenNthCalledWith(2, {
+          type: OffersActionType.SET_OFFERS_REQUEST_STATUS,
+          payload: `success`,
+        });
+        expect(dispatch).toHaveBeenNthCalledWith(3, {
           type: OffersActionType.SET_OFFERS_REQUEST_MESSAGE,
           payload: null,
         });
@@ -322,6 +398,14 @@ describe(`Action creators work correctly`, () => {
     .toEqual({
       type: OffersActionType.GET_OFFERS,
       payload: offers,
+    });
+  });
+
+  it(`Action creator for get nearby offers should returns nearby offers`, () => {
+    expect(OffersActionCreator.getNearbyOffers(nearbyOffers))
+    .toEqual({
+      type: OffersActionType.GET_NEARBY_OFFERS,
+      payload: nearbyOffers,
     });
   });
 

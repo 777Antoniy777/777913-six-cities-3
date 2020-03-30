@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 import renderer from "react-test-renderer";
-import Cities from './cities';
+import Cities from "./cities";
 
 // set mocha data
 const cities = [

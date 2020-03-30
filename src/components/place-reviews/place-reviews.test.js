@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 import renderer from "react-test-renderer";
-import PlaceReviews from './place-reviews';
+import PlaceReviews from "./place-reviews";
 
 // set mocha data
 const reviews = [
@@ -18,7 +18,7 @@ const reviews = [
 it(`render PlaceReviews`, () => {
   const tree = renderer.create(
       <PlaceReviews
-        data={reviews}
+        reviews={reviews}
       />)
       .toJSON();
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import renderer from "react-test-renderer";
 import PlaceFormReviews from "./place-form-reviews";
 
@@ -9,7 +9,7 @@ const rating = [false, false, false];
 const submitButtonStatus = true;
 const errors = [`error`];
 
-const getReviewsOnPost = () => {};
+const sendReview = () => {};
 const onSetSubmitButtonStatus = () => {};
 const isCommentValid = () => {};
 const isStarChoose = () => {};
@@ -24,7 +24,7 @@ it(`render PlaceFormReviews`, () => {
         rating={rating}
         submitButtonStatus={submitButtonStatus}
         errors={errors}
-        getReviewsOnPost={getReviewsOnPost}
+        sendReview={sendReview}
         onSetSubmitButtonStatus={onSetSubmitButtonStatus}
         isCommentValid={isCommentValid}
         isStarChoose={isStarChoose}

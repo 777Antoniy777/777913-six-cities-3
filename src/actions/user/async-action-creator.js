@@ -1,4 +1,4 @@
-import {AuthorizationStatus} from "../../enums";
+import {AuthorizationStatus, StartResponseProperty, EndResponseProperty} from "../../enums";
 import {UserActionCreator} from "./action-creator";
 
 const createAdapter = (json) => {
@@ -11,11 +11,11 @@ const createAdapter = (json) => {
       val = obj[key];
 
       switch (key) {
-        case `avatar_url`:
-          newObj.avatar = val;
+        case StartResponseProperty.AVATAR_URL:
+          newObj[EndResponseProperty.AVATAR] = val;
           break;
-        case `is_pro`:
-          newObj.status = val;
+        case StartResponseProperty.IS_PRO:
+          newObj[EndResponseProperty.STATUS] = val;
           break;
         default:
           newObj[key] = val;
@@ -39,8 +39,10 @@ const UserAsyncActionCreator = {
       .then((response) => {
         response = createAdapter(response.data);
 
-        dispatch(UserActionCreator.setAuthorizationStatus(AuthorizationStatus.AUTH));
         dispatch(UserActionCreator.getUserData(response));
+        dispatch(UserActionCreator.setAuthorizationStatus(AuthorizationStatus.AUTH));
+        dispatch(UserActionCreator.setUserRequestStatus(`success`));
+        dispatch(UserActionCreator.setUserRequestMessage(null));
       })
       .catch((error) => {
         throw error;
@@ -54,10 +56,15 @@ const UserAsyncActionCreator = {
       .then((response) => {
         response = createAdapter(response.data);
 
-        dispatch(UserActionCreator.setAuthorizationStatus(AuthorizationStatus.AUTH));
         dispatch(UserActionCreator.getUserData(response));
+        dispatch(UserActionCreator.setAuthorizationStatus(AuthorizationStatus.AUTH));
+        dispatch(UserActionCreator.setUserRequestStatus(`success`));
+        dispatch(UserActionCreator.setUserRequestMessage(null));
       })
       .catch((error) => {
+        dispatch(UserActionCreator.setUserRequestStatus(`error`));
+        dispatch(UserActionCreator.setUserRequestMessage(`Ошибка сервера. Повторите позже`));
+
         throw error;
       });
   },

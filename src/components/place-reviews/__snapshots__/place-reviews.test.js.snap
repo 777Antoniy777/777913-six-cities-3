@@ -54,7 +54,9 @@ exports[`render PlaceReviews 1`] = `
       />
       <time
         className="reviews__time"
-      />
+      >
+        undefined NaN
+      </time>
     </div>
   </li>
 </ul>

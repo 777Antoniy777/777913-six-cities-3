@@ -19,7 +19,7 @@ exports[`render PlaceHost 1`] = `
         alt="Host avatar"
         className="property__avatar user__avatar"
         height={74}
-        src="img/avatar-1.jpg"
+        src="/img/avatar-1.jpg"
         width={74}
       />
     </div>

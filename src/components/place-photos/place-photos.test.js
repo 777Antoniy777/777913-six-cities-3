@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 import renderer from "react-test-renderer";
-import PlacePhotos from './place-photos';
+import PlacePhotos from "./place-photos";
 
 // set mocha data
 const photos = [

@@ -3,6 +3,7 @@ const OffersActionType = {
   SET_OFFERS_REQUEST_MESSAGE: `SET_OFFERS_REQUEST_MESSAGE`,
   GET_INITIAL_OFFERS: `GET_INITIAL_OFFERS`,
   GET_OFFERS: `GET_OFFERS`,
+  GET_NEARBY_OFFERS: `GET_NEARBY_OFFERS`,
   GET_INITIAL_CITY: `GET_INITIAL_CITY`,
   GET_CURRENT_CITY: `GET_CURRENT_CITY`,
   GET_FAVORITE_OFFER: `GET_FAVORITE_OFFER`,
@@ -30,6 +31,11 @@ const OffersActionCreator = {
 
   getOffers: (offers) => ({
     type: OffersActionType.GET_OFFERS,
+    payload: offers,
+  }),
+
+  getNearbyOffers: (offers) => ({
+    type: OffersActionType.GET_NEARBY_OFFERS,
     payload: offers,
   }),
 

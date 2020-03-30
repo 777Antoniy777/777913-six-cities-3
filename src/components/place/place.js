@@ -1,17 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {connect} from 'react-redux';
-import {AuthorizationStatus} from "../../enums";
-import {OfferActionCreator} from "../../actions/offer/action-creator";
-import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-creator";
-import {getOffer, getHoveredOffer} from "../../reducers/offer/selectors";
-import {getInitialOffersSelector} from "../../reducers/offers/selectors";
-import {getReviewsRequestStatus, getReviewsRequestMessage, getReviews} from "../../reducers/reviews/selectors";
-import {getUserData} from "../../reducers/user/selectors";
+import {connect} from "react-redux";
+import classNames from "classnames";
+import {AuthorizationStatus, AppRoute} from "../../enums";
 import {ErrorReviewWrapperStyle, ErrorMessageStyle} from "../../style";
-import withActiveItem from "../../hocs/with-active-item/with-active-item";
+import {getHoveredOffer} from "../../reducers/offer/selectors";
+import {getOffersRequestStatus, getOffersRequestMessage, getNearbyOffers} from "../../reducers/offers/selectors";
+import {getReviewsRequestStatus, getReviewsRequestMessage, getReviewsSelector} from "../../reducers/reviews/selectors";
+import {getUserData} from "../../reducers/user/selectors";
+import {getFavoritesRequestStatus, getFavoritesRequestMessage} from "../../reducers/favorites/selectors";
+import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-creator";
+import {FavoritesAsyncActionCreator} from "../../actions/favorites/async-action-creator";
 import withMap from "../../hocs/with-map/with-map";
-import withLoadData from "../../hocs/with-load-data/with-load-data";
 import withPlaceFormReviews from "../../hocs/with-place-form-reviews/with-place-form-reviews";
 import Header from "../header/header";
 import PlacePhotos from "../place-photos/place-photos";
@@ -23,20 +23,33 @@ import Map from "../map/map";
 import PlaceFormReviews from "../place-form-reviews/place-form-reviews";
 import ErrorMessage from "../error-message/error-message";
 
-const PreviewPlacesWrappedHOC = withActiveItem(PreviewPlaces);
 const MapWrappedHOC = withMap(Map);
-const PlaceReviewsWrappedHOC = withLoadData(PlaceReviews);
 const PlaceFormReviewsWrappedHOC = withPlaceFormReviews(PlaceFormReviews);
 
-const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, reviews, authorizationStatus, userData, history, location: routeLocation, getCurrentOffer, getReviewsOnGet, getReviewsOnPost}) => {
-  const {id, title, premium, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offer;
+const Place = ({offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, offersRequestStatus, offersRequestMessage, favoritesRequestStatus, favoritesRequestMessage, reviews, authorizationStatus, userData, history, location: routeLocation, nearbyOffers, sendReview, setFavoriteStatus}) => {
+
+  if (!offer) {
+    return false;
+  }
+
+  const {id, title, premium, favorite, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offer;
   const {avatar, name, status} = host;
+
+  const mapOffers = nearbyOffers.slice();
+  mapOffers.push(offer);
+
   const splittedReviews = reviews.slice(0, 10);
   const reviewsLength = splittedReviews.length;
   let hoveredLocation = null;
   if (hoveredOffer) {
     hoveredLocation = hoveredOffer.location;
   }
+
+  const favoriteButtonClass = classNames({
+    'button': true,
+    'property__bookmark-button': true,
+    'property__bookmark-button--active': favorite,
+  });
 
   const getRating = (val) => {
     let ratingStars = Math.round(val);
@@ -45,16 +58,18 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
     return `${ratingStars}%`;
   };
 
-  const splitOffers = () => {
-    const filteredOffers = offers.filter((elem) => {
-      return elem.id !== offer.id;
-    });
-    return filteredOffers.slice(0, 3);
-  };
+  const handleFavoriteButtonClick = (evt) => {
+    evt.preventDefault();
 
-  const extendedOffersForMap = splitOffers();
-  const extendedOffersForPreviews = splitOffers();
-  extendedOffersForMap.push(offer);
+    if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
+      history.push(AppRoute.SIGN_IN);
+      return false;
+    }
+
+    setFavoriteStatus(id, +!favorite);
+
+    return true;
+  };
 
   return (
     <div className="page">
@@ -96,7 +111,7 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
                   {title}
                 </h1>
 
-                <button className="property__bookmark-button button" type="button">
+                <button className={favoriteButtonClass} type="button" onClick={handleFavoriteButtonClick}>
                   <svg className="property__bookmark-icon" width={31} height={33}>
                     <use xlinkHref="#icon-bookmark" />
                   </svg>
@@ -114,6 +129,16 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
 
                 <span className="property__rating-value rating__value">{rating}</span>
               </div>
+
+              {/* рендерит ошибку, если сервер недоступен */}
+              { favoritesRequestStatus === `error` &&
+                <ErrorMessage
+                  // properties
+                  requestMessage={favoritesRequestMessage}
+                  wrapperStyle={ErrorReviewWrapperStyle}
+                  messageStyle={ErrorMessageStyle}
+                />
+              }
 
               <ul className="property__features">
 
@@ -158,12 +183,9 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
                 <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewsLength}</span></h2>
 
                 {/* рендерит отзывы пользователей */}
-                <PlaceReviewsWrappedHOC
+                <PlaceReviews
                   // properties
-                  offerId={id}
-                  data={splittedReviews}
-                  // handlers
-                  getData={getReviewsOnGet}
+                  reviews={splittedReviews}
                 />
 
                 {/* рендерит ошибку, если сервер недоступен */}
@@ -184,7 +206,7 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
                     authorizationStatus={authorizationStatus}
                     history={history}
                     // handlers
-                    getReviewsOnPost={getReviewsOnPost}
+                    sendReview={sendReview}
                   />
                 }
 
@@ -196,10 +218,10 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
           <section className="property__map map">
 
             {/* карта с маркерами */}
-            { offers.length > 0 &&
+            { mapOffers.length > 0 &&
               <MapWrappedHOC
                 // properties
-                offers={extendedOffersForMap}
+                offers={mapOffers}
                 activelocation={location}
                 hoveredLocation={hoveredLocation}
               />
@@ -208,7 +230,17 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
           </section>
         </section>
 
-        { extendedOffersForPreviews.length > 0 &&
+        {/* рендерит ошибку, если сервер недоступен */}
+        { offersRequestStatus === `error` &&
+          <ErrorMessage
+            // properties
+            requestMessage={offersRequestMessage}
+            wrapperStyle={ErrorReviewWrapperStyle}
+            messageStyle={ErrorMessageStyle}
+          />
+        }
+
+        { nearbyOffers.length > 0 &&
           <div className="container">
 
             <section className="near-places places">
@@ -217,12 +249,11 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
               <div className="near-places__list places__list">
 
                 {/* рендерит превью мест */}
-                <PreviewPlacesWrappedHOC
+                <PreviewPlaces
                   // properties
-                  offers={extendedOffersForPreviews}
+                  offers={nearbyOffers}
                   location={routeLocation}
-                  // handlers
-                  getActiveItem={getCurrentOffer}
+                  history={history}
                 />
 
               </div>
@@ -239,25 +270,27 @@ const Place = ({offers, offer, hoveredOffer, reviewsRequestStatus, reviewsReques
 };
 
 Place.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.object),
-  offer: PropTypes.shape({
-    id: PropTypes.number,
-    city: PropTypes.object,
-    title: PropTypes.string,
-    premium: PropTypes.bool,
-    favorite: PropTypes.bool,
-    src: PropTypes.string,
-    photos: PropTypes.arrayOf(PropTypes.string),
-    price: PropTypes.number,
-    description: PropTypes.string,
-    type: PropTypes.string,
-    rating: PropTypes.number,
-    bedroomAmount: PropTypes.number,
-    guestsAmount: PropTypes.number,
-    items: PropTypes.arrayOf(PropTypes.string),
-    host: PropTypes.object,
-    location: PropTypes.objectOf(PropTypes.number),
-  }),
+  offer: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.shape({
+      id: PropTypes.number,
+      city: PropTypes.object,
+      title: PropTypes.string,
+      premium: PropTypes.bool,
+      favorite: PropTypes.bool,
+      src: PropTypes.string,
+      photos: PropTypes.arrayOf(PropTypes.string),
+      price: PropTypes.number,
+      description: PropTypes.string,
+      type: PropTypes.string,
+      rating: PropTypes.number,
+      bedroomAmount: PropTypes.number,
+      guestsAmount: PropTypes.number,
+      items: PropTypes.arrayOf(PropTypes.string),
+      host: PropTypes.object,
+      location: PropTypes.objectOf(PropTypes.number),
+    }),
+  ]),
   hoveredOffer: PropTypes.shape({
     id: PropTypes.number,
     city: PropTypes.object,
@@ -278,35 +311,39 @@ Place.propTypes = {
   }),
   reviewsRequestStatus: PropTypes.string,
   reviewsRequestMessage: PropTypes.string,
+  offersRequestStatus: PropTypes.string,
+  offersRequestMessage: PropTypes.string,
+  favoritesRequestStatus: PropTypes.string,
+  favoritesRequestMessage: PropTypes.string,
   reviews: PropTypes.arrayOf(PropTypes.object),
   authorizationStatus: PropTypes.string,
   userData: PropTypes.object,
   history: PropTypes.object,
   location: PropTypes.object,
-  getCurrentOffer: PropTypes.func,
-  getReviewsOnGet: PropTypes.func,
-  getReviewsOnPost: PropTypes.func,
+  nearbyOffers: PropTypes.arrayOf(PropTypes.object),
+  sendReview: PropTypes.func,
+  setFavoriteStatus: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
-  offers: getInitialOffersSelector(state),
-  offer: getOffer(state),
   hoveredOffer: getHoveredOffer(state),
+  offersRequestStatus: getOffersRequestStatus(state),
+  offersRequestMessage: getOffersRequestMessage(state),
   reviewsRequestStatus: getReviewsRequestStatus(state),
   reviewsRequestMessage: getReviewsRequestMessage(state),
-  reviews: getReviews(state),
+  favoritesRequestStatus: getFavoritesRequestStatus(state),
+  favoritesRequestMessage: getFavoritesRequestMessage(state),
+  reviews: getReviewsSelector(state),
   userData: getUserData(state),
+  nearbyOffers: getNearbyOffers(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getCurrentOffer: (offer) => {
-    dispatch(OfferActionCreator.getCurrentOffer(offer));
+  sendReview: (offerId, comment, rating, onClearForm, onSetSubmitButtonStatus) => {
+    dispatch(ReviewsAsyncActionCreator.sendReview(offerId, comment, rating, onClearForm, onSetSubmitButtonStatus));
   },
-  getReviewsOnGet: (offerId) => {
-    dispatch(ReviewsAsyncActionCreator.getReviewsOnGet(offerId));
-  },
-  getReviewsOnPost: (offerId, comment, rating, onClearForm, onSetSubmitButtonStatus) => {
-    dispatch(ReviewsAsyncActionCreator.getReviewsOnPost(offerId, comment, rating, onClearForm, onSetSubmitButtonStatus));
+  setFavoriteStatus: (hotelId, status) => {
+    dispatch(FavoritesAsyncActionCreator.setFavoriteStatus(hotelId, status));
   },
 });
 

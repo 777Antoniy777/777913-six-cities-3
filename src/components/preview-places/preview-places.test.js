@@ -42,15 +42,12 @@ const location = {
   pathname: `/pathname`,
 };
 
-const getActiveItem = () => {};
-
 it(`render PreviewPlaces`, () => {
   const tree = renderer.create(
       <PreviewPlaces
         offer={offer}
         history={history}
         location={location}
-        getActiveItem={getActiveItem}
       />)
       .toJSON();
 

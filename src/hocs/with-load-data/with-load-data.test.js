@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import renderer from "react-test-renderer";
 import withLoadData from "./with-load-data";
 

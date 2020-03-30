@@ -1,5 +1,5 @@
 import {createStore, applyMiddleware} from "redux";
-import {composeWithDevTools} from 'redux-devtools-extension';
+import {composeWithDevTools} from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import rootReducer from "../reducers/index";
 import createAPI from "../api";
@@ -21,11 +21,6 @@ const store = createStore(
 
 store.dispatch(OffersAsyncActionCreator.getOffers());
 store.dispatch(UserAsyncActionCreator.checkUserStatus());
-
-// store.subscribe(() => {
-//   /* eslint-disable no-console */
-//   console.log(`store was changed`, store.getState());
-// });
 
 export default store;
 

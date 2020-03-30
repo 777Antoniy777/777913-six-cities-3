@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 import renderer from "react-test-renderer";
-import PlaceItems from './place-items';
+import PlaceItems from "./place-items";
 
 // set mocha data
 const items = [

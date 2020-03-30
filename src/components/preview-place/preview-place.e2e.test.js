@@ -4,7 +4,7 @@ import Adapter from "enzyme-adapter-react-16";
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
-import PreviewPlace from "./preview-place";
+import {PreviewPlace} from "./preview-place";
 
 Enzyme.configure({
   adapter: new Adapter(),
@@ -48,6 +48,8 @@ const placeData = {
   coord: [1, 1],
 };
 const authorizationStatus = `AUTH`;
+const favoritesRequestStatus = `status`;
+const favoritesRequestMessage = `message`;
 const history = {
   push: jest.fn()
 };
@@ -56,19 +58,22 @@ const location = {
 };
 
 const store = mockStore({
+  favorites: {
+    requestStatus: null,
+    requestMessage: null,
+  },
   user: {
     authorizationStatus: `NO_AUTH`,
   }
 });
 
 describe(`PreviewPlace should call correct callbacks`, () => {
-  it(`"placeData" and status should set into callback after click on title`, () => {
+  it(`page should scroll up after click on title`, () => {
     beforeEach(() => { // Runs before each test in the suite
       store.clearActions();
     });
 
     const preventDefault = jest.fn();
-    const getActiveItem = jest.fn((data) => data);
     const scrollTo = jest.fn();
     Object.defineProperty(global.window, `scrollTo`, {
       value: scrollTo
@@ -80,9 +85,10 @@ describe(`PreviewPlace should call correct callbacks`, () => {
             <PreviewPlace
               placeData={placeData}
               authorizationStatus={authorizationStatus}
+              favoritesRequestStatus={favoritesRequestStatus}
+              favoritesRequestMessage={favoritesRequestMessage}
               history={history}
               location={location}
-              getActiveItem={getActiveItem}
             />
           </Provider>
         </BrowserRouter>
@@ -92,14 +98,11 @@ describe(`PreviewPlace should call correct callbacks`, () => {
 
     const mockClickEvent = ({
       preventDefault,
-      getActiveItem() {},
     });
 
     title.simulate(`click`, mockClickEvent);
 
     expect(scrollTo).toHaveBeenCalledWith(0, 0);
-    expect(getActiveItem).toHaveBeenCalledTimes(1);
-    expect(getActiveItem.mock.calls[0][0]).toMatchObject(placeData);
   });
 
   it(`"placeData" should set into callback after mouseenter on card`, () => {
@@ -115,6 +118,8 @@ describe(`PreviewPlace should call correct callbacks`, () => {
             <PreviewPlace
               placeData={placeData}
               authorizationStatus={authorizationStatus}
+              favoritesRequestStatus={favoritesRequestStatus}
+              favoritesRequestMessage={favoritesRequestMessage}
               history={history}
               location={location}
               getHoveredOffer={getHoveredOffer}
@@ -126,7 +131,7 @@ describe(`PreviewPlace should call correct callbacks`, () => {
     const card = previewPlace.find(`.place-card`);
 
     const mockMouseenterEvent = ({
-      getHoveredOffer: getHoveredOffer(placeData),
+      getHoveredOffer() {},
     });
 
     card.simulate(`mouseenter`, mockMouseenterEvent);
@@ -148,6 +153,8 @@ describe(`PreviewPlace should call correct callbacks`, () => {
             <PreviewPlace
               placeData={placeData}
               authorizationStatus={authorizationStatus}
+              favoritesRequestStatus={favoritesRequestStatus}
+              favoritesRequestMessage={favoritesRequestMessage}
               history={history}
               location={location}
               removeHoveredOffer={removeHoveredOffer}
@@ -159,7 +166,7 @@ describe(`PreviewPlace should call correct callbacks`, () => {
     const card = previewPlace.find(`.place-card`);
 
     const mockMouseleaveEvent = ({
-      onRemoveHoveredOffer: removeHoveredOffer(null),
+      removeHoveredOffer() {},
     });
 
     card.simulate(`mouseleave`, mockMouseleaveEvent);
@@ -173,7 +180,7 @@ describe(`PreviewPlace should call correct callbacks`, () => {
       store.clearActions();
     });
 
-    const {id, premium} = placeData;
+    const {id} = placeData;
     const setFavoriteStatus = jest.fn((val) => val);
 
     const previewPlace = mount(
@@ -182,6 +189,8 @@ describe(`PreviewPlace should call correct callbacks`, () => {
             <PreviewPlace
               placeData={placeData}
               authorizationStatus={authorizationStatus}
+              favoritesRequestStatus={favoritesRequestStatus}
+              favoritesRequestMessage={favoritesRequestMessage}
               history={history}
               location={location}
               setFavoriteStatus={setFavoriteStatus}
@@ -193,13 +202,13 @@ describe(`PreviewPlace should call correct callbacks`, () => {
     const favoriteButton = previewPlace.find(`.place-card__bookmark-button`);
 
     const mockClickEvent = ({
-      setFavoriteStatus: setFavoriteStatus(id, premium),
+      setFavoriteStatus() {},
     });
 
     favoriteButton.simulate(`click`, mockClickEvent);
 
     expect(setFavoriteStatus).toHaveBeenCalledTimes(1);
     expect(setFavoriteStatus.mock.calls[0][0]).toBe(id);
-    expect(setFavoriteStatus.mock.calls[0][1]).toBe(premium);
+    expect(setFavoriteStatus.mock.calls[0][1]).toBe(1);
   });
 });

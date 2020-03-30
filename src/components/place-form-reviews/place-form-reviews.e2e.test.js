@@ -41,7 +41,7 @@ describe(`PlaceFormReviews should call correct callbacks`, () => {
 
   it(`handler should set "submitStatus" and call async action after click on the submit button`, () => {
     const onSetSubmitButtonStatus = jest.fn();
-    const getReviewsOnPost = jest.fn();
+    const sendReview = jest.fn();
     const isCommentValid = jest.fn();
     const isStarChoose = jest.fn();
 
@@ -55,7 +55,7 @@ describe(`PlaceFormReviews should call correct callbacks`, () => {
           isCommentValid={isCommentValid}
           isStarChoose={isStarChoose}
           onSetSubmitButtonStatus={onSetSubmitButtonStatus}
-          getReviewsOnPost={getReviewsOnPost}
+          sendReview={sendReview}
         />
     );
 

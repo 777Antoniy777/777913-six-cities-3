@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import renderer from "react-test-renderer";
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
@@ -43,17 +43,22 @@ const placeData = {
   coord: [1, 1],
 };
 const authorizationStatus = `AUTH`;
+const favoritesRequestStatus = `status`;
+const favoritesRequestMessage = `message`;
 const history = {};
 const location = {
   pathname: `/pathname`,
 };
 
-const getActiveItem = () => {};
 const getHoveredOffer = () => {};
 const removeHoveredOffer = () => {};
 const setFavoriteStatus = () => {};
 
 const store = mockStore({
+  favorites: {
+    requestStatus: null,
+    requestMessage: null,
+  },
   user: {
     authorizationStatus: `NO_AUTH`,
   }
@@ -70,9 +75,10 @@ it(`render PreviewPlace`, () => {
           <PreviewPlace
             placeData={placeData}
             authorizationStatus={authorizationStatus}
+            favoritesRequestStatus={favoritesRequestStatus}
+            favoritesRequestMessage={favoritesRequestMessage}
             history={history}
             location={location}
-            getActiveItem={getActiveItem}
             getHoveredOffer={getHoveredOffer}
             removeHoveredOffer={removeHoveredOffer}
             setFavoriteStatus={setFavoriteStatus}

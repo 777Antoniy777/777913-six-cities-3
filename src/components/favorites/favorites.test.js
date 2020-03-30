@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import renderer from "react-test-renderer";
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
@@ -48,6 +48,8 @@ const favoriteCities = [
   `Moscow`,
   `Omsk`,
 ];
+const favoritesRequestStatus = `status`;
+const favoritesRequestMessage = `message`;
 const authorizationStatus = `AUTH`;
 const userData = {
   id: 1,
@@ -59,8 +61,6 @@ const history = {};
 const location = {
   pathname: `/pathname`,
 };
-
-const getCurrentOffer = () => {};
 
 const store = mockStore({
   favorites: {
@@ -81,13 +81,14 @@ it(`render Favorites`, () => {
       <BrowserRouter>
         <Provider store={store}>
           <Favorites
+            favoritesRequestStatus={favoritesRequestStatus}
+            favoritesRequestMessage={favoritesRequestMessage}
             favoriteOffers={favoriteOffers}
             favoriteCities={favoriteCities}
             authorizationStatus={authorizationStatus}
             userData={userData}
             history={history}
             location={location}
-            getCurrentOffer={getCurrentOffer}
           />
         </Provider>
       </BrowserRouter>)

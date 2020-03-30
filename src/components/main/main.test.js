@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 import renderer from "react-test-renderer";
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
-import Main from './main';
+import Main from "./main";
 
 const mockStore = configureStore();
 
@@ -136,7 +136,6 @@ const location = {
 };
 
 const getCurrentCity = () => {};
-const getCurrentOffer = () => {};
 const setDefaultOrderOffers = () => {};
 const setLowToHighOrderOffers = () => {};
 const setHighToLowOrderOffers = () => {};
@@ -149,6 +148,10 @@ const store = mockStore({
     city: `city`,
     initialOffers,
     offers,
+  },
+  favorites: {
+    requestStatus: null,
+    requestMessage: null,
   },
   user: {
     authorizationStatus: `NO_AUTH`,
@@ -177,7 +180,6 @@ it(`render Main`, () => {
             history={history}
             location={location}
             getCurrentCity={getCurrentCity}
-            getCurrentOffer={getCurrentOffer}
             setDefaultOrderOffers={setDefaultOrderOffers}
             setLowToHighOrderOffers={setLowToHighOrderOffers}
             setHighToLowOrderOffers={setHighToLowOrderOffers}

@@ -1,3 +1,4 @@
+import {StartResponseProperty, EndResponseProperty} from "../../enums";
 import {ReviewsActionCreator} from "./action-creator";
 
 const setOptions = (comment, rating) => ({
@@ -17,7 +18,7 @@ const createAdapter = (json) => {
         val = obj[key];
 
         switch (key) {
-          case `user`:
+          case StartResponseProperty.USER:
             const userObj = val;
             const newUserObj = {};
             let hostVal = ``;
@@ -27,11 +28,11 @@ const createAdapter = (json) => {
                 hostVal = userObj[userKey];
 
                 switch (userKey) {
-                  case `is_pro`:
-                    newUserObj.status = hostVal;
+                  case StartResponseProperty.IS_PRO:
+                    newUserObj[EndResponseProperty.STATUS] = hostVal;
                     break;
-                  case `avatar_url`:
-                    newUserObj.avatar = hostVal;
+                  case StartResponseProperty.AVATAR_URL:
+                    newUserObj[EndResponseProperty.AVATAR] = hostVal;
                     break;
                   default:
                     newUserObj[userKey] = hostVal;
@@ -41,7 +42,7 @@ const createAdapter = (json) => {
               }
             }
 
-            newObj.user = newUserObj;
+            newObj[StartResponseProperty.USER] = newUserObj;
             break;
           default:
             newObj[key] = val;
@@ -58,7 +59,7 @@ const createAdapter = (json) => {
 };
 
 const ReviewsAsyncActionCreator = {
-  getReviewsOnGet: (hotelId) => (dispatch, getState, api) => {
+  getReviews: (hotelId) => (dispatch, getState, api) => {
     return api.get(`/comments/${hotelId}`)
       .then((response) => {
         response = createAdapter(response.data);
@@ -75,7 +76,7 @@ const ReviewsAsyncActionCreator = {
       });
   },
 
-  getReviewsOnPost: (hotelId, comment, rating, onClearForm, onSetSubmitButtonStatus) => (dispatch, getState, api) => {
+  sendReview: (hotelId, comment, rating, onClearForm, onSetSubmitButtonStatus) => (dispatch, getState, api) => {
     const options = setOptions(comment, rating);
 
     return api.post(`/comments/${hotelId}`, options)

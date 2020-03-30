@@ -1,15 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
-import {connect} from 'react-redux';
-import classNames from 'classnames';
+import {connect} from "react-redux";
+import classNames from "classnames";
 import {AuthorizationStatus, AppRoute} from "../../enums";
-import {ImageBigStyle, ImageSmallStyle} from "../../style";
-import {OfferActionCreator} from '../../actions/offer/action-creator';
-import {FavoritesAsyncActionCreator} from "../../actions/favorites/async-action-creator";
+import {ImageBigStyle, ImageSmallStyle, ErrorReviewWrapperStyle, ErrorMessageStyle} from "../../style";
 import {getAuthorizationStatus} from "../../reducers/user/selectors";
+import {getFavoritesRequestStatus, getFavoritesRequestMessage} from "../../reducers/favorites/selectors";
+import {OfferActionCreator} from "../../actions/offer/action-creator";
+import {FavoritesAsyncActionCreator} from "../../actions/favorites/async-action-creator";
+import ErrorMessage from "../error-message/error-message";
 
-const PreviewPlace = ({placeData, authorizationStatus, history, location, getActiveItem, getHoveredOffer, removeHoveredOffer, setFavoriteStatus}) => {
+const PreviewPlace = ({placeData, favoritesRequestStatus, favoritesRequestMessage, authorizationStatus, history, location, getHoveredOffer, removeHoveredOffer, setFavoriteStatus}) => {
   const {id, title, premium, favorite, src, price, type, rating} = placeData;
   let imageStyle = ImageBigStyle;
   let pathname;
@@ -18,7 +20,7 @@ const PreviewPlace = ({placeData, authorizationStatus, history, location, getAct
     pathname = location.pathname;
   }
 
-  if (pathname === `/favorites`) {
+  if (pathname.startsWith(`/favorites`)) {
     imageStyle = ImageSmallStyle;
   }
 
@@ -26,19 +28,19 @@ const PreviewPlace = ({placeData, authorizationStatus, history, location, getAct
     'place-card': true,
     'cities__place-card': pathname === `/`,
     'near-places__card': pathname.startsWith(`/offer`),
-    'favorites__card': pathname === `/favorites`,
+    'favorites__card': pathname.startsWith(`/favorites`),
   });
 
   const placeImageWrapperClass = classNames({
     'place-card__image-wrapper': true,
     'cities__image-wrapper': pathname === `/`,
     'near-places__image-wrapper': pathname.startsWith(`/offer`),
-    'favorites__image-wrapper': pathname === `/favorites`,
+    'favorites__image-wrapper': pathname.startsWith(`/favorites`),
   });
 
   const placeInfoWrapperClass = classNames({
     'place-card__info': true,
-    'favorites__card-info': pathname === `/favorites`,
+    'favorites__card-info': pathname.startsWith(`/favorites`),
   });
 
   const favoriteButtonClass = classNames({
@@ -57,7 +59,6 @@ const PreviewPlace = ({placeData, authorizationStatus, history, location, getAct
   const handleTitleClick = (evt) => {
     evt.preventDefault();
 
-    getActiveItem(placeData);
     window.scrollTo(0, 0);
   };
 
@@ -115,6 +116,16 @@ const PreviewPlace = ({placeData, authorizationStatus, history, location, getAct
 
         </div>
 
+        {/* рендерит ошибку, если сервер недоступен */}
+        { favoritesRequestStatus === `error` &&
+          <ErrorMessage
+            // properties
+            requestMessage={favoritesRequestMessage}
+            wrapperStyle={ErrorReviewWrapperStyle}
+            messageStyle={ErrorMessageStyle}
+          />
+        }
+
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
             <span style={{width: `${getRating(rating)}`}} />
@@ -123,7 +134,7 @@ const PreviewPlace = ({placeData, authorizationStatus, history, location, getAct
         </div>
 
         <h2 className="place-card__name" onClick={handleTitleClick}>
-          <Link to={AppRoute.OFFER(id)}>{title}</Link>
+          <Link to={AppRoute.OFFER.setLink(id)}>{title}</Link>
         </h2>
 
         <p className="place-card__type">{type}</p>
@@ -151,16 +162,19 @@ PreviewPlace.propTypes = {
     items: PropTypes.arrayOf(PropTypes.string),
     host: PropTypes.object,
   }),
+  favoritesRequestStatus: PropTypes.string,
+  favoritesRequestMessage: PropTypes.string,
   authorizationStatus: PropTypes.string,
   history: PropTypes.object,
   location: PropTypes.object,
-  getActiveItem: PropTypes.func,
   removeHoveredOffer: PropTypes.func,
   getHoveredOffer: PropTypes.func,
   setFavoriteStatus: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
+  favoritesRequestStatus: getFavoritesRequestStatus(state),
+  favoritesRequestMessage: getFavoritesRequestMessage(state),
   authorizationStatus: getAuthorizationStatus(state),
 });
 
@@ -176,6 +190,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
+export {PreviewPlace};
 export default connect(
     mapStateToProps,
     mapDispatchToProps

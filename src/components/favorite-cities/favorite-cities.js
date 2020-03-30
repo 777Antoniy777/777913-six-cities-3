@@ -1,11 +1,8 @@
-import React from 'react';
+import React from "react";
 import PropTypes from "prop-types";
-import withActiveItem from "../../hocs/with-active-item/with-active-item";
-import PreviewPlaces from '../preview-places/preview-places';
+import PreviewPlaces from "../preview-places/preview-places";
 
-const PreviewPlacesWrappedHoc = withActiveItem(PreviewPlaces);
-
-const FavoriteCities = ({favoriteOffers, favoriteCities, history, location, getCurrentOffer}) => {
+const FavoriteCities = ({favoriteOffers, favoriteCities, history, location}) => {
   return (
     <ul className="favorites__list">
 
@@ -18,8 +15,6 @@ const FavoriteCities = ({favoriteOffers, favoriteCities, history, location, getC
             favoriteCity={elem}
             history={history}
             location={location}
-            // handlers
-            getCurrentOffer={getCurrentOffer}
           />
         )}
 
@@ -27,7 +22,7 @@ const FavoriteCities = ({favoriteOffers, favoriteCities, history, location, getC
   );
 };
 
-const FavoriteCity = ({favoriteOffers, favoriteCity, history, location, getCurrentOffer}) => {
+const FavoriteCity = ({favoriteOffers, favoriteCity, history, location}) => {
   const filterFavoriteOffers = (city) => {
     return favoriteOffers.filter((elem) => {
       return elem.city.name.includes(city);
@@ -48,13 +43,11 @@ const FavoriteCity = ({favoriteOffers, favoriteCity, history, location, getCurre
       <div className="favorites__places">
 
         {/* рендерит превью мест */}
-        <PreviewPlacesWrappedHoc
+        <PreviewPlaces
           // properties
           offers={filterFavoriteOffers(favoriteCity)}
           history={history}
           location={location}
-          // handlers
-          getActiveItem={getCurrentOffer}
         />
 
       </div>
@@ -68,7 +61,6 @@ FavoriteCities.propTypes = {
   favoriteCities: PropTypes.arrayOf(PropTypes.string),
   history: PropTypes.object,
   location: PropTypes.object,
-  getCurrentOffer: PropTypes.func,
 };
 
 FavoriteCity.propTypes = {
@@ -76,7 +68,6 @@ FavoriteCity.propTypes = {
   favoriteCity: PropTypes.string,
   history: PropTypes.object,
   location: PropTypes.object,
-  getCurrentOffer: PropTypes.func,
 };
 
 export default FavoriteCities;

@@ -1,9 +1,10 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import FavoriteCities from "./favorite-cities";
+import withPlace from "./with-place";
 
 // set mocha data
-const favoriteOffers = [
+const props = [];
+const offers = [
   {
     id: 1,
     city: {
@@ -39,24 +40,41 @@ const favoriteOffers = [
     coord: [1, 1],
   },
 ];
-const favoriteCities = [
-  `Moscow`,
-  `Omsk`,
-];
 const history = {};
-const location = {
-  pathname: `/pathname`,
+const match = {
+  params: {
+    hotelID: 1,
+  },
 };
 
-it(`render FavoriteCities`, () => {
-  const tree = renderer.create(
-      <FavoriteCities
-        favoriteOffers={favoriteOffers}
-        favoriteCities={favoriteCities}
-        history={history}
-        location={location}
-      />)
-      .toJSON();
+const getReviews = () => {};
+const getNearbyOffers = () => {};
+const getActiveItem = () => {};
+
+const MockComponent = () => {
+  return (
+    <div></div>
+  );
+};
+
+const PlaceWrappedHoc = withPlace(MockComponent);
+
+it(`render withPlace`, () => {
+  const tree = renderer.create((
+    <PlaceWrappedHoc
+      props={props}
+      offers={offers}
+      match={match}
+      history={history}
+      getReviews={getReviews}
+      getNearbyOffers={getNearbyOffers}
+      getActiveItem={getActiveItem}
+    />
+  ), {
+    createNodeMock() {
+      return {};
+    }
+  }).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

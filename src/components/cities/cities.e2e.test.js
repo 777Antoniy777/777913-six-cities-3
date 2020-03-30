@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 import Enzyme, {mount} from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import Cities from './cities';
+import Cities from "./cities";
 
 Enzyme.configure({
   adapter: new Adapter(),
