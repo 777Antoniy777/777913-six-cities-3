@@ -121,6 +121,11 @@ App.propTypes = {
           name: PropTypes.string,
           status: PropTypes.bool,
         }),
+        location: PropTypes.shape({
+          latitude: PropTypes.number,
+          longitude: PropTypes.number,
+          zoom: PropTypes.number,
+        }),
       })
   ),
   getFavoriteOffers: PropTypes.func,

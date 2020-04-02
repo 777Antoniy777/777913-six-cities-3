@@ -294,6 +294,11 @@ Place.propTypes = {
         name: PropTypes.string,
         status: PropTypes.bool,
       }),
+      location: PropTypes.shape({
+        latitude: PropTypes.number,
+        longitude: PropTypes.number,
+        zoom: PropTypes.number,
+      }),
     }),
   ]),
   hoveredOffer: PropTypes.shape({
@@ -323,6 +328,11 @@ Place.propTypes = {
       id: PropTypes.number,
       name: PropTypes.string,
       status: PropTypes.bool,
+    }),
+    location: PropTypes.shape({
+      latitude: PropTypes.number,
+      longitude: PropTypes.number,
+      zoom: PropTypes.number,
     }),
   }),
   reviewsRequestStatus: PropTypes.string,
@@ -407,6 +417,11 @@ Place.propTypes = {
           id: PropTypes.number,
           name: PropTypes.string,
           status: PropTypes.bool,
+        }),
+        location: PropTypes.shape({
+          latitude: PropTypes.number,
+          longitude: PropTypes.number,
+          zoom: PropTypes.number,
         }),
       })
   ),

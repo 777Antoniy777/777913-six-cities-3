@@ -167,6 +167,11 @@ Main.propTypes = {
       name: PropTypes.string,
       status: PropTypes.bool,
     }),
+    location: PropTypes.shape({
+      latitude: PropTypes.number,
+      longitude: PropTypes.number,
+      zoom: PropTypes.number,
+    }),
   }),
   offersRequestStatus: PropTypes.string,
   offersRequestMessage: PropTypes.string,
@@ -199,6 +204,11 @@ Main.propTypes = {
           name: PropTypes.string,
           status: PropTypes.bool,
         }),
+        location: PropTypes.shape({
+          latitude: PropTypes.number,
+          longitude: PropTypes.number,
+          zoom: PropTypes.number,
+        }),
       })
   ),
   initialOffers: PropTypes.arrayOf(
@@ -230,6 +240,11 @@ Main.propTypes = {
           name: PropTypes.string,
           status: PropTypes.bool,
         }),
+        location: PropTypes.shape({
+          latitude: PropTypes.number,
+          longitude: PropTypes.number,
+          zoom: PropTypes.number,
+        }),
       })
   ),
   filteredOffers: PropTypes.arrayOf(
@@ -260,6 +275,11 @@ Main.propTypes = {
           id: PropTypes.number,
           name: PropTypes.string,
           status: PropTypes.bool,
+        }),
+        location: PropTypes.shape({
+          latitude: PropTypes.number,
+          longitude: PropTypes.number,
+          zoom: PropTypes.number,
         }),
       })
   ),

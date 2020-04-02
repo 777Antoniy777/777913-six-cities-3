@@ -121,6 +121,11 @@ const withPlaceFilter = (Component) => {
             name: PropTypes.string,
             status: PropTypes.bool,
           }),
+          location: PropTypes.shape({
+            latitude: PropTypes.number,
+            longitude: PropTypes.number,
+            zoom: PropTypes.number,
+          }),
         })
     ),
     offers: PropTypes.arrayOf(
@@ -151,6 +156,11 @@ const withPlaceFilter = (Component) => {
             id: PropTypes.number,
             name: PropTypes.string,
             status: PropTypes.bool,
+          }),
+          location: PropTypes.shape({
+            latitude: PropTypes.number,
+            longitude: PropTypes.number,
+            zoom: PropTypes.number,
           }),
         })
     ),
