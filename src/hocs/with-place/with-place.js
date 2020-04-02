@@ -21,12 +21,12 @@ const withPlace = (Component) => {
       const routeParameter = match.params.hotelID;
       const offer = this.getCurrentOffer();
 
-      getReviews(+routeParameter);
-      getNearbyOffers(+routeParameter);
-
       if (offer) {
         getActiveItem(offer);
       }
+
+      getReviews(+routeParameter);
+      getNearbyOffers(+routeParameter);
     }
 
     componentDidUpdate() {
@@ -34,9 +34,9 @@ const withPlace = (Component) => {
       const routeParameter = match.params.hotelID;
       const offer = this.getCurrentOffer();
 
+      getActiveItem(offer);
       getReviews(+routeParameter);
       getNearbyOffers(+routeParameter);
-      getActiveItem(offer);
     }
 
     getCurrentOffer() {

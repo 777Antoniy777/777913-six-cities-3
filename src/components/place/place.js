@@ -6,7 +6,7 @@ import {AuthorizationStatus, AppRoute} from "../../enums";
 import {ErrorReviewWrapperStyle, ErrorMessageStyle} from "../../style";
 import {getHoveredOffer} from "../../reducers/offer/selectors";
 import {getOffersRequestStatus, getOffersRequestMessage, getNearbyOffers} from "../../reducers/offers/selectors";
-import {getReviewsRequestStatus, getReviewsRequestMessage, getReviewsSelector} from "../../reducers/reviews/selectors";
+import {getReviewsRequestStatus, getReviewsRequestMessage, getReviewsSelector, getReviews} from "../../reducers/reviews/selectors";
 import {getUserData} from "../../reducers/user/selectors";
 import {getFavoritesRequestStatus, getFavoritesRequestMessage} from "../../reducers/favorites/selectors";
 import {ReviewsAsyncActionCreator} from "../../actions/reviews/async-action-creator";
@@ -22,6 +22,7 @@ import PreviewPlaces from "../preview-places/preview-places";
 import Map from "../map/map";
 import PlaceFormReviews from "../place-form-reviews/place-form-reviews";
 import ErrorMessage from "../error-message/error-message";
+import {getRating} from "../../utils/get-rating";
 
 const MapWrappedHOC = withMap(Map);
 const PlaceFormReviewsWrappedHOC = withPlaceFormReviews(PlaceFormReviews);
@@ -51,12 +52,12 @@ const Place = ({offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage
     'property__bookmark-button--active': favorite,
   });
 
-  const getRating = (val) => {
-    let ratingStars = Math.round(val);
-    ratingStars = ratingStars * 20;
+  // const getRating = (val) => {
+  //   let ratingStars = Math.round(val);
+  //   ratingStars = ratingStars * 20;
 
-    return `${ratingStars}%`;
-  };
+  //   return `${ratingStars}%`;
+  // };
 
   const handleFavoriteButtonClick = (evt) => {
     evt.preventDefault();

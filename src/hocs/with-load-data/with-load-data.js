@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const withLoadData = (Component) => {
-  class WithLoadData extends React.Component {
+  class WithLoadData extends React.PureComponent {
 
     componentDidMount() {
       const {getData} = this.props;

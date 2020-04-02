@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import classNames from "classnames";
 import {ErrorMainWrapperStyle, ErrorMessageStyle} from "../../style";
+import {getHoveredOffer} from "../../reducers/offer/selectors";
 import {getCitiesSelector, getOffersRequestStatus, getOffersRequestMessage, getInitialOffers, getOffers, getCity} from "../../reducers/offers/selectors";
 import {getUserData} from "../../reducers/user/selectors";
 import {OffersActionCreator} from "../../actions/offers/action-creator";
@@ -21,12 +22,17 @@ const CitiesWrappedHoc = withActiveItem(Cities);
 const MapWrappedHoc = withMap(Map);
 const PlaceFilterWrappedHoc = withPlaceFilter(PlaceFilter);
 
-const Main = ({offersRequestStatus, offersRequestMessage, offers, initialOffers, filteredOffers, currentCity, cities, authorizationStatus, userData, history, location, getCurrentCity, setDefaultOrderOffers, setLowToHighOrderOffers, setHighToLowOrderOffers, setTopRatedFirstOrderOffers}) => {
+const Main = ({hoveredOffer, offersRequestStatus, offersRequestMessage, offers, initialOffers, filteredOffers, currentCity, cities, authorizationStatus, userData, history, location, getCurrentCity, setDefaultOrderOffers, setLowToHighOrderOffers, setHighToLowOrderOffers, setTopRatedFirstOrderOffers}) => {
   const mainEmptyClass = classNames({
     'page__main': true,
     'page__main--index': true,
     'page__main--index-empty': filteredOffers.length === 0,
   });
+
+  let hoveredLocation = null;
+  if (hoveredOffer) {
+    hoveredLocation = hoveredOffer.location;
+  }
 
   return (
     <div className="page page--gray page--main">
@@ -116,6 +122,7 @@ const Main = ({offersRequestStatus, offersRequestMessage, offers, initialOffers,
                     <MapWrappedHoc
                       // properties
                       offers={filteredOffers}
+                      hoveredLocation={hoveredLocation}
                     />
                   }
 
@@ -132,6 +139,24 @@ const Main = ({offersRequestStatus, offersRequestMessage, offers, initialOffers,
 };
 
 Main.propTypes = {
+  hoveredOffer: PropTypes.shape({
+    id: PropTypes.number,
+    city: PropTypes.object,
+    title: PropTypes.string,
+    premium: PropTypes.bool,
+    favorite: PropTypes.bool,
+    src: PropTypes.string,
+    photos: PropTypes.arrayOf(PropTypes.string),
+    price: PropTypes.number,
+    description: PropTypes.string,
+    type: PropTypes.string,
+    rating: PropTypes.number,
+    bedroomAmount: PropTypes.number,
+    guestsAmount: PropTypes.number,
+    items: PropTypes.arrayOf(PropTypes.string),
+    host: PropTypes.object,
+    location: PropTypes.objectOf(PropTypes.number),
+  }),
   offersRequestStatus: PropTypes.string,
   offersRequestMessage: PropTypes.string,
   offers: PropTypes.arrayOf(PropTypes.object),
@@ -151,6 +176,7 @@ Main.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
+  hoveredOffer: getHoveredOffer(state),
   offersRequestStatus: getOffersRequestStatus(state),
   offersRequestMessage: getOffersRequestMessage(state),
   currentCity: getCity(state),
