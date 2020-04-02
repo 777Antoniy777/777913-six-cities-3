@@ -92,8 +92,68 @@ const withPlaceFilter = (Component) => {
   }
 
   WithPlaceFilter.propTypes = {
-    initialOffers: PropTypes.arrayOf(PropTypes.object),
-    offers: PropTypes.arrayOf(PropTypes.object),
+    initialOffers: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.number,
+          city: PropTypes.shape({
+            name: PropTypes.string,
+            location: PropTypes.shape({
+              latitude: PropTypes.number,
+              longitude: PropTypes.number,
+              zoom: PropTypes.number,
+            }),
+          }),
+          title: PropTypes.string,
+          premium: PropTypes.bool,
+          favorite: PropTypes.bool,
+          src: PropTypes.string,
+          photos: PropTypes.arrayOf(PropTypes.string),
+          price: PropTypes.number,
+          description: PropTypes.string,
+          type: PropTypes.string,
+          rating: PropTypes.number,
+          bedroomAmount: PropTypes.number,
+          guestsAmount: PropTypes.number,
+          items: PropTypes.arrayOf(PropTypes.string),
+          host: PropTypes.shape({
+            avatar: PropTypes.string,
+            id: PropTypes.number,
+            name: PropTypes.string,
+            status: PropTypes.bool,
+          }),
+        })
+    ),
+    offers: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.number,
+          city: PropTypes.shape({
+            name: PropTypes.string,
+            location: PropTypes.shape({
+              latitude: PropTypes.number,
+              longitude: PropTypes.number,
+              zoom: PropTypes.number,
+            }),
+          }),
+          title: PropTypes.string,
+          premium: PropTypes.bool,
+          favorite: PropTypes.bool,
+          src: PropTypes.string,
+          photos: PropTypes.arrayOf(PropTypes.string),
+          price: PropTypes.number,
+          description: PropTypes.string,
+          type: PropTypes.string,
+          rating: PropTypes.number,
+          bedroomAmount: PropTypes.number,
+          guestsAmount: PropTypes.number,
+          items: PropTypes.arrayOf(PropTypes.string),
+          host: PropTypes.shape({
+            avatar: PropTypes.string,
+            id: PropTypes.number,
+            name: PropTypes.string,
+            status: PropTypes.bool,
+          }),
+        })
+    ),
     setDefaultOrderOffers: PropTypes.func,
     setLowToHighOrderOffers: PropTypes.func,
     setHighToLowOrderOffers: PropTypes.func,

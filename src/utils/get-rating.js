@@ -1,7 +1,6 @@
 export const getRating = (val) => {
-  let ratingStars = Math.round(val);
-  ratingStars = ratingStars * 20;
+  const RATING_STARS = Math.round(val) * 20;
 
-  return `${ratingStars}%`;
+  return `${RATING_STARS}%`;
 };
 

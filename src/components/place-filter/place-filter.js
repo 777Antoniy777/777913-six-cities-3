@@ -76,8 +76,16 @@ const PlaceFilterItem = ({filter, currentFilter, getCurrentFilter}) => {
 
 PlaceFilter.propTypes = {
   isFilterOpened: PropTypes.bool,
-  currentFilter: PropTypes.object,
-  filtersArr: PropTypes.arrayOf(PropTypes.object),
+  currentFilter: PropTypes.shape({
+    id: PropTypes.string,
+    value: PropTypes.string,
+  }),
+  filtersArr: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string,
+        value: PropTypes.string,
+      })
+  ),
   setFilterStatus: PropTypes.func,
   getCurrentFilter: PropTypes.func,
 };

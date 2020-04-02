@@ -91,17 +91,29 @@ const SignIn = ({email, password, login, location, userRequestStatus, userReques
 };
 
 SignIn.propTypes = {
+  userRequestStatus: PropTypes.string,
+  userRequestMessage: PropTypes.string,
   email: PropTypes.string,
   password: PropTypes.string,
+  location: PropTypes.shape({
+    hash: PropTypes.string,
+    key: PropTypes.string,
+    pathname: PropTypes.string,
+    search: PropTypes.string,
+    state: PropTypes.string,
+  }),
+  authorizationStatus: PropTypes.string,
+  userData: PropTypes.shape({
+    id: PropTypes.number,
+    email: PropTypes.string,
+    name: PropTypes.string,
+    avatar: PropTypes.string,
+    status: PropTypes.bool,
+  }),
+  login: PropTypes.func,
   onInputChange: PropTypes.func,
   isFieldEmpty: PropTypes.func,
   isEmailValid: PropTypes.func,
-  login: PropTypes.func,
-  location: PropTypes.object,
-  userRequestStatus: PropTypes.string,
-  userRequestMessage: PropTypes.string,
-  authorizationStatus: PropTypes.string,
-  userData: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({

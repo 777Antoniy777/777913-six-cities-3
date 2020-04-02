@@ -8,7 +8,9 @@ const Map = ({map}) => {
 };
 
 Map.propTypes = {
-  map: PropTypes.object,
+  map: PropTypes.shape({
+    current: PropTypes.object,
+  }),
 };
 
 export default Map;
