@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import classNames from "classnames";
 import {ErrorMainWrapperStyle, ErrorMessageStyle} from "../../style";
+import {getHoveredOffer} from "../../reducers/offer/selectors";
 import {getCitiesSelector, getOffersRequestStatus, getOffersRequestMessage, getInitialOffers, getOffers, getCity} from "../../reducers/offers/selectors";
 import {getUserData} from "../../reducers/user/selectors";
 import {OffersActionCreator} from "../../actions/offers/action-creator";
@@ -21,12 +22,17 @@ const CitiesWrappedHoc = withActiveItem(Cities);
 const MapWrappedHoc = withMap(Map);
 const PlaceFilterWrappedHoc = withPlaceFilter(PlaceFilter);
 
-const Main = ({offersRequestStatus, offersRequestMessage, offers, initialOffers, filteredOffers, currentCity, cities, authorizationStatus, userData, history, location, getCurrentCity, setDefaultOrderOffers, setLowToHighOrderOffers, setHighToLowOrderOffers, setTopRatedFirstOrderOffers}) => {
+const Main = ({hoveredOffer, offersRequestStatus, offersRequestMessage, offers, initialOffers, filteredOffers, currentCity, cities, authorizationStatus, userData, history, location, getCurrentCity, setDefaultOrderOffers, setLowToHighOrderOffers, setHighToLowOrderOffers, setTopRatedFirstOrderOffers}) => {
   const mainEmptyClass = classNames({
     'page__main': true,
     'page__main--index': true,
     'page__main--index-empty': filteredOffers.length === 0,
   });
+
+  let hoveredLocation = null;
+  if (hoveredOffer) {
+    hoveredLocation = hoveredOffer.location;
+  }
 
   return (
     <div className="page page--gray page--main">
@@ -116,6 +122,7 @@ const Main = ({offersRequestStatus, offersRequestMessage, offers, initialOffers,
                     <MapWrappedHoc
                       // properties
                       offers={filteredOffers}
+                      hoveredLocation={hoveredLocation}
                     />
                   }
 
@@ -132,17 +139,186 @@ const Main = ({offersRequestStatus, offersRequestMessage, offers, initialOffers,
 };
 
 Main.propTypes = {
+  hoveredOffer: PropTypes.shape({
+    id: PropTypes.number,
+    city: PropTypes.shape({
+      name: PropTypes.string,
+      location: PropTypes.shape({
+        latitude: PropTypes.number,
+        longitude: PropTypes.number,
+        zoom: PropTypes.number,
+      }),
+    }),
+    title: PropTypes.string,
+    premium: PropTypes.bool,
+    favorite: PropTypes.bool,
+    src: PropTypes.string,
+    photos: PropTypes.arrayOf(PropTypes.string),
+    price: PropTypes.number,
+    description: PropTypes.string,
+    type: PropTypes.string,
+    rating: PropTypes.number,
+    bedroomAmount: PropTypes.number,
+    guestsAmount: PropTypes.number,
+    items: PropTypes.arrayOf(PropTypes.string),
+    host: PropTypes.shape({
+      avatar: PropTypes.string,
+      id: PropTypes.number,
+      name: PropTypes.string,
+      status: PropTypes.bool,
+    }),
+    location: PropTypes.shape({
+      latitude: PropTypes.number,
+      longitude: PropTypes.number,
+      zoom: PropTypes.number,
+    }),
+  }),
   offersRequestStatus: PropTypes.string,
   offersRequestMessage: PropTypes.string,
-  offers: PropTypes.arrayOf(PropTypes.object),
-  initialOffers: PropTypes.arrayOf(PropTypes.object),
-  filteredOffers: PropTypes.arrayOf(PropTypes.object),
+  offers: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        city: PropTypes.shape({
+          name: PropTypes.string,
+          location: PropTypes.shape({
+            latitude: PropTypes.number,
+            longitude: PropTypes.number,
+            zoom: PropTypes.number,
+          }),
+        }),
+        title: PropTypes.string,
+        premium: PropTypes.bool,
+        favorite: PropTypes.bool,
+        src: PropTypes.string,
+        photos: PropTypes.arrayOf(PropTypes.string),
+        price: PropTypes.number,
+        description: PropTypes.string,
+        type: PropTypes.string,
+        rating: PropTypes.number,
+        bedroomAmount: PropTypes.number,
+        guestsAmount: PropTypes.number,
+        items: PropTypes.arrayOf(PropTypes.string),
+        host: PropTypes.shape({
+          avatar: PropTypes.string,
+          id: PropTypes.number,
+          name: PropTypes.string,
+          status: PropTypes.bool,
+        }),
+        location: PropTypes.shape({
+          latitude: PropTypes.number,
+          longitude: PropTypes.number,
+          zoom: PropTypes.number,
+        }),
+      })
+  ),
+  initialOffers: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        city: PropTypes.shape({
+          name: PropTypes.string,
+          location: PropTypes.shape({
+            latitude: PropTypes.number,
+            longitude: PropTypes.number,
+            zoom: PropTypes.number,
+          }),
+        }),
+        title: PropTypes.string,
+        premium: PropTypes.bool,
+        favorite: PropTypes.bool,
+        src: PropTypes.string,
+        photos: PropTypes.arrayOf(PropTypes.string),
+        price: PropTypes.number,
+        description: PropTypes.string,
+        type: PropTypes.string,
+        rating: PropTypes.number,
+        bedroomAmount: PropTypes.number,
+        guestsAmount: PropTypes.number,
+        items: PropTypes.arrayOf(PropTypes.string),
+        host: PropTypes.shape({
+          avatar: PropTypes.string,
+          id: PropTypes.number,
+          name: PropTypes.string,
+          status: PropTypes.bool,
+        }),
+        location: PropTypes.shape({
+          latitude: PropTypes.number,
+          longitude: PropTypes.number,
+          zoom: PropTypes.number,
+        }),
+      })
+  ),
+  filteredOffers: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        city: PropTypes.shape({
+          name: PropTypes.string,
+          location: PropTypes.shape({
+            latitude: PropTypes.number,
+            longitude: PropTypes.number,
+            zoom: PropTypes.number,
+          }),
+        }),
+        title: PropTypes.string,
+        premium: PropTypes.bool,
+        favorite: PropTypes.bool,
+        src: PropTypes.string,
+        photos: PropTypes.arrayOf(PropTypes.string),
+        price: PropTypes.number,
+        description: PropTypes.string,
+        type: PropTypes.string,
+        rating: PropTypes.number,
+        bedroomAmount: PropTypes.number,
+        guestsAmount: PropTypes.number,
+        items: PropTypes.arrayOf(PropTypes.string),
+        host: PropTypes.shape({
+          avatar: PropTypes.string,
+          id: PropTypes.number,
+          name: PropTypes.string,
+          status: PropTypes.bool,
+        }),
+        location: PropTypes.shape({
+          latitude: PropTypes.number,
+          longitude: PropTypes.number,
+          zoom: PropTypes.number,
+        }),
+      })
+  ),
   currentCity: PropTypes.string,
   cities: PropTypes.arrayOf(PropTypes.string),
   authorizationStatus: PropTypes.string,
-  userData: PropTypes.object,
-  history: PropTypes.object,
-  location: PropTypes.object,
+  userData: PropTypes.shape({
+    id: PropTypes.number,
+    email: PropTypes.string,
+    name: PropTypes.string,
+    avatar: PropTypes.string,
+    status: PropTypes.bool,
+  }),
+  history: PropTypes.shape({
+    action: PropTypes.string,
+    block: PropTypes.func,
+    createHref: PropTypes.func,
+    go: PropTypes.func,
+    goBack: PropTypes.func,
+    goForward: PropTypes.func,
+    length: PropTypes.number,
+    listen: PropTypes.func,
+    location: PropTypes.shape({
+      hash: PropTypes.string,
+      key: PropTypes.string,
+      pathname: PropTypes.string,
+      search: PropTypes.string,
+      state: PropTypes.string,
+    }),
+    push: PropTypes.func,
+    replace: PropTypes.func,
+  }),
+  location: PropTypes.shape({
+    hash: PropTypes.string,
+    key: PropTypes.string,
+    pathname: PropTypes.string,
+    search: PropTypes.string,
+    state: PropTypes.string,
+  }),
   getCurrentCity: PropTypes.func,
   setDefaultOrderOffers: PropTypes.func,
   setLowToHighOrderOffers: PropTypes.func,
@@ -151,6 +327,7 @@ Main.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
+  hoveredOffer: getHoveredOffer(state),
   offersRequestStatus: getOffersRequestStatus(state),
   offersRequestMessage: getOffersRequestMessage(state),
   currentCity: getCity(state),

@@ -22,6 +22,7 @@ import PreviewPlaces from "../preview-places/preview-places";
 import Map from "../map/map";
 import PlaceFormReviews from "../place-form-reviews/place-form-reviews";
 import ErrorMessage from "../error-message/error-message";
+import {getRating} from "../../utils/get-rating";
 
 const MapWrappedHOC = withMap(Map);
 const PlaceFormReviewsWrappedHOC = withPlaceFormReviews(PlaceFormReviews);
@@ -50,13 +51,6 @@ const Place = ({offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage
     'property__bookmark-button': true,
     'property__bookmark-button--active': favorite,
   });
-
-  const getRating = (val) => {
-    let ratingStars = Math.round(val);
-    ratingStars = ratingStars * 20;
-
-    return `${ratingStars}%`;
-  };
 
   const handleFavoriteButtonClick = (evt) => {
     evt.preventDefault();
@@ -274,7 +268,14 @@ Place.propTypes = {
     PropTypes.bool,
     PropTypes.shape({
       id: PropTypes.number,
-      city: PropTypes.object,
+      city: PropTypes.shape({
+        name: PropTypes.string,
+        location: PropTypes.shape({
+          latitude: PropTypes.number,
+          longitude: PropTypes.number,
+          zoom: PropTypes.number,
+        }),
+      }),
       title: PropTypes.string,
       premium: PropTypes.bool,
       favorite: PropTypes.bool,
@@ -287,13 +288,29 @@ Place.propTypes = {
       bedroomAmount: PropTypes.number,
       guestsAmount: PropTypes.number,
       items: PropTypes.arrayOf(PropTypes.string),
-      host: PropTypes.object,
-      location: PropTypes.objectOf(PropTypes.number),
+      host: PropTypes.shape({
+        avatar: PropTypes.string,
+        id: PropTypes.number,
+        name: PropTypes.string,
+        status: PropTypes.bool,
+      }),
+      location: PropTypes.shape({
+        latitude: PropTypes.number,
+        longitude: PropTypes.number,
+        zoom: PropTypes.number,
+      }),
     }),
   ]),
   hoveredOffer: PropTypes.shape({
     id: PropTypes.number,
-    city: PropTypes.object,
+    city: PropTypes.shape({
+      name: PropTypes.string,
+      location: PropTypes.shape({
+        latitude: PropTypes.number,
+        longitude: PropTypes.number,
+        zoom: PropTypes.number,
+      }),
+    }),
     title: PropTypes.string,
     premium: PropTypes.bool,
     favorite: PropTypes.bool,
@@ -306,8 +323,17 @@ Place.propTypes = {
     bedroomAmount: PropTypes.number,
     guestsAmount: PropTypes.number,
     items: PropTypes.arrayOf(PropTypes.string),
-    host: PropTypes.object,
-    location: PropTypes.objectOf(PropTypes.number),
+    host: PropTypes.shape({
+      avatar: PropTypes.string,
+      id: PropTypes.number,
+      name: PropTypes.string,
+      status: PropTypes.bool,
+    }),
+    location: PropTypes.shape({
+      latitude: PropTypes.number,
+      longitude: PropTypes.number,
+      zoom: PropTypes.number,
+    }),
   }),
   reviewsRequestStatus: PropTypes.string,
   reviewsRequestMessage: PropTypes.string,
@@ -315,12 +341,90 @@ Place.propTypes = {
   offersRequestMessage: PropTypes.string,
   favoritesRequestStatus: PropTypes.string,
   favoritesRequestMessage: PropTypes.string,
-  reviews: PropTypes.arrayOf(PropTypes.object),
+  reviews: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        user: PropTypes.shape({
+          id: PropTypes.number,
+          status: PropTypes.bool,
+          name: PropTypes.string,
+          avatar: PropTypes.string,
+        }),
+        comment: PropTypes.string,
+        rating: PropTypes.number,
+        date: PropTypes.string,
+      })
+  ),
   authorizationStatus: PropTypes.string,
-  userData: PropTypes.object,
-  history: PropTypes.object,
-  location: PropTypes.object,
-  nearbyOffers: PropTypes.arrayOf(PropTypes.object),
+  userData: PropTypes.shape({
+    id: PropTypes.number,
+    email: PropTypes.string,
+    name: PropTypes.string,
+    avatar: PropTypes.string,
+    status: PropTypes.bool,
+  }),
+  history: PropTypes.shape({
+    action: PropTypes.string,
+    block: PropTypes.func,
+    createHref: PropTypes.func,
+    go: PropTypes.func,
+    goBack: PropTypes.func,
+    goForward: PropTypes.func,
+    length: PropTypes.number,
+    listen: PropTypes.func,
+    location: PropTypes.shape({
+      hash: PropTypes.string,
+      key: PropTypes.string,
+      pathname: PropTypes.string,
+      search: PropTypes.string,
+      state: PropTypes.string,
+    }),
+    push: PropTypes.func,
+    replace: PropTypes.func,
+  }),
+  location: PropTypes.shape({
+    hash: PropTypes.string,
+    key: PropTypes.string,
+    pathname: PropTypes.string,
+    search: PropTypes.string,
+    state: PropTypes.string,
+  }),
+  nearbyOffers: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        city: PropTypes.shape({
+          name: PropTypes.string,
+          location: PropTypes.shape({
+            latitude: PropTypes.number,
+            longitude: PropTypes.number,
+            zoom: PropTypes.number,
+          }),
+        }),
+        title: PropTypes.string,
+        premium: PropTypes.bool,
+        favorite: PropTypes.bool,
+        src: PropTypes.string,
+        photos: PropTypes.arrayOf(PropTypes.string),
+        price: PropTypes.number,
+        description: PropTypes.string,
+        type: PropTypes.string,
+        rating: PropTypes.number,
+        bedroomAmount: PropTypes.number,
+        guestsAmount: PropTypes.number,
+        items: PropTypes.arrayOf(PropTypes.string),
+        host: PropTypes.shape({
+          avatar: PropTypes.string,
+          id: PropTypes.number,
+          name: PropTypes.string,
+          status: PropTypes.bool,
+        }),
+        location: PropTypes.shape({
+          latitude: PropTypes.number,
+          longitude: PropTypes.number,
+          zoom: PropTypes.number,
+        }),
+      })
+  ),
   sendReview: PropTypes.func,
   setFavoriteStatus: PropTypes.func,
 };

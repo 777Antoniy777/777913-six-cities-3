@@ -43,7 +43,7 @@ const offers = [
 const history = {};
 const match = {
   params: {
-    hotelID: 1,
+    hotelID: `1`,
   },
 };
 

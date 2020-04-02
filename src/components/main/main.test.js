@@ -8,6 +8,40 @@ import Main from "./main";
 const mockStore = configureStore();
 
 // set mocha data
+const hoveredOffer = {
+  id: 1,
+  city: {
+    id: 1,
+    name: `city`,
+    coords: [1, 1],
+  },
+  title: `title 1`,
+  premium: false,
+  src: `img/image1`,
+  photos: [`img/image1`],
+  price: 999999,
+  description: `test`,
+  type: `type`,
+  rating: 9999,
+  bedroomAmount: 30,
+  guestsAmount: 50,
+  items: [`item`],
+  host: {
+    avatar: `img/avatar-1.jpg`,
+    name: `name`,
+    status: false,
+  },
+  reviews: [
+    {
+      id: 1,
+      body: `text`,
+      rating: 5,
+      name: `name`,
+      date: `date`,
+    },
+  ],
+  coord: [1, 1],
+};
 const offers = [
   {
     id: 1,
@@ -149,6 +183,9 @@ const store = mockStore({
     initialOffers,
     offers,
   },
+  offer: {
+    hoveredOffer,
+  },
   favorites: {
     requestStatus: null,
     requestMessage: null,
@@ -168,6 +205,7 @@ it(`render Main`, () => {
       <BrowserRouter>
         <Provider store={store}>
           <Main
+            hoveredOffer={hoveredOffer}
             offersRequestStatus={offersRequestStatus}
             offersRequestMessage={offersRequestMessage}
             offers={offers}

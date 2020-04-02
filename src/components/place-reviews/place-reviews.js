@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {getRating} from "../../utils/get-rating";
 
 const PlaceReviews = ({reviews}) => {
   return (
@@ -32,13 +33,6 @@ const PlaceReview = ({review}) => {
     return complexDate;
   };
 
-  const getRating = (val) => {
-    let ratingStars = Math.round(val);
-    ratingStars = ratingStars * 20;
-
-    return `${ratingStars}%`;
-  };
-
   return (
     <li className="reviews__item">
 
@@ -67,7 +61,20 @@ const PlaceReview = ({review}) => {
 };
 
 PlaceReviews.propTypes = {
-  reviews: PropTypes.arrayOf(PropTypes.object),
+  reviews: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        user: PropTypes.shape({
+          id: PropTypes.number,
+          status: PropTypes.bool,
+          name: PropTypes.string,
+          avatar: PropTypes.string,
+        }),
+        comment: PropTypes.string,
+        rating: PropTypes.number,
+        date: PropTypes.string,
+      })
+  ),
 };
 
 PlaceReview.propTypes = {
