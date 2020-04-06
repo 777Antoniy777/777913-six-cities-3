@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 import {AuthorizationStatus, AppRoute} from "../../enums";
@@ -20,11 +20,20 @@ import SignIn from "../sign-in/sign-in";
 import Favorites from "../favorites/favorites";
 import NotFound from "../not-found/not-found";
 
+type Props = {
+  authorizationStatus: boolean,
+  offers: Offers,
+  getFavoriteOffers: (offers: Offers) => void,
+  getCurrentOffer: (offer: Offer) => void,
+  getReviews: (offerId: number) => void,
+  getNearbyOffers: (offerId: number) => void,
+};
+
 const SignInWrappedHOC = withSignIn(SignIn);
 const FavoritesWrappedHOC = withLoadData(Favorites);
 const PlaceWrappedHOC = withActiveItem(withPlace(Place));
 
-const App = ({authorizationStatus, offers, getFavoriteOffers, getCurrentOffer, getReviews, getNearbyOffers}) => {
+const App: React.FC<Props> = ({authorizationStatus, offers, getFavoriteOffers, getCurrentOffer, getReviews, getNearbyOffers}) => {
   if (!authorizationStatus) {
     return false;
   }
@@ -90,49 +99,49 @@ const App = ({authorizationStatus, offers, getFavoriteOffers, getCurrentOffer, g
   );
 };
 
-App.propTypes = {
-  authorizationStatus: PropTypes.string,
-  offers: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number,
-        city: PropTypes.shape({
-          name: PropTypes.string,
-          location: PropTypes.shape({
-            latitude: PropTypes.number,
-            longitude: PropTypes.number,
-            zoom: PropTypes.number,
-          }),
-        }),
-        title: PropTypes.string,
-        premium: PropTypes.bool,
-        favorite: PropTypes.bool,
-        src: PropTypes.string,
-        photos: PropTypes.arrayOf(PropTypes.string),
-        price: PropTypes.number,
-        description: PropTypes.string,
-        type: PropTypes.string,
-        rating: PropTypes.number,
-        bedroomAmount: PropTypes.number,
-        guestsAmount: PropTypes.number,
-        items: PropTypes.arrayOf(PropTypes.string),
-        host: PropTypes.shape({
-          avatar: PropTypes.string,
-          id: PropTypes.number,
-          name: PropTypes.string,
-          status: PropTypes.bool,
-        }),
-        location: PropTypes.shape({
-          latitude: PropTypes.number,
-          longitude: PropTypes.number,
-          zoom: PropTypes.number,
-        }),
-      })
-  ),
-  getFavoriteOffers: PropTypes.func,
-  getCurrentOffer: PropTypes.func,
-  getReviews: PropTypes.func,
-  getNearbyOffers: PropTypes.func,
-};
+// App.propTypes = {
+//   authorizationStatus: PropTypes.string,
+//   offers: PropTypes.arrayOf(
+//       PropTypes.shape({
+//         id: PropTypes.number,
+//         city: PropTypes.shape({
+//           name: PropTypes.string,
+//           location: PropTypes.shape({
+//             latitude: PropTypes.number,
+//             longitude: PropTypes.number,
+//             zoom: PropTypes.number,
+//           }),
+//         }),
+//         title: PropTypes.string,
+//         premium: PropTypes.bool,
+//         favorite: PropTypes.bool,
+//         src: PropTypes.string,
+//         photos: PropTypes.arrayOf(PropTypes.string),
+//         price: PropTypes.number,
+//         description: PropTypes.string,
+//         type: PropTypes.string,
+//         rating: PropTypes.number,
+//         bedroomAmount: PropTypes.number,
+//         guestsAmount: PropTypes.number,
+//         items: PropTypes.arrayOf(PropTypes.string),
+//         host: PropTypes.shape({
+//           avatar: PropTypes.string,
+//           id: PropTypes.number,
+//           name: PropTypes.string,
+//           status: PropTypes.bool,
+//         }),
+//         location: PropTypes.shape({
+//           latitude: PropTypes.number,
+//           longitude: PropTypes.number,
+//           zoom: PropTypes.number,
+//         }),
+//       })
+//   ),
+//   getFavoriteOffers: PropTypes.func,
+//   getCurrentOffer: PropTypes.func,
+//   getReviews: PropTypes.func,
+//   getNearbyOffers: PropTypes.func,
+// };
 
 const mapStateToProps = (state) => ({
   authorizationStatus: getAuthorizationStatus(state),
