@@ -1,8 +1,21 @@
 import React from "react";
-import PropTypes from "prop-types";
 import classNames from "classnames";
 
-const PlaceFilter = ({isFilterOpened, currentFilter, filtersArr, setFilterStatus, getCurrentFilter}) => {
+type PlaceFilterProps = {
+  isFilterOpened: boolean,
+  currentFilter: Filter,
+  filtersArr: Filters,
+  setFilterStatus: () => void,
+  getCurrentFilter: (filter: Filter) => void,
+};
+
+type PlaceFilterItemProps = {
+  filter: Filter,
+  currentFilter: Filter,
+  getCurrentFilter: (filter: Filter) => void,
+};
+
+const PlaceFilter: React.FC<PlaceFilterProps> = ({isFilterOpened, currentFilter, filtersArr, setFilterStatus, getCurrentFilter}) => {
   const filterListClass = classNames({
     'places__options': true,
     'places__options--custom': true,
@@ -48,7 +61,7 @@ const PlaceFilter = ({isFilterOpened, currentFilter, filtersArr, setFilterStatus
   );
 };
 
-const PlaceFilterItem = ({filter, currentFilter, getCurrentFilter}) => {
+const PlaceFilterItem: React.FC<PlaceFilterItemProps> = ({filter, currentFilter, getCurrentFilter}) => {
   const {value} = filter;
   const {value: currentValue} = currentFilter;
 
@@ -72,34 +85,6 @@ const PlaceFilterItem = ({filter, currentFilter, getCurrentFilter}) => {
   return (
     <li className={filterItemClass} tabIndex={0} onClick={handleItemClick}>{value}</li>
   );
-};
-
-PlaceFilter.propTypes = {
-  isFilterOpened: PropTypes.bool,
-  currentFilter: PropTypes.shape({
-    id: PropTypes.string,
-    value: PropTypes.string,
-  }),
-  filtersArr: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string,
-        value: PropTypes.string,
-      })
-  ),
-  setFilterStatus: PropTypes.func,
-  getCurrentFilter: PropTypes.func,
-};
-
-PlaceFilterItem.propTypes = {
-  filter: PropTypes.shape({
-    id: PropTypes.string,
-    value: PropTypes.string,
-  }),
-  currentFilter: PropTypes.shape({
-    id: PropTypes.string,
-    value: PropTypes.string,
-  }),
-  getCurrentFilter: PropTypes.func,
 };
 
 export default PlaceFilter;

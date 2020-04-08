@@ -4,7 +4,7 @@ import classNames from "classnames";
 type CitiesProps = {
   cities: string[],
   currentCity: string,
-  getActiveItem: (city: string) => void,
+  getActiveItem: () => void,
 };
 
 type CityProps = {

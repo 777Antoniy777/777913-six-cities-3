@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {ErrorReviewWrapperStyle, ErrorMessageStyle} from "../../style";
 import {getUserData} from "../../reducers/user/selectors";
@@ -8,7 +7,21 @@ import {UserAsyncActionCreator} from "../../actions/user/async-action-creator";
 import Header from "../header/header";
 import ErrorMessage from "../error-message/error-message";
 
-const SignIn = ({email, password, login, location, userRequestStatus, userRequestMessage, authorizationStatus, userData, onInputChange, isFieldEmpty, isEmailValid}) => {
+type Props = {
+  email: string,
+  password: string,
+  login: (email: string, password: string) => void,
+  location: RouteLocation,
+  userRequestStatus: string,
+  userRequestMessage: string,
+  authorizationStatus: string,
+  userData: User,
+  onInputChange: () => void,
+  isFieldEmpty: (val: string) => boolean,
+  isEmailValid: (val: string) => boolean,
+};
+
+const SignIn: React.FC<Props> = ({email, password, login, location, userRequestStatus, userRequestMessage, authorizationStatus, userData, onInputChange, isFieldEmpty, isEmailValid}) => {
   const handleFormSubmit = (evt) => {
     evt.preventDefault();
   };
@@ -88,32 +101,6 @@ const SignIn = ({email, password, login, location, userRequestStatus, userReques
       </main>
     </div>
   );
-};
-
-SignIn.propTypes = {
-  userRequestStatus: PropTypes.string,
-  userRequestMessage: PropTypes.string,
-  email: PropTypes.string,
-  password: PropTypes.string,
-  location: PropTypes.shape({
-    hash: PropTypes.string,
-    key: PropTypes.string,
-    pathname: PropTypes.string,
-    search: PropTypes.string,
-    state: PropTypes.string,
-  }),
-  authorizationStatus: PropTypes.string,
-  userData: PropTypes.shape({
-    id: PropTypes.number,
-    email: PropTypes.string,
-    name: PropTypes.string,
-    avatar: PropTypes.string,
-    status: PropTypes.bool,
-  }),
-  login: PropTypes.func,
-  onInputChange: PropTypes.func,
-  isFieldEmpty: PropTypes.func,
-  isEmailValid: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({

@@ -1,7 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const PlacePhotos = ({photos}) => {
+type PlacePhotosProps = {
+  photos: string[],
+};
+
+type PlacePhotoProps = {
+  photo: string,
+};
+
+const PlacePhotos: React.FC<PlacePhotosProps> = ({photos}) => {
   return (
     <div className="property__gallery">
 
@@ -19,7 +27,7 @@ const PlacePhotos = ({photos}) => {
   );
 };
 
-const PlacePhoto = ({photo}) => {
+const PlacePhoto: React.FC<PlacePhotoProps> = ({photo}) => {
   return (
     <div className="property__image-wrapper">
       <img className="property__image" src={photo} alt="Photo studio" />

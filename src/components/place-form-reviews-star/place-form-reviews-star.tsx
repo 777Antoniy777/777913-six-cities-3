@@ -1,7 +1,17 @@
 import React from "react";
-import PropTypes from "prop-types";
 
-const PlaceFormReviewsStar = ({star, rating, handleInputChange}) => {
+type Star = {
+  id: number,
+  title: string,
+};
+
+type Props = {
+  star: Star
+  rating: boolean,
+  handleInputChange: () => void,
+};
+
+const PlaceFormReviewsStar: React.FC<Props> = ({star, rating, handleInputChange}) => {
   const {id, title} = star;
 
   return (
@@ -14,15 +24,6 @@ const PlaceFormReviewsStar = ({star, rating, handleInputChange}) => {
       </label>
     </React.Fragment>
   );
-};
-
-PlaceFormReviewsStar.propTypes = {
-  star: PropTypes.shape({
-    id: PropTypes.number,
-    title: PropTypes.string,
-  }),
-  rating: PropTypes.bool,
-  handleInputChange: PropTypes.func,
 };
 
 export default PlaceFormReviewsStar;

@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 import classNames from "classnames";
@@ -12,7 +11,19 @@ import {FavoritesAsyncActionCreator} from "../../actions/favorites/async-action-
 import ErrorMessage from "../error-message/error-message";
 import {getRating} from "../../utils/get-rating";
 
-const PreviewPlace = ({placeData, favoritesRequestStatus, favoritesRequestMessage, authorizationStatus, history, location, getHoveredOffer, removeHoveredOffer, setFavoriteStatus}) => {
+type Props = {
+  placeData: Offer,
+  favoritesRequestStatus: string,
+  favoritesRequestMessage: string,
+  authorizationStatus: string,
+  history: RouteHistory,
+  location: RouteLocation,
+  getHoveredOffer: (placeData: Offer) => void,
+  removeHoveredOffer: (val: null) => void,
+  setFavoriteStatus: (id: number, favorite: number) => void,
+};
+
+const PreviewPlace: React.FC<Props> = ({placeData, favoritesRequestStatus, favoritesRequestMessage, authorizationStatus, history, location, getHoveredOffer, removeHoveredOffer, setFavoriteStatus}) => {
   const {id, title, premium, favorite, src, price, type, rating} = placeData;
   let imageStyle = ImageBigStyle;
   let pathname;
@@ -136,75 +147,6 @@ const PreviewPlace = ({placeData, favoritesRequestStatus, favoritesRequestMessag
 
     </article>
   );
-};
-
-PreviewPlace.propTypes = {
-  placeData: PropTypes.shape({
-    id: PropTypes.number,
-    city: PropTypes.shape({
-      name: PropTypes.string,
-      location: PropTypes.shape({
-        latitude: PropTypes.number,
-        longitude: PropTypes.number,
-        zoom: PropTypes.number,
-      }),
-    }),
-    title: PropTypes.string,
-    premium: PropTypes.bool,
-    favorite: PropTypes.bool,
-    src: PropTypes.string,
-    photos: PropTypes.arrayOf(PropTypes.string),
-    price: PropTypes.number,
-    description: PropTypes.string,
-    type: PropTypes.string,
-    rating: PropTypes.number,
-    bedroomAmount: PropTypes.number,
-    guestsAmount: PropTypes.number,
-    items: PropTypes.arrayOf(PropTypes.string),
-    host: PropTypes.shape({
-      avatar: PropTypes.string,
-      id: PropTypes.number,
-      name: PropTypes.string,
-      status: PropTypes.bool,
-    }),
-    location: PropTypes.shape({
-      latitude: PropTypes.number,
-      longitude: PropTypes.number,
-      zoom: PropTypes.number,
-    }),
-  }),
-  favoritesRequestStatus: PropTypes.string,
-  favoritesRequestMessage: PropTypes.string,
-  authorizationStatus: PropTypes.string,
-  history: PropTypes.shape({
-    action: PropTypes.string,
-    block: PropTypes.func,
-    createHref: PropTypes.func,
-    go: PropTypes.func,
-    goBack: PropTypes.func,
-    goForward: PropTypes.func,
-    length: PropTypes.number,
-    listen: PropTypes.func,
-    location: PropTypes.shape({
-      hash: PropTypes.string,
-      key: PropTypes.string,
-      pathname: PropTypes.string,
-      search: PropTypes.string,
-      state: PropTypes.string,
-    }),
-    push: PropTypes.func,
-    replace: PropTypes.func,
-  }),
-  location: PropTypes.shape({
-    hash: PropTypes.string,
-    key: PropTypes.string,
-    pathname: PropTypes.string,
-    search: PropTypes.string,
-    state: PropTypes.string,
-  }),
-  removeHoveredOffer: PropTypes.func,
-  getHoveredOffer: PropTypes.func,
-  setFavoriteStatus: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({

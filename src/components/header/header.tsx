@@ -1,10 +1,15 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 import {AuthorizationStatus, AppRoute} from "../../enums";
 import {MainLinkStyle, AnotherLinkStyle} from "../../style";
 
-const Header = ({authorizationStatus, userData, location}) => {
+type Props = {
+  authorizationStatus: string,
+  userData: User,
+  location: RouteLocation,
+};
+
+const Header: React.FC<Props> = ({authorizationStatus, userData, location}) => {
   let linkStyle = MainLinkStyle;
 
   if (location.pathname === AppRoute.MAIN) {
@@ -50,24 +55,6 @@ const Header = ({authorizationStatus, userData, location}) => {
       </div>
     </header>
   );
-};
-
-Header.propTypes = {
-  authorizationStatus: PropTypes.string,
-  userData: PropTypes.shape({
-    id: PropTypes.number,
-    email: PropTypes.string,
-    name: PropTypes.string,
-    avatar: PropTypes.string,
-    status: PropTypes.bool,
-  }),
-  location: PropTypes.shape({
-    hash: PropTypes.string,
-    key: PropTypes.string,
-    pathname: PropTypes.string,
-    search: PropTypes.string,
-    state: PropTypes.string,
-  }),
 };
 
 export default Header;

@@ -1,8 +1,15 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {Route, Redirect} from "react-router-dom";
 
-const PrivateRoute = ({component: Component, authorizationStatus, condRedirect, linkRedirect, getData}) => {
+type Props = {
+  component: () => Element,
+  authorizationStatus: string,
+  condRedirect: string,
+  linkRedirect: string,
+  getData: () => void,
+};
+
+const PrivateRoute: React.FC<Props> = ({component: Component, authorizationStatus, condRedirect, linkRedirect, getData}) => {
 
   return (
     <Route
@@ -18,14 +25,6 @@ const PrivateRoute = ({component: Component, authorizationStatus, condRedirect, 
       )}
     />
   );
-};
-
-PrivateRoute.propTypes = {
-  component: PropTypes.func,
-  authorizationStatus: PropTypes.string,
-  condRedirect: PropTypes.string,
-  linkRedirect: PropTypes.string,
-  getData: PropTypes.func,
 };
 
 export default PrivateRoute;
