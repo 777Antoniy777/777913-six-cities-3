@@ -2,18 +2,29 @@ import React from "react";
 import {Subtract} from "utility-types";
 import leaflet from "leaflet";
 
+type Cities = {
+  clearLayers: () => void,
+};
+
+type Map = {
+  remove: () => void,
+  setView: (center: number[], zoom: number) => void,
+};
+
 interface State {
-  map: null,
-  cities: [] | {clearLayers: () => void},
+  map: null | Map,
+  cities: [],
 }
 interface InjectingProps {
-  offer: Offer;
+  offer: Offer,
 }
 
 const withMap = (Component) => {
   type Props = React.ComponentProps<typeof Component>;
   type RestProps = Subtract<Props, InjectingProps>;
   class WithMap extends React.Component<RestProps, State> {
+    private map: React.RefObject<HTMLDivElement>;
+
     constructor(props) {
       super(props);
       this.map = React.createRef();
@@ -167,47 +178,6 @@ const withMap = (Component) => {
       );
     }
   }
-
-  // WithMap.propTypes = {
-  //   activelocation: PropTypes.objectOf(PropTypes.number),
-  //   hoveredLocation: PropTypes.objectOf(PropTypes.number),
-  //   offers: PropTypes.arrayOf(
-  //       PropTypes.shape({
-  //         id: PropTypes.number,
-  //         city: PropTypes.shape({
-  //           name: PropTypes.string,
-  //           location: PropTypes.shape({
-  //             latitude: PropTypes.number,
-  //             longitude: PropTypes.number,
-  //             zoom: PropTypes.number,
-  //           }),
-  //         }),
-  //         title: PropTypes.string,
-  //         premium: PropTypes.bool,
-  //         favorite: PropTypes.bool,
-  //         src: PropTypes.string,
-  //         photos: PropTypes.arrayOf(PropTypes.string),
-  //         price: PropTypes.number,
-  //         description: PropTypes.string,
-  //         type: PropTypes.string,
-  //         rating: PropTypes.number,
-  //         bedroomAmount: PropTypes.number,
-  //         guestsAmount: PropTypes.number,
-  //         items: PropTypes.arrayOf(PropTypes.string),
-  //         host: PropTypes.shape({
-  //           avatar: PropTypes.string,
-  //           id: PropTypes.number,
-  //           name: PropTypes.string,
-  //           status: PropTypes.bool,
-  //         }),
-  //         location: PropTypes.shape({
-  //           latitude: PropTypes.number,
-  //           longitude: PropTypes.number,
-  //           zoom: PropTypes.number,
-  //         }),
-  //       })
-  //   ),
-  // };
 
   return WithMap;
 };

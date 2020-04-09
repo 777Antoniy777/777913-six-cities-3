@@ -1,9 +1,26 @@
 import React from "react";
+import {Subtract} from "utility-types";
+
+interface State {
+  email: string,
+  password: string,
+}
+
+interface InjectingProps {
+  email: string,
+  password: string,
+  onInputChange: () => void,
+  isFieldEmpty: () => void,
+  isEmailValid: () => void,
+}
 
 const withSignIn = (Component) => {
-  class WithSignIn extends React.PureComponent {
-    constructor() {
-      super();
+  type Props = React.ComponentProps<typeof Component>;
+  type RestProps = Subtract<Props, InjectingProps>;
+
+  class WithSignIn extends React.PureComponent<RestProps, State> {
+    constructor(props) {
+      super(props);
       this.state = {
         email: ``,
         password: ``,
@@ -39,7 +56,7 @@ const withSignIn = (Component) => {
 
       this.setState({
         [name]: value,
-      });
+      } as Pick<State, keyof State>);
     }
 
     render() {

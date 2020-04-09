@@ -48,7 +48,7 @@ const PlaceFormReviewsWrappedHOC = withPlaceFormReviews(PlaceFormReviews);
 const Place: React.FC<Props> = ({offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, offersRequestStatus, offersRequestMessage, favoritesRequestStatus, favoritesRequestMessage, reviews, authorizationStatus, userData, history, location: routeLocation, nearbyOffers, sendReview, setFavoriteStatus}) => {
 
   if (!offer) {
-    return false;
+    return null;
   }
 
   const {id, title, premium, favorite, photos, price, description, type, rating, bedroomAmount, guestsAmount, items, host, location} = offer;

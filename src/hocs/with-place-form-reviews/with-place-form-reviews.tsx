@@ -1,9 +1,32 @@
 import React from "react";
+import {Subtract} from "utility-types";
+
+interface State {
+  review: string,
+  rating: boolean[],
+  submitButtonStatus: boolean,
+  errors: string[],
+}
+
+interface InjectingProps {
+  review: string,
+  rating: boolean[]
+  submitButtonStatus: boolean
+  errors: string[],
+  onSetSubmitButtonStatus: () => void,
+  isCommentValid: () => void,
+  isStarChoose: () => void,
+  handleInputChange: () => void,
+  onClearForm: () => void,
+}
 
 const withPlaceFormReviews = (Component) => {
-  class WithPlaceFormReviews extends React.PureComponent {
-    constructor() {
-      super();
+  type Props = React.ComponentProps<typeof Component>;
+  type RestProps = Subtract<Props, InjectingProps>;
+
+  class WithPlaceFormReviews extends React.PureComponent<RestProps, State> {
+    constructor(props) {
+      super(props);
       this.state = {
         review: ``,
         rating: [false, false, false, false, false],
@@ -76,7 +99,7 @@ const withPlaceFormReviews = (Component) => {
 
     toggleDisabled() {
       const {review} = this.state;
-      const isCommentCorrect = this.isCommentValid(review);
+      const isCommentCorrect = this.isCommentValid(review, null);
       const isRating = this.isStarChoose();
 
       if (isCommentCorrect && isRating) {
@@ -109,7 +132,7 @@ const withPlaceFormReviews = (Component) => {
 
       this.setState({
         [name]: value,
-      }, this.toggleDisabled);
+      } as Pick<State, keyof State>, this.toggleDisabled);
     }
 
     render() {

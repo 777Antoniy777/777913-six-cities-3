@@ -34,7 +34,7 @@ const PlaceWrappedHOC = withActiveItem(withPlace(Place));
 
 const App: React.FC<Props> = ({authorizationStatus, offers, getFavoriteOffers, getCurrentOffer, getReviews, getNearbyOffers}) => {
   if (!authorizationStatus) {
-    return false;
+    return null;
   }
 
   return (
