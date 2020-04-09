@@ -2,7 +2,7 @@ import React from "react";
 import {Route, Redirect} from "react-router-dom";
 
 type Props = {
-  component: () => Element,
+  component: () => React.ReactElement,
   authorizationStatus: string,
   condRedirect: string,
   linkRedirect: string,
