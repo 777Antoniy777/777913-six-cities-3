@@ -8,6 +8,6 @@ type RouteHistory = {
   length: number,
   listen: () => void,
   location: RouteLocation,
-  push: () => void,
+  push: (path: string) => void,
   replace: () => void,
 };

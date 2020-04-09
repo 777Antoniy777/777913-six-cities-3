@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import classNames from "classnames";
 import {AuthorizationStatus, AppRoute} from "../../enums";
@@ -24,10 +23,29 @@ import PlaceFormReviews from "../place-form-reviews/place-form-reviews";
 import ErrorMessage from "../error-message/error-message";
 import {getRating} from "../../utils/get-rating";
 
+type Props = {
+  offer: Offer,
+  hoveredOffer: Offer,
+  reviewsRequestStatus: string,
+  reviewsRequestMessage: string,
+  offersRequestStatus: string,
+  offersRequestMessage: string,
+  favoritesRequestStatus: string,
+  favoritesRequestMessage: string,
+  reviews: Reviews,
+  authorizationStatus: string,
+  userData: User,
+  history: RouteHistory,
+  location: RouteLocation,
+  nearbyOffers: Offers,
+  sendReview: () => void,
+  setFavoriteStatus: (hotelId: number, status: number) => void,
+};
+
 const MapWrappedHOC = withMap(Map);
 const PlaceFormReviewsWrappedHOC = withPlaceFormReviews(PlaceFormReviews);
 
-const Place = ({offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, offersRequestStatus, offersRequestMessage, favoritesRequestStatus, favoritesRequestMessage, reviews, authorizationStatus, userData, history, location: routeLocation, nearbyOffers, sendReview, setFavoriteStatus}) => {
+const Place: React.FC<Props> = ({offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, offersRequestStatus, offersRequestMessage, favoritesRequestStatus, favoritesRequestMessage, reviews, authorizationStatus, userData, history, location: routeLocation, nearbyOffers, sendReview, setFavoriteStatus}) => {
 
   if (!offer) {
     return false;
@@ -261,172 +279,6 @@ const Place = ({offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage
 
     </div>
   );
-};
-
-Place.propTypes = {
-  offer: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.shape({
-      id: PropTypes.number,
-      city: PropTypes.shape({
-        name: PropTypes.string,
-        location: PropTypes.shape({
-          latitude: PropTypes.number,
-          longitude: PropTypes.number,
-          zoom: PropTypes.number,
-        }),
-      }),
-      title: PropTypes.string,
-      premium: PropTypes.bool,
-      favorite: PropTypes.bool,
-      src: PropTypes.string,
-      photos: PropTypes.arrayOf(PropTypes.string),
-      price: PropTypes.number,
-      description: PropTypes.string,
-      type: PropTypes.string,
-      rating: PropTypes.number,
-      bedroomAmount: PropTypes.number,
-      guestsAmount: PropTypes.number,
-      items: PropTypes.arrayOf(PropTypes.string),
-      host: PropTypes.shape({
-        avatar: PropTypes.string,
-        id: PropTypes.number,
-        name: PropTypes.string,
-        status: PropTypes.bool,
-      }),
-      location: PropTypes.shape({
-        latitude: PropTypes.number,
-        longitude: PropTypes.number,
-        zoom: PropTypes.number,
-      }),
-    }),
-  ]),
-  hoveredOffer: PropTypes.shape({
-    id: PropTypes.number,
-    city: PropTypes.shape({
-      name: PropTypes.string,
-      location: PropTypes.shape({
-        latitude: PropTypes.number,
-        longitude: PropTypes.number,
-        zoom: PropTypes.number,
-      }),
-    }),
-    title: PropTypes.string,
-    premium: PropTypes.bool,
-    favorite: PropTypes.bool,
-    src: PropTypes.string,
-    photos: PropTypes.arrayOf(PropTypes.string),
-    price: PropTypes.number,
-    description: PropTypes.string,
-    type: PropTypes.string,
-    rating: PropTypes.number,
-    bedroomAmount: PropTypes.number,
-    guestsAmount: PropTypes.number,
-    items: PropTypes.arrayOf(PropTypes.string),
-    host: PropTypes.shape({
-      avatar: PropTypes.string,
-      id: PropTypes.number,
-      name: PropTypes.string,
-      status: PropTypes.bool,
-    }),
-    location: PropTypes.shape({
-      latitude: PropTypes.number,
-      longitude: PropTypes.number,
-      zoom: PropTypes.number,
-    }),
-  }),
-  reviewsRequestStatus: PropTypes.string,
-  reviewsRequestMessage: PropTypes.string,
-  offersRequestStatus: PropTypes.string,
-  offersRequestMessage: PropTypes.string,
-  favoritesRequestStatus: PropTypes.string,
-  favoritesRequestMessage: PropTypes.string,
-  reviews: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number,
-        user: PropTypes.shape({
-          id: PropTypes.number,
-          status: PropTypes.bool,
-          name: PropTypes.string,
-          avatar: PropTypes.string,
-        }),
-        comment: PropTypes.string,
-        rating: PropTypes.number,
-        date: PropTypes.string,
-      })
-  ),
-  authorizationStatus: PropTypes.string,
-  userData: PropTypes.shape({
-    id: PropTypes.number,
-    email: PropTypes.string,
-    name: PropTypes.string,
-    avatar: PropTypes.string,
-    status: PropTypes.bool,
-  }),
-  history: PropTypes.shape({
-    action: PropTypes.string,
-    block: PropTypes.func,
-    createHref: PropTypes.func,
-    go: PropTypes.func,
-    goBack: PropTypes.func,
-    goForward: PropTypes.func,
-    length: PropTypes.number,
-    listen: PropTypes.func,
-    location: PropTypes.shape({
-      hash: PropTypes.string,
-      key: PropTypes.string,
-      pathname: PropTypes.string,
-      search: PropTypes.string,
-      state: PropTypes.string,
-    }),
-    push: PropTypes.func,
-    replace: PropTypes.func,
-  }),
-  location: PropTypes.shape({
-    hash: PropTypes.string,
-    key: PropTypes.string,
-    pathname: PropTypes.string,
-    search: PropTypes.string,
-    state: PropTypes.string,
-  }),
-  nearbyOffers: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number,
-        city: PropTypes.shape({
-          name: PropTypes.string,
-          location: PropTypes.shape({
-            latitude: PropTypes.number,
-            longitude: PropTypes.number,
-            zoom: PropTypes.number,
-          }),
-        }),
-        title: PropTypes.string,
-        premium: PropTypes.bool,
-        favorite: PropTypes.bool,
-        src: PropTypes.string,
-        photos: PropTypes.arrayOf(PropTypes.string),
-        price: PropTypes.number,
-        description: PropTypes.string,
-        type: PropTypes.string,
-        rating: PropTypes.number,
-        bedroomAmount: PropTypes.number,
-        guestsAmount: PropTypes.number,
-        items: PropTypes.arrayOf(PropTypes.string),
-        host: PropTypes.shape({
-          avatar: PropTypes.string,
-          id: PropTypes.number,
-          name: PropTypes.string,
-          status: PropTypes.bool,
-        }),
-        location: PropTypes.shape({
-          latitude: PropTypes.number,
-          longitude: PropTypes.number,
-          zoom: PropTypes.number,
-        }),
-      })
-  ),
-  sendReview: PropTypes.func,
-  setFavoriteStatus: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({

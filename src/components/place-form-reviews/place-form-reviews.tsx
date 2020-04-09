@@ -1,9 +1,24 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {AuthorizationStatus, AppRoute} from "../../enums";
 import PlaceFormReviewsStar from "../place-form-reviews-star/place-form-reviews-star";
 
-const PlaceFormReviews = ({offerId, authorizationStatus, review, rating, submitButtonStatus, errors, history, sendReview, onSetSubmitButtonStatus, isCommentValid, isStarChoose, handleInputChange, onClearForm}) => {
+type Props = {
+  offerId: number,
+  authorizationStatus: string,
+  review: string,
+  rating: boolean[],
+  submitButtonStatus: boolean,
+  errors: string[],
+  history: RouteHistory,
+  sendReview: (offerId: number, review: string, isRating: boolean, onClearForm: () => void, onSetSubmitButtonStatus: (status: boolean) => void) => void,
+  onSetSubmitButtonStatus: (status: boolean) => void,
+  isCommentValid: (review: string, status: boolean) => boolean,
+  isStarChoose: () => boolean,
+  handleInputChange: () => void,
+  onClearForm: () => void,
+};
+
+const PlaceFormReviews: React.FC<Props> = ({offerId, authorizationStatus, review, rating, submitButtonStatus, errors, history, sendReview, onSetSubmitButtonStatus, isCommentValid, isStarChoose, handleInputChange, onClearForm}) => {
   const starTitles = [
     {
       id: 5,
@@ -29,11 +44,12 @@ const PlaceFormReviews = ({offerId, authorizationStatus, review, rating, submitB
 
   const setButtonStyle = () => {
     const obj = {};
+    const cursor = `cursor`
 
     if (!submitButtonStatus) {
-      obj.cursor = `pointer`;
+      obj[cursor] = `pointer`;
     } else {
-      obj.cursor = `auto`;
+      obj[cursor] = `auto`;
     }
 
     return obj;
@@ -101,40 +117,6 @@ const PlaceFormReviews = ({offerId, authorizationStatus, review, rating, submitB
 
     </form>
   );
-};
-
-PlaceFormReviews.propTypes = {
-  offerId: PropTypes.number,
-  authorizationStatus: PropTypes.string,
-  review: PropTypes.string,
-  rating: PropTypes.arrayOf(PropTypes.bool),
-  submitButtonStatus: PropTypes.bool,
-  errors: PropTypes.arrayOf(PropTypes.string),
-  history: PropTypes.shape({
-    action: PropTypes.string,
-    block: PropTypes.func,
-    createHref: PropTypes.func,
-    go: PropTypes.func,
-    goBack: PropTypes.func,
-    goForward: PropTypes.func,
-    length: PropTypes.number,
-    listen: PropTypes.func,
-    location: PropTypes.shape({
-      hash: PropTypes.string,
-      key: PropTypes.string,
-      pathname: PropTypes.string,
-      search: PropTypes.string,
-      state: PropTypes.string,
-    }),
-    push: PropTypes.func,
-    replace: PropTypes.func,
-  }),
-  sendReview: PropTypes.func,
-  onSetSubmitButtonStatus: PropTypes.func,
-  isCommentValid: PropTypes.func,
-  isStarChoose: PropTypes.func,
-  handleInputChange: PropTypes.func,
-  onClearForm: PropTypes.func,
 };
 
 export default PlaceFormReviews;

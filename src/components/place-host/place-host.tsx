@@ -1,8 +1,14 @@
 import React from "react";
-import PropTypes from "prop-types";
 import classNames from "classnames";
 
-const PlaceHost = ({status, avatar, name, description}) => {
+type Props = {
+  status: boolean,
+  avatar: string,
+  name: string,
+  description: string,
+};
+
+const PlaceHost: React.FC<Props> = ({status, avatar, name, description}) => {
   const statusHostClass = classNames({
     'property__avatar-wrapper': true,
     'user__avatar-wrapper': true,
@@ -30,13 +36,6 @@ const PlaceHost = ({status, avatar, name, description}) => {
 
     </div>
   );
-};
-
-PlaceHost.propTypes = {
-  status: PropTypes.bool,
-  avatar: PropTypes.string,
-  name: PropTypes.string,
-  description: PropTypes.string,
 };
 
 export default PlaceHost;

@@ -1,8 +1,15 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {getRating} from "../../utils/get-rating";
 
-const PlaceReviews = ({reviews}) => {
+type PlaceReviewsProps = {
+  reviews: Reviews,
+};
+
+type PlaceReviewProps = {
+  review: Review,
+};
+
+const PlaceReviews: React.FC<PlaceReviewsProps> = ({reviews}) => {
   return (
     <ul className="reviews__list">
 
@@ -18,7 +25,7 @@ const PlaceReviews = ({reviews}) => {
   );
 };
 
-const PlaceReview = ({review}) => {
+const PlaceReview: React.FC<PlaceReviewProps> = ({review}) => {
   const {user, comment, rating, date} = review;
   const {name, avatar} = user;
 
@@ -59,38 +66,5 @@ const PlaceReview = ({review}) => {
     </li>
   );
 };
-
-PlaceReviews.propTypes = {
-  reviews: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number,
-        user: PropTypes.shape({
-          id: PropTypes.number,
-          status: PropTypes.bool,
-          name: PropTypes.string,
-          avatar: PropTypes.string,
-        }),
-        comment: PropTypes.string,
-        rating: PropTypes.number,
-        date: PropTypes.string,
-      })
-  ),
-};
-
-PlaceReview.propTypes = {
-  review: PropTypes.shape({
-    id: PropTypes.number,
-    user: PropTypes.shape({
-      id: PropTypes.number,
-      status: PropTypes.bool,
-      name: PropTypes.string,
-      avatar: PropTypes.string,
-    }),
-    comment: PropTypes.string,
-    rating: PropTypes.number,
-    date: PropTypes.string,
-  }),
-};
-
 
 export default PlaceReviews;

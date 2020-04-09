@@ -1,5 +1,4 @@
 import React from "react";
-// import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 import {AuthorizationStatus, AppRoute} from "../../enums";
@@ -23,10 +22,10 @@ import NotFound from "../not-found/not-found";
 type Props = {
   authorizationStatus: string,
   offers: Offers,
-  getFavoriteOffers: (offers: Offers) => void,
-  getCurrentOffer: (offer: Offer) => void,
-  getReviews: (offerId: number) => void,
-  getNearbyOffers: (offerId: number) => void,
+  getFavoriteOffers: () => void,
+  getCurrentOffer: () => void,
+  getReviews: () => void,
+  getNearbyOffers: () => void,
 };
 
 const SignInWrappedHOC = withSignIn(SignIn);
@@ -98,50 +97,6 @@ const App: React.FC<Props> = ({authorizationStatus, offers, getFavoriteOffers, g
     </BrowserRouter>
   );
 };
-
-// App.propTypes = {
-//   authorizationStatus: PropTypes.string,
-//   offers: PropTypes.arrayOf(
-//       PropTypes.shape({
-//         id: PropTypes.number,
-//         city: PropTypes.shape({
-//           name: PropTypes.string,
-//           location: PropTypes.shape({
-//             latitude: PropTypes.number,
-//             longitude: PropTypes.number,
-//             zoom: PropTypes.number,
-//           }),
-//         }),
-//         title: PropTypes.string,
-//         premium: PropTypes.bool,
-//         favorite: PropTypes.bool,
-//         src: PropTypes.string,
-//         photos: PropTypes.arrayOf(PropTypes.string),
-//         price: PropTypes.number,
-//         description: PropTypes.string,
-//         type: PropTypes.string,
-//         rating: PropTypes.number,
-//         bedroomAmount: PropTypes.number,
-//         guestsAmount: PropTypes.number,
-//         items: PropTypes.arrayOf(PropTypes.string),
-//         host: PropTypes.shape({
-//           avatar: PropTypes.string,
-//           id: PropTypes.number,
-//           name: PropTypes.string,
-//           status: PropTypes.bool,
-//         }),
-//         location: PropTypes.shape({
-//           latitude: PropTypes.number,
-//           longitude: PropTypes.number,
-//           zoom: PropTypes.number,
-//         }),
-//       })
-//   ),
-//   getFavoriteOffers: PropTypes.func,
-//   getCurrentOffer: PropTypes.func,
-//   getReviews: PropTypes.func,
-//   getNearbyOffers: PropTypes.func,
-// };
 
 const mapStateToProps = (state) => ({
   authorizationStatus: getAuthorizationStatus(state),
