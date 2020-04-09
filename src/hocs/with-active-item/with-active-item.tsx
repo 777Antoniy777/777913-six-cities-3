@@ -1,8 +1,9 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 const withActiveItem = (Component) => {
-  const WithActiveItem = (props) => {
+  type Props = React.ComponentProps<typeof Component>;
+
+  const WithActiveItem = (props: Props) => {
     const {getActiveItem} = props;
 
     return (
@@ -11,10 +12,6 @@ const withActiveItem = (Component) => {
         getActiveItem={getActiveItem}
       />
     );
-  };
-
-  WithActiveItem.propTypes = {
-    getActiveItem: PropTypes.func,
   };
 
   return WithActiveItem;

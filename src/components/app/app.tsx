@@ -21,7 +21,7 @@ import Favorites from "../favorites/favorites";
 import NotFound from "../not-found/not-found";
 
 type Props = {
-  authorizationStatus: boolean,
+  authorizationStatus: string,
   offers: Offers,
   getFavoriteOffers: (offers: Offers) => void,
   getCurrentOffer: (offer: Offer) => void,

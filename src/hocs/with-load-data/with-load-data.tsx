@@ -1,8 +1,9 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 const withLoadData = (Component) => {
-  class WithLoadData extends React.PureComponent {
+  type Props = React.ComponentProps<typeof Component>;
+
+  class WithLoadData extends React.PureComponent<Props, {}> {
 
     componentDidMount() {
       const {getData} = this.props;
@@ -18,10 +19,6 @@ const withLoadData = (Component) => {
       );
     }
   }
-
-  WithLoadData.propTypes = {
-    getData: PropTypes.func,
-  };
 
   return WithLoadData;
 };
