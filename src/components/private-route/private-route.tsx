@@ -16,7 +16,7 @@ const PrivateRoute: React.FC<Props> = ({authorizationStatus, condRedirect, linkR
 
   return (
     <Route
-      getData={getData}
+      // getData={getData}
       render={() => (
         authorizationStatus === condRedirect
           ? render()

@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 type PlaceItemsProps = {
   items: string[],
@@ -33,14 +32,6 @@ const PlaceItem: React.FC<PlaceItemProps> = ({item}) => {
       {item}
     </li>
   );
-};
-
-PlaceItems.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.string),
-};
-
-PlaceItem.propTypes = {
-  item: PropTypes.string,
 };
 
 export default PlaceItems;

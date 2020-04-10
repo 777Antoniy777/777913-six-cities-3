@@ -13,11 +13,11 @@ type Map = {
 
 interface State {
   map: null | Map,
-  cities: [],
+  cities: null | Cities,
 }
 
 interface InjectingProps {
-  offer: Offer,
+  map: React.RefObject<HTMLDivElement>,
 }
 
 const withMap = (Component) => {
@@ -32,7 +32,7 @@ const withMap = (Component) => {
       this.map = React.createRef();
       this.state = {
         map: null,
-        cities: [],
+        cities: null,
       };
     }
 
@@ -53,7 +53,7 @@ const withMap = (Component) => {
     componentDidUpdate() {
       const {cities} = this.state;
 
-      if (cities.length !== 0) {
+      if (cities) {
         this.updateMapCenter();
         this.removeMarkersFromMap();
         this.getMarkers();
@@ -168,7 +168,7 @@ const withMap = (Component) => {
     removeMarkersFromMap() {
       const {cities} = this.state;
 
-      // cities.clearLayers();
+      cities.clearLayers();
     }
 
     render() {

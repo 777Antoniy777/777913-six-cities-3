@@ -6,7 +6,8 @@
     "module": "commonjs",
     "target": "es2016",
     "jsx": "react",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
   },
   "exclude": [
     "node_modules",

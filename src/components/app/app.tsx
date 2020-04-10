@@ -90,6 +90,22 @@ const App: React.FC<Props> = ({authorizationStatus, offers, getFavoriteOffers, g
           )}
         />
 
+        <PrivateRoute
+          // properties
+          path={AppRoute.FAVORITES}
+          condRedirect={AuthorizationStatus.AUTH}
+          linkRedirect={AppRoute.SIGN_IN}
+          authorizationStatus={authorizationStatus}
+          render={() => (
+            <FavoritesWrappedHOC
+              // properties
+              authorizationStatus={authorizationStatus}
+              // handlers
+              getData={getFavoriteOffers}
+            />
+          )}
+        />
+
         {/* <PrivateRoute
           // properties
           path={AppRoute.FAVORITES}

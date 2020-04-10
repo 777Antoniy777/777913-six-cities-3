@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 type PlacePhotosProps = {
   photos: string[],
@@ -33,14 +32,6 @@ const PlacePhoto: React.FC<PlacePhotoProps> = ({photo}) => {
       <img className="property__image" src={photo} alt="Photo studio" />
     </div>
   );
-};
-
-PlacePhotos.propTypes = {
-  photos: PropTypes.arrayOf(PropTypes.string),
-};
-
-PlacePhoto.propTypes = {
-  photo: PropTypes.string,
 };
 
 export default PlacePhotos;
