@@ -67,16 +67,30 @@ const App: React.FC<Props> = ({authorizationStatus, offers, getFavoriteOffers, g
           )}
         />
 
-        <PrivateRoute
+        {/* <PrivateRoute
           // properties
           path={AppRoute.SIGN_IN}
           component={SignInWrappedHOC}
           condRedirect={AuthorizationStatus.NO_AUTH}
           linkRedirect={AppRoute.MAIN}
           authorizationStatus={authorizationStatus}
-        />
+        /> */}
 
         <PrivateRoute
+          // properties
+          path={AppRoute.SIGN_IN}
+          condRedirect={AuthorizationStatus.NO_AUTH}
+          linkRedirect={AppRoute.MAIN}
+          authorizationStatus={authorizationStatus}
+          render={() => (
+            <SignInWrappedHOC
+              // properties
+              authorizationStatus={authorizationStatus}
+            />
+          )}
+        />
+
+        {/* <PrivateRoute
           // properties
           path={AppRoute.FAVORITES}
           component={FavoritesWrappedHOC}
@@ -85,7 +99,7 @@ const App: React.FC<Props> = ({authorizationStatus, offers, getFavoriteOffers, g
           authorizationStatus={authorizationStatus}
           // handlers
           getData={getFavoriteOffers}
-        />
+        /> */}
 
         <Route
           // properties

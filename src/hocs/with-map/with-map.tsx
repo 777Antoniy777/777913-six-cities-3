@@ -15,6 +15,7 @@ interface State {
   map: null | Map,
   cities: [],
 }
+
 interface InjectingProps {
   offer: Offer,
 }
@@ -22,6 +23,7 @@ interface InjectingProps {
 const withMap = (Component) => {
   type Props = React.ComponentProps<typeof Component>;
   type RestProps = Subtract<Props, InjectingProps>;
+
   class WithMap extends React.Component<RestProps, State> {
     private map: React.RefObject<HTMLDivElement>;
 
@@ -166,7 +168,7 @@ const withMap = (Component) => {
     removeMarkersFromMap() {
       const {cities} = this.state;
 
-      cities.clearLayers();
+      // cities.clearLayers();
     }
 
     render() {
