@@ -1,41 +1,26 @@
 import React from "react";
 import {Route, Redirect} from "react-router-dom";
 
+type RouteProps = {};
+
 type Props = {
-  // component: () => React.ReactElement,
   path: string,
   authorizationStatus: string,
   condRedirect: string,
   linkRedirect: string,
-  getData?: () => void,
-  render: () => React.ReactElement
+  render: (props: RouteProps) => React.ReactElement,
 };
 
-// component: Component,
-const PrivateRoute: React.FC<Props> = ({authorizationStatus, condRedirect, linkRedirect, getData, render}) => {
-
+const PrivateRoute: React.FC<Props> = ({authorizationStatus, condRedirect, linkRedirect, render, path}) => {
   return (
     <Route
-      // getData={getData}
-      render={() => (
+      path={path}
+      render={(props) => (
         authorizationStatus === condRedirect
-          ? render()
+          ? render({...props})
           : <Redirect to={linkRedirect} />
       )}
     />
-
-    // <Route
-    //   getData={getData}
-    //   render={(props) => (
-    //     authorizationStatus === condRedirect
-    //       ? <Component
-    //           {...props}
-    //           authorizationStatus={authorizationStatus}
-    //           getData={getData}
-    //         />
-    //       : <Redirect to={linkRedirect} />
-    //   )}
-    // />
   );
 };
 
