@@ -20,19 +20,19 @@ import Favorites from "../favorites/favorites";
 import NotFound from "../not-found/not-found";
 
 type Props = {
-  authorizationStatus: string,
-  offers: Offers,
-  getFavoriteOffers: () => void,
-  getCurrentOffer: () => void,
-  getReviews: () => void,
-  getNearbyOffers: () => void,
+  authorizationStatus: string;
+  offers: Offers;
+  getFavoriteOffers: () => void;
+  getCurrentOffer: () => void;
+  getReviews: () => void;
+  getNearbyOffers: () => void;
 };
 
 const SignInWrappedHOC = withSignIn(SignIn);
 const FavoritesWrappedHOC = withLoadData(Favorites);
 const PlaceWrappedHOC = withActiveItem(withPlace(Place));
 
-const App: React.FC<Props> = ({authorizationStatus, offers, getFavoriteOffers, getCurrentOffer, getReviews, getNearbyOffers}) => {
+const App: React.FC<Props> = ({authorizationStatus, offers, getFavoriteOffers, getCurrentOffer, getReviews, getNearbyOffers}: Props) => {
   if (!authorizationStatus) {
     return null;
   }
