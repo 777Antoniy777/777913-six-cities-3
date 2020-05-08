@@ -3,17 +3,17 @@ import {Subtract} from "utility-types";
 import {FilterType} from "../../enums";
 
 interface State {
-  isFilterOpened: boolean,
-  filtersArr: Filters,
-  currentFilter: Filter,
+  isFilterOpened: boolean;
+  filtersArr: Filters;
+  currentFilter: Filter;
 }
 
 interface InjectingProps {
-  isFilterOpened: boolean,
-  currentFilter: Filter,
-  filtersArr: Filters,
-  setFilterStatus: () => void,
-  getCurrentFilter: () => void,
+  isFilterOpened: boolean;
+  currentFilter: Filter;
+  filtersArr: Filters;
+  setFilterStatus: () => void;
+  getCurrentFilter: () => void;
 }
 
 const withPlaceFilter = (Component) => {

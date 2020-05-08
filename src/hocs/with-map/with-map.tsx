@@ -3,21 +3,21 @@ import {Subtract} from "utility-types";
 import leaflet from "leaflet";
 
 type Cities = {
-  clearLayers: () => void,
+  clearLayers: () => void;
 };
 
 type Map = {
-  remove: () => void,
-  setView: (center: number[], zoom: number) => void,
+  remove: () => void;
+  setView: (center: number[], zoom: number) => void;
 };
 
 interface State {
-  map: null | Map,
-  cities: null | Cities,
+  map: null | Map;
+  cities: null | Cities;
 }
 
 interface InjectingProps {
-  map: React.RefObject<HTMLDivElement>,
+  map: React.RefObject<HTMLDivElement>;
 }
 
 const withMap = (Component) => {

@@ -2,22 +2,22 @@ import React from "react";
 import {Subtract} from "utility-types";
 
 interface State {
-  review: string,
-  rating: boolean[],
-  submitButtonStatus: boolean,
-  errors: string[],
+  review: string;
+  rating: boolean[];
+  submitButtonStatus: boolean;
+  errors: string[];
 }
 
 interface InjectingProps {
-  review: string,
-  rating: boolean[]
-  submitButtonStatus: boolean
-  errors: string[],
-  onSetSubmitButtonStatus: () => void,
-  isCommentValid: () => void,
-  isStarChoose: () => void,
-  handleInputChange: () => void,
-  onClearForm: () => void,
+  review: string;
+  rating: boolean[];
+  submitButtonStatus: boolean;
+  errors: string[];
+  onSetSubmitButtonStatus: () => void;
+  isCommentValid: () => void;
+  isStarChoose: () => void;
+  handleInputChange: () => void;
+  onClearForm: () => void;
 }
 
 const withPlaceFormReviews = (Component) => {

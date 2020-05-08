@@ -2,16 +2,16 @@ import React from "react";
 import {Subtract} from "utility-types";
 
 interface State {
-  email: string,
-  password: string,
+  email: string;
+  password: string;
 }
 
 interface InjectingProps {
-  email: string,
-  password: string,
-  onInputChange: () => void,
-  isFieldEmpty: () => void,
-  isEmailValid: () => void,
+  email: string;
+  password: string;
+  onInputChange: () => void;
+  isFieldEmpty: () => void;
+  isEmailValid: () => void;
 }
 
 const withSignIn = (Component) => {
