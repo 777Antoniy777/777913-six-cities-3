@@ -4,12 +4,12 @@ import {AuthorizationStatus, AppRoute} from "../../enums";
 import {MainLinkStyle, AnotherLinkStyle} from "../../style";
 
 type Props = {
-  authorizationStatus: string,
-  userData: User,
-  location: RouteLocation,
+  authorizationStatus: string;
+  userData: User;
+  location: RouteLocation;
 };
 
-const Header: React.FC<Props> = ({authorizationStatus, userData, location}) => {
+const Header: React.FC<Props> = ({authorizationStatus, userData, location}: Props) => {
   let linkStyle = MainLinkStyle;
 
   if (location.pathname === AppRoute.MAIN) {

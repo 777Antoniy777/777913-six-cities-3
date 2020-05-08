@@ -1,17 +1,17 @@
 import React from "react";
 
 type Star = {
-  id: number,
-  title: string,
+  id: number;
+  title: string;
 };
 
 type Props = {
-  star: Star
-  rating: boolean,
-  handleInputChange: () => void,
+  star: Star;
+  rating: boolean;
+  handleInputChange: () => void;
 };
 
-const PlaceFormReviewsStar: React.FC<Props> = ({star, rating, handleInputChange}) => {
+const PlaceFormReviewsStar: React.FC<Props> = ({star, rating, handleInputChange}: Props) => {
   const {id, title} = star;
 
   return (

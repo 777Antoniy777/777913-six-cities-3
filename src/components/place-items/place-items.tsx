@@ -1,14 +1,14 @@
 import React from "react";
 
 type PlaceItemsProps = {
-  items: string[],
+  items: string[];
 };
 
 type PlaceItemProps = {
-  item: string,
+  item: string;
 };
 
-const PlaceItems: React.FC<PlaceItemsProps> = ({items}) => {
+const PlaceItems: React.FC<PlaceItemsProps> = ({items}: PlaceItemsProps) => {
   return (
     <ul className="property__inside-list">
 
@@ -26,7 +26,7 @@ const PlaceItems: React.FC<PlaceItemsProps> = ({items}) => {
   );
 };
 
-const PlaceItem: React.FC<PlaceItemProps> = ({item}) => {
+const PlaceItem: React.FC<PlaceItemProps> = ({item}: PlaceItemProps) => {
   return (
     <li className="property__inside-item">
       {item}

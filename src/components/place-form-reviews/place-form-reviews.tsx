@@ -3,22 +3,22 @@ import {AuthorizationStatus, AppRoute} from "../../enums";
 import PlaceFormReviewsStar from "../place-form-reviews-star/place-form-reviews-star";
 
 type Props = {
-  offerId: number,
-  authorizationStatus: string,
-  review: string,
-  rating: boolean[],
-  submitButtonStatus: boolean,
-  errors: string[],
-  history: RouteHistory,
-  sendReview: (offerId: number, review: string, isRating: boolean, onClearForm: () => void, onSetSubmitButtonStatus: (status: boolean) => void) => void,
-  onSetSubmitButtonStatus: (status: boolean) => void,
-  isCommentValid: (review: string, status: boolean) => boolean,
-  isStarChoose: () => boolean,
-  handleInputChange: () => void,
-  onClearForm: () => void,
+  offerId: number;
+  authorizationStatus: string;
+  review: string;
+  rating: boolean[];
+  submitButtonStatus: boolean;
+  errors: string[];
+  history: RouteHistory;
+  sendReview: (offerId: number, review: string, isRating: boolean, onClearForm: () => void, onSetSubmitButtonStatus: (status: boolean) => void) => void;
+  onSetSubmitButtonStatus: (status: boolean) => void;
+  isCommentValid: (review: string, status: boolean) => boolean;
+  isStarChoose: () => boolean;
+  handleInputChange: () => void;
+  onClearForm: () => void;
 };
 
-const PlaceFormReviews: React.FC<Props> = ({offerId, authorizationStatus, review, rating, submitButtonStatus, errors, history, sendReview, onSetSubmitButtonStatus, isCommentValid, isStarChoose, handleInputChange, onClearForm}) => {
+const PlaceFormReviews: React.FC<Props> = ({offerId, authorizationStatus, review, rating, submitButtonStatus, errors, history, sendReview, onSetSubmitButtonStatus, isCommentValid, isStarChoose, handleInputChange, onClearForm}: Props) => {
   const starTitles = [
     {
       id: 5,
@@ -44,7 +44,7 @@ const PlaceFormReviews: React.FC<Props> = ({offerId, authorizationStatus, review
 
   const setButtonStyle = () => {
     const obj = {};
-    const cursor = `cursor`
+    const cursor = `cursor`;
 
     if (!submitButtonStatus) {
       obj[cursor] = `pointer`;

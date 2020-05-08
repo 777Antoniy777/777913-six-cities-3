@@ -2,12 +2,12 @@ import React from "react";
 import PreviewPlace from "../preview-place/preview-place";
 
 type Props = {
-  offers: Offers,
-  history: RouteHistory,
-  location: RouteLocation,
+  offers: Offers;
+  history: RouteHistory;
+  location: RouteLocation;
 };
 
-const PreviewPlaces: React.FC<Props> = ({offers, history, location}) => {
+const PreviewPlaces: React.FC<Props> = ({offers, history, location}: Props) => {
   return (
     <React.Fragment>
 

@@ -2,13 +2,13 @@ import React from "react";
 import classNames from "classnames";
 
 type Props = {
-  status: boolean,
-  avatar: string,
-  name: string,
-  description: string,
+  status: boolean;
+  avatar: string;
+  name: string;
+  description: string;
 };
 
-const PlaceHost: React.FC<Props> = ({status, avatar, name, description}) => {
+const PlaceHost: React.FC<Props> = ({status, avatar, name, description}: Props) => {
   const statusHostClass = classNames({
     'property__avatar-wrapper': true,
     'user__avatar-wrapper': true,

@@ -24,28 +24,28 @@ import ErrorMessage from "../error-message/error-message";
 import {getRating} from "../../utils/get-rating";
 
 type Props = {
-  offer: Offer,
-  hoveredOffer: Offer,
-  reviewsRequestStatus: string,
-  reviewsRequestMessage: string,
-  offersRequestStatus: string,
-  offersRequestMessage: string,
-  favoritesRequestStatus: string,
-  favoritesRequestMessage: string,
-  reviews: Reviews,
-  authorizationStatus: string,
-  userData: User,
-  history: RouteHistory,
-  location: RouteLocation,
-  nearbyOffers: Offers,
-  sendReview: () => void,
-  setFavoriteStatus: (hotelId: number, status: number) => void,
+  offer: Offer;
+  hoveredOffer: Offer;
+  reviewsRequestStatus: string;
+  reviewsRequestMessage: string;
+  offersRequestStatus: string;
+  offersRequestMessage: string;
+  favoritesRequestStatus: string;
+  favoritesRequestMessage: string;
+  reviews: Reviews;
+  authorizationStatus: string;
+  userData: User;
+  history: RouteHistory;
+  location: RouteLocation;
+  nearbyOffers: Offers;
+  sendReview: () => void;
+  setFavoriteStatus: (hotelId: number, status: number) => void;
 };
 
 const MapWrappedHOC = withMap(Map);
 const PlaceFormReviewsWrappedHOC = withPlaceFormReviews(PlaceFormReviews);
 
-const Place: React.FC<Props> = ({offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, offersRequestStatus, offersRequestMessage, favoritesRequestStatus, favoritesRequestMessage, reviews, authorizationStatus, userData, history, location: routeLocation, nearbyOffers, sendReview, setFavoriteStatus}) => {
+const Place: React.FC<Props> = ({offer, hoveredOffer, reviewsRequestStatus, reviewsRequestMessage, offersRequestStatus, offersRequestMessage, favoritesRequestStatus, favoritesRequestMessage, reviews, authorizationStatus, userData, history, location: routeLocation, nearbyOffers, sendReview, setFavoriteStatus}: Props) => {
 
   if (!offer) {
     return null;

@@ -12,17 +12,17 @@ import FavoriteCities from "../favorite-cities/favorite-cities";
 import ErrorMessage from "../error-message/error-message";
 
 type Props = {
-  favoritesRequestStatus: string,
-  favoritesRequestMessage: string,
-  favoriteOffers: Offers,
-  favoriteCities: string[],
-  authorizationStatus: string,
-  userData: User,
-  history: RouteHistory,
-  location: RouteLocation,
+  favoritesRequestStatus: string;
+  favoritesRequestMessage: string;
+  favoriteOffers: Offers;
+  favoriteCities: string[];
+  authorizationStatus: string;
+  userData: User;
+  history: RouteHistory;
+  location: RouteLocation;
 };
 
-const Favorites: React.FC<Props> = ({favoritesRequestStatus, favoritesRequestMessage, favoriteOffers, favoriteCities, authorizationStatus, userData, history, location}) => {
+const Favorites: React.FC<Props> = ({favoritesRequestStatus, favoritesRequestMessage, favoriteOffers, favoriteCities, authorizationStatus, userData, history, location}: Props) => {
   const favoritePageEmptyClass = classNames({
     'page': true,
     'page--favorites-empty': favoriteOffers.length === 0,

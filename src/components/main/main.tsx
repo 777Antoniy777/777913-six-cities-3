@@ -18,30 +18,30 @@ import PlaceFilter from "../place-filter/place-filter";
 import ErrorMessage from "../error-message/error-message";
 
 type Props = {
-  hoveredOffer: Offer,
-  offersRequestStatus: string,
-  offersRequestMessage: string,
-  offers: Offers,
-  initialOffers: Offers,
-  filteredOffers: Offers,
-  currentCity: string,
-  cities: string[],
-  authorizationStatus: string,
-  userData: User,
-  history: RouteHistory,
-  location: RouteLocation,
-  getCurrentCity: () => void,
-  setDefaultOrderOffers: () => void,
-  setLowToHighOrderOffers: () => void,
-  setHighToLowOrderOffers: () => void,
-  setTopRatedFirstOrderOffers: () => void,
+  hoveredOffer: Offer;
+  offersRequestStatus: string;
+  offersRequestMessage: string;
+  offers: Offers;
+  initialOffers: Offers;
+  filteredOffers: Offers;
+  currentCity: string;
+  cities: string[];
+  authorizationStatus: string;
+  userData: User;
+  history: RouteHistory;
+  location: RouteLocation;
+  getCurrentCity: () => void;
+  setDefaultOrderOffers: () => void;
+  setLowToHighOrderOffers: () => void;
+  setHighToLowOrderOffers: () => void;
+  setTopRatedFirstOrderOffers: () => void;
 };
 
 const CitiesWrappedHoc = withActiveItem(Cities);
 const MapWrappedHoc = withMap(Map);
 const PlaceFilterWrappedHoc = withPlaceFilter(PlaceFilter);
 
-const Main: React.FC<Props> = ({hoveredOffer, offersRequestStatus, offersRequestMessage, offers, initialOffers, filteredOffers, currentCity, cities, authorizationStatus, userData, history, location, getCurrentCity, setDefaultOrderOffers, setLowToHighOrderOffers, setHighToLowOrderOffers, setTopRatedFirstOrderOffers}) => {
+const Main: React.FC<Props> = ({hoveredOffer, offersRequestStatus, offersRequestMessage, offers, initialOffers, filteredOffers, currentCity, cities, authorizationStatus, userData, history, location, getCurrentCity, setDefaultOrderOffers, setLowToHighOrderOffers, setHighToLowOrderOffers, setTopRatedFirstOrderOffers}: Props) => {
   const mainEmptyClass = classNames({
     'page__main': true,
     'page__main--index': true,

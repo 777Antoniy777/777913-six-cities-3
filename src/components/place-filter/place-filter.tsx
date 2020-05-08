@@ -2,20 +2,20 @@ import React from "react";
 import classNames from "classnames";
 
 type PlaceFilterProps = {
-  isFilterOpened: boolean,
-  currentFilter: Filter,
-  filtersArr: Filters,
-  setFilterStatus: () => void,
-  getCurrentFilter: (filter: Filter) => void,
+  isFilterOpened: boolean;
+  currentFilter: Filter;
+  filtersArr: Filters;
+  setFilterStatus: () => void;
+  getCurrentFilter: (filter: Filter) => void;
 };
 
 type PlaceFilterItemProps = {
-  filter: Filter,
-  currentFilter: Filter,
-  getCurrentFilter: (filter: Filter) => void,
+  filter: Filter;
+  currentFilter: Filter;
+  getCurrentFilter: (filter: Filter) => void;
 };
 
-const PlaceFilter: React.FC<PlaceFilterProps> = ({isFilterOpened, currentFilter, filtersArr, setFilterStatus, getCurrentFilter}) => {
+const PlaceFilter: React.FC<PlaceFilterProps> = ({isFilterOpened, currentFilter, filtersArr, setFilterStatus, getCurrentFilter}: PlaceFilterProps) => {
   const filterListClass = classNames({
     'places__options': true,
     'places__options--custom': true,
@@ -61,7 +61,7 @@ const PlaceFilter: React.FC<PlaceFilterProps> = ({isFilterOpened, currentFilter,
   );
 };
 
-const PlaceFilterItem: React.FC<PlaceFilterItemProps> = ({filter, currentFilter, getCurrentFilter}) => {
+const PlaceFilterItem: React.FC<PlaceFilterItemProps> = ({filter, currentFilter, getCurrentFilter}: PlaceFilterItemProps) => {
   const {value} = filter;
   const {value: currentValue} = currentFilter;
 

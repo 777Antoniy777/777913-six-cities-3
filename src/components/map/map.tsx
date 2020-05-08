@@ -1,14 +1,14 @@
 import React from "react";
 
 type Map = {
-  current: HTMLDivElement,
+  current: HTMLDivElement;
 };
 
 type Props = {
-  map: Map,
+  map: Map;
 };
 
-const Map: React.FC<Props> = ({map}) => {
+const Map: React.FC<Props> = ({map}: Props) => {
   return (
     <div id="map" style={{height: `100%`}} ref={map}></div>
   );

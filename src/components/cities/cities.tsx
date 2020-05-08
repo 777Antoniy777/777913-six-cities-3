@@ -2,18 +2,18 @@ import React from "react";
 import classNames from "classnames";
 
 type CitiesProps = {
-  cities: string[],
-  currentCity: string,
-  getActiveItem: () => void,
+  cities: string[];
+  currentCity: string;
+  getActiveItem: () => void;
 };
 
 type CityProps = {
-  city: string,
-  currentCity: string,
-  getActiveItem: (city: string) => void,
+  city: string;
+  currentCity: string;
+  getActiveItem: (city: string) => void;
 };
 
-const Cities: React.FC<CitiesProps> = ({cities, currentCity, getActiveItem}) => {
+const Cities: React.FC<CitiesProps> = ({cities, currentCity, getActiveItem}: CitiesProps) => {
   return (
     <ul className="locations__list tabs__list">
 
@@ -36,7 +36,7 @@ const Cities: React.FC<CitiesProps> = ({cities, currentCity, getActiveItem}) => 
   );
 };
 
-const City: React.FC<CityProps> = ({city, currentCity, getActiveItem}) => {
+const City: React.FC<CityProps> = ({city, currentCity, getActiveItem}: CityProps) => {
   const handleLinkClick = (evt) => {
     evt.preventDefault();
 

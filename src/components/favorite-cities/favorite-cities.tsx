@@ -2,20 +2,20 @@ import React from "react";
 import PreviewPlaces from "../preview-places/preview-places";
 
 type FavoriteCitiesProps = {
-  favoriteOffers: Offers,
-  favoriteCities: string[],
-  history: RouteHistory,
-  location: RouteLocation,
+  favoriteOffers: Offers;
+  favoriteCities: string[];
+  history: RouteHistory;
+  location: RouteLocation;
 };
 
 type FavoriteCityProps = {
-  favoriteOffers: Offers,
-  favoriteCity: string,
-  history: RouteHistory,
-  location: RouteLocation,
+  favoriteOffers: Offers;
+  favoriteCity: string;
+  history: RouteHistory;
+  location: RouteLocation;
 };
 
-const FavoriteCities: React.FC<FavoriteCitiesProps> = ({favoriteOffers, favoriteCities, history, location}) => {
+const FavoriteCities: React.FC<FavoriteCitiesProps> = ({favoriteOffers, favoriteCities, history, location}: FavoriteCitiesProps) => {
   return (
     <ul className="favorites__list">
 
@@ -35,7 +35,7 @@ const FavoriteCities: React.FC<FavoriteCitiesProps> = ({favoriteOffers, favorite
   );
 };
 
-const FavoriteCity: React.FC<FavoriteCityProps> = ({favoriteOffers, favoriteCity, history, location}) => {
+const FavoriteCity: React.FC<FavoriteCityProps> = ({favoriteOffers, favoriteCity, history, location}: FavoriteCityProps) => {
   const filterFavoriteOffers = (city) => {
     return favoriteOffers.filter((elem) => {
       return elem.city.name.includes(city);

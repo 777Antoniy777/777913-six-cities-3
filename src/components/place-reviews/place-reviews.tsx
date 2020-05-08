@@ -2,14 +2,14 @@ import React from "react";
 import {getRating} from "../../utils/get-rating";
 
 type PlaceReviewsProps = {
-  reviews: Reviews,
+  reviews: Reviews;
 };
 
 type PlaceReviewProps = {
-  review: Review,
+  review: Review;
 };
 
-const PlaceReviews: React.FC<PlaceReviewsProps> = ({reviews}) => {
+const PlaceReviews: React.FC<PlaceReviewsProps> = ({reviews}: PlaceReviewsProps) => {
   return (
     <ul className="reviews__list">
 
@@ -25,7 +25,7 @@ const PlaceReviews: React.FC<PlaceReviewsProps> = ({reviews}) => {
   );
 };
 
-const PlaceReview: React.FC<PlaceReviewProps> = ({review}) => {
+const PlaceReview: React.FC<PlaceReviewProps> = ({review}: PlaceReviewProps) => {
   const {user, comment, rating, date} = review;
   const {name, avatar} = user;
 

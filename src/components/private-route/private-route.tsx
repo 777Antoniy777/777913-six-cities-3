@@ -4,14 +4,14 @@ import {Route, Redirect} from "react-router-dom";
 type RouteProps = {};
 
 type Props = {
-  path: string,
-  authorizationStatus: string,
-  condRedirect: string,
-  linkRedirect: string,
-  render: (props: RouteProps) => React.ReactElement,
+  path: string;
+  authorizationStatus: string;
+  condRedirect: string;
+  linkRedirect: string;
+  render: (props: RouteProps) => React.ReactElement;
 };
 
-const PrivateRoute: React.FC<Props> = ({authorizationStatus, condRedirect, linkRedirect, render, path}) => {
+const PrivateRoute: React.FC<Props> = ({authorizationStatus, condRedirect, linkRedirect, render, path}: Props) => {
   return (
     <Route
       path={path}

@@ -12,18 +12,18 @@ import ErrorMessage from "../error-message/error-message";
 import {getRating} from "../../utils/get-rating";
 
 type Props = {
-  placeData: Offer,
-  favoritesRequestStatus: string,
-  favoritesRequestMessage: string,
-  authorizationStatus: string,
-  history: RouteHistory,
-  location: RouteLocation,
-  getHoveredOffer: (placeData: Offer) => void,
-  removeHoveredOffer: (val: null) => void,
-  setFavoriteStatus: (id: number, favorite: number) => void,
+  placeData: Offer;
+  favoritesRequestStatus: string;
+  favoritesRequestMessage: string;
+  authorizationStatus: string;
+  history: RouteHistory;
+  location: RouteLocation;
+  getHoveredOffer: (placeData: Offer) => void;
+  removeHoveredOffer: (val: null) => void;
+  setFavoriteStatus: (id: number, favorite: number) => void;
 };
 
-const PreviewPlace: React.FC<Props> = ({placeData, favoritesRequestStatus, favoritesRequestMessage, authorizationStatus, history, location, getHoveredOffer, removeHoveredOffer, setFavoriteStatus}) => {
+const PreviewPlace: React.FC<Props> = ({placeData, favoritesRequestStatus, favoritesRequestMessage, authorizationStatus, history, location, getHoveredOffer, removeHoveredOffer, setFavoriteStatus}: Props) => {
   const {id, title, premium, favorite, src, price, type, rating} = placeData;
   let imageStyle = ImageBigStyle;
   let pathname;

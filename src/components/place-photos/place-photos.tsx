@@ -1,14 +1,14 @@
 import React from "react";
 
 type PlacePhotosProps = {
-  photos: string[],
+  photos: string[];
 };
 
 type PlacePhotoProps = {
-  photo: string,
+  photo: string;
 };
 
-const PlacePhotos: React.FC<PlacePhotosProps> = ({photos}) => {
+const PlacePhotos: React.FC<PlacePhotosProps> = ({photos}: PlacePhotosProps) => {
   return (
     <div className="property__gallery">
 
@@ -26,7 +26,7 @@ const PlacePhotos: React.FC<PlacePhotosProps> = ({photos}) => {
   );
 };
 
-const PlacePhoto: React.FC<PlacePhotoProps> = ({photo}) => {
+const PlacePhoto: React.FC<PlacePhotoProps> = ({photo}: PlacePhotoProps) => {
   return (
     <div className="property__image-wrapper">
       <img className="property__image" src={photo} alt="Photo studio" />

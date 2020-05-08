@@ -8,20 +8,20 @@ import Header from "../header/header";
 import ErrorMessage from "../error-message/error-message";
 
 type Props = {
-  email: string,
-  password: string,
-  login: (email: string, password: string) => void,
-  location: RouteLocation,
-  userRequestStatus: string,
-  userRequestMessage: string,
-  authorizationStatus: string,
-  userData: User,
-  onInputChange: () => void,
-  isFieldEmpty: (val: string) => boolean,
-  isEmailValid: (val: string) => boolean,
+  email: string;
+  password: string;
+  login: (email: string, password: string) => void;
+  location: RouteLocation;
+  userRequestStatus: string;
+  userRequestMessage: string;
+  authorizationStatus: string;
+  userData: User;
+  onInputChange: () => void;
+  isFieldEmpty: (val: string) => boolean;
+  isEmailValid: (val: string) => boolean;
 };
 
-const SignIn: React.FC<Props> = ({email, password, login, location, userRequestStatus, userRequestMessage, authorizationStatus, userData, onInputChange, isFieldEmpty, isEmailValid}) => {
+const SignIn: React.FC<Props> = ({email, password, login, location, userRequestStatus, userRequestMessage, authorizationStatus, userData, onInputChange, isFieldEmpty, isEmailValid}: Props) => {
   const handleFormSubmit = (evt) => {
     evt.preventDefault();
   };
