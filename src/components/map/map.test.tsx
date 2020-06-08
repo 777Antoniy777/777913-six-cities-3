@@ -1,9 +1,9 @@
-import React from "react";
-import renderer from "react-test-renderer";
+import * as React from "react";
+import * as renderer from "react-test-renderer";
 import Map from "./map";
 
 // set mocha data
-const map = React.createRef();
+const map: React.RefObject<HTMLDivElement> = React.createRef();
 
 it(`render Map`, () => {
   const tree = renderer.create(

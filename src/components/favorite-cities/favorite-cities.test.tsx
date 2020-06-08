@@ -1,9 +1,10 @@
-import React from "react";
-import renderer from "react-test-renderer";
+import * as React from "react";
+import * as renderer from "react-test-renderer";
 import FavoriteCities from "./favorite-cities";
+import {TestOffers} from "../../types/test-types/offers-test-type";
 
 // set mocha data
-const favoriteOffers = [
+const favoriteOffers: TestOffers = [
   {
     id: 1,
     city: {
@@ -39,7 +40,7 @@ const favoriteOffers = [
     coord: [1, 1],
   },
 ];
-const favoriteCities = [
+const favoriteCities: string[] = [
   `Moscow`,
   `Omsk`,
 ];

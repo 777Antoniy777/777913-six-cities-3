@@ -1,14 +1,18 @@
-import React from "react";
-import renderer from "react-test-renderer";
+import * as React from "react";
+import * as renderer from "react-test-renderer";
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
 import {Place} from "./place";
+import {TestOffer, TestOffers} from "../../types/test-types/offers-test-type";
+import {TestReviews} from "../../types/test-types/reviews-test-type";
+import {TestUser} from "../../types/test-types/user-test-type";
+import {TestRouteLocation} from "../../types/test-types/location-test-type";
 
 const mockStore = configureStore();
 
 // set mocha data
-const offer = {
+const offer: TestOffer = {
   id: 1,
   city: {
     id: 1,
@@ -42,7 +46,7 @@ const offer = {
   ],
   coord: [1, 1],
 };
-const hoveredOffer = {
+const hoveredOffer: TestOffer = {
   id: 1,
   city: {
     id: 1,
@@ -76,7 +80,7 @@ const hoveredOffer = {
   ],
   coord: [1, 1],
 };
-const nearbyOffers = [
+const nearbyOffers: TestOffers = [
   {
     id: 1,
     city: {
@@ -112,7 +116,7 @@ const nearbyOffers = [
     coord: [1, 1],
   },
 ];
-const reviews = [
+const reviews: TestReviews = [
   {
     id: 1,
     user: {
@@ -130,19 +134,19 @@ const offersRequestMessage = `message`;
 const favoritesRequestStatus = `status`;
 const favoritesRequestMessage = `message`;
 const authorizationStatus = `AUTH`;
-const userData = {
+const userData: TestUser = {
   id: 1,
   name: `name`,
   avatar: `avatar`,
   status: true,
 };
 const history = {};
-const location = {
+const location: TestRouteLocation = {
   pathname: `/pathname`,
 };
 
-const sendReview = () => {};
-const setFavoriteStatus = () => {};
+const sendReview = () => ({});
+const setFavoriteStatus = () => ({});
 
 const store = mockStore({
   offers: {

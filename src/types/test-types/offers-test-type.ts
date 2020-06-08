@@ -39,4 +39,4 @@ type TestOffer = {
 
 type TestOffers = TestOffer[];
 
-export {TestOffer};
+export {TestOffer, TestOffers};

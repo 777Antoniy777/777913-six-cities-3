@@ -1,14 +1,17 @@
-import React from "react";
-import renderer from "react-test-renderer";
+import * as React from "react";
+import * as renderer from "react-test-renderer";
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
 import Main from "./main";
+import {TestOffer, TestOffers} from "../../types/test-types/offers-test-type";
+import {TestUser} from "../../types/test-types/user-test-type";
+import {TestRouteLocation} from "../../types/test-types/location-test-type";
 
 const mockStore = configureStore();
 
 // set mocha data
-const hoveredOffer = {
+const hoveredOffer: TestOffer = {
   id: 1,
   city: {
     id: 1,
@@ -42,7 +45,7 @@ const hoveredOffer = {
   ],
   coord: [1, 1],
 };
-const offers = [
+const offers: TestOffers = [
   {
     id: 1,
     city: {
@@ -78,7 +81,7 @@ const offers = [
     coord: [1, 1],
   },
 ];
-const initialOffers = [
+const initialOffers: TestOffers = [
   {
     id: 1,
     city: {
@@ -114,7 +117,7 @@ const initialOffers = [
     coord: [1, 1],
   },
 ];
-const filteredOffers = [
+const filteredOffers: TestOffers = [
   {
     id: 1,
     city: {
@@ -150,7 +153,7 @@ const filteredOffers = [
     coord: [1, 1],
   },
 ];
-const cities = [
+const cities: string[] = [
   `Moscow`,
   `Omsk`,
 ];
@@ -158,22 +161,22 @@ const currentCity = `city`;
 const offersRequestStatus = `status`;
 const offersRequestMessage = `message`;
 const authorizationStatus = `AUTH`;
-const userData = {
+const userData: TestUser = {
   id: 1,
   name: `name`,
   avatar: `avatar`,
   status: true,
 };
 const history = {};
-const location = {
+const location: TestRouteLocation = {
   pathname: `/pathname`,
 };
 
-const getCurrentCity = () => {};
-const setDefaultOrderOffers = () => {};
-const setLowToHighOrderOffers = () => {};
-const setHighToLowOrderOffers = () => {};
-const setTopRatedFirstOrderOffers = () => {};
+const getCurrentCity = () => ({});
+const setDefaultOrderOffers = () => ({});
+const setLowToHighOrderOffers = () => ({});
+const setHighToLowOrderOffers = () => ({});
+const setTopRatedFirstOrderOffers = () => ({});
 
 const store = mockStore({
   offers: {
