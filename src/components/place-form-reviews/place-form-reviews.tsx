@@ -1,6 +1,7 @@
-import React from "react";
+import * as React from "react";
 import {AuthorizationStatus, AppRoute} from "../../enums";
 import PlaceFormReviewsStar from "../place-form-reviews-star/place-form-reviews-star";
+import {RouteHistory} from "../../types/main-types/history-type";
 
 type Props = {
   offerId: number;

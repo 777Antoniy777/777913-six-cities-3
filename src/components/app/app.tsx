@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import {connect} from "react-redux";
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 import {AuthorizationStatus, AppRoute} from "../../enums";
@@ -18,6 +18,7 @@ import Place from '../place/place';
 import SignIn from "../sign-in/sign-in";
 import Favorites from "../favorites/favorites";
 import NotFound from "../not-found/not-found";
+import {Offers} from "../../types/main-types/offers-type";
 
 type Props = {
   authorizationStatus: string;

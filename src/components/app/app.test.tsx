@@ -1,13 +1,14 @@
-import React from "react";
-import renderer from "react-test-renderer";
+import * as React from "react";
+import * as renderer from "react-test-renderer";
 import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
 import App from "./app";
+import {TestOffer} from "../../types/test-types/offers-test-type";
 
 const mockStore = configureStore();
 
 // set mocha data
-const hoveredOffer = {
+const hoveredOffer: TestOffer = {
   id: 1,
   city: {
     id: 1,
@@ -41,84 +42,80 @@ const hoveredOffer = {
   ],
   coord: [1, 1],
 };
-const offers = [
-  {
+const offers: TestOffer = {
+  id: 1,
+  city: {
     id: 1,
-    city: {
-      id: 1,
-      name: `city`,
-      coords: [1, 1],
-    },
-    title: `title 1`,
-    premium: false,
-    src: `img/image1`,
-    photos: [`img/image1`],
-    price: 999999,
-    description: `test`,
-    type: `type`,
-    rating: 9999,
-    bedroomAmount: 30,
-    guestsAmount: 50,
-    items: [`item`],
-    host: {
-      avatar: `img/avatar-1.jpg`,
-      name: `name`,
-      status: false,
-    },
-    reviews: [
-      {
-        id: 1,
-        body: `text`,
-        rating: 5,
-        name: `name`,
-        date: `date`,
-      },
-    ],
-    coord: [1, 1],
+    name: `city`,
+    coords: [1, 1],
   },
-];
-const initialOffers = [
-  {
+  title: `title 1`,
+  premium: false,
+  src: `img/image1`,
+  photos: [`img/image1`],
+  price: 999999,
+  description: `test`,
+  type: `type`,
+  rating: 9999,
+  bedroomAmount: 30,
+  guestsAmount: 50,
+  items: [`item`],
+  host: {
+    avatar: `img/avatar-1.jpg`,
+    name: `name`,
+    status: false,
+  },
+  reviews: [
+    {
+      id: 1,
+      body: `text`,
+      rating: 5,
+      name: `name`,
+      date: `date`,
+    },
+  ],
+  coord: [1, 1],
+};
+const initialOffers: TestOffer = {
+  id: 1,
+  city: {
     id: 1,
-    city: {
-      id: 1,
-      name: `city`,
-      coords: [1, 1],
-    },
-    title: `title 1`,
-    premium: false,
-    src: `img/image1`,
-    photos: [`img/image1`],
-    price: 999999,
-    description: `test`,
-    type: `type`,
-    rating: 9999,
-    bedroomAmount: 30,
-    guestsAmount: 50,
-    items: [`item`],
-    host: {
-      avatar: `img/avatar-1.jpg`,
-      name: `name`,
-      status: false,
-    },
-    reviews: [
-      {
-        id: 1,
-        body: `text`,
-        rating: 5,
-        name: `name`,
-        date: `date`,
-      },
-    ],
-    coord: [1, 1],
+    name: `city`,
+    coords: [1, 1],
   },
-];
+  title: `title 1`,
+  premium: false,
+  src: `img/image1`,
+  photos: [`img/image1`],
+  price: 999999,
+  description: `test`,
+  type: `type`,
+  rating: 9999,
+  bedroomAmount: 30,
+  guestsAmount: 50,
+  items: [`item`],
+  host: {
+    avatar: `img/avatar-1.jpg`,
+    name: `name`,
+    status: false,
+  },
+  reviews: [
+    {
+      id: 1,
+      body: `text`,
+      rating: 5,
+      name: `name`,
+      date: `date`,
+    },
+  ],
+  coord: [1, 1],
+};
 const authorizationStatus = `AUTH`;
 
-const getFavoriteOffers = () => {};
-const getCurrentOffer = () => {};
-const getReviews = () => {};
-const getNearbyOffers = () => {};
+const getFavoriteOffers: () => void = () => ({});
+const getCurrentOffer: () => void = () => ({});
+const getReviews: () => void = () => ({});
+const getNearbyOffers: () => void = () => ({});
 
 const store = mockStore({
   offers: {

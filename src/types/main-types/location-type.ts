@@ -5,3 +5,5 @@ type RouteLocation = {
   search: string,
   state: string,
 };
+
+export {RouteLocation};

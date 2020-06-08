@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 import classNames from "classnames";
@@ -10,6 +10,9 @@ import {OfferActionCreator} from "../../actions/offer/action-creator";
 import {FavoritesAsyncActionCreator} from "../../actions/favorites/async-action-creator";
 import ErrorMessage from "../error-message/error-message";
 import {getRating} from "../../utils/get-rating";
+import {Offer} from "../../types/main-types/offers-type";
+import {RouteHistory} from "../../types/main-types/history-type";
+import {RouteLocation} from "../../types/main-types/location-type";
 
 type Props = {
   placeData: Offer;

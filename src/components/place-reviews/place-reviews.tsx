@@ -1,5 +1,6 @@
-import React from "react";
+import * as React from "react";
 import {getRating} from "../../utils/get-rating";
+import {Review, Reviews} from "../../types/main-types/reviews-type";
 
 type PlaceReviewsProps = {
   reviews: Reviews;

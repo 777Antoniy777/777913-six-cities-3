@@ -3,15 +3,17 @@ import renderer from "react-test-renderer";
 import {BrowserRouter} from "react-router-dom";
 import Header from "./header";
 
+import {TestUser} from "../../types/test-types/user-test-type";
+
 // set mocha data
 const authorizationStatus = `AUTH`;
-const userData = {
+const userData: TestUser = {
   id: 1,
   name: `name`,
   avatar: `avatar`,
   status: true,
 };
-const location = {
+const location: TestRouteLocation = {
   pathname: `/pathname`,
 };
 

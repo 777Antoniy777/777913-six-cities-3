@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import {connect} from "react-redux";
 import classNames from "classnames";
 import {AuthorizationStatus, AppRoute} from "../../enums";
@@ -22,6 +22,12 @@ import Map from "../map/map";
 import PlaceFormReviews from "../place-form-reviews/place-form-reviews";
 import ErrorMessage from "../error-message/error-message";
 import {getRating} from "../../utils/get-rating";
+import {Offer} from "../../types/main-types/offers-type";
+import {Offers} from "../../types/main-types/offers-type";
+import {Reviews} from "../../types/main-types/reviews-type";
+import {User} from "../../types/main-types/user-type";
+import {RouteHistory} from "../../types/main-types/history-type";
+import {RouteLocation} from "../../types/main-types/location-type";
 
 type Props = {
   offer: Offer;

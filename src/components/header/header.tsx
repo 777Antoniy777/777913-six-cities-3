@@ -1,7 +1,9 @@
-import React from "react";
+import * as React from "react";
 import {Link} from "react-router-dom";
 import {AuthorizationStatus, AppRoute} from "../../enums";
 import {MainLinkStyle, AnotherLinkStyle} from "../../style";
+import {User} from "../../types/main-types/user-type";
+import {RouteLocation} from "../../types/main-types/location-type";
 
 type Props = {
   authorizationStatus: string;

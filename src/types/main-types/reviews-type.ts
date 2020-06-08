@@ -14,3 +14,5 @@ type Review = {
 };
 
 type Reviews = Review[];
+
+export {Review, Reviews};

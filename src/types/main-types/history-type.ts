@@ -1,3 +1,5 @@
+import {RouteLocation} from "./location-type";
+
 type RouteHistory = {
   action: string,
   block: () => void,
@@ -11,3 +13,5 @@ type RouteHistory = {
   push: (path: string) => void,
   replace: () => void,
 };
+
+export {RouteHistory};

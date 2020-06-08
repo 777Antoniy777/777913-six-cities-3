@@ -4,3 +4,5 @@ type Filter = {
 };
 
 type Filters = Filter[];
+
+export {Filter, Filters};

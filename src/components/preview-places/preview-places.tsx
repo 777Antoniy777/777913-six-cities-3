@@ -1,5 +1,8 @@
-import React from "react";
+import * as React from "react";
 import PreviewPlace from "../preview-place/preview-place";
+import {Offers} from "../../types/main-types/offers-type";
+import {RouteHistory} from "../../types/main-types/history-type";
+import {RouteLocation} from "../../types/main-types/location-type";
 
 type Props = {
   offers: Offers;

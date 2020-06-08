@@ -5,3 +5,5 @@ type User = {
   avatar: string,
   status: boolean,
 };
+
+export {User};

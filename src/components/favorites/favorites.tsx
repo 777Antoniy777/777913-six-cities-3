@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import classNames from "classnames";
@@ -10,6 +10,10 @@ import Header from "../header/header";
 import FavoritesEmpty from "../favorites-empty/favorites-empty";
 import FavoriteCities from "../favorite-cities/favorite-cities";
 import ErrorMessage from "../error-message/error-message";
+import {Offers} from "../../types/main-types/offers-type";
+import {User} from "../../types/main-types/user-type";
+import {RouteHistory} from "../../types/main-types/history-type";
+import {RouteLocation} from "../../types/main-types/location-type";
 
 type Props = {
   favoritesRequestStatus: string;

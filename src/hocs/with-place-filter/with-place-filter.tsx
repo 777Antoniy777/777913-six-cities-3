@@ -1,6 +1,7 @@
-import React from "react";
+import * as React from "react";
 import {Subtract} from "utility-types";
 import {FilterType} from "../../enums";
+import {Filter, Filters} from "../../types/main-types/filters-type";
 
 interface State {
   isFilterOpened: boolean;

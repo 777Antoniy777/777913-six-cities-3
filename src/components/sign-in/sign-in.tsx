@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import {connect} from "react-redux";
 import {ErrorReviewWrapperStyle, ErrorMessageStyle} from "../../style";
 import {getUserData} from "../../reducers/user/selectors";
@@ -6,6 +6,8 @@ import {getUserRequestStatus, getUserRequestMessage} from "../../reducers/user/s
 import {UserAsyncActionCreator} from "../../actions/user/async-action-creator";
 import Header from "../header/header";
 import ErrorMessage from "../error-message/error-message";
+import {User} from "../../types/main-types/user-type";
+import {RouteLocation} from "../../types/main-types/location-type";
 
 type Props = {
   email: string;

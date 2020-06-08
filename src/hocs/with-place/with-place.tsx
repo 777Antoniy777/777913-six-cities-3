@@ -1,6 +1,7 @@
-import React from "react";
+import * as React from "react";
 import {Subtract} from "utility-types";
 import {AppRoute} from "../../enums";
+import {Offer} from "../../types/main-types/offers-type";
 
 interface InjectingProps {
   offer: Offer;
