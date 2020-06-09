@@ -1,9 +1,10 @@
-import React from "react";
-import renderer from "react-test-renderer";
+import * as React from "react";
+import * as renderer from "react-test-renderer";
 import PlaceReviews from "./place-reviews";
+import {TestReviews} from "../../types/test-types/reviews-test-type";
 
 // set mocha data
-const reviews = [
+const reviews: TestReviews = [
   {
     id: 1,
     user: {

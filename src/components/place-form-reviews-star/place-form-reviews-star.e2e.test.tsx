@@ -1,14 +1,19 @@
-import React from "react";
+import * as React from "react";
 import Enzyme, {shallow} from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
+import * as Adapter from "enzyme-adapter-react-16";
 import PlaceFormReviewsStar from "./place-form-reviews-star";
+
+type TestStar = {
+  id: number;
+  title: string;
+}
 
 Enzyme.configure({
   adapter: new Adapter(),
 });
 
 // set mocha data
-const star = {
+const star: TestStar = {
   id: 1,
   title: `title`,
 };

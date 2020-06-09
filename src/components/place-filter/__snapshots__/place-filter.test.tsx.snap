@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render PlaceFilter 1`] = `
+<form
+  action="#"
+  className="places__sorting"
+  method="get"
+>
+  <span
+    className="places__sorting-caption"
+    onClick={[Function]}
+  >
+    Sort by
+  </span>
+  <span
+    className="places__sorting-type"
+    onClick={[Function]}
+    tabIndex={0}
+  >
+    filter
+    <svg
+      className="places__sorting-arrow"
+      height={4}
+      width={7}
+    >
+      <use
+        xlinkHref="#icon-arrow-select"
+      />
+    </svg>
+  </span>
+  <ul
+    className="places__options places__options--custom places__options--opened"
+  >
+    <li
+      className="places__option places__option--active"
+      onClick={[Function]}
+      tabIndex={0}
+    >
+      filter
+    </li>
+  </ul>
+</form>
+`;

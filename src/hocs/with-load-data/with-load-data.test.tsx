@@ -1,11 +1,11 @@
-import React from "react";
-import renderer from "react-test-renderer";
+import * as React from "react";
+import * as renderer from "react-test-renderer";
 import withLoadData from "./with-load-data";
 
 // set mocha data
 const props = [];
 
-const getData = () => {};
+const getData = () => ({});
 
 const MockComponent = () => {
   return (

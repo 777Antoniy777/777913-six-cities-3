@@ -1,10 +1,13 @@
-import React from "react";
+import * as React from "react";
 import Enzyme, {mount} from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
+import * as Adapter from "enzyme-adapter-react-16";
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
 import {PreviewPlace} from "./preview-place";
+import {TestOffer} from "../../types/test-types/offers-test-type";
+import {TestRouteLocation} from "../../types/test-types/location-test-type";
+import {TestRouteHistory} from "../../types/test-types/history-test-type";
 
 Enzyme.configure({
   adapter: new Adapter(),
@@ -13,7 +16,7 @@ Enzyme.configure({
 const mockStore = configureStore();
 
 // set mocha data
-const placeData = {
+const placeData: TestOffer = {
   id: 1,
   city: {
     id: 1,
@@ -50,10 +53,10 @@ const placeData = {
 const authorizationStatus = `AUTH`;
 const favoritesRequestStatus = `status`;
 const favoritesRequestMessage = `message`;
-const history = {
+const history: TestRouteHistory = {
   push: jest.fn()
 };
-const location = {
+const location: TestRouteLocation = {
   pathname: `/pathname`,
 };
 

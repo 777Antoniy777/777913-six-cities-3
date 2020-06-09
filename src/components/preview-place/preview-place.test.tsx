@@ -1,14 +1,16 @@
-import React from "react";
-import renderer from "react-test-renderer";
+import * as React from "react";
+import * as renderer from "react-test-renderer";
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
 import PreviewPlace from "./preview-place";
+import {TestOffer} from "../../types/test-types/offers-test-type";
+import {TestRouteLocation} from "../../types/test-types/location-test-type";
 
 const mockStore = configureStore();
 
 // set mocha data
-const placeData = {
+const placeData: TestOffer = {
   id: 1,
   city: {
     id: 1,
@@ -46,13 +48,13 @@ const authorizationStatus = `AUTH`;
 const favoritesRequestStatus = `status`;
 const favoritesRequestMessage = `message`;
 const history = {};
-const location = {
+const location: TestRouteLocation = {
   pathname: `/pathname`,
 };
 
-const getHoveredOffer = () => {};
-const removeHoveredOffer = () => {};
-const setFavoriteStatus = () => {};
+const getHoveredOffer = () => ({});
+const removeHoveredOffer = () => ({});
+const setFavoriteStatus = () => ({});
 
 const store = mockStore({
   favorites: {

@@ -1,10 +1,17 @@
-import React from "react";
-import renderer from "react-test-renderer";
+import * as React from "react";
+import * as renderer from "react-test-renderer";
 import withPlace from "./with-place";
+import {TestOffers} from "../../types/test-types/offers-test-type";
+
+type TestMatch = {
+  params: {
+    hotelID: string;
+  };
+}
 
 // set mocha data
 const props = [];
-const offers = [
+const offers: TestOffers = [
   {
     id: 1,
     city: {
@@ -41,15 +48,15 @@ const offers = [
   },
 ];
 const history = {};
-const match = {
+const match: TestMatch = {
   params: {
     hotelID: `1`,
   },
 };
 
-const getReviews = () => {};
-const getNearbyOffers = () => {};
-const getActiveItem = () => {};
+const getReviews = () => ({});
+const getNearbyOffers = () => ({});
+const getActiveItem = () => ({});
 
 const MockComponent = () => {
   return (

@@ -1,9 +1,9 @@
-import React from "react";
-import renderer from "react-test-renderer";
+import * as React from "react";
+import * as renderer from "react-test-renderer";
 import PlacePhotos from "./place-photos";
 
 // set mocha data
-const photos = [
+const photos: string[] = [
   `img/image1`,
   `img/image2`,
   `img/image3`,

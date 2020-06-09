@@ -1,11 +1,9 @@
 import * as React from "react";
-import Enzyme, {mount} from "enzyme";
+import {configure, mount} from "enzyme";
 import * as Adapter from "enzyme-adapter-react-16";
 import Cities from "./cities";
 
-Enzyme.configure({
-  adapter: new Adapter(),
-});
+configure({adapter: new Adapter()});
 
 // set mocha data
 const citiesArr: string[] = [
@@ -15,9 +13,8 @@ const citiesArr: string[] = [
 ];
 const currentCity = `Omsk`;
 
-it(`city should set into callback after click on link`, () => {
-  const preventDefault = jest.fn();
-  const getActiveItem = jest.fn((city) => city);
+it(`the function should set to argument "currentCity" after clicking on the link`, () => {
+  const getActiveItem = jest.fn();
 
   const cities = mount(
       <Cities
@@ -29,10 +26,9 @@ it(`city should set into callback after click on link`, () => {
 
   const link = cities.find(`.locations__item-link`).first();
 
-  const mockEvent = ({
-    preventDefault,
-    getActiveItem() {},
-  });
+  const mockEvent = {
+    preventDefault: () => null,
+  };
 
   link.simulate(`click`, mockEvent);
 

@@ -1,10 +1,16 @@
-import React from "react";
-import renderer from "react-test-renderer";
+import * as React from "react";
+import * as renderer from "react-test-renderer";
 import withMap from "./with-map";
+import {TestOffers} from "../../types/test-types/offers-test-type";
+
+type TestLocation = {
+  latitude: number;
+  longitude: number;
+}
 
 // set mocha data
 const props = [];
-const offers = [
+const offers: TestOffers = [
   {
     id: 1,
     city: {
@@ -40,11 +46,11 @@ const offers = [
     coord: [1, 1],
   },
 ];
-const activelocation = {
+const activelocation: TestLocation = {
   latitude: 1,
   longitude: 1,
 };
-const hoveredLocation = {
+const hoveredLocation: TestLocation = {
   latitude: 1,
   longitude: 1,
 };

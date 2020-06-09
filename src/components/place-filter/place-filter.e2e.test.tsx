@@ -1,7 +1,8 @@
-import React from "react";
+import * as React from "react";
 import Enzyme, {shallow, mount} from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
+import * as Adapter from "enzyme-adapter-react-16";
 import PlaceFilter from "./place-filter";
+import {TestFilter, TestFilters} from "../../types/test-types/filters-test-type";
 
 Enzyme.configure({
   adapter: new Adapter(),
@@ -9,11 +10,11 @@ Enzyme.configure({
 
 // set mocha data
 const isFilterOpened = true;
-const currentFilter = {
+const currentFilter: TestFilter = {
   id: `1`,
   value: `filter`,
 };
-const filtersArr = [
+const filtersArr: TestFilters = [
   {
     id: `1`,
     value: `filter`,

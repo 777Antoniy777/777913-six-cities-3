@@ -1,10 +1,12 @@
-import React from "react";
+import * as React from "react";
 import Enzyme, {mount} from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
+import * as Adapter from "enzyme-adapter-react-16";
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
 import SignIn from "./sign-in";
+import {TestUser} from "../../types/test-types/user-test-type";
+import {TestRouteLocation} from "../../types/test-types/location-test-type";
 
 const mockStore = configureStore();
 
@@ -16,18 +18,18 @@ Enzyme.configure({
 const email = `email`;
 const password = `password`;
 const authorizationStatus = `AUTH`;
-const userData = {
+const userData: TestUser = {
   id: 1,
   name: `name`,
   avatar: `avatar`,
   status: true,
 };
-const location = {
+const location: TestRouteLocation = {
   pathname: `/pathname`,
 };
 
-const onInputChange = () => {};
-const login = () => {};
+const onInputChange = () => ({});
+const login = () => ({});
 
 const store = mockStore({
   user: {

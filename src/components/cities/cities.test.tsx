@@ -10,16 +10,14 @@ const cities: string[] = [
 ];
 const currentCity = `city`;
 
-const getActiveItem: () => void = () => ({});
-
 it(`render Cities`, () => {
   const tree = renderer.create(
       <Cities
         cities={cities}
         currentCity={currentCity}
-        getActiveItem={getActiveItem}
-      />)
-      .toJSON();
+        getActiveItem={() => null}
+      />
+  ).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

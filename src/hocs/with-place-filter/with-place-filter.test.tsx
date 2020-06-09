@@ -1,10 +1,11 @@
-import React from "react";
-import renderer from "react-test-renderer";
+import * as React from "react";
+import * as renderer from "react-test-renderer";
 import withPlaceFilter from "./with-place-filter";
+import {TestOffers} from "../../types/test-types/offers-test-type";
 
 // set mocha data
 const props = [];
-const offers = [
+const offers: TestOffers = [
   {
     id: 1,
     city: {
@@ -40,7 +41,7 @@ const offers = [
     coord: [1, 1],
   },
 ];
-const initialOffers = [
+const initialOffers: TestOffers = [
   {
     id: 1,
     city: {
@@ -77,10 +78,10 @@ const initialOffers = [
   },
 ];
 
-const setDefaultOrderOffers = () => {};
-const setLowToHighOrderOffers = () => {};
-const setHighToLowOrderOffers = () => {};
-const setTopRatedFirstOrderOffers = () => {};
+const setDefaultOrderOffers = () => ({});
+const setLowToHighOrderOffers = () => ({});
+const setHighToLowOrderOffers = () => ({});
+const setTopRatedFirstOrderOffers = () => ({});
 
 const MockComponent = () => {
   return (

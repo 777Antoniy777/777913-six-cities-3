@@ -1,10 +1,10 @@
-import React from "react";
-import renderer from "react-test-renderer";
+import * as React from "react";
+import * as renderer from "react-test-renderer";
 import withActiveItem from "./with-active-item";
 
 // set mocha data
 const props = [];
-const getActiveItem = () => {};
+const getActiveItem = () => ({});
 
 const MockComponent = () => {
   return (

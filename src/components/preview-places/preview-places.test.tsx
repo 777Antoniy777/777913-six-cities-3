@@ -1,9 +1,11 @@
-import React from "react";
-import renderer from "react-test-renderer";
+import * as React from "react";
+import * as renderer from "react-test-renderer";
 import PreviewPlaces from "./preview-places";
+import {TestOffer} from "../../types/test-types/offers-test-type";
+import {TestRouteLocation} from "../../types/test-types/location-test-type";
 
 // set mocha data
-const offer = {
+const offer: TestOffer = {
   id: 1,
   city: {
     id: 1,
@@ -38,7 +40,7 @@ const offer = {
   coord: [1, 1],
 };
 const history = {};
-const location = {
+const location: TestRouteLocation = {
   pathname: `/pathname`,
 };
 

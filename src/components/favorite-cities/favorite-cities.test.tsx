@@ -1,19 +1,25 @@
 import * as React from "react";
 import * as renderer from "react-test-renderer";
 import FavoriteCities from "./favorite-cities";
-import {TestOffers} from "../../types/test-types/offers-test-type";
+import {Offers} from "../../types/main-types/offers-type";
+import {RouteHistory} from "../../types/main-types/history-type";
+import {RouteLocation} from "../../types/main-types/location-type";
 
 // set mocha data
-const favoriteOffers: TestOffers = [
+const favoriteOffers: Offers = [
   {
     id: 1,
     city: {
-      id: 1,
       name: `city`,
-      coords: [1, 1],
+      location: {
+        latitude: 20,
+        longitude: 20,
+        zoom: 20,
+      },
     },
     title: `title 1`,
     premium: false,
+    favorite: false,
     src: `img/image1`,
     photos: [`img/image1`],
     price: 999999,
@@ -24,29 +30,41 @@ const favoriteOffers: TestOffers = [
     guestsAmount: 50,
     items: [`item`],
     host: {
+      id: 1,
       avatar: `img/avatar-1.jpg`,
       name: `name`,
       status: false,
     },
-    reviews: [
-      {
-        id: 1,
-        body: `text`,
-        rating: 5,
-        name: `name`,
-        date: `date`,
-      },
-    ],
-    coord: [1, 1],
+    location: {
+      latitude: 20,
+      longitude: 20,
+      zoom: 20,
+    },
   },
 ];
 const favoriteCities: string[] = [
   `Moscow`,
   `Omsk`,
 ];
-const history = {};
-const location = {
+const location: RouteLocation = {
+  hash: `hash`,
+  key: `key`,
   pathname: `/pathname`,
+  search: `search`,
+  state: `state`,
+};
+const history: RouteHistory = {
+  action: `action`,
+  block: () => null,
+  createHref: () => null,
+  go: () => null,
+  goBack: () => null,
+  goForward: () => null,
+  length: 90,
+  listen: () => null,
+  location,
+  push: () => null,
+  replace: () => null,
 };
 
 it(`render FavoriteCities`, () => {

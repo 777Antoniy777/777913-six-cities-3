@@ -1,6 +1,6 @@
-import React from "react";
+import * as React from "react";
 import Enzyme, {shallow} from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
+import * as Adapter from "enzyme-adapter-react-16";
 import PlaceFormReviews from "./place-form-reviews";
 
 Enzyme.configure({
@@ -10,9 +10,9 @@ Enzyme.configure({
 // set mocha data
 const offerId = 1;
 const review = `text`;
-const rating = [false, false, false];
+const rating: boolean[] = [false, false, false];
 const submitButtonStatus = true;
-const errors = [`error`];
+const errors: string[] = [`error`];
 
 describe(`PlaceFormReviews should call correct callbacks`, () => {
   it(`handler should call only 1 time after click on the form`, () => {

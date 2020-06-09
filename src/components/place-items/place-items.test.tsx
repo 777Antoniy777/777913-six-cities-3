@@ -1,9 +1,9 @@
-import React from "react";
-import renderer from "react-test-renderer";
+import * as React from "react";
+import * as renderer from "react-test-renderer";
 import PlaceItems from "./place-items";
 
 // set mocha data
-const items = [
+const items: string[] = [
   `item-1`,
   `item-2`,
 ];
