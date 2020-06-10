@@ -2,19 +2,24 @@ import * as React from "react";
 import * as renderer from "react-test-renderer";
 import {BrowserRouter} from "react-router-dom";
 import Header from "./header";
-import {TestUser} from "../../types/test-types/user-test-type";
-import {TestRouteLocation} from "../../types/test-types/location-test-type";
+import {User} from "../../types/main-types/user-type";
+import {RouteLocation} from "../../types/main-types/location-type";
 
 // set mocha data
 const authorizationStatus = `AUTH`;
-const userData: TestUser = {
+const userData: User = {
   id: 1,
+  email: `email`,
   name: `name`,
   avatar: `avatar`,
   status: true,
 };
-const location: TestRouteLocation = {
+const location: RouteLocation = {
+  hash: `hash`,
+  key: `key`,
   pathname: `/pathname`,
+  search: `search`,
+  state: `state`,
 };
 
 it(`render Header`, () => {
@@ -25,8 +30,8 @@ it(`render Header`, () => {
           userData={userData}
           location={location}
         />
-      </BrowserRouter>)
-      .toJSON();
+      </BrowserRouter>
+  ).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

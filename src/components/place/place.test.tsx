@@ -4,23 +4,28 @@ import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
 import {Place} from "./place";
-import {TestOffer, TestOffers} from "../../types/test-types/offers-test-type";
-import {TestReviews} from "../../types/test-types/reviews-test-type";
-import {TestUser} from "../../types/test-types/user-test-type";
-import {TestRouteLocation} from "../../types/test-types/location-test-type";
+import {Offer, Offers} from "../../types/main-types/offers-type";
+import {Reviews} from "../../types/main-types/reviews-type";
+import {User} from "../../types/main-types/user-type";
+import {RouteHistory} from "../../types/main-types/history-type";
+import {RouteLocation} from "../../types/main-types/location-type";
 
 const mockStore = configureStore();
 
 // set mocha data
-const offer: TestOffer = {
+const offer: Offer = {
   id: 1,
   city: {
-    id: 1,
     name: `city`,
-    coords: [1, 1],
+    location: {
+      latitude: 20,
+      longitude: 20,
+      zoom: 20,
+    },
   },
   title: `title 1`,
   premium: false,
+  favorite: false,
   src: `img/image1`,
   photos: [`img/image1`],
   price: 999999,
@@ -31,30 +36,30 @@ const offer: TestOffer = {
   guestsAmount: 50,
   items: [`item`],
   host: {
+    id: 1,
     avatar: `img/avatar-1.jpg`,
     name: `name`,
     status: false,
   },
-  reviews: [
-    {
-      id: 1,
-      body: `text`,
-      rating: 5,
-      name: `name`,
-      date: `date`,
-    },
-  ],
-  coord: [1, 1],
+  location: {
+    latitude: 20,
+    longitude: 20,
+    zoom: 20,
+  },
 };
-const hoveredOffer: TestOffer = {
+const hoveredOffer: Offer = {
   id: 1,
   city: {
-    id: 1,
     name: `city`,
-    coords: [1, 1],
+    location: {
+      latitude: 20,
+      longitude: 20,
+      zoom: 20,
+    },
   },
   title: `title 1`,
   premium: false,
+  favorite: false,
   src: `img/image1`,
   photos: [`img/image1`],
   price: 999999,
@@ -65,31 +70,31 @@ const hoveredOffer: TestOffer = {
   guestsAmount: 50,
   items: [`item`],
   host: {
+    id: 1,
     avatar: `img/avatar-1.jpg`,
     name: `name`,
     status: false,
   },
-  reviews: [
-    {
-      id: 1,
-      body: `text`,
-      rating: 5,
-      name: `name`,
-      date: `date`,
-    },
-  ],
-  coord: [1, 1],
+  location: {
+    latitude: 20,
+    longitude: 20,
+    zoom: 20,
+  },
 };
-const nearbyOffers: TestOffers = [
+const nearbyOffers: Offers = [
   {
     id: 1,
     city: {
-      id: 1,
       name: `city`,
-      coords: [1, 1],
+      location: {
+        latitude: 20,
+        longitude: 20,
+        zoom: 20,
+      },
     },
     title: `title 1`,
     premium: false,
+    favorite: false,
     src: `img/image1`,
     photos: [`img/image1`],
     price: 999999,
@@ -100,31 +105,30 @@ const nearbyOffers: TestOffers = [
     guestsAmount: 50,
     items: [`item`],
     host: {
+      id: 1,
       avatar: `img/avatar-1.jpg`,
       name: `name`,
       status: false,
     },
-    reviews: [
-      {
-        id: 1,
-        body: `text`,
-        rating: 5,
-        name: `name`,
-        date: `date`,
-      },
-    ],
-    coord: [1, 1],
+    location: {
+      latitude: 20,
+      longitude: 20,
+      zoom: 20,
+    },
   },
 ];
-const reviews: TestReviews = [
+const reviews: Reviews = [
   {
     id: 1,
     user: {
       id: 1,
+      status: false,
       name: `name`,
-      comment: `comment`,
+      avatar: `avatar`,
     },
-    status: `status`,
+    comment: `comment`,
+    rating: 10,
+    date: `date`,
   },
 ];
 const reviewsRequestStatus = `status`;
@@ -134,19 +138,33 @@ const offersRequestMessage = `message`;
 const favoritesRequestStatus = `status`;
 const favoritesRequestMessage = `message`;
 const authorizationStatus = `AUTH`;
-const userData: TestUser = {
+const userData: User = {
   id: 1,
+  email: `email`,
   name: `name`,
   avatar: `avatar`,
   status: true,
 };
-const history = {};
-const location: TestRouteLocation = {
+const location: RouteLocation = {
+  hash: `hash`,
+  key: `key`,
   pathname: `/pathname`,
+  search: `search`,
+  state: `state`,
 };
-
-const sendReview = () => ({});
-const setFavoriteStatus = () => ({});
+const history: RouteHistory = {
+  action: `action`,
+  block: () => null,
+  createHref: () => null,
+  go: () => null,
+  goBack: () => null,
+  goForward: () => null,
+  length: 90,
+  listen: () => null,
+  location,
+  push: () => null,
+  replace: () => null,
+};
 
 const store = mockStore({
   offers: {
@@ -172,10 +190,6 @@ const store = mockStore({
 });
 
 it(`render Place`, () => {
-  beforeEach(() => { // Runs before each test in the suite
-    store.clearActions();
-  });
-
   const tree = renderer.create(
       <BrowserRouter>
         <Provider store={store}>
@@ -194,12 +208,12 @@ it(`render Place`, () => {
             history={history}
             location={location}
             nearbyOffers={nearbyOffers}
-            sendReview={sendReview}
-            setFavoriteStatus={setFavoriteStatus}
+            sendReview={() => null}
+            setFavoriteStatus={() => null}
           />
         </Provider>
-      </BrowserRouter>)
-      .toJSON();
+      </BrowserRouter>
+  ).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

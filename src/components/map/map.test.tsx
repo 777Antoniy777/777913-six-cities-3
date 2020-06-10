@@ -9,8 +9,8 @@ it(`render Map`, () => {
   const tree = renderer.create(
       <Map
         map={map}
-      />)
-      .toJSON();
+      />
+  ).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

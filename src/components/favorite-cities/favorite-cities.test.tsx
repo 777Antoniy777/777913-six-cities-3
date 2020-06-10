@@ -74,8 +74,8 @@ it(`render FavoriteCities`, () => {
         favoriteCities={favoriteCities}
         history={history}
         location={location}
-      />)
-      .toJSON();
+      />
+  ).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

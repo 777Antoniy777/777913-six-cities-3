@@ -7,8 +7,8 @@ it(`render NotFound`, () => {
   const tree = renderer.create(
       <BrowserRouter>
         <NotFound />
-      </BrowserRouter>)
-      .toJSON();
+      </BrowserRouter>
+  ).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

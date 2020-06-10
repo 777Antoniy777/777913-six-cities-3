@@ -4,23 +4,28 @@ import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
 import Favorites from "./favorites";
-import {TestOffers} from "../../types/test-types/offers-test-type";
-import {TestUser} from "../../types/test-types/user-test-type";
-import {TestRouteLocation} from "../../types/test-types/location-test-type";
+import {Offers} from "../../types/main-types/offers-type";
+import {User} from "../../types/main-types/user-type";
+import {RouteHistory} from "../../types/main-types/history-type";
+import {RouteLocation} from "../../types/main-types/location-type";
 
 const mockStore = configureStore();
 
 // set mocha data
-const favoriteOffers: TestOffers = [
+const favoriteOffers: Offers = [
   {
     id: 1,
     city: {
-      id: 1,
       name: `city`,
-      coords: [1, 1],
+      location: {
+        latitude: 20,
+        longitude: 20,
+        zoom: 20,
+      },
     },
     title: `title 1`,
     premium: false,
+    favorite: false,
     src: `img/image1`,
     photos: [`img/image1`],
     price: 999999,
@@ -31,20 +36,16 @@ const favoriteOffers: TestOffers = [
     guestsAmount: 50,
     items: [`item`],
     host: {
+      id: 1,
       avatar: `img/avatar-1.jpg`,
       name: `name`,
       status: false,
     },
-    reviews: [
-      {
-        id: 1,
-        body: `text`,
-        rating: 5,
-        name: `name`,
-        date: `date`,
-      },
-    ],
-    coord: [1, 1],
+    location: {
+      latitude: 20,
+      longitude: 20,
+      zoom: 20,
+    },
   },
 ];
 const favoriteCities: string[] = [
@@ -54,15 +55,32 @@ const favoriteCities: string[] = [
 const favoritesRequestStatus = `status`;
 const favoritesRequestMessage = `message`;
 const authorizationStatus = `AUTH`;
-const userData: TestUser = {
+const userData: User = {
   id: 1,
+  email: `email`,
   name: `name`,
   avatar: `avatar`,
   status: true,
 };
-const history = {};
-const location: TestRouteLocation = {
+const location: RouteLocation = {
+  hash: `hash`,
+  key: `key`,
   pathname: `/pathname`,
+  search: `search`,
+  state: `state`,
+};
+const history: RouteHistory = {
+  action: `action`,
+  block: () => null,
+  createHref: () => null,
+  go: () => null,
+  goBack: () => null,
+  goForward: () => null,
+  length: 90,
+  listen: () => null,
+  location,
+  push: () => null,
+  replace: () => null,
 };
 
 const store = mockStore({
@@ -76,10 +94,6 @@ const store = mockStore({
 });
 
 it(`render Favorites`, () => {
-  beforeEach(() => { // Runs before each test in the suite
-    store.clearActions();
-  });
-
   const tree = renderer.create(
       <BrowserRouter>
         <Provider store={store}>
@@ -94,8 +108,8 @@ it(`render Favorites`, () => {
             location={location}
           />
         </Provider>
-      </BrowserRouter>)
-      .toJSON();
+      </BrowserRouter>
+  ).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

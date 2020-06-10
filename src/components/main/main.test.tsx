@@ -4,22 +4,27 @@ import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
 import Main from "./main";
-import {TestOffer, TestOffers} from "../../types/test-types/offers-test-type";
-import {TestUser} from "../../types/test-types/user-test-type";
-import {TestRouteLocation} from "../../types/test-types/location-test-type";
+import {Offer, Offers} from "../../types/main-types/offers-type";
+import {User} from "../../types/main-types/user-type";
+import {RouteHistory} from "../../types/main-types/history-type";
+import {RouteLocation} from "../../types/main-types/location-type";
 
 const mockStore = configureStore();
 
 // set mocha data
-const hoveredOffer: TestOffer = {
+const hoveredOffer: Offer = {
   id: 1,
   city: {
-    id: 1,
     name: `city`,
-    coords: [1, 1],
+    location: {
+      latitude: 20,
+      longitude: 20,
+      zoom: 20,
+    },
   },
   title: `title 1`,
   premium: false,
+  favorite: false,
   src: `img/image1`,
   photos: [`img/image1`],
   price: 999999,
@@ -30,31 +35,31 @@ const hoveredOffer: TestOffer = {
   guestsAmount: 50,
   items: [`item`],
   host: {
+    id: 1,
     avatar: `img/avatar-1.jpg`,
     name: `name`,
     status: false,
   },
-  reviews: [
-    {
-      id: 1,
-      body: `text`,
-      rating: 5,
-      name: `name`,
-      date: `date`,
-    },
-  ],
-  coord: [1, 1],
+  location: {
+    latitude: 20,
+    longitude: 20,
+    zoom: 20,
+  },
 };
-const offers: TestOffers = [
+const offers: Offers = [
   {
     id: 1,
     city: {
-      id: 1,
       name: `city`,
-      coords: [1, 1],
+      location: {
+        latitude: 20,
+        longitude: 20,
+        zoom: 20,
+      },
     },
     title: `title 1`,
     premium: false,
+    favorite: false,
     src: `img/image1`,
     photos: [`img/image1`],
     price: 999999,
@@ -65,32 +70,32 @@ const offers: TestOffers = [
     guestsAmount: 50,
     items: [`item`],
     host: {
+      id: 1,
       avatar: `img/avatar-1.jpg`,
       name: `name`,
       status: false,
     },
-    reviews: [
-      {
-        id: 1,
-        body: `text`,
-        rating: 5,
-        name: `name`,
-        date: `date`,
-      },
-    ],
-    coord: [1, 1],
+    location: {
+      latitude: 20,
+      longitude: 20,
+      zoom: 20,
+    },
   },
 ];
-const initialOffers: TestOffers = [
+const initialOffers: Offers = [
   {
     id: 1,
     city: {
-      id: 1,
       name: `city`,
-      coords: [1, 1],
+      location: {
+        latitude: 20,
+        longitude: 20,
+        zoom: 20,
+      },
     },
     title: `title 1`,
     premium: false,
+    favorite: false,
     src: `img/image1`,
     photos: [`img/image1`],
     price: 999999,
@@ -101,32 +106,32 @@ const initialOffers: TestOffers = [
     guestsAmount: 50,
     items: [`item`],
     host: {
+      id: 1,
       avatar: `img/avatar-1.jpg`,
       name: `name`,
       status: false,
     },
-    reviews: [
-      {
-        id: 1,
-        body: `text`,
-        rating: 5,
-        name: `name`,
-        date: `date`,
-      },
-    ],
-    coord: [1, 1],
+    location: {
+      latitude: 20,
+      longitude: 20,
+      zoom: 20,
+    },
   },
 ];
-const filteredOffers: TestOffers = [
+const filteredOffers: Offers = [
   {
     id: 1,
     city: {
-      id: 1,
       name: `city`,
-      coords: [1, 1],
+      location: {
+        latitude: 20,
+        longitude: 20,
+        zoom: 20,
+      },
     },
     title: `title 1`,
     premium: false,
+    favorite: false,
     src: `img/image1`,
     photos: [`img/image1`],
     price: 999999,
@@ -137,20 +142,16 @@ const filteredOffers: TestOffers = [
     guestsAmount: 50,
     items: [`item`],
     host: {
+      id: 1,
       avatar: `img/avatar-1.jpg`,
       name: `name`,
       status: false,
     },
-    reviews: [
-      {
-        id: 1,
-        body: `text`,
-        rating: 5,
-        name: `name`,
-        date: `date`,
-      },
-    ],
-    coord: [1, 1],
+    location: {
+      latitude: 20,
+      longitude: 20,
+      zoom: 20,
+    },
   },
 ];
 const cities: string[] = [
@@ -161,22 +162,33 @@ const currentCity = `city`;
 const offersRequestStatus = `status`;
 const offersRequestMessage = `message`;
 const authorizationStatus = `AUTH`;
-const userData: TestUser = {
+const userData: User = {
   id: 1,
+  email: `email`,
   name: `name`,
   avatar: `avatar`,
   status: true,
 };
-const history = {};
-const location: TestRouteLocation = {
+const location: RouteLocation = {
+  hash: `hash`,
+  key: `key`,
   pathname: `/pathname`,
+  search: `search`,
+  state: `state`,
 };
-
-const getCurrentCity = () => ({});
-const setDefaultOrderOffers = () => ({});
-const setLowToHighOrderOffers = () => ({});
-const setHighToLowOrderOffers = () => ({});
-const setTopRatedFirstOrderOffers = () => ({});
+const history: RouteHistory = {
+  action: `action`,
+  block: () => null,
+  createHref: () => null,
+  go: () => null,
+  goBack: () => null,
+  goForward: () => null,
+  length: 90,
+  listen: () => null,
+  location,
+  push: () => null,
+  replace: () => null,
+};
 
 const store = mockStore({
   offers: {
@@ -200,10 +212,6 @@ const store = mockStore({
 });
 
 it(`render Main`, () => {
-  beforeEach(() => { // Runs before each test in the suite
-    store.clearActions();
-  });
-
   const tree = renderer.create(
       <BrowserRouter>
         <Provider store={store}>
@@ -220,15 +228,15 @@ it(`render Main`, () => {
             userData={userData}
             history={history}
             location={location}
-            getCurrentCity={getCurrentCity}
-            setDefaultOrderOffers={setDefaultOrderOffers}
-            setLowToHighOrderOffers={setLowToHighOrderOffers}
-            setHighToLowOrderOffers={setHighToLowOrderOffers}
-            setTopRatedFirstOrderOffers={setTopRatedFirstOrderOffers}
+            getCurrentCity={() => null}
+            setDefaultOrderOffers={() => null}
+            setLowToHighOrderOffers={() => null}
+            setHighToLowOrderOffers={() => null}
+            setTopRatedFirstOrderOffers={() => null}
           />
         </Provider>
-      </BrowserRouter>)
-      .toJSON();
+      </BrowserRouter>
+  ).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

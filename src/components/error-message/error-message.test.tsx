@@ -13,8 +13,8 @@ it(`render ErrorMessage`, () => {
         requestMessage={requestMessage}
         wrapperStyle={wrapperStyle}
         messageStyle={messageStyle}
-      />)
-      .toJSON();
+      />
+  ).toJSON();
 
   expect(tree).toMatchSnapshot();
 });
