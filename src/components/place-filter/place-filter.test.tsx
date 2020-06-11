@@ -1,23 +1,20 @@
 import * as React from "react";
 import * as renderer from "react-test-renderer";
 import PlaceFilter from "./place-filter";
-import {TestFilter, TestFilters} from "../../types/test-types/filters-test-type";
+import {Filter, Filters} from "../../types/main-types/filters-type";
 
 // set mocha data
 const isFilterOpened = true;
-const currentFilter: TestFilter = {
+const currentFilter: Filter = {
   id: `1`,
   value: `filter`,
 };
-const filtersArr: TestFilters = [
+const filtersArr: Filters = [
   {
     id: `1`,
     value: `filter`,
   },
 ];
-
-const setFilterStatus = () => ({});
-const getCurrentFilter = () => ({});
 
 it(`render PlaceFilter`, () => {
   const tree = renderer.create(
@@ -25,10 +22,10 @@ it(`render PlaceFilter`, () => {
         isFilterOpened={isFilterOpened}
         currentFilter={currentFilter}
         filtersArr={filtersArr}
-        setFilterStatus={setFilterStatus}
-        getCurrentFilter={getCurrentFilter}
-      />)
-      .toJSON();
+        setFilterStatus={() => null}
+        getCurrentFilter={() => null}
+      />
+  ).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

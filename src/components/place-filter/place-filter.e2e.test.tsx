@@ -1,28 +1,26 @@
 import * as React from "react";
-import Enzyme, {shallow, mount} from "enzyme";
+import {configure, shallow, mount} from "enzyme";
 import * as Adapter from "enzyme-adapter-react-16";
 import PlaceFilter from "./place-filter";
-import {TestFilter, TestFilters} from "../../types/test-types/filters-test-type";
+import {Filter, Filters} from "../../types/main-types/filters-type";
 
-Enzyme.configure({
-  adapter: new Adapter(),
-});
+configure({adapter: new Adapter()});
 
 // set mocha data
 const isFilterOpened = true;
-const currentFilter: TestFilter = {
+const currentFilter: Filter = {
   id: `1`,
   value: `filter`,
 };
-const filtersArr: TestFilters = [
+const filtersArr: Filters = [
   {
     id: `1`,
     value: `filter`,
   },
 ];
 
-describe(`PlaceFilter should call correct callbacks`, () => {
-  it(`handler should call only 1 time after click on filter caption`, () => {
+describe(`PlaceFilter should call correct functions`, () => {
+  it(`function should be called only 1 time after click on filter caption`, () => {
     const setFilterStatus = jest.fn();
 
     const placeFilter = shallow(
@@ -31,13 +29,14 @@ describe(`PlaceFilter should call correct callbacks`, () => {
           currentFilter={currentFilter}
           filtersArr={filtersArr}
           setFilterStatus={setFilterStatus}
+          getCurrentFilter={() => null}
         />
     );
 
     const filterCaption = placeFilter.find(`.places__sorting-caption`);
 
     const mockEvent = ({
-      setFilterStatus() {},
+      preventDefault: () => null,
     });
 
     filterCaption.simulate(`click`, mockEvent);
@@ -45,7 +44,7 @@ describe(`PlaceFilter should call correct callbacks`, () => {
     expect(setFilterStatus).toHaveBeenCalledTimes(1);
   });
 
-  it(`handler should call only 1 time after click on filter span`, () => {
+  it(`function should be called only 1 time after click on filter span`, () => {
     const setFilterStatus = jest.fn();
 
     const placeFilter = shallow(
@@ -54,13 +53,14 @@ describe(`PlaceFilter should call correct callbacks`, () => {
           currentFilter={currentFilter}
           filtersArr={filtersArr}
           setFilterStatus={setFilterStatus}
+          getCurrentFilter={() => null}
         />
     );
 
     const filterSpan = placeFilter.find(`.places__sorting-type`);
 
     const mockEvent = ({
-      setFilterStatus() {},
+      preventDefault: () => null,
     });
 
     filterSpan.simulate(`click`, mockEvent);
@@ -68,14 +68,15 @@ describe(`PlaceFilter should call correct callbacks`, () => {
     expect(setFilterStatus).toHaveBeenCalledTimes(1);
   });
 
-  it(`handler should call only 1 time and get "currentFilter" after click on filter item`, () => {
-    const getCurrentFilter = jest.fn((obj) => obj);
+  it(`function should be called only 1 time and set "currentFilter" in arguments after click on filter item`, () => {
+    const getCurrentFilter = jest.fn();
 
     const placeFilter = mount(
         <PlaceFilter
           isFilterOpened={isFilterOpened}
           currentFilter={currentFilter}
           filtersArr={filtersArr}
+          setFilterStatus={() => null}
           getCurrentFilter={getCurrentFilter}
         />
     );
@@ -83,7 +84,7 @@ describe(`PlaceFilter should call correct callbacks`, () => {
     const filterItem = placeFilter.find(`.places__option`);
 
     const mockEvent = ({
-      getCurrentFilter() {},
+      preventDefault: () => null,
     });
 
     filterItem.simulate(`click`, mockEvent);
