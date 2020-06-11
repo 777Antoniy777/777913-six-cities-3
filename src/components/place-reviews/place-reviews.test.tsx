@@ -1,18 +1,21 @@
 import * as React from "react";
 import * as renderer from "react-test-renderer";
 import PlaceReviews from "./place-reviews";
-import {TestReviews} from "../../types/test-types/reviews-test-type";
+import {Reviews} from "../../types/main-types/reviews-type";
 
 // set mocha data
-const reviews: TestReviews = [
+const reviews: Reviews = [
   {
     id: 1,
     user: {
       id: 1,
+      status: false,
       name: `name`,
-      comment: `comment`,
+      avatar: `avatar`,
     },
-    status: `status`,
+    comment: `comment`,
+    rating: 100,
+    date: `date`,
   },
 ];
 
@@ -20,8 +23,8 @@ it(`render PlaceReviews`, () => {
   const tree = renderer.create(
       <PlaceReviews
         reviews={reviews}
-      />)
-      .toJSON();
+      />
+  ).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

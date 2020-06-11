@@ -12,8 +12,8 @@ it(`render PlaceItems`, () => {
   const tree = renderer.create(
       <PlaceItems
         items={items}
-      />)
-      .toJSON();
+      />
+  ).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

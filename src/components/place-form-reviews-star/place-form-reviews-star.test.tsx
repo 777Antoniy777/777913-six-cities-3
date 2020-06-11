@@ -14,16 +14,14 @@ const star: TestStar = {
 };
 const rating = false;
 
-const handleInputChange = () => ({});
-
 it(`render PlaceFormReviews`, () => {
   const tree = renderer.create(
       <PlaceFormReviewsStar
         star={star}
         rating={rating}
-        handleInputChange={handleInputChange}
-      />)
-      .toJSON();
+        handleInputChange={() => null}
+      />
+  ).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

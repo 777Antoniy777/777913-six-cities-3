@@ -15,8 +15,8 @@ it(`render PlaceHost`, () => {
         avatar={avatar}
         name={name}
         description={description}
-      />)
-      .toJSON();
+      />
+  ).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

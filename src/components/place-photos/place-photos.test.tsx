@@ -16,8 +16,8 @@ it(`render PlacePhotos`, () => {
       <PlacePhotos
         key={++i}
         photos={photos}
-      />)
-      .toJSON();
+      />
+  ).toJSON();
 
   expect(tree).toMatchSnapshot();
 });
