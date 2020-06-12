@@ -4,8 +4,8 @@ import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
 import SignIn from "./sign-in";
-import {TestUser} from "../../types/test-types/user-test-type";
-import {TestRouteLocation} from "../../types/test-types/location-test-type";
+import {User} from "../../types/main-types/user-type";
+import {RouteLocation} from "../../types/main-types/location-type";
 
 const mockStore = configureStore();
 
@@ -13,20 +13,20 @@ const mockStore = configureStore();
 const email = `email`;
 const password = `password`;
 const authorizationStatus = `AUTH`;
-const userData: TestUser = {
+const userData: User = {
   id: 1,
+  email: `email`,
   name: `name`,
   avatar: `avatar`,
   status: true,
 };
-const location: TestRouteLocation = {
+const location: RouteLocation = {
+  hash: `hash`,
+  key: `key`,
   pathname: `/pathname`,
+  search: `search`,
+  state: `state`,
 };
-
-const onInputChange = () => ({});
-const isFieldEmpty = () => ({});
-const isEmailValid = () => ({});
-const login = () => ({});
 
 const store = mockStore({
   user: {
@@ -36,27 +36,23 @@ const store = mockStore({
 });
 
 it(`render SignIn`, () => {
-  beforeEach(() => { // Runs before each test in the suite
-    store.clearActions();
-  });
-
   const tree = renderer.create(
       <BrowserRouter>
         <Provider store={store}>
           <SignIn
             email={email}
             password={password}
-            login={login}
+            login={() => null}
             location={location}
             authorizationStatus={authorizationStatus}
             userData={userData}
-            onInputChange={onInputChange}
-            isFieldEmpty={isFieldEmpty}
-            isEmailValid={isEmailValid}
+            onInputChange={() => null}
+            isFieldEmpty={() => null}
+            isEmailValid={() => null}
           />
         </Provider>
-      </BrowserRouter>)
-      .toJSON();
+      </BrowserRouter>
+  ).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

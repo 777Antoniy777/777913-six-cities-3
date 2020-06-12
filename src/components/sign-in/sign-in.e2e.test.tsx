@@ -1,35 +1,35 @@
 import * as React from "react";
-import Enzyme, {mount} from "enzyme";
+import {configure, mount} from "enzyme";
 import * as Adapter from "enzyme-adapter-react-16";
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
 import SignIn from "./sign-in";
-import {TestUser} from "../../types/test-types/user-test-type";
-import {TestRouteLocation} from "../../types/test-types/location-test-type";
+import {User} from "../../types/main-types/user-type";
+import {RouteLocation} from "../../types/main-types/location-type";
 
 const mockStore = configureStore();
 
-Enzyme.configure({
-  adapter: new Adapter(),
-});
+configure({adapter: new Adapter()});
 
 // set mocha data
 const email = `email`;
 const password = `password`;
 const authorizationStatus = `AUTH`;
-const userData: TestUser = {
+const userData: User = {
   id: 1,
+  email: `email`,
   name: `name`,
   avatar: `avatar`,
   status: true,
 };
-const location: TestRouteLocation = {
+const location: RouteLocation = {
+  hash: `hash`,
+  key: `key`,
   pathname: `/pathname`,
+  search: `search`,
+  state: `state`,
 };
-
-const onInputChange = () => ({});
-const login = () => ({});
 
 const store = mockStore({
   user: {
@@ -40,10 +40,6 @@ const store = mockStore({
 
 describe(`SignIn should calles correct callbacks`, () => {
   it(`handler should calles only 1 time after submit the form`, () => {
-    beforeEach(() => { // Runs before each test in the suite
-      store.clearActions();
-    });
-
     const preventDefault = jest.fn();
 
     const signIn = mount(
@@ -52,11 +48,13 @@ describe(`SignIn should calles correct callbacks`, () => {
             <SignIn
               email={email}
               password={password}
-              login={login}
+              login={() => null}
               location={location}
               authorizationStatus={authorizationStatus}
               userData={userData}
-              onInputChange={onInputChange}
+              onInputChange={() => null}
+              isFieldEmpty={() => null}
+              isEmailValid={() => null}
             />
           </Provider>
         </BrowserRouter>
@@ -64,9 +62,9 @@ describe(`SignIn should calles correct callbacks`, () => {
 
     const form = signIn.find(`.login__form`);
 
-    const mockEvent = ({
+    const mockEvent = {
       preventDefault,
-    });
+    };
 
     form.simulate(`submit`, mockEvent);
 

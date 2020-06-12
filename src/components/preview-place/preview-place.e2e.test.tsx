@@ -1,30 +1,32 @@
 import * as React from "react";
-import Enzyme, {mount} from "enzyme";
+import {configure, mount} from "enzyme";
 import * as Adapter from "enzyme-adapter-react-16";
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
 import {PreviewPlace} from "./preview-place";
-import {TestOffer} from "../../types/test-types/offers-test-type";
-import {TestRouteLocation} from "../../types/test-types/location-test-type";
-import {TestRouteHistory} from "../../types/test-types/history-test-type";
+import {Offer} from "../../types/main-types/offers-type";
+import {RouteHistory} from "../../types/main-types/history-type";
+import {RouteLocation} from "../../types/main-types/location-type";
 
-Enzyme.configure({
-  adapter: new Adapter(),
-});
+configure({adapter: new Adapter()});
 
 const mockStore = configureStore();
 
 // set mocha data
-const placeData: TestOffer = {
+const placeData: Offer = {
   id: 1,
   city: {
-    id: 1,
     name: `city`,
-    coords: [1, 1],
+    location: {
+      latitude: 20,
+      longitude: 20,
+      zoom: 20,
+    },
   },
   title: `title 1`,
   premium: false,
+  favorite: false,
   src: `img/image1`,
   photos: [`img/image1`],
   price: 999999,
@@ -35,29 +37,39 @@ const placeData: TestOffer = {
   guestsAmount: 50,
   items: [`item`],
   host: {
+    id: 1,
     avatar: `img/avatar-1.jpg`,
     name: `name`,
     status: false,
   },
-  reviews: [
-    {
-      id: 1,
-      body: `text`,
-      rating: 5,
-      name: `name`,
-      date: `date`,
-    },
-  ],
-  coord: [1, 1],
+  location: {
+    latitude: 20,
+    longitude: 20,
+    zoom: 20,
+  },
 };
 const authorizationStatus = `AUTH`;
 const favoritesRequestStatus = `status`;
 const favoritesRequestMessage = `message`;
-const history: TestRouteHistory = {
-  push: jest.fn()
-};
-const location: TestRouteLocation = {
+const location: RouteLocation = {
+  hash: `hash`,
+  key: `key`,
   pathname: `/pathname`,
+  search: `search`,
+  state: `state`,
+};
+const history: RouteHistory = {
+  action: `action`,
+  block: () => null,
+  createHref: () => null,
+  go: () => null,
+  goBack: () => null,
+  goForward: () => null,
+  length: 90,
+  listen: () => null,
+  location,
+  push: () => null,
+  replace: () => null,
 };
 
 const store = mockStore({
@@ -70,15 +82,10 @@ const store = mockStore({
   }
 });
 
-describe(`PreviewPlace should call correct callbacks`, () => {
+describe(`PreviewPlace should call correct functions`, () => {
   it(`page should scroll up after click on title`, () => {
-    beforeEach(() => { // Runs before each test in the suite
-      store.clearActions();
-    });
-
-    const preventDefault = jest.fn();
     const scrollTo = jest.fn();
-    Object.defineProperty(global.window, `scrollTo`, {
+    Object.defineProperty(window, `scrollTo`, {
       value: scrollTo
     });
 
@@ -92,6 +99,9 @@ describe(`PreviewPlace should call correct callbacks`, () => {
               favoritesRequestMessage={favoritesRequestMessage}
               history={history}
               location={location}
+              getHoveredOffer={() => null}
+              removeHoveredOffer={() => null}
+              setFavoriteStatus={() => null}
             />
           </Provider>
         </BrowserRouter>
@@ -99,21 +109,18 @@ describe(`PreviewPlace should call correct callbacks`, () => {
 
     const title = previewPlace.find(`.place-card__name`);
 
-    const mockClickEvent = ({
-      preventDefault,
-    });
+    const mockEvent = {
+      preventDefault: () => null,
+    };
 
-    title.simulate(`click`, mockClickEvent);
+    title.simulate(`click`, mockEvent);
 
+    expect(scrollTo).toHaveBeenCalledTimes(1);
     expect(scrollTo).toHaveBeenCalledWith(0, 0);
   });
 
-  it(`"placeData" should set into callback after mouseenter on card`, () => {
-    beforeEach(() => { // Runs before each test in the suite
-      store.clearActions();
-    });
-
-    const getHoveredOffer = jest.fn((data) => data);
+  it(`function should set in arguments "placeData" after mouseenter on card`, () => {
+    const getHoveredOffer = jest.fn();
 
     const previewPlace = mount(
         <BrowserRouter>
@@ -126,6 +133,8 @@ describe(`PreviewPlace should call correct callbacks`, () => {
               history={history}
               location={location}
               getHoveredOffer={getHoveredOffer}
+              removeHoveredOffer={() => null}
+              setFavoriteStatus={() => null}
             />
           </Provider>
         </BrowserRouter>
@@ -133,22 +142,18 @@ describe(`PreviewPlace should call correct callbacks`, () => {
 
     const card = previewPlace.find(`.place-card`);
 
-    const mockMouseenterEvent = ({
-      getHoveredOffer() {},
-    });
+    const mockEvent = {
+      preventDefault: () => null,
+    };
 
-    card.simulate(`mouseenter`, mockMouseenterEvent);
+    card.simulate(`mouseenter`, mockEvent);
 
     expect(getHoveredOffer).toHaveBeenCalledTimes(1);
     expect(getHoveredOffer.mock.calls[0][0]).toMatchObject(placeData);
   });
 
-  it(`"null" should set into callback after mouseleave on card`, () => {
-    beforeEach(() => { // Runs before each test in the suite
-      store.clearActions();
-    });
-
-    const removeHoveredOffer = jest.fn((val) => val);
+  it(`function should set in arguments "null" after mouseleave on card`, () => {
+    const removeHoveredOffer = jest.fn();
 
     const previewPlace = mount(
         <BrowserRouter>
@@ -160,7 +165,9 @@ describe(`PreviewPlace should call correct callbacks`, () => {
               favoritesRequestMessage={favoritesRequestMessage}
               history={history}
               location={location}
+              getHoveredOffer={() => null}
               removeHoveredOffer={removeHoveredOffer}
+              setFavoriteStatus={() => null}
             />
           </Provider>
         </BrowserRouter>
@@ -168,23 +175,19 @@ describe(`PreviewPlace should call correct callbacks`, () => {
 
     const card = previewPlace.find(`.place-card`);
 
-    const mockMouseleaveEvent = ({
-      removeHoveredOffer() {},
-    });
+    const mockEvent = {
+      preventDefault: () => null,
+    };
 
-    card.simulate(`mouseleave`, mockMouseleaveEvent);
+    card.simulate(`mouseleave`, mockEvent);
 
     expect(removeHoveredOffer).toHaveBeenCalledTimes(1);
     expect(removeHoveredOffer.mock.calls[0][0]).toBe(null);
   });
 
-  it(`callback should call with favorite status and id after click on the favorite button`, () => {
-    beforeEach(() => { // Runs before each test in the suite
-      store.clearActions();
-    });
-
+  it(`function should set in first argument "id" and changed favorite status set in second argument after click on the favorite button`, () => {
     const {id} = placeData;
-    const setFavoriteStatus = jest.fn((val) => val);
+    const setFavoriteStatus = jest.fn();
 
     const previewPlace = mount(
         <BrowserRouter>
@@ -196,6 +199,8 @@ describe(`PreviewPlace should call correct callbacks`, () => {
               favoritesRequestMessage={favoritesRequestMessage}
               history={history}
               location={location}
+              getHoveredOffer={() => null}
+              removeHoveredOffer={() => null}
               setFavoriteStatus={setFavoriteStatus}
             />
           </Provider>
@@ -204,9 +209,9 @@ describe(`PreviewPlace should call correct callbacks`, () => {
 
     const favoriteButton = previewPlace.find(`.place-card__bookmark-button`);
 
-    const mockClickEvent = ({
-      setFavoriteStatus() {},
-    });
+    const mockClickEvent = {
+      preventDefault: () => null,
+    };
 
     favoriteButton.simulate(`click`, mockClickEvent);
 

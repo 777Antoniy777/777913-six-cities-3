@@ -4,21 +4,26 @@ import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
 import PreviewPlace from "./preview-place";
-import {TestOffer} from "../../types/test-types/offers-test-type";
-import {TestRouteLocation} from "../../types/test-types/location-test-type";
+import {Offer} from "../../types/main-types/offers-type";
+import {RouteHistory} from "../../types/main-types/history-type";
+import {RouteLocation} from "../../types/main-types/location-type";
 
 const mockStore = configureStore();
 
 // set mocha data
-const placeData: TestOffer = {
+const placeData: Offer = {
   id: 1,
   city: {
-    id: 1,
     name: `city`,
-    coords: [1, 1],
+    location: {
+      latitude: 20,
+      longitude: 20,
+      zoom: 20,
+    },
   },
   title: `title 1`,
   premium: false,
+  favorite: false,
   src: `img/image1`,
   photos: [`img/image1`],
   price: 999999,
@@ -29,32 +34,40 @@ const placeData: TestOffer = {
   guestsAmount: 50,
   items: [`item`],
   host: {
+    id: 1,
     avatar: `img/avatar-1.jpg`,
     name: `name`,
     status: false,
   },
-  reviews: [
-    {
-      id: 1,
-      body: `text`,
-      rating: 5,
-      name: `name`,
-      date: `date`,
-    },
-  ],
-  coord: [1, 1],
+  location: {
+    latitude: 20,
+    longitude: 20,
+    zoom: 20,
+  },
 };
 const authorizationStatus = `AUTH`;
 const favoritesRequestStatus = `status`;
 const favoritesRequestMessage = `message`;
-const history = {};
-const location: TestRouteLocation = {
+const location: RouteLocation = {
+  hash: `hash`,
+  key: `key`,
   pathname: `/pathname`,
+  search: `search`,
+  state: `state`,
 };
-
-const getHoveredOffer = () => ({});
-const removeHoveredOffer = () => ({});
-const setFavoriteStatus = () => ({});
+const history: RouteHistory = {
+  action: `action`,
+  block: () => null,
+  createHref: () => null,
+  go: () => null,
+  goBack: () => null,
+  goForward: () => null,
+  length: 90,
+  listen: () => null,
+  location,
+  push: () => null,
+  replace: () => null,
+};
 
 const store = mockStore({
   favorites: {
@@ -67,10 +80,6 @@ const store = mockStore({
 });
 
 it(`render PreviewPlace`, () => {
-  beforeEach(() => { // Runs before each test in the suite
-    store.clearActions();
-  });
-
   const tree = renderer.create(
       <BrowserRouter>
         <Provider store={store}>
@@ -81,13 +90,13 @@ it(`render PreviewPlace`, () => {
             favoritesRequestMessage={favoritesRequestMessage}
             history={history}
             location={location}
-            getHoveredOffer={getHoveredOffer}
-            removeHoveredOffer={removeHoveredOffer}
-            setFavoriteStatus={setFavoriteStatus}
+            getHoveredOffer={() => null}
+            removeHoveredOffer={() => null}
+            setFavoriteStatus={() => null}
           />
         </Provider>
-      </BrowserRouter>)
-      .toJSON();
+      </BrowserRouter>
+  ).toJSON();
 
   expect(tree).toMatchSnapshot();
 });
