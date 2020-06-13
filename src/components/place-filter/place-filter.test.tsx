@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as renderer from "react-test-renderer";
 import PlaceFilter from "./place-filter";
-import {Filter, Filters} from "../../types/main-types/filters-type";
+import {Filter, Filters} from "../../types/filters-type";
 
 // set mocha data
 const isFilterOpened = true;

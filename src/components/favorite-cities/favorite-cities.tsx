@@ -1,8 +1,8 @@
 import * as React from "react";
 import PreviewPlaces from "../preview-places/preview-places";
-import {Offers} from "../../types/main-types/offers-type";
-import {RouteHistory} from "../../types/main-types/history-type";
-import {RouteLocation} from "../../types/main-types/location-type";
+import {Offers} from "../../types/offers-type";
+import {RouteHistory} from "../../types/history-type";
+import {RouteLocation} from "../../types/location-type";
 
 type FavoriteCitiesProps = {
   favoriteOffers: Offers;

@@ -4,9 +4,9 @@ import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
 import PreviewPlace from "./preview-place";
-import {Offer} from "../../types/main-types/offers-type";
-import {RouteHistory} from "../../types/main-types/history-type";
-import {RouteLocation} from "../../types/main-types/location-type";
+import {Offer} from "../../types/offers-type";
+import {RouteHistory} from "../../types/history-type";
+import {RouteLocation} from "../../types/location-type";
 
 const mockStore = configureStore();
 

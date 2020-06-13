@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Subtract} from "utility-types";
-import leaflet from "leaflet";
+import * as leaflet from "leaflet";
 
 type Cities = {
   clearLayers: () => void;
@@ -79,6 +79,7 @@ const withMap = (Component) => {
         return false;
       }
 
+      console.log(leaflet)
       const {location} = offers[0].city;
       const {latitude, longitude, zoom} = location;
       const center = [latitude, longitude];

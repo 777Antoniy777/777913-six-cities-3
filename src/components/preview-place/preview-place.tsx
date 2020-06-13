@@ -10,9 +10,9 @@ import {OfferActionCreator} from "../../actions/offer/action-creator";
 import {FavoritesAsyncActionCreator} from "../../actions/favorites/async-action-creator";
 import ErrorMessage from "../error-message/error-message";
 import {getRating} from "../../utils/get-rating";
-import {Offer} from "../../types/main-types/offers-type";
-import {RouteHistory} from "../../types/main-types/history-type";
-import {RouteLocation} from "../../types/main-types/location-type";
+import {Offer} from "../../types/offers-type";
+import {RouteHistory} from "../../types/history-type";
+import {RouteLocation} from "../../types/location-type";
 
 type Props = {
   placeData: Offer;

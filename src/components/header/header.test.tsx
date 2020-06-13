@@ -2,8 +2,8 @@ import * as React from "react";
 import * as renderer from "react-test-renderer";
 import {BrowserRouter} from "react-router-dom";
 import Header from "./header";
-import {User} from "../../types/main-types/user-type";
-import {RouteLocation} from "../../types/main-types/location-type";
+import {User} from "../../types/user-type";
+import {RouteLocation} from "../../types/location-type";
 
 // set mocha data
 const authorizationStatus = `AUTH`;

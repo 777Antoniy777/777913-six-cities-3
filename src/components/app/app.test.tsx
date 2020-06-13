@@ -3,7 +3,7 @@ import * as renderer from "react-test-renderer";
 import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
 import App from "./app";
-import {Offer, Offers} from "../../types/main-types/offers-type";
+import {Offer, Offers} from "../../types/offers-type";
 
 const mockStore = configureStore();
 

@@ -18,7 +18,7 @@ import Place from '../place/place';
 import SignIn from "../sign-in/sign-in";
 import Favorites from "../favorites/favorites";
 import NotFound from "../not-found/not-found";
-import {Offers} from "../../types/main-types/offers-type";
+import {Offers} from "../../types/offers-type";
 
 type Props = {
   authorizationStatus: string;

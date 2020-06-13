@@ -2,8 +2,8 @@ import * as React from "react";
 import {configure, shallow} from "enzyme";
 import * as Adapter from "enzyme-adapter-react-16";
 import PlaceFormReviews from "./place-form-reviews";
-import {RouteHistory} from "../../types/main-types/history-type";
-import {RouteLocation} from "../../types/main-types/location-type";
+import {RouteHistory} from "../../types/history-type";
+import {RouteLocation} from "../../types/location-type";
 
 configure({adapter: new Adapter()});
 

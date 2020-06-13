@@ -1,8 +1,8 @@
 import * as React from "react";
 import * as renderer from "react-test-renderer";
 import PlaceFormReviews from "./place-form-reviews";
-import {RouteHistory} from "../../types/main-types/history-type";
-import {RouteLocation} from "../../types/main-types/location-type";
+import {RouteHistory} from "../../types/history-type";
+import {RouteLocation} from "../../types/location-type";
 
 // set mocha data
 const offerId = 1;

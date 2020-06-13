@@ -2,7 +2,7 @@ import * as React from "react";
 import {configure, shallow, mount} from "enzyme";
 import * as Adapter from "enzyme-adapter-react-16";
 import PlaceFilter from "./place-filter";
-import {Filter, Filters} from "../../types/main-types/filters-type";
+import {Filter, Filters} from "../../types/filters-type";
 
 configure({adapter: new Adapter()});
 

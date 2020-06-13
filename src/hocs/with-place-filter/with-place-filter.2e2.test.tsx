@@ -12,13 +12,13 @@ const isFilterOpened = false;
 
 it(`initial value of "isFilterOpened" should be "false"`, () => {
   const tree = shallow(
-    <PlaceFilterWrappedHoc
-      setDefaultOrderOffers={() => null}
-      setLowToHighOrderOffers={() => null}
-      setHighToLowOrderOffers={() => null}
-      setTopRatedFirstOrderOffers={() => null}
-      isFilterOpened={isFilterOpened}
-    />
+      <PlaceFilterWrappedHoc
+        setDefaultOrderOffers={() => null}
+        setLowToHighOrderOffers={() => null}
+        setHighToLowOrderOffers={() => null}
+        setTopRatedFirstOrderOffers={() => null}
+        isFilterOpened={isFilterOpened}
+      />
   );
 
   expect(tree.props().isFilterOpened).toBe(false);

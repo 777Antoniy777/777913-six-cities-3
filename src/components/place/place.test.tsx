@@ -4,11 +4,11 @@ import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
 import {Place} from "./place";
-import {Offer, Offers} from "../../types/main-types/offers-type";
-import {Reviews} from "../../types/main-types/reviews-type";
-import {User} from "../../types/main-types/user-type";
-import {RouteHistory} from "../../types/main-types/history-type";
-import {RouteLocation} from "../../types/main-types/location-type";
+import {Offer, Offers} from "../../types/offers-type";
+import {Reviews} from "../../types/reviews-type";
+import {User} from "../../types/user-type";
+import {RouteHistory} from "../../types/history-type";
+import {RouteLocation} from "../../types/location-type";
 
 const mockStore = configureStore();
 

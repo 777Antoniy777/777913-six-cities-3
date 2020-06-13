@@ -1,9 +1,9 @@
 import * as React from "react";
 import * as renderer from "react-test-renderer";
 import FavoriteCities from "./favorite-cities";
-import {Offers} from "../../types/main-types/offers-type";
-import {RouteHistory} from "../../types/main-types/history-type";
-import {RouteLocation} from "../../types/main-types/location-type";
+import {Offers} from "../../types/offers-type";
+import {RouteHistory} from "../../types/history-type";
+import {RouteLocation} from "../../types/location-type";
 
 // set mocha data
 const favoriteOffers: Offers = [

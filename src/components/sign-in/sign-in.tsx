@@ -6,8 +6,8 @@ import {getUserRequestStatus, getUserRequestMessage} from "../../reducers/user/s
 import {UserAsyncActionCreator} from "../../actions/user/async-action-creator";
 import Header from "../header/header";
 import ErrorMessage from "../error-message/error-message";
-import {User} from "../../types/main-types/user-type";
-import {RouteLocation} from "../../types/main-types/location-type";
+import {User} from "../../types/user-type";
+import {RouteLocation} from "../../types/location-type";
 
 type Props = {
   email: string;

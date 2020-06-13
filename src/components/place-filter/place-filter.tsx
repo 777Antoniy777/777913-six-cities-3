@@ -1,6 +1,6 @@
 import * as React from "react";
 import classNames from "classnames";
-import {Filter, Filters} from "../../types/main-types/filters-type";
+import {Filter, Filters} from "../../types/filters-type";
 
 type PlaceFilterProps = {
   isFilterOpened: boolean;

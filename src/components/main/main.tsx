@@ -16,11 +16,11 @@ import Map from "../map/map";
 import Cities from "../cities/cities";
 import PlaceFilter from "../place-filter/place-filter";
 import ErrorMessage from "../error-message/error-message";
-import {Offer} from "../../types/main-types/offers-type";
-import {Offers} from "../../types/main-types/offers-type";
-import {User} from "../../types/main-types/user-type";
-import {RouteHistory} from "../../types/main-types/history-type";
-import {RouteLocation} from "../../types/main-types/location-type";
+import {Offer} from "../../types/offers-type";
+import {Offers} from "../../types/offers-type";
+import {User} from "../../types/user-type";
+import {RouteHistory} from "../../types/history-type";
+import {RouteLocation} from "../../types/location-type";
 
 type Props = {
   hoveredOffer: Offer;

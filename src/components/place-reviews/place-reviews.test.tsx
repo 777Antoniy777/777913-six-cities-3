@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as renderer from "react-test-renderer";
 import PlaceReviews from "./place-reviews";
-import {Reviews} from "../../types/main-types/reviews-type";
+import {Reviews} from "../../types/reviews-type";
 
 // set mocha data
 const reviews: Reviews = [
