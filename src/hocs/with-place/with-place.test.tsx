@@ -1,26 +1,36 @@
 import * as React from "react";
 import * as renderer from "react-test-renderer";
 import withPlace from "./with-place";
-import {TestOffers} from "../../types/test-types/offers-test-type";
+import {Offers} from "../../types/main-types/offers-type";
+import {RouteHistory} from "../../types/main-types/history-type";
+import {RouteLocation} from "../../types/main-types/location-type";
 
-type TestMatch = {
+interface MockComponentProps {
+  children: React.ReactNode;
+}
+
+type RouteMatch = {
   params: {
     hotelID: string;
   };
 }
 
 // set mocha data
-const props = [];
-const offers: TestOffers = [
+const hockProps = {};
+const offers: Offers = [
   {
     id: 1,
     city: {
-      id: 1,
       name: `city`,
-      coords: [1, 1],
+      location: {
+        latitude: 20,
+        longitude: 20,
+        zoom: 20,
+      },
     },
     title: `title 1`,
     premium: false,
+    favorite: false,
     src: `img/image1`,
     photos: [`img/image1`],
     price: 999999,
@@ -31,57 +41,68 @@ const offers: TestOffers = [
     guestsAmount: 50,
     items: [`item`],
     host: {
+      id: 1,
       avatar: `img/avatar-1.jpg`,
       name: `name`,
       status: false,
     },
-    reviews: [
-      {
-        id: 1,
-        body: `text`,
-        rating: 5,
-        name: `name`,
-        date: `date`,
-      },
-    ],
-    coord: [1, 1],
+    location: {
+      latitude: 20,
+      longitude: 20,
+      zoom: 20,
+    },
   },
 ];
-const history = {};
-const match: TestMatch = {
+const location: RouteLocation = {
+  hash: `hash`,
+  key: `key`,
+  pathname: `/pathname`,
+  search: `search`,
+  state: `state`,
+};
+const history: RouteHistory = {
+  action: `action`,
+  block: () => null,
+  createHref: () => null,
+  go: () => null,
+  goBack: () => null,
+  goForward: () => null,
+  length: 90,
+  listen: () => null,
+  location,
+  push: () => null,
+  replace: () => null,
+};
+const match: RouteMatch = {
   params: {
     hotelID: `1`,
   },
 };
 
-const getReviews = () => ({});
-const getNearbyOffers = () => ({});
-const getActiveItem = () => ({});
+const MockComponent = (props: MockComponentProps) => {
+  const {children} = props;
 
-const MockComponent = () => {
   return (
-    <div></div>
+    <div>
+      {children}
+    </div>
   );
 };
 
 const PlaceWrappedHoc = withPlace(MockComponent);
 
 it(`render withPlace`, () => {
-  const tree = renderer.create((
-    <PlaceWrappedHoc
-      props={props}
-      offers={offers}
-      match={match}
-      history={history}
-      getReviews={getReviews}
-      getNearbyOffers={getNearbyOffers}
-      getActiveItem={getActiveItem}
-    />
-  ), {
-    createNodeMock() {
-      return {};
-    }
-  }).toJSON();
+  const tree = renderer.create(
+      <PlaceWrappedHoc
+        props={hockProps}
+        offers={offers}
+        match={match}
+        history={history}
+        getReviews={() => null}
+        getNearbyOffers={() => null}
+        getActiveItem={() => null}
+      />
+  ).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

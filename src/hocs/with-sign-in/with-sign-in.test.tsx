@@ -2,27 +2,31 @@ import * as React from "react";
 import * as renderer from "react-test-renderer";
 import withSignIn from "./with-sign-in";
 
-// set mocha data
-const props = [];
+interface MockComponentProps {
+  children: React.ReactNode;
+}
 
-const MockComponent = () => {
+// set mocha data
+const hockProps = {};
+
+const MockComponent = (props: MockComponentProps) => {
+  const {children} = props;
+
   return (
-    <div></div>
+    <div>
+      {children}
+    </div>
   );
 };
 
 const SignInWrappedHoc = withSignIn(MockComponent);
 
 it(`render withSignIn`, () => {
-  const tree = renderer.create((
-    <SignInWrappedHoc
-      props={props}
-    />
-  ), {
-    createNodeMock() {
-      return {};
-    }
-  }).toJSON();
+  const tree = renderer.create(
+      <SignInWrappedHoc
+        props={hockProps}
+      />
+  ).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

@@ -2,27 +2,31 @@ import * as React from "react";
 import * as renderer from "react-test-renderer";
 import withPlaceFormReviews from "./with-place-form-reviews";
 
-// set mocha data
-const props = [];
+interface MockComponentProps {
+  children: React.ReactNode;
+}
 
-const MockComponent = () => {
+// set mocha data
+const hockProps = {};
+
+const MockComponent = (props: MockComponentProps) => {
+  const {children} = props;
+
   return (
-    <div></div>
+    <div>
+      {children}
+    </div>
   );
 };
 
 const PlaceFormReviewsWrappedHOC = withPlaceFormReviews(MockComponent);
 
 it(`render PlaceFormReviewsWrappedHOC`, () => {
-  const tree = renderer.create((
-    <PlaceFormReviewsWrappedHOC
-      props={props}
-    />
-  ), {
-    createNodeMock() {
-      return {};
-    }
-  }).toJSON();
+  const tree = renderer.create(
+      <PlaceFormReviewsWrappedHOC
+        props={hockProps}
+      />
+  ).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

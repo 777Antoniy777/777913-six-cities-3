@@ -39,7 +39,7 @@ const store = mockStore({
 });
 
 describe(`SignIn should calles correct callbacks`, () => {
-  it(`handler should calles only 1 time after submit the form`, () => {
+  it(`function should be called only 1 times after submit the form`, () => {
     const preventDefault = jest.fn();
 
     const signIn = mount(
@@ -69,6 +69,69 @@ describe(`SignIn should calles correct callbacks`, () => {
     form.simulate(`submit`, mockEvent);
 
     expect(preventDefault).toHaveBeenCalledTimes(1);
+  });
+
+  it(`function should be called 2 time after click on the submit button and it should set "email" in first time and "password" in second time in arg `, () => {
+    const isEmailEmpty = jest.fn();
+
+    const signIn = mount(
+        <BrowserRouter>
+          <Provider store={store}>
+            <SignIn
+              email={email}
+              password={password}
+              login={() => null}
+              location={location}
+              authorizationStatus={authorizationStatus}
+              userData={userData}
+              onInputChange={() => null}
+              isFieldEmpty={isEmailEmpty}
+              isEmailValid={() => null}
+            />
+          </Provider>
+        </BrowserRouter>
+    );
+
+    const submitButton = signIn.find(`.login__submit`);
+
+    const mockEvent = {};
+
+    submitButton.simulate(`click`, mockEvent);
+
+    expect(isEmailEmpty).toHaveBeenCalledTimes(2);
+    expect(isEmailEmpty.mock.calls[0][0]).toBe(email);
+    expect(isEmailEmpty.mock.calls[1][0]).toBe(password);
+  });
+
+  it(`function should be called 1 time after click on the submit button and it should set "email" in arg `, () => {
+    const isEmailValid = jest.fn();
+
+    const signIn = mount(
+        <BrowserRouter>
+          <Provider store={store}>
+            <SignIn
+              email={email}
+              password={password}
+              login={() => null}
+              location={location}
+              authorizationStatus={authorizationStatus}
+              userData={userData}
+              onInputChange={() => null}
+              isFieldEmpty={() => null}
+              isEmailValid={isEmailValid}
+            />
+          </Provider>
+        </BrowserRouter>
+    );
+
+    const submitButton = signIn.find(`.login__submit`);
+
+    const mockEvent = {};
+
+    submitButton.simulate(`click`, mockEvent);
+
+    expect(isEmailValid).toHaveBeenCalledTimes(1);
+    expect(isEmailValid.mock.calls[0][0]).toBe(email);
   });
 });
 
